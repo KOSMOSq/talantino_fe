@@ -1,0 +1,19 @@
+.container{
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #F4EEEE;
+  border-radius: 10px;
+
+  width: 100px;
+  height: 50px;
+}
+
+.container div{
+  display: flex;
+  align-items: center;
+}
+
+.button{
+  width:35px;
+  color: black;
+}
