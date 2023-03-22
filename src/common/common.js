@@ -7,6 +7,6 @@ const testTalent = {
 	kindOfTalent: "Product Owner",
 };
 
-const pages = ["Logo", "Talents", "Proofs"];
+const pages = ["Talents", "Proofs"];
 
 export { testTalent, pages };
