@@ -1,9 +1,11 @@
 import { useState } from "react";
-import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 
 import { testTalent } from "../../../common/common";
+
+// import { useNavigate } from "react-router";
 
 const btnStyle = {
 	position: "fixed",
@@ -18,6 +20,13 @@ function AuthView() {
 	const handleLog = () => {
 		setLogin((prev) => !prev);
 	};
+
+	// const navigate = useNavigate();
+
+	// const handleClick = () => {
+	// 	navigate(`/login`);
+	// };
+
 	return (
 		<>
 			{login === true ? (
@@ -25,9 +34,9 @@ function AuthView() {
 					<Avatar alt={testTalent.surname} src={testTalent.profilePicture} />
 				</IconButton>
 			) : (
-				<Typography sx={btnStyle} onClick={handleLog}>
+				<Button sx={btnStyle} onClick={handleLog}>
 					Login
-				</Typography>
+				</Button>
 			)}
 		</>
 	);
