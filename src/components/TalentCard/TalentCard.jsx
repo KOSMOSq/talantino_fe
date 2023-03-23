@@ -75,8 +75,6 @@ const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id, isAuth })
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
-                        width: "50%",
-                        textAlign: "center",
                     }}>
                         <Typography
                             variant="h6"
