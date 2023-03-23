@@ -8,8 +8,7 @@ import { testTalent } from "../../../common/common";
 import { useNavigate } from "react-router";
 
 const btnStyle = {
-	position: "fixed",
-	alignContent: "center",
+	marginLeft: "auto",
 	right: 40,
 	fontSize: 20,
 };
@@ -31,7 +30,11 @@ function AuthView() {
 		<>
 			{login === true ? (
 				<IconButton sx={btnStyle} onClick={handleLog}>
-					<Avatar alt={testTalent.surname} src={testTalent.profilePicture} />
+					<Avatar
+						sx={{ width: 56, height: 56 }}
+						alt={testTalent.surname}
+						src={testTalent.profilePicture}
+					/>
 				</IconButton>
 			) : (
 				<Button sx={btnStyle} onClick={(handleLog, handleClick)}>
