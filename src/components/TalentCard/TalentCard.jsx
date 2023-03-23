@@ -15,20 +15,7 @@ const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id, isAuth })
     return (
         <>
             <Card sx={{
-                width: {
-                    xs: 300, //0
-                    sm: 300, //600
-                    md: 300, //900
-                    lg: 300, //1200
-                    xl: 300, //1536
-                },
-                height: {
-                    xs: 165, //0
-                    sm: 165, //600
-                    md: 165, //900
-                    lg: 165, //1200
-                    xl: 165, //1536
-                }, borderRadius: "12px"
+                , borderRadius: "12px"
             }} title={isAuth ? `${name} ${surname}` : "You need to log in to see talent profiles"}>
                 <CardActionArea
                     sx={{
@@ -43,7 +30,7 @@ const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id, isAuth })
                     sx={{
                         objectFit: "cover",
                         height: "inherit",
-                        width: "60%",
+                        width: "50%",
                     
                     }}
                     component="img"
@@ -69,12 +56,12 @@ const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id, isAuth })
                         display: "flex", 
                         flexDirection: "column",
                         alignItems: "center",
-                        width: "30%",
+                        width: "50%",
                         textAlign: "center",
                     }}>
                                                 
                         <Typography variant="h6" component="h6" sx={{ fontSize: "16px", fontWeight: "bold"}}>
-                            {name} {"Рогозянськsgsgйблала"}
+                            {name} {"Рогозянсблала"}
                         </Typography>
                         <Chip label={kindOfTalent} color="primary" size="small" />
                     </CardContent>
