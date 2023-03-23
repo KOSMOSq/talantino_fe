@@ -1,7 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom";
 
 import { Proofs } from "../TestComp/Proofs";
-import { Talents } from "../Talents/Talents";
+import { Talents } from "../Talents";
 import { Layout } from "./components/Layout";
 
 function Router() {
