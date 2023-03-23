@@ -38,8 +38,8 @@ function LoginForm() {
 								message: "Invalid email address",
 							},
 						})}
-						error={errors.email}
-						helperText={errors.email && <p>{errors.email.message}</p>}
+						error={Boolean(errors.email)}
+						helperText={errors.email && errors.email.message}
 						sx={{ width: 300 }}
 					/>
 
@@ -54,8 +54,8 @@ function LoginForm() {
 								message: "Your pass doesn't meet requirments",
 							},
 						})}
-						error={errors.password}
-						helperText={errors.password && <p>{errors.password.message}</p>}
+						error={Boolean(errors.password)}
+						helperText={errors.password && errors.password.message}
 						sx={{ marginTop: 2, width: 300 }}
 					/>
 
@@ -63,7 +63,6 @@ function LoginForm() {
 						type="submit"
 						variant="contained"
 						disabled={!isValid}
-						// sx={{ display: "block", width: 150, marginLeft: 10, marginTop: 2 }}
 						sx={{ display: "block", width: 300, padding: 2, marginTop: 2 }}
 					>
 						Login

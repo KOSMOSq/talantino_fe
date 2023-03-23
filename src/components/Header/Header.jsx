@@ -7,7 +7,7 @@ function Header() {
 	return (
 		<>
 			<AppBar position="static" color="transparent">
-				<Toolbar>
+				<Toolbar sx={{ display: "flex" }}>
 					<AppBarItems />
 					<AuthView />
 				</Toolbar>
