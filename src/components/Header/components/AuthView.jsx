@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 
 import { testTalent } from "../../../common/common";
 
-// import { useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const btnStyle = {
 	position: "fixed",
@@ -21,11 +21,11 @@ function AuthView() {
 		setLogin((prev) => !prev);
 	};
 
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 
-	// const handleClick = () => {
-	// 	navigate(`/login`);
-	// };
+	const handleClick = () => {
+		navigate(`/login`);
+	};
 
 	return (
 		<>
@@ -34,7 +34,7 @@ function AuthView() {
 					<Avatar alt={testTalent.surname} src={testTalent.profilePicture} />
 				</IconButton>
 			) : (
-				<Button sx={btnStyle} onClick={handleLog}>
+				<Button sx={btnStyle} onClick={(handleLog, handleClick)}>
 					Login
 				</Button>
 			)}

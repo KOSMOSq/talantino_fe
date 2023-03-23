@@ -8,12 +8,9 @@ function Layout() {
 	return (
 		<>
 			<Header />
-
 			<Container>
 				<Outlet />
 			</Container>
-
-			<footer>footer</footer>
 		</>
 	);
 }
