@@ -12,11 +12,39 @@ const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id, isAuth })
         navigate(`/talent/${id}`);
     }
 
+    const cardWidthBreakpoints = {
+        xs: 300, //0
+        sm: 210, //600
+        md: 260, //900   
+        lg: 300, //1200  
+        xl: 350, //1536
+    }
+
+    const cardHeightBreakpoints = {
+        xs: 120, //0
+        sm: 130, //600
+        md: 130, //900 
+        lg: 135, //1200 
+        xl: 160, //1536
+    }
+
+    const cardFontBreakpoints = {
+        xs: 12, //0
+        lg: 16, //1200 
+        xl: 20, //1536
+    }
+
+    const chipFontBreakpoints = {
+        xs: 10, //0
+        lg: 14, //1200 
+        xl: 18, //1536
+    }
+
     return (
         <>
             <Card sx={{
-                width: 300,
-                height: 150, //same as cardMedia
+                width: cardWidthBreakpoints,
+                height: cardHeightBreakpoints, //same as cardMedia
                 borderRadius: "12px"
             }} title={isAuth ? `${name} ${surname}` : "You need to log in to see talent profiles"}>
                 <CardActionArea
@@ -29,7 +57,7 @@ const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id, isAuth })
                     <Box sx={{ width: "50%" }}>
                         <CardMedia
                             sx={{
-                                height: 150, //same as card
+                                height: cardHeightBreakpoints, //same as card
                                 objectFit: "cover"
                             }}
                             component="img"
@@ -46,13 +74,14 @@ const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id, isAuth })
                         padding: 0,
                         display: "flex",
                         flexDirection: "column",
-                        alignItems: "center"
+                        alignItems: "center",
                     }}>
                         <Typography
                             variant="h6"
                             component="h6"
+
                             sx={{
-                                fontSize: "16px",
+                                fontSize: cardFontBreakpoints,
                                 fontWeight: "bold",
                                 textAlign: "center",
                                 overflow: "hidden"
@@ -60,7 +89,9 @@ const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id, isAuth })
                         >
                             {name} {surname}
                         </Typography>
-                        <Chip label={kindOfTalent} color="primary" size="small" />
+                        <Chip sx={{
+                            fontSize: chipFontBreakpoints
+                        }} label={kindOfTalent} color="primary" size="small" />
                     </CardContent>
                 </CardActionArea>
             </Card>
