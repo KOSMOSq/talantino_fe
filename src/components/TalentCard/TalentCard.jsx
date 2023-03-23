@@ -6,10 +6,10 @@ import noPictureFallback from "../../assets/pictures/noPictureFallback.svg";
 
 const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id, isAuth }) => {
 
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleClick = () => {
-        //navigate(`/talent/${id}`);
+        navigate(`/talent/${id}`);
     }
 
     return (
