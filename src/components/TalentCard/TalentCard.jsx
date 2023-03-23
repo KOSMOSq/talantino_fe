@@ -17,7 +17,7 @@ const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id, isAuth })
         sm: 210, //600
         md: 260, //900   
         lg: 300, //1200  
-        xl: 400, //1536
+        xl: 350, //1536
     }
 
     const cardHeightBreakpoints = {
@@ -25,7 +25,7 @@ const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id, isAuth })
         sm: 130, //600
         md: 130, //900 
         lg: 135, //1200 
-        xl: 200, //1536
+        xl: 160, //1536
     }
 
     const cardFontBreakpoints = {
