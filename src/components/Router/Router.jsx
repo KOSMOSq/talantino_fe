@@ -21,8 +21,7 @@ function Router() {
 						path="*"
 						element={
 							<h1>
-								This page doesn't exist! Return to <Link to="/"> home </Link>{" "}
-								page
+								This page doesn't exist! Return to <Link to="/"> home </Link> page
 							</h1>
 						}
 					/>
