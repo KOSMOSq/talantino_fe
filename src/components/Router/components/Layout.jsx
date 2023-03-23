@@ -8,7 +8,7 @@ function Layout() {
 	return (
 		<>
 			<Header />
-			<Container>
+			<Container sx={{ maxWidth: { xl: "1900px" } }}>
 				<Outlet />
 			</Container>
 		</>
