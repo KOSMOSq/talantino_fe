@@ -14,11 +14,11 @@ const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id, isAuth })
 
     return (
         <>
-            <Card sx={{ maxWidth: 250, maxHeight: 200, borderRadius: "12px" }} title={isAuth ? `${name} ${surname}` : "You need to log in to see talent profiles"}>
-                <CardActionArea onClick={handleClick}>
+            <Card sx={{ width:300, height: 165, borderRadius: "12px" }} title={isAuth ? `${name} ${surname}` : "You need to log in to see talent profiles"}>
+                <CardActionArea onClick={handleClick} >
                     <CardMedia
                         component="img"
-                        height="100"
+                        height="95"
                         alt="Talent Avatar"
                         image={profilePicture ? profilePicture : "errorTrigger"}
                         onError={({ currentTarget }) => {
