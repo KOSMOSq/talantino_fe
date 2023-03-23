@@ -1,4 +1,5 @@
 import { Routes, Route, Link } from "react-router-dom";
+import { LoginForm } from "../Forms/LoginForm/LoginForm";
 
 import { Proofs } from "../TestComp/Proofs";
 import { Talents } from "../Talents";
@@ -15,12 +16,12 @@ function Router() {
 					/>
 					<Route path="proofs" element={<Proofs />} />
 					<Route path="talents" element={<Talents />} />
+					<Route path="login" element={<LoginForm />} />
 					<Route
 						path="*"
 						element={
 							<h1>
-								This page doesn't exist! Return to <Link to="/"> home </Link>{" "}
-								page
+								This page doesn't exist! Return to <Link to="/"> home </Link> page
 							</h1>
 						}
 					/>
