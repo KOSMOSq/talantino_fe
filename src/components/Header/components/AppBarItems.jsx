@@ -13,7 +13,7 @@ function AppBarItems() {
 					key={page}
 					component={NavLink}
 					to={`${page.toLowerCase()}`}
-					sx={{ padding: 3, fontSize: 20 }}
+					sx={{ padding: 2, fontSize: 20 }}
 				>
 					{page}
 				</Button>

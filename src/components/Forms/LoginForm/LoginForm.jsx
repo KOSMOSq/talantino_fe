@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { TextField, Button, Box, Typography } from "@mui/material";
+import { TextField, Button, Typography, Container } from "@mui/material";
 import { Link } from "react-router-dom";
 
 function LoginForm() {
@@ -17,13 +17,14 @@ function LoginForm() {
 
 	return (
 		<>
-			<Box
+			<Container
 				sx={{
-					width: 400,
-					position: "absolute",
-					top: "52%",
-					left: "52%",
-					transform: "translate(-50%, -50%)",
+					width: 300,
+
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+					height: "80vh",
 				}}
 			>
 				<form onSubmit={handleSubmit(onSubmit)}>
@@ -37,6 +38,7 @@ function LoginForm() {
 								message: "Invalid email address",
 							},
 						})}
+						error={errors.email}
 						helperText={errors.email && <p>{errors.email.message}</p>}
 						sx={{ width: 300 }}
 					/>
@@ -49,9 +51,10 @@ function LoginForm() {
 							required: "Password is required",
 							pattern: {
 								value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-								message: "Invalid password",
+								message: "Your pass doesn't meet requirments",
 							},
 						})}
+						error={errors.password}
 						helperText={errors.password && <p>{errors.password.message}</p>}
 						sx={{ marginTop: 2, width: 300 }}
 					/>
@@ -69,7 +72,7 @@ function LoginForm() {
 						No account? <Link to="/create-acc">Create one</Link>
 					</Typography>
 				</form>
-			</Box>
+			</Container>
 		</>
 	);
 }
