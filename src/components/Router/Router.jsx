@@ -2,7 +2,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import { LoginForm } from "../Forms/LoginForm/LoginForm";
 
 import { Proofs } from "../TestComp/Proofs";
-import { Talents } from "../Talents";
+import { Talents } from "../TalentsPage";
 import { Layout } from "./components/Layout";
 import { CreateAccForm } from "../Forms/CreateAccForm/CreateAccForm";
 
