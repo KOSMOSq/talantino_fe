@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { TextField, Button, Typography, Container } from "@mui/material";
 import { Link } from "react-router-dom";
+import { authAPI } from "../../../api/authAPI";
 
 function CreateAccForm() {
 	const {
@@ -13,8 +14,14 @@ function CreateAccForm() {
 		formState: { errors, isValid },
 	} = useForm({ mode: "onTouched" });
 
-	const onSubmit = (data) => {
-		console.log(data);
+	const onSubmit = async (data) => {
+		const response = await authAPI.register({
+			email: data.email,
+			password: data.password,
+			name: data.fName,
+			surname: data.lName,
+			kind: data.kindOfTalent
+		});
 		reset();
 	};
 
