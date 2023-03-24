@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Container, Pagination } from "@mui/material";
 import { TalentsArea } from "./components/TalentsArea/TalentsArea";
 import { useLocation, useNavigate } from "react-router-dom";
-import { talentsResponseExample, talentsResponseExample2, testTalents } from "../../common/common";
 import { talentsAPI } from "../../api/talentsAPI";
 
 const Talents = () => {
@@ -20,15 +19,9 @@ const Talents = () => {
 		setPage(singleValue);
 
 		const getTalents = async (amount = 9, page) => {
-			//const response = await talentsAPI.getTalents(amount, page);
-			//setTalents(response.talents);
-			setTotalPages(Math.ceil(talentsResponseExample.totalCount / amount));
-
-			if (page === 1) {
-				setTalents(talentsResponseExample.talents);
-			} else {
-				setTalents(talentsResponseExample2.talents);
-			}
+			const response = await talentsAPI.getTalents(amount, page - 1);
+			setTalents(response.talents);
+			setTotalPages(Math.ceil(response.totalAmount / amount));
 		};
 
 		getTalents(undefined, singleValue)
