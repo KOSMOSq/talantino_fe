@@ -33,7 +33,7 @@ function AuthView() {
 					<Avatar
 						sx={{ width: 56, height: 56 }}
 						alt={testTalent.surname}
-						src={testTalent.profilePicture}
+						src={testTalent.avatar}
 					/>
 				</IconButton>
 			) : (

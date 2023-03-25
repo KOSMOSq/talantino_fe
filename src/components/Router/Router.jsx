@@ -5,6 +5,7 @@ import { Proofs } from "../TestComp/Proofs";
 import { Talents } from "../TalentsPage";
 import { Layout } from "./components/Layout";
 import { CreateAccForm } from "../Forms/CreateAccForm/CreateAccForm";
+import { TalentProfile } from "../TalentProfile";
 
 function Router() {
 	return (
@@ -19,6 +20,7 @@ function Router() {
 					<Route path="talents" element={<Talents />} />
 					<Route path="login" element={<LoginForm />} />
 					<Route path="create-acc" element={<CreateAccForm />} />
+					<Route path="talent/:talentId" element={<TalentProfile/>} />
 					<Route
 						path="*"
 						element={
