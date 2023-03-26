@@ -8,7 +8,16 @@ const talentsAPI = {
     },
 
     async getTalent(id) {
-        return (await axiosInstance.get(`/talents/${id}`)).data;
+        return (
+            await axiosInstance.get(
+                `/talents/${id}`,
+                {
+                    headers: {
+                        "Authorization": "Bearer //put jwt token here",
+                    },
+                },
+            )
+        ).data;
     },
 };
 

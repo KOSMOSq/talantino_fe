@@ -32,7 +32,7 @@ function SideBar({talentInfo}) {
           {talentInfo.email} 
         </Typography>
 
-        <Links talentInfo={talentInfo} />
+        <Links talentLinks={talentInfo.links} />
       </Box>
     </Box>
   )

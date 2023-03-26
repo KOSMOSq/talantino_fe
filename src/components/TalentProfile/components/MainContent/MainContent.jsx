@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { ProfileStickyHeader } from "./components/ProfileStickyHeader";
 
-function MainContent({ description }) {
+function MainContent({ talentDescription }) {
 
   return (
     <Box width={"70%"}>
@@ -12,7 +12,7 @@ function MainContent({ description }) {
         About
         </Typography>
         <Typography variant="h6" component="h6" mt={2} mb={2}>
-          {description ? description : 
+          {talentDescription || 
             <Typography variant="h6" component="h6" sx={{ fontSize: "18px", color: "#888888" }}>
               There you can write about yourself or describe your talents.<br/>
               Only registered users will see this information.</Typography>
