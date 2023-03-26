@@ -4,7 +4,7 @@ import Card from "@mui/material/Card";
 import { Box, CardActionArea, CardContent, CardMedia, Chip, Typography } from "@mui/material";
 import noPictureFallback from "../../assets/pictures/noPictureFallback.svg";
 
-const TalentCard = ({ name, surname, avatar, kind, id, isAuth }) => {
+const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id, isAuth }) => {
 
     const navigate = useNavigate();
 
@@ -62,7 +62,7 @@ const TalentCard = ({ name, surname, avatar, kind, id, isAuth }) => {
                             }}
                             component="img"
                             alt="Talent Avatar"
-                            image={avatar ? avatar : "errorTrigger"}
+                            image={profilePicture ? profilePicture : "errorTrigger"}
                             onError={({ currentTarget }) => {
                                 currentTarget.onerror = null;
                                 currentTarget.src = noPictureFallback;
@@ -91,7 +91,7 @@ const TalentCard = ({ name, surname, avatar, kind, id, isAuth }) => {
                         </Typography>
                         <Chip sx={{
                             fontSize: chipFontBreakpoints
-                        }} label={kind} color="primary" size="small" />
+                        }} label={kindOfTalent} color="primary" size="small" />
                     </CardContent>
                 </CardActionArea>
             </Card>
