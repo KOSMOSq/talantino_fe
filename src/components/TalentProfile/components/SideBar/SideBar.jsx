@@ -13,7 +13,7 @@ function SideBar({talentInfo}) {
       {/* { //TODO: display smth when some field is not set} */}
       <Box>
         <Typography variant="h6" component="h6" sx={{fontSize: "24px"}}>
-          {talentInfo.name} {talentInfo.surname}
+          {`${talentInfo.name} ${talentInfo.surname}`}
         </Typography>
 
         <Chip sx={{
@@ -25,7 +25,7 @@ function SideBar({talentInfo}) {
         </Typography>
 
         <Typography variant="h6" component="h6" sx={{fontSize: "18px", color: "#888888"}}>
-          {talentInfo.experience + " year experience"}
+          {`${talentInfo.experience || "0"} year experience`}
         </Typography>
 
         <Typography variant="h6" component="h6" sx={{fontSize: "18px", color: "#888888"}}>
