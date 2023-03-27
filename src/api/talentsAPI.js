@@ -1,4 +1,4 @@
-import { axiosInstance, axiosInstanceAuth } from ".";
+import { axiosInstance } from ".";
 
 const talentsAPI = {
     async getTalents(amount, page) {
@@ -7,9 +7,11 @@ const talentsAPI = {
         ).data;
     },
 
-    async getTalent(id) {
+    async getTalent(id, token) {
         return (
-            await axiosInstanceAuth.get(`/talents/${id}`)
+            await axiosInstance.get(`/talents/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
         ).data;
     },
 };
