@@ -29,7 +29,7 @@ function App() {
 					dispatch(initialize());
 				}
 			});
-	}, []);
+	}, [dispatch, token]);
 
 	if (!isInitialized) {
 		return <h1>INITIALIZINK</h1>

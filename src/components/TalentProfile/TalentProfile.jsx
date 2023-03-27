@@ -22,13 +22,13 @@ function TalentProfile() {
             setTalentInfo(response);
         }
 
-        if(localStorage.getItem("token")){
+        if (token) {
             getTalent().catch(error => console.log(error))
         }
         else {
             navigate(`/login`);
         }
-    }, [location]);
+    }, [location, token, navigate, talentId]);
 
     if (!talentInfo) {
         return <Box sx={{ width: "100%" }}>
