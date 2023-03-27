@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { TextField, Button, Typography, Container } from "@mui/material";
 import { Link } from "react-router-dom";
+import { authAPI } from "../../../api/authAPI";
+import { mailValidation } from "../validation";
 
 function LoginForm() {
 	const {
@@ -8,10 +10,14 @@ function LoginForm() {
 		handleSubmit,
 		reset,
 		formState: { errors, isValid },
-	} = useForm({ mode: "onBlur" });
+	} = useForm({ mode: "onTouched" });
 
-	const onSubmit = (data) => {
-		console.log(data);
+	const onSubmit = async (data) => {
+		const response = await authAPI.login({
+			email: data.email,
+			password: data.password,
+		});
+		localStorage.setItem("token", response.token);
 		reset();
 	};
 
@@ -20,7 +26,6 @@ function LoginForm() {
 			<Container
 				sx={{
 					width: 300,
-
 					display: "flex",
 					justifyContent: "center",
 					alignItems: "center",
@@ -31,15 +36,9 @@ function LoginForm() {
 					<TextField
 						id="email"
 						label="Email"
-						{...register("email", {
-							required: "Email is required",
-							pattern: {
-								value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-								message: "Invalid email address",
-							},
-						})}
+						{...register("email", mailValidation)}
 						error={Boolean(errors.email)}
-						helperText={errors.email && errors.email.message}
+						helperText={errors.email ? errors.email.message : " "}
 						sx={{ width: 300 }}
 					/>
 
@@ -49,16 +48,23 @@ function LoginForm() {
 						type="password"
 						{...register("password", {
 							required: "Password is required",
-							pattern: {
-								value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-								message: "Your pass doesn't meet requirments",
-							},
+							// minLength: {
+							// 	value: 8,
+							// 	message: "Password should be at least 8 characters",
+							// },
+							// pattern: {
+							// 	value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\-_@$!%*#?&]{8,}$/,
+							// 	message: "Your pass doesn't meet requirments",
+							// },
 						})}
 						error={Boolean(errors.password)}
-						helperText={errors.password && errors.password.message}
+						helperText={
+							errors.password
+								? errors.password.message
+								: "Use 8 or more characters with letters, numbers"
+						}
 						sx={{ marginTop: 2, width: 300 }}
 					/>
-
 					<Button
 						type="submit"
 						variant="contained"
