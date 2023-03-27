@@ -17,6 +17,7 @@ function App() {
 		const getAuth = async () => {
 			const response = await authAPI.auth(token);
 			const amountResponse = await talentsAPI.getTalents(0, 0);
+			//!TODO: NEED TO IMPLEMENT NEW REDUCER TO STORE TOTAL AMOUNT OF TALENTS
 			dispatch(setToken(token));
 			dispatch(setTalentData(response.id, response.name, response.surname, response.avatar));
 			dispatch(initialize());
