@@ -31,7 +31,7 @@ function AuthView() {
 			{login === true ? (
 				<IconButton sx={btnStyle} onClick={handleLog}>
 					<Avatar
-						sx={{ width: 56, height: 56 }}
+						sx={{ width: 50, height: 50 }}
 						alt={testTalent.surname}
 						src={testTalent.profilePicture}
 					/>

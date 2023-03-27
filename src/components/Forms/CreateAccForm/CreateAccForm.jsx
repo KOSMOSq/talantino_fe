@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { TextField, Button, Typography, Container } from "@mui/material";
 import { Link } from "react-router-dom";
 import { authAPI } from "../../../api/authAPI";
+import { mailValidation } from "../validation";
 
 function CreateAccForm() {
 	const {
@@ -20,8 +21,9 @@ function CreateAccForm() {
 			password: data.password,
 			name: data.fName,
 			surname: data.lName,
-			kind: data.kindOfTalent
+			kind: data.kindOfTalent,
 		});
+		console.log(response);
 		reset();
 	};
 
@@ -43,9 +45,13 @@ function CreateAccForm() {
 						type="text"
 						{...register("fName", {
 							required: "First name is required",
+							pattern: {
+								value: /[a-zA-Z]$/,
+								message: "First name can only contain letters",
+							},
 						})}
 						error={Boolean(errors.fName)}
-						helperText={errors.fName && errors.fName.message}
+						helperText={errors.fName ? errors.fName.message : " "}
 						sx={{ marginTop: 2, width: 300, marginRight: 2 }}
 					/>
 					<TextField
@@ -54,23 +60,21 @@ function CreateAccForm() {
 						type="text"
 						{...register("lName", {
 							required: "Last name is required",
+							pattern: {
+								value: /[a-zA-Z]$/,
+								message: "Last name can only contain letters",
+							},
 						})}
 						error={Boolean(errors.lName)}
-						helperText={errors.lName && errors.lName.message}
+						helperText={errors.lName ? errors.lName.message : " "}
 						sx={{ marginTop: 2, width: 300 }}
 					/>
 					<TextField
 						id="email"
 						label="Email"
-						{...register("email", {
-							required: "Email is required",
-							pattern: {
-								value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-								message: "Invalid email address",
-							},
-						})}
+						{...register("email", mailValidation)}
 						error={Boolean(errors.email)}
-						helperText={errors.email && errors.email.message}
+						helperText={errors.email ? errors.email.message : " "}
 						sx={{ marginTop: 2, width: 616 }}
 					/>
 
@@ -81,7 +85,7 @@ function CreateAccForm() {
 						{...register("password", {
 							required: "Password is required",
 							pattern: {
-								value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+								value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\-_@$!%*#?&]{8,}$/,
 								message: "Your pass doesn't meet requirments",
 							},
 							validate: (value) => {
@@ -89,30 +93,6 @@ function CreateAccForm() {
 								const check = cpassword === value;
 								if (check) {
 									clearErrors("cpassword");
-								} else {
-									setError("cpassword", {
-										type: "custom",
-										message: "Passwords should match!",
-									});
-								}
-								return check || "Passwords should match!";
-							},
-						})}
-						error={Boolean(errors.password)}
-						helperText={errors.password && errors.password.message}
-						sx={{ marginTop: 2, width: 300, marginRight: 2 }}
-					/>
-					<TextField
-						id="cpassword"
-						label="Confirm password"
-						type="password"
-						{...register("cpassword", {
-							required: "Confirm password is required",
-							validate: (value) => {
-								const password = getValues("password");
-								const check = password === value;
-								if (check) {
-									clearErrors("password");
 								} else {
 									setError("password", {
 										type: "custom",
@@ -122,8 +102,40 @@ function CreateAccForm() {
 								return check || "Passwords should match!";
 							},
 						})}
+						error={Boolean(errors.password)}
+						helperText={
+							errors.password
+								? errors.password.message
+								: "Use 8 or more characters with letters, numbers"
+						}
+						sx={{ marginTop: 2, width: 300, marginRight: 2 }}
+					/>
+					<TextField
+						id="cpassword"
+						label="Confirm password"
+						type="password"
+						{...register("cpassword", {
+							required: "Confirm password is required",
+							pattern: {
+								value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\-_@$!%*#?&]{8,}$/,
+								message: "Your pass doesn't meet requirments",
+							},
+							validate: (value) => {
+								const password = getValues("password");
+								const check = password === value;
+								if (check) {
+									clearErrors("password");
+								} else {
+									setError("cpassword", {
+										type: "custom",
+										message: "Passwords should match!",
+									});
+								}
+								return check || "Passwords should match!";
+							},
+						})}
 						error={Boolean(errors.cpassword)}
-						helperText={errors.cpassword && errors.cpassword.message}
+						helperText={errors.cpassword ? errors.cpassword.message : " "}
 						sx={{ marginTop: 2, width: 300 }}
 					/>
 
@@ -133,9 +145,13 @@ function CreateAccForm() {
 						type="text"
 						{...register("kindOfTalent", {
 							required: "Kind of talent is required",
+							pattern: {
+								value: /[a-zA-Z]$/,
+								message: "Kind of talent can only contain letters",
+							},
 						})}
 						error={Boolean(errors.kindOfTalent)}
-						helperText={errors.kindOfTalent && errors.kindOfTalent.message}
+						helperText={errors.kindOfTalent ? errors.kindOfTalent.message : " "}
 						sx={{ marginTop: 2, width: 300, marginLeft: 19 }}
 					/>
 
