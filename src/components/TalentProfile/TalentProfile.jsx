@@ -1,5 +1,4 @@
 import { Container, LinearProgress } from "@mui/material";
-// ! uncomment when backend will done
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { talentsAPI } from "../../api/talentsAPI";
@@ -9,15 +8,11 @@ import { MainContent } from "./components/MainContent";
 import { Box } from "@mui/material";
 
 function TalentProfile() {
-    //! replace testTalent to talentInfo when backend will done
     const [talentInfo, setTalentInfo] = useState();
-
-    //! will use it in request all profile info
     const { talentId } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
 
-    // ! uncomment when backend will done
     useEffect(() => {
         const getTalent = async () => {
             const response = await talentsAPI.getTalent(talentId);
@@ -30,8 +25,6 @@ function TalentProfile() {
         else {
             navigate(`/login`);
         }
-
-        
     }, [location]);
 
     if (!talentInfo) {

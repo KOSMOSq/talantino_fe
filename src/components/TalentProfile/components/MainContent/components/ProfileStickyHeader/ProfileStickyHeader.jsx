@@ -11,6 +11,7 @@ function ProfileStickyHeader({ talentId }) {
   };
 
   const handleNextTalent = () => {
+	  //! use total count to prevent errors
       navigate(`/talent/${talentId + 1}`);
   };
 
