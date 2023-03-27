@@ -1,4 +1,5 @@
 import { axiosInstance } from ".";
+import { Buffer } from "buffer";
 
 const authAPI = {
 	async register(data) {
@@ -10,13 +11,21 @@ const authAPI = {
 			})
 		).data;
 	},
-	async login(data) {
+	async login({ email, password }) {
+		const base64encodedData = Buffer.from(`${email}:${password}`).toString(
+			"base64"
+		);
 		return (
-			await axiosInstance.post(`/talents/login`, data, {
-				headers: {
-					"Content-Type": "application/json",
-				},
-			})
+			await axiosInstance.post(
+				`/talents/login`,
+				{},
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Basic ${base64encodedData}`,
+					},
+				}
+			)
 		).data;
 	},
 };

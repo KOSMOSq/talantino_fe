@@ -13,9 +13,11 @@ function LoginForm() {
 	} = useForm({ mode: "onTouched" });
 
 	const onSubmit = async (data) => {
-		console.log(data);
-		const response = await authAPI.login(data);
-		console.log(response);
+		const response = await authAPI.login({
+			email: data.email,
+			password: data.password,
+		});
+		localStorage.setItem("token", response.token);
 		reset();
 	};
 
@@ -46,14 +48,14 @@ function LoginForm() {
 						type="password"
 						{...register("password", {
 							required: "Password is required",
-							minLength: {
-								value: 8,
-								message: "Password should be at least 8 characters",
-							},
-							pattern: {
-								value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\-_@$!%*#?&]{8,}$/,
-								message: "Your pass doesn't meet requirments",
-							},
+							// minLength: {
+							// 	value: 8,
+							// 	message: "Password should be at least 8 characters",
+							// },
+							// pattern: {
+							// 	value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\-_@$!%*#?&]{8,}$/,
+							// 	message: "Your pass doesn't meet requirments",
+							// },
 						})}
 						error={Boolean(errors.password)}
 						helperText={
