@@ -1,30 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { Container, Pagination } from "@mui/material";
+import { Box, Container, LinearProgress, Pagination } from "@mui/material";
 import { TalentsArea } from "./components/TalentsArea/TalentsArea";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { talentsAPI } from "../../api/talentsAPI";
 
 const Talents = () => {
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 	const [talents, setTalents] = useState();
+	const [isLoading, setIsLoading] = useState(true);
 
 	const navigate = useNavigate();
 	const location = useLocation();
+	const [searchParams] = useSearchParams();
 
 	useEffect(() => {
-		const queryParameters = new URLSearchParams(location.search);
-		const singleValue = Number(queryParameters.get("page")) || page;
+		if (!isLoading) {
+			setIsLoading(true);
+		}
 
-		setPage(singleValue);
+		const urlPage = Number(searchParams.get("page")) || page;
+		setPage(urlPage);
 
 		const getTalents = async (amount = 9, page) => {
 			const response = await talentsAPI.getTalents(amount, page - 1);
+			const total = Math.ceil(response.totalAmount / amount);
+
+			if (urlPage > total) {
+				navigate(`/talents?page=${total}`);
+			}
 			setTalents(response.talents);
-			setTotalPages(Math.ceil(response.totalAmount / amount));
+			setTotalPages(total);
+			setIsLoading(false);
 		};
 
-		getTalents(undefined, singleValue)
+		getTalents(undefined, urlPage)
 			.catch(err => console.log(err));
 	}, [location]);
 
@@ -32,8 +42,10 @@ const Talents = () => {
 		navigate(`/talents?page=${value}`);
 	};
 
-	if (!talents) {
-		return <h1>loading</h1>;
+	if (!talents || isLoading) {
+		return <Box sx={{ width: "100%" }}>
+			<LinearProgress/>
+		</Box>
 	}
 
 	return (

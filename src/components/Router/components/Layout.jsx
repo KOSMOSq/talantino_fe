@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import React from "react";
 import { Outlet } from "react-router-dom";
 
@@ -8,9 +8,9 @@ function Layout() {
 	return (
 		<>
 			<Header />
-			<Container sx={{ maxWidth: { xl: "1900px" } }}>
+			<Box sx={{ maxWidth: { xl: "1900px" } }}>
 				<Outlet />
-			</Container>
+			</Box>
 		</>
 	);
 }
