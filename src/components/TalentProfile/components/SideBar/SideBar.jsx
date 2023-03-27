@@ -6,9 +6,9 @@ function SideBar({talentInfo}) {
   return (
     <Box width={"30%"} paddingTop={"7vh"}>
       <Avatar
-        src={talentInfo.avatar}
-        alt={talentInfo.surname}
-        sx={{ width: 256, height: 256, marginBottom: 2}}
+        alt={talentInfo.name}
+        src={talentInfo.avatar || "error"}
+        sx={{ width: 256, height: 256, marginBottom: 2, fontSize: "64px"}}
       />
       {/* { //TODO: display smth when some field is not set} */}
       <Box>
