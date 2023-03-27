@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { authAPI } from "./api/authAPI";
 import { initialize, setTalentData, setToken } from "./redux/reducers/authReducer";
+import { talentsAPI } from "./api/talentsAPI";
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
 	useEffect(() => {
 		const getAuth = async () => {
 			const response = await authAPI.auth(token);
+			const amountResponse = await talentsAPI.getTalents(0, 0);
 			dispatch(setToken(token));
 			dispatch(setTalentData(response.id, response.name, response.surname, response.avatar));
 			dispatch(initialize());
