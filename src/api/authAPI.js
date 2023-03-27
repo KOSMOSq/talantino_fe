@@ -28,6 +28,13 @@ const authAPI = {
 			)
 		).data;
 	},
+	async auth(token) {
+		return (await axiosInstance.get("/api/auth", {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		})).data;
+	}
 };
 
 export { authAPI };

@@ -6,16 +6,19 @@ import { useLocation } from "react-router-dom";
 import { SideBar } from "./components/SideBar";
 import { MainContent } from "./components/MainContent";
 import { Box } from "@mui/material";
+import { useSelector } from "react-redux";
 
 function TalentProfile() {
     const [talentInfo, setTalentInfo] = useState();
     const { talentId } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
+    
+    const token = useSelector(store => store.auth.token);
 
     useEffect(() => {
         const getTalent = async () => {
-            const response = await talentsAPI.getTalent(talentId);
+            const response = await talentsAPI.getTalent(talentId, token);
             setTalentInfo(response);
         }
 

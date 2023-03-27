@@ -3,6 +3,8 @@ import { TextField, Button, Typography, Container } from "@mui/material";
 import { Link } from "react-router-dom";
 import { authAPI } from "../../../api/authAPI";
 import { mailValidation } from "../validation";
+import { useDispatch } from "react-redux";
+import { setToken } from "../../../redux/reducers/authReducer";
 
 function LoginForm() {
 	const {
@@ -12,12 +14,15 @@ function LoginForm() {
 		formState: { errors, isValid },
 	} = useForm({ mode: "onTouched" });
 
+	const dispatch = useDispatch();
+
 	const onSubmit = async (data) => {
 		const response = await authAPI.login({
 			email: data.email,
 			password: data.password,
 		});
 		localStorage.setItem("token", response.token);
+		dispatch(setToken(response.token));
 		reset();
 	};
 
