@@ -1,4 +1,4 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, Navigate } from "react-router-dom";
 import { LoginForm } from "../Forms/LoginForm/LoginForm";
 
 import { Proofs } from "../TestComp/Proofs";
@@ -12,15 +12,12 @@ function Router() {
 		<>
 			<Routes>
 				<Route path="/" element={<Layout />}>
-					<Route
-						index
-						element={<h1>TALANTINO {process.env.REACT_APP_VERSION}</h1>}
-					/>
+					<Route index element={<Navigate to="/talents" />} />
 					<Route path="proofs" element={<Proofs />} />
 					<Route path="talents" element={<Talents />} />
 					<Route path="login" element={<LoginForm />} />
 					<Route path="create-acc" element={<CreateAccForm />} />
-					<Route path="talent/:talentId" element={<TalentProfile/>} />
+					<Route path="talent/:talentId" element={<TalentProfile />} />
 					<Route
 						path="*"
 						element={
