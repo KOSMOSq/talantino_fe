@@ -3,12 +3,18 @@ import { useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import { Box, CardActionArea, CardContent, CardMedia, Chip, Typography } from "@mui/material";
 import noPictureFallback from "../../assets/pictures/noPictureFallback.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { setClikedId } from "../../redux/reducers/talentsReducer";
 
-const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id, isAuth }) => {
+const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id }) => {
 
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
+    const isAuth = useSelector(store => store.auth.isAuth);
     const handleClick = () => {
+        if(!isAuth){
+            dispatch(setClikedId(id));
+        }
         navigate(`/talent/${id}`);
     }
 
