@@ -15,6 +15,7 @@ function TalentProfile() {
     const navigate = useNavigate();
     
     const token = useSelector(store => store.auth.token);
+    const isAuth = useSelector(store => store.auth.isAuth);
 
     useEffect(() => {
         const getTalent = async () => {
@@ -22,7 +23,7 @@ function TalentProfile() {
             setTalentInfo(response);
         }
 
-        if(localStorage.getItem("token")){
+        if(isAuth){
             getTalent().catch(error => console.log(error))
         }
         else {
