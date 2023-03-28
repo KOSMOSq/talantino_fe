@@ -25,8 +25,7 @@ function TalentProfile() {
 
         if(isAuth){
             getTalent().catch(error => console.log(error))
-        }
-        else {
+        } else {
             navigate(`/login`);
         }
     }, [location]);
