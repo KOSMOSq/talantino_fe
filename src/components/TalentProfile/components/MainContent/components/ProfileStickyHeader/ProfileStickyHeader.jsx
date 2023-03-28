@@ -1,12 +1,14 @@
 import { AppBar, Toolbar, Button, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from '@mui/icons-material/Close';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setGlobalError } from "../../../../../../redux/reducers/appReducer";
 
 function ProfileStickyHeader({ talentId }) {
 
 	const profileSubPages = ["Overview", "Proofs"];
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const totalTalents = useSelector(store => store.talents.totalTalents);
 
 	const handleClick = (e) => {
@@ -16,6 +18,7 @@ function ProfileStickyHeader({ talentId }) {
 	const handleNextTalent = () => {
 		let id = talentId + 1;
 		if (id > totalTalents) {
+			dispatch(setGlobalError("No more talents"));
 			return;
 		}
 		navigate(`/talent/${id}`);
@@ -23,7 +26,8 @@ function ProfileStickyHeader({ talentId }) {
 
 	const handlePrevTalent = () => {
 		let id = talentId - 1;
-		if (id < 0) {
+		if (id < 1) {
+			dispatch(setGlobalError("No more talents"));
 			return;
 		}
 		navigate(`/talent/${id}`);
