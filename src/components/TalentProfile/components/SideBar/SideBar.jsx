@@ -25,7 +25,7 @@ function SideBar({talentInfo}) {
         </Typography>
 
         <Typography variant="h6" component="h6" sx={{fontSize: "18px", color: "#888888"}}>
-          {`${talentInfo.experience || "0"} year experience`}
+          {talentInfo.experience ? `${talentInfo.experience } year experience` : null}
         </Typography>
 
         <Typography variant="h6" component="h6" sx={{fontSize: "18px", color: "#888888"}}>
