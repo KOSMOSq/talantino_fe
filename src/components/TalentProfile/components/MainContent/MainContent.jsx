@@ -10,8 +10,8 @@ function MainContent({ talentDescription, talentId }) {
                     About
                 </Typography>
                 <Typography variant="h6" component="h6" mt={2} mb={2}>
-                    {talentDescription ||
-                        <Typography variant="h6" component="h6" sx={{ fontSize: "18px", color: "#888888" }}>
+                    {talentDescription ? talentDescription :
+                        <Typography variant="p" component="p" sx={{ fontSize: "18px", color: "#888888" }}>
                             There you can write about yourself or describe your talents.<br />
                             Only registered users will see this information.</Typography>
                     }

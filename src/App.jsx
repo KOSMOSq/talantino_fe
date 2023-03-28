@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { authAPI } from "./api/authAPI";
 import { initialize, setTalentData, setToken } from "./redux/reducers/authReducer";
 import { talentsAPI } from "./api/talentsAPI";
+import { LinearProgress } from "@mui/material";
 
 function App() {
 
@@ -14,25 +15,31 @@ function App() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const getAuth = async () => {
-			const response = await authAPI.auth(token);
-			const amountResponse = await talentsAPI.getTalents(0, 0);
-			//!TODO: NEED TO IMPLEMENT NEW REDUCER TO STORE TOTAL AMOUNT OF TALENTS
-			dispatch(setToken(token));
-			dispatch(setTalentData(response.id, response.name, response.surname, response.avatar));
+		if (!token) {
 			dispatch(initialize());
-		};
-
-		getAuth()
-			.catch(err => {
-				if (err.response.status === 401) {
+		}
+		else {
+			if(JSON.parse(atob(token.split('.')[1])).exp > Math.floor(Date.now() / 1000)){
+				const getAuth = async () => {
+					const response = await authAPI.auth(token);
+					const amountResponse = await talentsAPI.getTalents(0, 0);
+					//!TODO: NEED TO IMPLEMENT NEW REDUCER TO STORE TOTAL AMOUNT OF TALENTS
+					dispatch(setToken(token));
+					dispatch(setTalentData(response.id, response.name, response.surname, response.avatar));
 					dispatch(initialize());
-				}
-			});
+				};
+				
+				getAuth()
+					.catch(err => console.log(err));
+			}
+			else {
+				dispatch(initialize());
+			}
+		}
 	}, []);
 
 	if (!isInitialized) {
-		return <h1>INITIALIZINK</h1>
+		return <LinearProgress/>
 	}
 
 	return (
