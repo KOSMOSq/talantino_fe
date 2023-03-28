@@ -23,12 +23,15 @@ function App() {
 			const getAuth = async () => {
 				const response = await authAPI.auth(token);
 				dispatch(setToken(token));
-				dispatch(setTalentData(response.id, response.name, response.surname, response.avatar));
+				dispatch(setTalentData(response));
 				dispatch(initialize());
 			};
 
 			getAuth()
-				.catch(err => console.log(err));
+				.catch(err => {
+					console.log(err);
+					dispatch(initialize());
+				});
 		} else {
 			dispatch(initialize());
 		}

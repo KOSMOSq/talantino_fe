@@ -7,22 +7,34 @@ const initialState = {
     id: null,
     name: null,
     surname: null,
-    isAuth: false,
+    email: null,
+    kind: null,
+    description: null,
     avatar: null,
+    experience: null,
+    location: null,
+    links: [],
+    isAuth: false,
     token: null,
     isInitialized: false
 }
 
 const authReducer = (state = initialState, action) => {
-    switch(action.type) {
-        case SET_TALENT_DATA: 
+    switch (action.type) {
+        case SET_TALENT_DATA:
             return {
                 ...state,
                 id: action.id,
                 name: action.name,
                 surname: action.surname,
+                email: action.email,
+                kind: action.kind,
+                description: action.description,
                 avatar: action.avatar,
-                isAuth: true
+                experience: action.experience,
+                location: action.location,
+                links: action.links,
+                isAuth: true,
             }
         case CLEAR_DATA:
             return {
@@ -30,7 +42,13 @@ const authReducer = (state = initialState, action) => {
                 id: null,
                 name: null,
                 surname: null,
+                email: null,
+                kind: null,
+                description: null,
                 avatar: null,
+                experience: null,
+                location: null,
+                links: [],
                 isAuth: false,
                 token: null
             }
@@ -44,12 +62,12 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 isInitialized: true
             }
-        default: 
+        default:
             return state;
     }
 };
 
-export const setTalentData = (id, name, surname, avatar) => ({ type: SET_TALENT_DATA, id, name, surname, avatar });
+export const setTalentData = ({ id, name, surname, email, kind, description, avatar, experience, location, links }) => ({ type: SET_TALENT_DATA, id, name, surname, email, kind, description, avatar, experience, location, links });
 export const clearData = () => ({ type: CLEAR_DATA });
 export const initialize = () => ({ type: INITIALIZE });
 export const setToken = (token) => ({ type: SET_TOKEN, token });

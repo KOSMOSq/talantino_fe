@@ -37,18 +37,13 @@ function LoginForm() {
 			});
 			localStorage.setItem("token", response.token);
 			dispatch(setToken(response.token));
-			dispatch(
-				setTalentData(
-					response.id,
-					response.name,
-					response.surname,
-					response.avatar
-				)
-			);
+			const responseAuth = await authAPI.auth(response.token);
+			dispatch(setTalentData(responseAuth));
 			setIsLoading(false);
 			reset();
 		} catch (err) {
 			dispatch(setGlobalError("Wrong email or password"));
+			setIsLoading(false);
 		}
 	};
 

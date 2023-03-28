@@ -6,16 +6,14 @@ import { useLocation } from "react-router-dom";
 import { SideBar } from "./components/SideBar";
 import { MainContent } from "./components/MainContent";
 import { Box } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { setGlobalError } from "../../redux/reducers/appReducer";
+import { useSelector } from "react-redux";
 
 function TalentProfile() {
     const [talentInfo, setTalentInfo] = useState();
     const { talentId } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
-    
-    const dispatch = useDispatch();
+
     const token = useSelector(store => store.auth.token);
     const isAuth = useSelector(store => store.auth.isAuth);
 
@@ -25,9 +23,9 @@ function TalentProfile() {
             setTalentInfo(response);
         }
 
-        if(isAuth){
+        if (isAuth) {
             getTalent()
-                .catch(error => dispatch(setGlobalError("No such profile")));
+                .catch(error => console.log(error));
         } else {
             navigate(`/login`);
         }
@@ -42,7 +40,7 @@ function TalentProfile() {
     return (
         <Container sx={{ display: "flex", flexDirection: "row", paddingLeft: "24px", paddingRight: "24px" }}>
             <SideBar talentInfo={talentInfo} />
-            <MainContent talentDescription={talentInfo.description} talentId={talentInfo.id} />
+            <MainContent talentDescription={talentInfo.description} />
         </Container>
     )
 }

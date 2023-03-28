@@ -3,7 +3,9 @@ import { TextField, Button, Typography, Container, LinearProgress } from "@mui/m
 import { Link, useNavigate } from "react-router-dom";
 import { authAPI } from "../../../api/authAPI";
 import { mailValidation } from "../validation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { setTalentData, setToken } from "../../../redux/reducers/authReducer";
+import { useDispatch, useSelector } from "react-redux";
 
 function CreateAccForm() {
 	const {
@@ -17,7 +19,15 @@ function CreateAccForm() {
 	} = useForm({ mode: "onTouched" });
 
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const [isLoading, setIsLoading] = useState(false);
+	const isAuth = useSelector(store => store.auth.isAuth);
+
+	useEffect(() => {
+		if (isAuth) {
+			navigate(`/settings`);
+		}
+	}, [isAuth]);
 
 	const onSubmit = async (data) => {
 		setIsLoading(true);
@@ -28,8 +38,17 @@ function CreateAccForm() {
 			surname: data.lName,
 			kind: data.kindOfTalent,
 		});
+		//code repetition needs to be replaced with thunc
+		const response = await authAPI.login({
+			email: data.email,
+			password: data.password,
+		});
+		localStorage.setItem("token", response.token);
+		dispatch(setToken(response.token));
+		const responseAuth = await authAPI.auth(response.token);
+		dispatch(setTalentData(responseAuth));
+		//code repetition needs to be replaced with thunc
 		setIsLoading(false);
-		navigate('/login');
 		reset();
 	};
 

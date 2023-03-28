@@ -6,14 +6,19 @@ const talentsAPI = {
 			.data;
 	},
 
-	async getTalent(id, token) {
-		return (
-			await axiosInstance.get(`/talents/${id}`, {
-				headers: { Authorization: `Bearer ${token}` },
-			})
-		).data;
-	},
-	async deleteTalent(id, token) {
+    async getTalent(id, token) {
+        return (
+            await axiosInstance.get(`/talents/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+        ).data;
+    },
+    async changeData(id, token, data) {
+        return (await axiosInstance.patch(`/talents/${id}`, data, {
+            headers: { Authorization: `Bearer ${token}` }
+        })).data;
+    },
+    async deleteTalent(id, token) {
 		return (
 			await axiosInstance.delete(`/talents/${id}`, {
 				headers: { Authorization: `Bearer ${token}` },
