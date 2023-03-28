@@ -54,9 +54,9 @@ const Talents = () => {
 
 	return (
 		<Container sx={{ maxWidth: { xl: "1900px" }, display: "flex", flexDirection: "column" }}>
-			<TalentsArea talents={talents} />
+			<TalentsArea />
 			<Pagination
-				sx={{ marginTop: "20px", marginLeft: "auto", marginRight: "auto" }}
+				sx={{ marginTop: "20px", marginLeft: "auto", marginRight: "auto", marginBottom: 4 }}
 				page={page}
 				count={totalPages}
 				onChange={handleChange}
