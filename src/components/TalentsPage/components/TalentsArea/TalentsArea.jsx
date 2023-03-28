@@ -14,7 +14,7 @@ const TalentsArea = () => {
                 <ChangeViewButton />
             </Box>
 
-            {talentsView == "grid" ? 
+            {talentsView === "grid" ? 
                 <Box display="flex" justifyContent="center" pt={4}>
                     <Grid container item
                         sm={12}
