@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearData } from "../../../redux/reducers/authReducer";
 import { Link, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
 import Logout from "@mui/icons-material/Logout";
+import SettingsIcon from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState } from "react";
 import { setClikedId } from "../../../redux/reducers/talentsReducer";
@@ -100,6 +101,18 @@ function AuthView() {
 									}}
 								>
 									Profile
+								</Link>
+							</MenuItem>
+							<MenuItem onClick={handleClose}>
+								<ListItemIcon>
+									<SettingsIcon fontSize="small" />
+								</ListItemIcon>
+								<Link
+									onClick={() => {
+										navigate(`/settings`);
+									}}
+								>
+									Settings
 								</Link>
 							</MenuItem>
 							<MenuItem onClick={handleClose}>

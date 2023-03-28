@@ -6,6 +6,7 @@ import { Talents } from "../TalentsPage";
 import { Layout } from "./components/Layout";
 import { CreateAccForm } from "../Forms/CreateAccForm/CreateAccForm";
 import { TalentProfile } from "../TalentProfile";
+import { Settings } from "../Settings/Settings";
 
 function Router() {
 	return (
@@ -18,6 +19,7 @@ function Router() {
 					<Route path="login" element={<LoginForm />} />
 					<Route path="create-acc" element={<CreateAccForm />} />
 					<Route path="talent/:talentId" element={<TalentProfile />} />
+					<Route path="settings" element={<Settings />} />
 					<Route
 						path="*"
 						element={

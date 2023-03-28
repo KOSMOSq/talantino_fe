@@ -14,6 +14,11 @@ const talentsAPI = {
             })
         ).data;
     },
+    async changeData(id, token, data) {
+        return (await axiosInstance.patch(`/talents/${id}`, data, {
+            headers: { Authorization: `Bearer ${token}` }
+        })).data;
+    }
 };
 
 export { talentsAPI };
