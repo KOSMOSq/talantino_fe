@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setClikedId } from "../../redux/reducers/talentsReducer";
 
 const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id }) => {
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isAuth = useSelector(store => store.auth.isAuth);
+
     const handleClick = () => {
         if(!isAuth){
             dispatch(setClikedId(id));
@@ -85,7 +85,6 @@ const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id }) => {
                         <Typography
                             variant="h6"
                             component="h6"
-
                             sx={{
                                 fontSize: cardFontBreakpoints,
                                 fontWeight: "bold",

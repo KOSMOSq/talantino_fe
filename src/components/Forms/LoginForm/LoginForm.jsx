@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
-import { TextField, Button, Typography, Container } from "@mui/material";
+import { TextField, Button, Typography, Container, LinearProgress } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { authAPI } from "../../../api/authAPI";
 import { mailValidation } from "../validation";
 import { useDispatch, useSelector } from "react-redux";
 import { setTalentData, setToken } from "../../../redux/reducers/authReducer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { setGlobalError } from "../../../redux/reducers/appReducer";
 
 function LoginForm() {
 	const {
@@ -14,37 +15,46 @@ function LoginForm() {
 		reset,
 		formState: { errors, isValid },
 	} = useForm({ mode: "onTouched" });
+
 	const dispatch = useDispatch();
-	const isAuth = useSelector((store) => store.auth.isAuth);
 	const navigate = useNavigate();
+	const isAuth = useSelector(store => store.auth.isAuth);
+	const clickedId = useSelector(store => store.talents.clickedId);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		if (isAuth) {
-			navigate(`/talents`);
+			navigate(`/talent${clickedId ? `/${clickedId}`: "s"}`);
 		}
-	}, [isAuth, navigate]);
+	}, [isAuth]);
 
 	const onSubmit = async (data) => {
-		const response = await authAPI.login({
-			email: data.email,
-			password: data.password,
-		});
-		localStorage.setItem("token", response.token);
-		dispatch(setToken(response.token));
-		const talentResponse = await authAPI.auth(response.token);
-		dispatch(
-			setTalentData(
-				response.id,
-				response.name,
-				response.surname,
-				response.avatar
-			)
-		);
-		reset();
+		try {
+			setIsLoading(true);
+			const response = await authAPI.login({
+				email: data.email,
+				password: data.password,
+			});
+			localStorage.setItem("token", response.token);
+			dispatch(setToken(response.token));
+			dispatch(
+				setTalentData(
+					response.id,
+					response.name,
+					response.surname,
+					response.avatar
+				)
+			);
+			setIsLoading(false);
+			reset();
+		} catch (err) {
+			dispatch(setGlobalError("Wrong email or password"));
+		}
 	};
 
 	return (
-		<>
+		<>	
+			{isLoading ? <LinearProgress /> : null}
 			<Container
 				sx={{
 					width: 300,

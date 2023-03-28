@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
-import { TextField, Button, Typography, Container } from "@mui/material";
-import { Link } from "react-router-dom";
+import { TextField, Button, Typography, Container, LinearProgress } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import { authAPI } from "../../../api/authAPI";
 import { mailValidation } from "../validation";
+import { useState } from "react";
 
 function CreateAccForm() {
 	const {
@@ -15,20 +16,26 @@ function CreateAccForm() {
 		formState: { errors, isValid },
 	} = useForm({ mode: "onTouched" });
 
+	const navigate = useNavigate();
+	const [isLoading, setIsLoading] = useState(false);
+
 	const onSubmit = async (data) => {
-		const response = await authAPI.register({
+		setIsLoading(true);
+		await authAPI.register({
 			email: data.email,
 			password: data.password,
 			name: data.fName,
 			surname: data.lName,
 			kind: data.kindOfTalent,
 		});
-		console.log(response);
+		setIsLoading(false);
+		navigate('/login');
 		reset();
 	};
 
 	return (
 		<>
+			{isLoading ? <LinearProgress /> : null}
 			<Container
 				sx={{
 					width: 670,
@@ -46,7 +53,7 @@ function CreateAccForm() {
 						{...register("fName", {
 							required: "First name is required",
 							pattern: {
-								value: /[a-zA-Z]$/,
+								value: /^[a-zA-Z]+$/,
 								message: "First name can only contain letters",
 							},
 						})}
@@ -61,7 +68,7 @@ function CreateAccForm() {
 						{...register("lName", {
 							required: "Last name is required",
 							pattern: {
-								value: /[a-zA-Z]$/,
+								value: /^[a-zA-Z]+$/,
 								message: "Last name can only contain letters",
 							},
 						})}
@@ -146,7 +153,7 @@ function CreateAccForm() {
 						{...register("kindOfTalent", {
 							required: "Kind of talent is required",
 							pattern: {
-								value: /[a-zA-Z]$/,
+								value: /[a-zA-Z ]$/,
 								message: "Kind of talent can only contain letters",
 							},
 						})}

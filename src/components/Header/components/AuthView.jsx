@@ -8,6 +8,7 @@ import { Link, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
 import Logout from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState } from "react";
+import { setClikedId } from "../../../redux/reducers/talentsReducer";
 
 const btnStyle = {
 	marginLeft: "auto",
@@ -18,12 +19,14 @@ const btnStyle = {
 
 function AuthView() {
 	const dispatch = useDispatch();
-	const avatar = useSelector((store) => store.auth.avatar);
-	const name = useSelector((store) => store.auth.name);
-	const isAuth = useSelector((store) => store.auth.isAuth);
+	const avatar = useSelector(store => store.auth.avatar);
+	const name = useSelector(store => store.auth.name);
+	const isAuth = useSelector(store => store.auth.isAuth);
+	const id = useSelector(store => store.auth.id);
 
-	const handleLog = () => {
+	const handleLogout = () => {
 		dispatch(clearData());
+		dispatch(setClikedId(null));
 		localStorage.clear();
 		navigate(`/talents`);
 	};
@@ -44,7 +47,7 @@ function AuthView() {
 
 	return (
 		<>
-			{isAuth === true ? (
+			{isAuth ? (
 				<>
 					<Typography sx={btnStyle}>
 						Hi, {name}
@@ -93,7 +96,7 @@ function AuthView() {
 								</ListItemIcon>
 								<Link
 									onClick={() => {
-										navigate(`/profile`);
+										navigate(`/talent/${id}`);
 									}}
 								>
 									Profile
@@ -103,7 +106,7 @@ function AuthView() {
 								<ListItemIcon>
 									<Logout fontSize="small" />
 								</ListItemIcon>
-								<Link onClick={handleLog}>Logout</Link>
+								<Link onClick={handleLogout}>Logout</Link>
 							</MenuItem>
 						</Menu>
 					</Typography>
@@ -111,7 +114,7 @@ function AuthView() {
 			) : (
 				<Button
 					sx={{ marginLeft: "auto", right: 40, fontSize: 20 }}
-					onClick={(handleLog, handleClickLogin)}
+					onClick={(handleLogout, handleClickLogin)}
 				>
 					Login
 				</Button>
