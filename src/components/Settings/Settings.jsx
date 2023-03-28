@@ -1,13 +1,14 @@
 import { Button, Container, TextField } from "@mui/material";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { authAPI } from "../../api/authAPI";
 import { talentsAPI } from "../../api/talentsAPI";
 import { setTalentData } from "../../redux/reducers/authReducer";
+import { DeleteTalent } from "../../components/TalentsPage/components/DeleteTalent/DeleteTalent"
+import { useNavigate } from "react-router-dom";
+
 
 const Settings = () => {
-
     const id = useSelector(store => store.auth.id)
     const name = useSelector(store => store.auth.name)
     const surname = useSelector(store => store.auth.surname)
@@ -19,7 +20,8 @@ const Settings = () => {
     const location = useSelector(store => store.auth.location)
     const links = useSelector(store => store.auth.links)
     const token = useSelector(store => store.auth.token)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const {
         register,
@@ -46,7 +48,7 @@ const Settings = () => {
         const response = await talentsAPI.changeData(id, token, data);
         const responseAuth = await authAPI.auth(token);
         dispatch(setTalentData(responseAuth));
-        console.log(response);
+        navigate(`/talent/${id}`);
     };
 
     return (
@@ -80,6 +82,7 @@ const Settings = () => {
                     <Button type="submit">
                         SAVE
                     </Button>
+                    <DeleteTalent />
                 </form>
             </Container>
         </>
