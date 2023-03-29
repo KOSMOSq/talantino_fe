@@ -1,13 +1,13 @@
 import Button from "@mui/material/Button";
-import { NavLink } from "react-router-dom";
-import logo from "../../../assets/logo/talantinoLogo.png";
+import { Link, NavLink } from "react-router-dom";
+import logo from "../../../assets/logo/talantinoLogo.svg";
 
 function AppBarItems() {
 	const pages = ["talents", "proofs"];
 
 	return (
 		<>
-			<img src={logo} alt="logo" width={160} />
+			<Link to="/talents"><img src={logo} alt="logo" width={160} /></Link>
 			{pages.map((page) => (
 				<Button
 					key={page}
