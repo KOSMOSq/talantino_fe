@@ -1,4 +1,4 @@
-import { Button, Container, TextField } from "@mui/material";
+import { Avatar, Box, Button, Container, Divider, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { authAPI } from "../../api/authAPI";
@@ -7,6 +7,7 @@ import { setTalentData } from "../../redux/reducers/authReducer";
 import { DeleteTalent } from "../../components/TalentsPage/components/DeleteTalent/DeleteTalent"
 import { useNavigate } from "react-router-dom";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { useState } from "react";
 
 
 const Settings = () => {
@@ -23,6 +24,11 @@ const Settings = () => {
     const token = useSelector(store => store.auth.token)
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const [prPicture, setPrPicture] = useState();
+    const handleChangeAvatar = (event) => {
+        setPrPicture(event.target.value);
+    }
 
     const {
         register,
@@ -55,36 +61,92 @@ const Settings = () => {
 
     return (
         <>
-            <Container>
+            <Container sx={{marginTop: 4, paddingBottom: 5}}>
+                
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <TextField label="name" {...register("name", {
-                        required: "This field is required",
-                    })} />
-                    <TextField label="surname" {...register("surname", {
-                        required: "This field is required",
-                    })} />
-                    <TextField label="kind" {...register("kind", {
-                        required: "This field is required",
-                    })} />
-                    <TextField label="avatar" {...register("avatar", {
+                    <Box display={"flex"} width={"100%"} justifyContent={"space-between"}>
+                        <Typography 
+                            sx={{ display: 'inline', fontSize: 24, fontWeight: "bold" }}
+                            component="h6"
+                            variant="h6"> 
+                            Editing profile 
+                        </Typography>
+                        <Button variant="outlined" type="submit" sx={{fontSize: 16}}>
+                            Save changes
+                        </Button>
+                    </Box>
+                    <Divider sx={{marginTop:2}}/>
+                    
+                    <Box display={"flex"} justifyContent={"space-between"} mt={2}> 
+                        
+                        <Box width={{
+                            lg: "55vw",
+                            xl: "50vw"
+                            }}>
+                            <TextField label="Name" {...register("name", {
+                                required: "This field is required",
+                                
+                            })} />
+                            <TextField label="Surname" sx={{marginLeft: 2}} {...register("surname", {
+                                required: "This field is required",
+                            })} />
+                            <TextField label="Location" sx={{marginLeft: 2}} {...register("location", {
 
-                    })} />
-                    <TextField label="description" {...register("description", {
+                            })} />
+                            
+                            <TextField 
+                                label="Description" 
+                                multiline 
+                                maxRows ={7} 
+                                minRows = {7}
+                                sx={{width: "91%", marginTop: 2}}
+                                {...register("description", {
 
-                    })} />
-                    <TextField label="experience" {...register("experience", {
+                            })} />
+                            <Box mt={2}>
+                                <TextField label="Kind of talent" {...register("kind", {
+                                    required: "This field is required",
+                                })} />
+                                <TextField label="Experience" sx={{marginLeft: 2}} {...register("experience", {
 
-                    })} />
-                    <TextField label="location" {...register("location", {
+                                })} />
+                            </Box>
 
-                    })} />
-                    <TextField label="links" {...register("links", {
+                            <Box display={"flex"} flexDirection={"row"} mt={10}>
+                                <TextField label="Social link" {...register("links", {
 
-                    })} />
-                    <Button type="submit">
-                        SAVE
-                    </Button>
-                    <DeleteTalent />
+                                })} />
+                                <TextField label="Social link" sx={{marginLeft: 2}} {...register("links", {
+
+                                })} />
+                                <TextField label="Social link" sx={{marginLeft: 2}} {...register("links", {
+
+                                })} />
+                                <TextField label="Social link" sx={{marginLeft: 2}} {...register("links", {
+
+                                })} />
+                            </Box>    
+                            
+                        </Box>
+
+                        <Box display={"flex"} flexDirection={"column"} justifyContent={"space-between"} mr={2}>
+                            <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
+                                <Avatar
+                                alt={name}
+                                src={prPicture || avatar || "error"}
+                                sx={{ width: 190, height: 190, marginBottom: 2, fontSize: "64px" }}
+                                />
+
+                                <TextField  label="Avatar URL" {...register("avatar", {
+            
+                                })} onChange={handleChangeAvatar}/> 
+                            </Box>   
+                            <Box display={"flex"} justifyContent={"center"} mb={1}>
+                                <DeleteTalent/>  
+                            </Box>    
+                        </Box>
+                        
+                    </Box>
                 </form>
             </Container>
         </>
