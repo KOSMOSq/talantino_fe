@@ -1,14 +1,16 @@
 import { useForm } from "react-hook-form";
-import { TextField, Button, Typography, Container, LinearProgress } from "@mui/material";
+import { TextField, Button, Typography, Container, LinearProgress, IconButton, InputAdornment } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { authAPI } from "../../../api/authAPI";
 import { mailValidation } from "../validation";
 import { useDispatch, useSelector } from "react-redux";
-import { setTalentData, setToken } from "../../../redux/reducers/authReducer";
+import { loginThunk } from "../../../redux/reducers/authReducer";
 import { useEffect, useState } from "react";
-import { setGlobalError } from "../../../redux/reducers/appReducer";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 function LoginForm() {
+	const [showPassword, setShowPassword] = useState(false); 
+
 	const {
 		register,
 		handleSubmit,
@@ -20,7 +22,7 @@ function LoginForm() {
 	const navigate = useNavigate();
 	const isAuth = useSelector(store => store.auth.isAuth);
 	const clickedId = useSelector(store => store.talents.clickedId);
-	const [isLoading, setIsLoading] = useState(false);
+	const isLoading = useSelector(store => store.auth.isLoading);
 
 	useEffect(() => {
 		if (isAuth) {
@@ -29,22 +31,8 @@ function LoginForm() {
 	}, [isAuth]);
 
 	const onSubmit = async (data) => {
-		try {
-			setIsLoading(true);
-			const response = await authAPI.login({
-				email: data.email,
-				password: data.password,
-			});
-			localStorage.setItem("token", response.token);
-			dispatch(setToken(response.token));
-			const responseAuth = await authAPI.auth(response.token);
-			dispatch(setTalentData(responseAuth));
-			setIsLoading(false);
+			dispatch(loginThunk(data));
 			reset();
-		} catch (err) {
-			dispatch(setGlobalError("Wrong email or password"));
-			setIsLoading(false);
-		}
 	};
 
 	return (
@@ -72,12 +60,16 @@ function LoginForm() {
 					<TextField
 						id="password"
 						label="Password"
-						type="password"
+						type={showPassword ? 'text' : 'password'}
 						{...register("password", {
 							required: "Password is required",
 							minLength: {
 								value: 8,
 								message: "Password should be at least 8 characters",
+							},
+							maxLength: {
+								value: 64,
+								message: "Your password is to long"
 							},
 							pattern: {
 								value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\-_@$!%*#?&]{8,}$/,
@@ -91,6 +83,17 @@ function LoginForm() {
 								: "Use 8 or more characters with letters, numbers"
 						}
 						sx={{ marginTop: 2, width: 300 }}
+						InputProps={{
+							endAdornment: (<InputAdornment position="end">
+								<IconButton
+									aria-label="toggle password visibility"
+									onClick={() => setShowPassword((show) => !show)}
+									edge="end"
+								>
+									{showPassword ? <VisibilityOff /> : <Visibility />}
+								</IconButton>
+							</InputAdornment>)
+						}}
 					/>
 					<Button
 						type="submit"

@@ -1,7 +1,11 @@
+import { authAPI } from "../../api/authAPI";
+import { setGlobalError } from "./appReducer";
+
 const SET_TALENT_DATA = "auth/SET-TALENT-DATA";
 const CLEAR_DATA = "auth/CLEAR-DATA";
 const SET_TOKEN = "auth/SET-TOKEN";
 const INITIALIZE = "auth/INITIALIZE";
+const SET_IS_LOADING = "auth/SET_IS_LOADING";
 
 const initialState = {
     id: null,
@@ -16,7 +20,8 @@ const initialState = {
     links: [],
     isAuth: false,
     token: null,
-    isInitialized: false
+    isInitialized: false,
+    isLoading: false
 }
 
 const authReducer = (state = initialState, action) => {
@@ -62,6 +67,11 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 isInitialized: true
             }
+        case SET_IS_LOADING:
+            return {
+                ...state,
+                isLoading: action.isLoading
+            }
         default:
             return state;
     }
@@ -71,5 +81,45 @@ export const setTalentData = ({ id, name, surname, email, kind, description, ava
 export const clearData = () => ({ type: CLEAR_DATA });
 export const initialize = () => ({ type: INITIALIZE });
 export const setToken = (token) => ({ type: SET_TOKEN, token });
+export const setIsLoading = isLoading => ({ type: SET_IS_LOADING, isLoading });
+
+export const getAuthThunk = (token) => async dispatch => {
+    try {
+        const response = await authAPI.auth(token);
+        dispatch(setTalentData(response));
+        dispatch(initialize());
+    } catch (err) {
+        console.log(err);
+        dispatch(initialize());
+    }
+};
+
+export const loginThunk = (data) => async dispatch => {
+    try {
+        dispatch(setIsLoading(true));
+        const response = await authAPI.login({
+            email: data.email,
+            password: data.password,
+        });
+        localStorage.setItem("token", response.token);
+        dispatch(setToken(response.token));
+        dispatch(getAuthThunk(response.token));
+    } catch (err) {
+        dispatch(setGlobalError("Wrong email or password"));
+    }
+    dispatch(setIsLoading(false));
+};
+
+export const registerThunk = (data) => async dispatch => {
+    dispatch(setIsLoading(true));
+    await authAPI.register({
+        email: data.email,
+        password: data.password,
+        name: data.fName,
+        surname: data.lName,
+        kind: data.kindOfTalent,
+    });
+    dispatch(loginThunk(data));
+};
 
 export default authReducer;

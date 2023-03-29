@@ -11,9 +11,12 @@ function Links({ talentLinks }) {
   return (
     <Box mt={2}>
       {talentLinks.map((item, index) => {
+        if (!item) {
+          return;
+        }
         return (
           <IconButton key ={index}>
-            <Link href={"https://" + item}>
+            <Link href={item} target="_blank">
               <InstagramIcon variant="contained" sx={{ fontSize: 35 }}/>
             </Link>
           </IconButton>

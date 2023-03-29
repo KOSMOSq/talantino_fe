@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Container, LinearProgress, Pagination } from "@mui/material";
+import { Container, LinearProgress, Pagination } from "@mui/material";
 import { TalentsArea } from "./components/TalentsArea/TalentsArea";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { talentsAPI } from "../../api/talentsAPI";
@@ -47,9 +47,7 @@ const Talents = () => {
 	};
 
 	if (!talents || isLoading) {
-		return <Box sx={{ width: "100%" }}>
-			<LinearProgress/>
-		</Box>
+		return <LinearProgress/>;
 	}
 
 	return (

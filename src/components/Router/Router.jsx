@@ -6,7 +6,7 @@ import { Talents } from "../TalentsPage";
 import { Layout } from "./components/Layout";
 import { CreateAccForm } from "../Forms/CreateAccForm/CreateAccForm";
 import { TalentProfile } from "../TalentProfile";
-import { Settings } from "../Settings/Settings";
+import Settings from "../Settings/Settings";
 
 function Router() {
 	return (

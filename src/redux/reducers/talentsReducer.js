@@ -15,7 +15,6 @@ const initialState = {
     talentsView: "grid",
     isNextTalent: true
 };
-    
 
 const talentsReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -62,9 +61,9 @@ const talentsReducer = (state = initialState, action) => {
 export const setCurrentPage = page => ({ type: SET_CURRENT_PAGE, page });
 export const setTotalPages = amount => ({ type: SET_TOTAL_PAGES, amount });
 export const setTalents = talents => ({ type: SET_TALENTS, talents });
-export const setClikedId= clickedId => ({ type: SET_CLICKED_ID, clickedId });
+export const setClikedId = clickedId => ({ type: SET_CLICKED_ID, clickedId });
 export const setTotalTalents = totalTalents => ({ type: SET_TOTAL_TALENTS, totalTalents });
-export const setTalentsView= talentsView => ({type: SET_TALENTS_VIEW, talentsView});
+export const setTalentsView = talentsView => ({ type: SET_TALENTS_VIEW, talentsView });
 export const setIsNextTalent = bool => ({ type: SET_IS_NEXT_TALENT, bool });
 
 export default talentsReducer;
