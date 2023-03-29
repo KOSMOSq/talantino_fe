@@ -1,10 +1,10 @@
 import Button from "@mui/material/Button";
 import { NavLink } from "react-router-dom";
-
-import { pages } from "../../../common/common";
 import logo from "../../../assets/logo/talantinoLogo.png";
 
 function AppBarItems() {
+	const pages = ["talents", "proofs"];
+
 	return (
 		<>
 			<img src={logo} alt="logo" width={160} />

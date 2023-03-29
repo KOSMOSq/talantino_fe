@@ -1,13 +1,17 @@
 import { useForm } from "react-hook-form";
-import { TextField, Button, Typography, Container, LinearProgress } from "@mui/material";
+import { TextField, Button, Typography, Container, LinearProgress, InputAdornment, IconButton } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { authAPI } from "../../../api/authAPI";
 import { mailValidation } from "../validation";
 import { useEffect, useState } from "react";
-import { setTalentData, setToken } from "../../../redux/reducers/authReducer";
+import { registerThunk } from "../../../redux/reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 function CreateAccForm() {
+	const [showPassword, setShowPassword] = useState(false); 
+	const [showPasswordCheck, setShowPasswordCheck] = useState(false); 
+
 	const {
 		register,
 		getValues,
@@ -20,7 +24,7 @@ function CreateAccForm() {
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const [isLoading, setIsLoading] = useState(false);
+	const isLoading = useSelector(store => store.auth.isLoading);
 	const isAuth = useSelector(store => store.auth.isAuth);
 
 	useEffect(() => {
@@ -29,26 +33,8 @@ function CreateAccForm() {
 		}
 	}, [isAuth]);
 
-	const onSubmit = async (data) => {
-		setIsLoading(true);
-		await authAPI.register({
-			email: data.email,
-			password: data.password,
-			name: data.fName,
-			surname: data.lName,
-			kind: data.kindOfTalent,
-		});
-		//code repetition needs to be replaced with thunc
-		const response = await authAPI.login({
-			email: data.email,
-			password: data.password,
-		});
-		localStorage.setItem("token", response.token);
-		dispatch(setToken(response.token));
-		const responseAuth = await authAPI.auth(response.token);
-		dispatch(setTalentData(responseAuth));
-		//code repetition needs to be replaced with thunc
-		setIsLoading(false);
+	const onSubmit = (data) => {
+		dispatch(registerThunk(data));
 		reset();
 	};
 
@@ -71,6 +57,14 @@ function CreateAccForm() {
 						type="text"
 						{...register("fName", {
 							required: "First name is required",
+							maxLength: {
+								value: 24,
+								message: "Your name is too long"
+							},
+							minLength: {
+								value: 2,
+								message: "Your name is too short"
+							},
 							pattern: {
 								value: /^[a-zA-Z]+$/,
 								message: "First name can only contain letters",
@@ -86,6 +80,14 @@ function CreateAccForm() {
 						type="text"
 						{...register("lName", {
 							required: "Last name is required",
+							maxLength: {
+								value: 24,
+								message: "Your surname is too long"
+							},
+							minLength: {
+								value: 2,
+								message: "Your surname is too short"
+							},
 							pattern: {
 								value: /^[a-zA-Z]+$/,
 								message: "Last name can only contain letters",
@@ -103,13 +105,16 @@ function CreateAccForm() {
 						helperText={errors.email ? errors.email.message : " "}
 						sx={{ marginTop: 2, width: 616 }}
 					/>
-
 					<TextField
 						id="password"
 						label="Password"
-						type="password"
+						type={showPassword ? 'text' : 'password'}
 						{...register("password", {
 							required: "Password is required",
+							maxLength: {
+								value: 64,
+								message: "Your password is to long"
+							},
 							pattern: {
 								value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\-_@$!%*#?&]{8,}$/,
 								message: "Your pass doesn't meet requirments",
@@ -135,13 +140,28 @@ function CreateAccForm() {
 								: "Use 8 or more characters with letters, numbers"
 						}
 						sx={{ marginTop: 2, width: 300, marginRight: 2 }}
+						InputProps={{
+							endAdornment: (<InputAdornment position="end">
+								<IconButton
+									aria-label="toggle password visibility"
+									onClick={() => setShowPassword((show) => !show)}
+									edge="end"
+								>
+									{showPassword ? <VisibilityOff /> : <Visibility />}
+								</IconButton>
+							</InputAdornment>)
+						}}
 					/>
 					<TextField
 						id="cpassword"
 						label="Confirm password"
-						type="password"
+						type={showPasswordCheck ? 'text' : 'password'}
 						{...register("cpassword", {
 							required: "Confirm password is required",
+							maxLength: {
+								value: 64,
+								message: "Your password is to long"
+							},
 							pattern: {
 								value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\-_@$!%*#?&]{8,}$/,
 								message: "Your pass doesn't meet requirments",
@@ -163,6 +183,17 @@ function CreateAccForm() {
 						error={Boolean(errors.cpassword)}
 						helperText={errors.cpassword ? errors.cpassword.message : " "}
 						sx={{ marginTop: 2, width: 300 }}
+						InputProps={{
+							endAdornment: (<InputAdornment position="end">
+								<IconButton
+									aria-label="toggle password visibility"
+									onClick={() => setShowPasswordCheck((show) => !show)}
+									edge="end"
+								>
+									{showPasswordCheck ? <VisibilityOff /> : <Visibility />}
+								</IconButton>
+							</InputAdornment>)
+						}}
 					/>
 
 					<TextField
@@ -171,8 +202,16 @@ function CreateAccForm() {
 						type="text"
 						{...register("kindOfTalent", {
 							required: "Kind of talent is required",
+							maxLength: {
+								value: 18,
+								message: "Your talent is to BIG"
+							},
+							minLength: {
+								value: 2,
+								message: "Your talent is to short"
+							},
 							pattern: {
-								value: /[a-zA-Z ]$/,
+								value: /^[a-zA-Z ]+$/,
 								message: "Kind of talent can only contain letters",
 							},
 						})}

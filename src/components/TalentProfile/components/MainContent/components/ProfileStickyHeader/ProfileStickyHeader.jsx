@@ -1,12 +1,14 @@
 import { AppBar, Toolbar, Button, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from '@mui/icons-material/Close';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setGlobalError } from "../../../../../../redux/reducers/appReducer";
 
-function ProfileStickyHeader() {
+function ProfileStickyHeader({ nextId, prevId }) {
 
 	const profileSubPages = ["Overview", "Proofs"];
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const handleClick = (e) => {
 		//for future implementation of pages
@@ -15,8 +17,23 @@ function ProfileStickyHeader() {
 	const currentPage = useSelector(store => store.talents.currentPage);
 	const handleClose = () => {
 		navigate(`/talents/?page=${currentPage}`);
-	}
+	};
 
+	const handleNextTalent = () => {
+		if (nextId) {
+			navigate(`/talent/${nextId}`);
+		} else {
+			dispatch(setGlobalError("No more talents"));
+		}
+	};
+
+	const handlePrevTalent = () => {
+		if (prevId) {
+			navigate(`/talent/${prevId}`);
+		} else {
+			dispatch(setGlobalError("No more previous talents"));
+		}
+	};
 
 	return (
 		<AppBar position="sticky" color="inherit" sx={{ boxShadow: "0 1px 0 0 #888888", height: "7vh", marginTop: "1vh" }}>
@@ -31,7 +48,9 @@ function ProfileStickyHeader() {
 							{item}
 						</Button>)
 				})}
-				<IconButton onClick={handleClose} sx={{ marginLeft: "auto" }}>
+				<Button sx={{ marginLeft: "auto" }} onClick={handlePrevTalent}>PREV TALENT</Button>
+				<Button onClick={handleNextTalent}>NEXT TALENT</Button>
+				<IconButton onClick={handleClose}>
 					<CloseIcon />
 				</IconButton>
 			</Toolbar>

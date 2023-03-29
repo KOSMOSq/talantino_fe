@@ -1,1 +1,2 @@
-export { TalentProfile } from "./TalentProfile";
+import TalentProfile from "./TalentProfile";
+export { TalentProfile };

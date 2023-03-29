@@ -1,10 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import { ProfileStickyHeader } from "./components/ProfileStickyHeader";
 
-function MainContent({ talentDescription, talentId, id }) {
+function MainContent({ talentDescription, talentId, id, prevId, nextId }) {
     return (
         <Box width={"70%"} sx={{ display: "flex", flexDirection: "column" }}>
-            <ProfileStickyHeader talentId={talentId} id={id}/>
+            <ProfileStickyHeader talentId={talentId} id={id} nextId={nextId} prevId={prevId}/>
             <Box>
                 <Typography variant="h5" component="h5" mt={2} sx={{ fontWeight: 'bold' }}>
                     About

@@ -6,6 +6,7 @@ import { talentsAPI } from "../../api/talentsAPI";
 import { setTalentData } from "../../redux/reducers/authReducer";
 import { DeleteTalent } from "../../components/TalentsPage/components/DeleteTalent/DeleteTalent"
 import { useNavigate } from "react-router-dom";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 
 
 const Settings = () => {
@@ -45,6 +46,7 @@ const Settings = () => {
     });
 
     const onSubmit = async (data) => {
+        data.links = data.links.split(",");
         const response = await talentsAPI.changeData(id, token, data);
         const responseAuth = await authAPI.auth(token);
         dispatch(setTalentData(responseAuth));
@@ -89,4 +91,4 @@ const Settings = () => {
     );
 };
 
-export { Settings };
+export default withAuthRedirect(Settings);
