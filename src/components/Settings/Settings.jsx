@@ -33,8 +33,7 @@ const Settings = () => {
     const {
         register,
         handleSubmit,
-        reset,
-        errors
+        formState: { errors }
     } = useForm({
         mode: "onChange",
         defaultValues: {
@@ -57,7 +56,7 @@ const Settings = () => {
     });
 
     const onSubmit = async (data) => {
-        console.log(data.links = [data.links.zero, data.links.one, data.links.two, data.links.three]);
+        data.links = [data.links.zero, data.links.one, data.links.two, data.links.three];
         const response = await talentsAPI.changeData(id, token, data);
         const responseAuth = await authAPI.auth(token);
         dispatch(setTalentData(responseAuth));
@@ -102,7 +101,14 @@ const Settings = () => {
                                     value: /^[a-zA-Z]+$/,
                                     message: "First name can only contain letters",
                                 },
-                            })} />
+                            })}
+                                error={Boolean(errors.name)}
+                                helperText={
+                                    errors.name
+                                        ? errors.name.message
+                                        : " "
+                                }
+                            />
                             <TextField label="Surname" sx={{ marginLeft: 2 }} {...register("surname", {
                                 required: "Last name is required",
                                 maxLength: {
@@ -117,7 +123,14 @@ const Settings = () => {
                                     value: /^[a-zA-Z]+$/,
                                     message: "Last name can only contain letters",
                                 },
-                            })} />
+                            })}
+                                error={Boolean(errors.surname)}
+                                helperText={
+                                    errors.surname
+                                        ? errors.surname.message
+                                        : " "
+                                }
+                            />
                             <TextField label="Location" sx={{ marginLeft: 2 }} {...register("location", {
                                 maxLength: {
                                     value: 100,
@@ -131,7 +144,14 @@ const Settings = () => {
                                     value: /^[a-zA-Z]+$/,
                                     message: "Location can only contain letters",
                                 }
-                            })} />
+                            })}
+                                error={Boolean(errors.location)}
+                                helperText={
+                                    errors.location
+                                        ? errors.location.message
+                                        : " "
+                                }
+                            />
                             <TextField
                                 label="Description"
                                 multiline
@@ -147,7 +167,14 @@ const Settings = () => {
                                         value: 2,
                                         message: "Your description is to short"
                                     },
-                                })} />
+                                })}
+                                error={Boolean(errors.description)}
+                                helperText={
+                                    errors.description
+                                        ? errors.description.message
+                                        : " "
+                                }
+                            />
                             <Box mt={2}>
                                 <TextField label="Kind of talent" {...register("kind", {
                                     required: "Kind of talent is required",
@@ -163,14 +190,28 @@ const Settings = () => {
                                         value: /^[a-zA-Z ]+$/,
                                         message: "Kind of talent can only contain letters",
                                     },
-                                })} />
+                                })}
+                                    error={Boolean(errors.kind)}
+                                    helperText={
+                                        errors.kind
+                                            ? errors.kind.message
+                                            : " "
+                                    }
+                                />
                                 <TextField label="Experience" sx={{ marginLeft: 2 }} {...register("experience", {
-                                    validate: value => (Number(value) < 60 && Number(value) > 1) || "You have too much experience XD",
+                                    validate: value => (Number(value) <= 60 && Number(value) >= 0) || "You have too much experience XD",
                                     pattern: {
                                         value: /^[0-9]+$/,
                                         message: "Experience can only contain letters",
                                     },
-                                })} />
+                                })}
+                                    error={Boolean(errors.experience)}
+                                    helperText={
+                                        errors.experience
+                                            ? errors.experience.message
+                                            : " "
+                                    }
+                                />
                             </Box>
 
                             <Box display={"flex"} flexDirection={"row"} mt={10}>
@@ -179,25 +220,53 @@ const Settings = () => {
                                         value: 100,
                                         message: "Too long link"
                                     }
-                                })} />
+                                })}
+                                    error={Boolean(errors.links?.zero)}
+                                    helperText={
+                                        errors.links?.zero
+                                            ? errors.links?.zero.message
+                                            : " "
+                                    }
+                                />
                                 <TextField label="Social link" sx={{ marginLeft: 2 }} {...register("links.one", {
                                     maxLength: {
                                         value: 100,
                                         message: "Too long link"
                                     }
-                                })} />
+                                })}
+                                    error={Boolean(errors.links?.one)}
+                                    helperText={
+                                        errors.links?.one
+                                            ? errors.links?.one.message
+                                            : " "
+                                    }
+                                />
                                 <TextField label="Social link" sx={{ marginLeft: 2 }} {...register("links.two", {
                                     maxLength: {
                                         value: 100,
                                         message: "Too long link"
                                     }
-                                })} />
+                                })}
+                                    error={Boolean(errors.links?.two)}
+                                    helperText={
+                                        errors.links?.two
+                                            ? errors.links?.two.message
+                                            : " "
+                                    }
+                                />
                                 <TextField label="Social link" sx={{ marginLeft: 2 }} {...register("links.three", {
                                     maxLength: {
                                         value: 100,
                                         message: "Too long link"
                                     }
-                                })} />
+                                })}
+                                    error={Boolean(errors.links?.three)}
+                                    helperText={
+                                        errors.links?.three
+                                            ? errors.links?.three.message
+                                            : " "
+                                    }
+                                />
                             </Box>
 
                         </Box>
