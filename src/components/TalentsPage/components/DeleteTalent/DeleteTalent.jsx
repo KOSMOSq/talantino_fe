@@ -38,7 +38,7 @@ function DeleteTalent() {
 				onClick={handleClickOpen}
 				sx={{ color: "red", borderColor: "red" }}
 			>
-				Delete
+				Delete account
 			</Button>
 			<Dialog
 				open={open}
