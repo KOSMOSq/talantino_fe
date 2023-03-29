@@ -141,7 +141,7 @@ const Settings = () => {
                                     message: "Your location is to short"
                                 },
                                 pattern: {
-                                    value: /^[a-zA-Z]+$/,
+                                    value: /^[a-zA-Z \,]+$/,
                                     message: "Location can only contain letters",
                                 }
                             })}
