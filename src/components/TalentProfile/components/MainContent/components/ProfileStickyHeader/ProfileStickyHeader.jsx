@@ -6,7 +6,7 @@ import { setGlobalError } from "../../../../../../redux/reducers/appReducer";
 
 function ProfileStickyHeader({ nextId, prevId }) {
 
-	const profileSubPages = ["Overview", "Proofs"];
+	const profileSubPages = ["Overview"];
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
