@@ -22,7 +22,7 @@ const Talents = () => {
 			setIsLoading(true);
 		}
 
-		const urlPage = Number(searchParams.get("page")) || page;
+		const urlPage = Number(searchParams.get("page")) || 1;
 		dispatch(setCurrentPage(urlPage));
 
 		const getTalents = async (amount = 9, page) => {
