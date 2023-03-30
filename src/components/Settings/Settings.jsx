@@ -135,7 +135,7 @@ const Settings = () => {
 									},
 									pattern: {
 										value: /^[a-zA-Z]+$/,
-										message: "Last name can only contains letters",
+										message: "Last name can only contain letters",
 									},
 								})}
 								error={Boolean(errors.surname)}
@@ -197,7 +197,7 @@ const Settings = () => {
 										},
 										pattern: {
 											value: /^[a-zA-Z ]+$/,
-											message: "Kind of talent can only contains letters",
+											message: "Kind of talent can only contain letters",
 										},
 									})}
 									error={Boolean(errors.kind)}
