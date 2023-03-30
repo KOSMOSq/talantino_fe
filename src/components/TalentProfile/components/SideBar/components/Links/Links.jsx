@@ -1,4 +1,4 @@
-import InstagramIcon from '@mui/icons-material/Instagram';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Box, IconButton, Link } from "@mui/material";
 
 function Links({ talentLinks }) {
@@ -17,7 +17,7 @@ function Links({ talentLinks }) {
         return (
           <IconButton key ={index}>
             <Link href={item} target="_blank">
-              <InstagramIcon variant="contained" sx={{ fontSize: 35 }}/>
+              <OpenInNewIcon variant="contained" sx={{ fontSize: 35 }}/>
             </Link>
           </IconButton>
         )
