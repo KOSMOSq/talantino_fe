@@ -114,7 +114,7 @@ const Settings = () => {
 									},
 									pattern: {
 										value: /^[a-zA-Z]+$/,
-										message: "First name can only contains letters",
+										message: "First name can only contain letters",
 									},
 								})}
 								error={Boolean(errors.name)}
