@@ -147,11 +147,11 @@ const Settings = () => {
 								{...register("location", {
 									maxLength: {
 										value: 100,
-										message: "Your location is to long",
+										message: "Your location is too long",
 									},
 									minLength: {
 										value: 2,
-										message: "Your location is to short",
+										message: "Your location is too short",
 									},
 									pattern: {
 										value: /^[a-zA-Z \,]+$/,
@@ -170,11 +170,11 @@ const Settings = () => {
 								{...register("description", {
 									maxLength: {
 										value: 3000,
-										message: "Your description is to long",
+										message: "Your description is too long",
 									},
 									minLength: {
 										value: 2,
-										message: "Your description is to short",
+										message: "Your description is too short",
 									},
 								})}
 								error={Boolean(errors.description)}
@@ -189,11 +189,11 @@ const Settings = () => {
 										required: "Kind of talent is required",
 										maxLength: {
 											value: 18,
-											message: "Your talent is to BIG",
+											message: "Your talent is too BIG",
 										},
 										minLength: {
 											value: 2,
-											message: "Your talent is to short",
+											message: "Your talent is too short",
 										},
 										pattern: {
 											value: /^[a-zA-Z ]+$/,
@@ -304,7 +304,14 @@ const Settings = () => {
 
 								<TextField
 									label="Avatar URL"
-									{...register("avatar", {})}
+									{...register("avatar", {
+										maxLength: {
+											value: 1000,
+											message: "Too long link",
+										},
+									})}
+									error={Boolean(errors.avatar)}
+									helperText={errors.avatar ? errors.avatar.message : " "}
 									onChange={handleChangeAvatar}
 								/>
 							</Box>

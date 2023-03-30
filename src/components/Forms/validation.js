@@ -2,7 +2,7 @@ export const mailValidation = {
 	required: "Email is required",
 	maxLength: {
 		value: 100,
-		message: "Your email is to long"
+		message: "Your email is too long"
 	},
 	pattern: {
 		value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,

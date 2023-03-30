@@ -73,7 +73,7 @@ function LoginForm() {
 							},
 							pattern: {
 								value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\-_@$!%*#?&]{8,}$/,
-								message: "Your pass doesn't meet requirments",
+								message: "Your password doesn't meet requirements",
 							},
 						})}
 						error={Boolean(errors.password)}
