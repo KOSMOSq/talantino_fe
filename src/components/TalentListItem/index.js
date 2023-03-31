@@ -1,0 +1,1 @@
+export {TalentListItem} from "./TalentListItem";
