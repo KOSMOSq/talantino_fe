@@ -1,8 +1,15 @@
-import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useParams } from "react-router-dom";
+import { setClikedId } from "../redux/reducers/talentsReducer";
 
 const withAuthRedirect = Component => props => {
     const isAuth = useSelector(store => store.auth.isAuth);
+    const { talentId } = useParams();
+    const dispatch = useDispatch();
+
+    if (talentId) {
+        dispatch(setClikedId(talentId));
+    }
 
     if (isAuth) {
         return <Component {...props} />
