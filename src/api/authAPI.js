@@ -29,7 +29,7 @@ const authAPI = {
 		).data;
 	},
 	async auth(token) {
-		return (await axiosInstance.get("/api/auth", {
+		return (await axiosInstance.get("/auth/me", {
 			headers: {
 				Authorization: `Bearer ${token}`
 			}
