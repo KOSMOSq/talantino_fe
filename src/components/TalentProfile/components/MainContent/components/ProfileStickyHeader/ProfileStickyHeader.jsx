@@ -21,7 +21,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
 
 	const handleNextTalent = () => {
 		if (nextId) {
-			navigate(`/talent/${nextId}/overview`);
+			navigate(`/talent/${nextId}`);
 		} else {
 			dispatch(setGlobalError("No more talents"));
 		}
@@ -29,7 +29,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
 
 	const handlePrevTalent = () => {
 		if (prevId) {
-			navigate(`/talent/${prevId}/overview`);
+			navigate(`/talent/${prevId}`);
 		} else {
 			dispatch(setGlobalError("No more previous talents"));
 		}
@@ -45,7 +45,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
 							key={itemLowerCase}
 							onClick={handleClick}
 							component={NavLink}
-							to={`${itemLowerCase}`}
+							to={`${itemLowerCase === "overview" ? "" : itemLowerCase}`}
 							sx={{ padding: "10px", fontSize: 14 }}>
 							{item}
 						</Button>)

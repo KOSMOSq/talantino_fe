@@ -8,9 +8,9 @@ function MainContent({ talentDescription, talentId, id, prevId, nextId }) {
         <Box width={"70%"} sx={{ display: "flex", flexDirection: "column" }}>
             <ProfileStickyHeader talentId={talentId} id={id} nextId={nextId} prevId={prevId} />
             <Routes>
-                <Route index element={<Navigate to="overview" />} />
                 <Route path="proofs" element={<h1>proofs</h1>} />
-                <Route path="overview" element={<Overview talentDescription={talentDescription} />} />
+                <Route path="/" element={<Overview talentDescription={talentDescription} />} />
+                <Route path="*" element={<Navigate to="/404" />} />
             </Routes>
         </Box>
     )

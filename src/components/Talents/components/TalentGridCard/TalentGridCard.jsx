@@ -15,7 +15,7 @@ const TalentGridCard = ({ name, surname, profilePicture, kindOfTalent, id }) => 
         if(!isAuth){
             dispatch(setClikedId(id));
         }
-        navigate(`/talent/${id}/overview`);
+        navigate(`/talent/${id}`);
     }
 
     const cardWidthBreakpoints = {
