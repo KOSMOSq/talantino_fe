@@ -2,11 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import { Box, CardActionArea, CardContent, CardMedia, Chip, Typography } from "@mui/material";
-import noPictureFallback from "../../assets/pictures/noPictureFallback.svg";
+import noPictureFallback from "../../../../assets/pictures/noPictureFallback.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { setClikedId } from "../../redux/reducers/talentsReducer";
+import { setClikedId } from "../../../../redux/reducers/talentsReducer";
 
-const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id }) => {
+const TalentGridCard = ({ name, surname, profilePicture, kindOfTalent, id }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isAuth = useSelector(store => store.auth.isAuth);
@@ -104,4 +104,4 @@ const TalentCard = ({ name, surname, profilePicture, kindOfTalent, id }) => {
     );
 };
 
-export { TalentCard };
+export { TalentGridCard };

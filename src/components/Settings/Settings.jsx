@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authAPI } from "../../api/authAPI";
 import { talentsAPI } from "../../api/talentsAPI";
 import { setTalentData } from "../../redux/reducers/authReducer";
-import { DeleteTalent } from "../../components/TalentsPage/components/DeleteTalent/DeleteTalent";
+import { DeleteTalent } from "./components/DeleteTalent/DeleteTalent";
 import { useNavigate } from "react-router-dom";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { useState } from "react";
@@ -69,7 +69,7 @@ const Settings = () => {
 			data.links.two,
 			data.links.three,
 		];
-		const response = await talentsAPI.changeData(id, token, data);
+		await talentsAPI.changeData(id, token, data);
 		const responseAuth = await authAPI.auth(token);
 		dispatch(setTalentData(responseAuth));
 		navigate(`/talent/${id}`);
@@ -154,7 +154,7 @@ const Settings = () => {
 										message: "Your location is too short",
 									},
 									pattern: {
-										value: /^[a-zA-Z \,]+$/,
+										value: /^[a-zA-Z ,]+$/,
 										message: "Location can only contain letters",
 									},
 								})}

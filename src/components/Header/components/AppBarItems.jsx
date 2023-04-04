@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/logo/talantinoLogo.svg";
 
 function AppBarItems() {
-	const pages = ["talents"];
+	const pages = ["Talents", "Proofs"];
 
 	return (
 		<>

@@ -6,7 +6,7 @@ import { setGlobalError } from "../../../../../../redux/reducers/appReducer";
 
 function ProfileStickyHeader({ nextId, prevId }) {
 
-	const profileSubPages = ["Overview"];
+	const profileSubPages = ["Overview", "Proofs"];
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
@@ -48,8 +48,8 @@ function ProfileStickyHeader({ nextId, prevId }) {
 							{item}
 						</Button>)
 				})}
-				<Button sx={{ marginLeft: "auto" }} onClick={handlePrevTalent}>PREV TALENT</Button>
-				<Button onClick={handleNextTalent}>NEXT TALENT</Button>
+				<Button sx={{ marginLeft: "auto" }} onClick={handlePrevTalent} disabled={!prevId}>PREV TALENT</Button>
+				<Button onClick={handleNextTalent} disabled={!nextId}>NEXT TALENT</Button>
 				<IconButton onClick={handleClose}>
 					<CloseIcon />
 				</IconButton>

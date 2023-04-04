@@ -2,7 +2,8 @@ import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTalentsView } from '../../redux/reducers/talentsReducer';
+import { setTalentsView } from '../../../../redux/reducers/talentsReducer';
+
 
 function ChangeViewButton() {
 	const talentsView = useSelector(store => store.talents.talentsView);
