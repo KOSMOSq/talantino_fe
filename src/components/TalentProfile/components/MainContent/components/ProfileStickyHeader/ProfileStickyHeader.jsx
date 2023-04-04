@@ -1,5 +1,5 @@
 import { AppBar, Toolbar, Button, IconButton } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from "react-redux";
 import { setGlobalError } from "../../../../../../redux/reducers/appReducer";
@@ -21,7 +21,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
 
 	const handleNextTalent = () => {
 		if (nextId) {
-			navigate(`/talent/${nextId}`);
+			navigate(`/talent/${nextId}/overview`);
 		} else {
 			dispatch(setGlobalError("No more talents"));
 		}
@@ -29,7 +29,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
 
 	const handlePrevTalent = () => {
 		if (prevId) {
-			navigate(`/talent/${prevId}`);
+			navigate(`/talent/${prevId}/overview`);
 		} else {
 			dispatch(setGlobalError("No more previous talents"));
 		}
@@ -39,11 +39,13 @@ function ProfileStickyHeader({ nextId, prevId }) {
 		<AppBar position="sticky" color="inherit" sx={{ boxShadow: "0 1px 0 0 #888888", height: "7vh", marginTop: "1vh" }}>
 			<Toolbar variant="dense" sx={{ display: "flex" }}>
 				{profileSubPages.map((item) => {
-					let itemLowerCase = item.toLocaleLowerCase();
+					const itemLowerCase = item.toLocaleLowerCase();
 					return (
 						<Button
 							key={itemLowerCase}
 							onClick={handleClick}
+							component={NavLink}
+							to={`${itemLowerCase}`}
 							sx={{ padding: "10px", fontSize: 14 }}>
 							{item}
 						</Button>)

@@ -12,7 +12,6 @@ function TalentProfile() {
     const [talentInfo, setTalentInfo] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const { talentId } = useParams();
-    const location = useLocation();
 
     const token = useSelector(store => store.auth.token);
 
@@ -26,7 +25,7 @@ function TalentProfile() {
 
         getTalent()
             .catch(error => console.log(error));
-    }, [location]);
+    }, [talentId]);
 
     if (isLoading || !talentInfo) {
         return <LinearProgress />;
@@ -35,7 +34,7 @@ function TalentProfile() {
     return (
         <Container sx={{ display: "flex", flexDirection: "row", paddingLeft: "24px", paddingRight: "24px" }}>
             <SideBar talentInfo={talentInfo} />
-            <MainContent talentDescription={talentInfo.description} nextId={talentInfo.nextId} prevId={talentInfo.prevId}/>
+            <MainContent talentDescription={talentInfo.description} nextId={talentInfo.nextId} prevId={talentInfo.prevId} />
         </Container>
     )
 }

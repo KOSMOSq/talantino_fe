@@ -7,6 +7,7 @@ import { CreateAccForm } from "../Forms/CreateAccForm/CreateAccForm";
 import Settings from "../Settings/Settings";
 import TalentProfile from "../TalentProfile/TalentProfile";
 import Proofs from "../Proofs/Proofs";
+import { Overview } from "../TalentProfile/components/MainContent/components/Overview/Overview";
 
 function Router() {
 	return (
@@ -18,7 +19,8 @@ function Router() {
 					<Route path="talents" element={<Talents />} />
 					<Route path="login" element={<LoginForm />} />
 					<Route path="create-acc" element={<CreateAccForm />} />
-					<Route path="talent/:talentId" element={<TalentProfile />} />
+					<Route path="talent/:talentId/*" element={<TalentProfile />} >
+					</Route>
 					<Route path="settings" element={<Settings />} />
 					<Route
 						path="*"
