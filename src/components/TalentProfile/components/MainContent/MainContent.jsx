@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { ProfileStickyHeader } from "./components/ProfileStickyHeader";
+import { ProfileStickyHeader } from "./components/ProfileStickyHeader/ProfileStickyHeader";
 
 function MainContent({ talentDescription, talentId, id, prevId, nextId }) {
     return (

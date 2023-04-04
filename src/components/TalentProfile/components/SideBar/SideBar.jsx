@@ -1,5 +1,5 @@
 import { Box, Avatar, Typography, Chip } from "@mui/material";
-import { Links } from "./components/Links";
+import { Links } from "./components/Links/Links";
 
 function SideBar({ talentInfo }) {
 

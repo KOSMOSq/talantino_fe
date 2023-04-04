@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { talentsAPI } from "../../api/talentsAPI";
 import { useLocation } from "react-router-dom";
-import { SideBar } from "./components/SideBar";
-import { MainContent } from "./components/MainContent";
+import { SideBar } from "./components/SideBar/SideBar";
+import { MainContent } from "./components/MainContent/MainContent";
 import { useSelector } from "react-redux";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 

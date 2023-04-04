@@ -1,10 +1,10 @@
 import { Avatar, Chip, Divider, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import noPictureFallback from "../../assets/pictures/noPictureFallback.svg";
-import { setClikedId } from "../../redux/reducers/talentsReducer";
+import noPictureFallback from "../../../../assets/pictures/noPictureFallback.svg";
+import { setClikedId } from "../../../../redux/reducers/talentsReducer";
 
-function TalentListItem({ name, surname, profilePicture, kindOfTalent, id }){
+function TalentListCard({ name, surname, profilePicture, kindOfTalent, id }){
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isAuth = useSelector(store => store.auth.isAuth);
@@ -57,4 +57,4 @@ function TalentListItem({ name, surname, profilePicture, kindOfTalent, id }){
     )
 }
 
-export {TalentListItem};
+export { TalentListCard };

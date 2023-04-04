@@ -1,8 +1,8 @@
 import { Box, Grid, List } from "@mui/material";
-import { TalentCard } from "../../../TalentCard";
-import { ChangeViewButton } from "../../../ChangeViewButton";
+import { ChangeViewButton } from "../ChangeViewButton/ChangeViewButton";
 import { useSelector } from "react-redux";
-import { TalentListItem } from "../../../TalentListItem";
+import { TalentListCard } from "../TalentListCard/TalentListCard";
+import { TalentGridCard } from "../TalentGridCard/TalentGridCard";
 
 const TalentsArea = () => {
     const talents = useSelector(store => store.talents.talents);
@@ -27,7 +27,7 @@ const TalentsArea = () => {
                         {talents.map(element => {
                             return (
                                 <Grid item key={element.id}>
-                                    <TalentCard {...element} />
+                                    <TalentGridCard {...element} />
                                 </Grid>
                             );
                         })}
@@ -38,7 +38,7 @@ const TalentsArea = () => {
                     {talents.map(element => {
                         return (
                             <Grid item key={element.id}>
-                                <TalentListItem {...element} />
+                                <TalentListCard {...element} />
                             </Grid>
                         );
                     })}

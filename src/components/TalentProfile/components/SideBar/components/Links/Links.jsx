@@ -12,7 +12,7 @@ function Links({ talentLinks }) {
     <Box mt={2}>
       {talentLinks.map((item, index) => {
         if (!item) {
-          return;
+          return null;
         }
         return (
           <IconButton key ={index}>

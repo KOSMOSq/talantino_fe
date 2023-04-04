@@ -1,12 +1,12 @@
 import { Routes, Route, Link, Navigate } from "react-router-dom";
 import { LoginForm } from "../Forms/LoginForm/LoginForm";
 
-import { Proofs } from "../TestComp/Proofs";
-import { Talents } from "../TalentsPage";
+import { Talents } from "../Talents/Talents";
 import { Layout } from "./components/Layout";
 import { CreateAccForm } from "../Forms/CreateAccForm/CreateAccForm";
-import { TalentProfile } from "../TalentProfile";
 import Settings from "../Settings/Settings";
+import TalentProfile from "../TalentProfile/TalentProfile";
+import Proofs from "../Proofs/Proofs";
 
 function Router() {
 	return (
