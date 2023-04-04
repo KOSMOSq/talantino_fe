@@ -13,7 +13,7 @@ function TalentListCard({ name, surname, profilePicture, kindOfTalent, id }){
         if(!isAuth){
             dispatch(setClikedId(id));
         }
-        navigate(`/talent/${id}`);
+        navigate(`/talent/${id}/overview`);
     }
 
     return (
