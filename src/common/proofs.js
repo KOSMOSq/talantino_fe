@@ -12,7 +12,7 @@ const proofs = [
 	},
 	{
 		id: 2,
-		date: Date.parse("04.01.2023"),
+		date: Date.parse("03.04.2023"),
 		title: "Proof 2",
 		description: "text for proof 2",
 		author: 5,
