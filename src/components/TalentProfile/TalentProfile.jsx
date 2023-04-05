@@ -9,34 +9,44 @@ import { useSelector } from "react-redux";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 
 function TalentProfile() {
-    const [talentInfo, setTalentInfo] = useState();
-    const [isLoading, setIsLoading] = useState(false);
-    const { talentId } = useParams();
+	const [talentInfo, setTalentInfo] = useState();
+	const [isLoading, setIsLoading] = useState(false);
+	const { talentId } = useParams();
 
-    const token = useSelector(store => store.auth.token);
+	const token = useSelector((store) => store.auth.token);
 
-    useEffect(() => {
-        const getTalent = async () => {
-            setIsLoading(true);
-            const response = await talentsAPI.getTalent(talentId, token);
-            setTalentInfo(response);
-            setIsLoading(false);
-        }
+	useEffect(() => {
+		const getTalent = async () => {
+			setIsLoading(true);
+			const response = await talentsAPI.getTalent(talentId, token);
+			setTalentInfo(response);
+			setIsLoading(false);
+		};
 
-        getTalent()
-            .catch(error => console.log(error));
-    }, [talentId]);
+		getTalent().catch((error) => console.log(error));
+	}, [talentId]);
 
-    if (isLoading || !talentInfo) {
-        return <LinearProgress />;
-    }
+	if (isLoading || !talentInfo) {
+		return <LinearProgress />;
+	}
 
-    return (
-        <Container sx={{ display: "flex", flexDirection: "row", paddingLeft: "24px", paddingRight: "24px" }}>
-            <SideBar talentInfo={talentInfo} />
-            <MainContent talentDescription={talentInfo.description} nextId={talentInfo.nextId} prevId={talentInfo.prevId} />
-        </Container>
-    )
+	return (
+		<Container
+			sx={{
+				display: "flex",
+				flexDirection: "row",
+				paddingLeft: "24px",
+				paddingRight: "24px",
+			}}
+		>
+			<SideBar talentInfo={talentInfo} />
+			<MainContent
+				talentDescription={talentInfo.description}
+				nextId={talentInfo.nextId}
+				prevId={talentInfo.prevId}
+			/>
+		</Container>
+	);
 }
 
 export default withAuthRedirect(TalentProfile);
