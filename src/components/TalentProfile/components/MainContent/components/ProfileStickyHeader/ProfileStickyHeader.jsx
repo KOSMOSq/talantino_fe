@@ -46,7 +46,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
 							onClick={handleClick}
 							component={NavLink}
 							to={`${itemLowerCase === "overview" ? "" : itemLowerCase}`}
-							sx={{ padding: "10px", fontSize: 14 }}>
+						>
 							{item}
 						</Button>)
 				})}

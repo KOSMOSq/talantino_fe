@@ -11,8 +11,9 @@ const TalentGridCard = ({ name, surname, profilePicture, kindOfTalent, id }) => 
     const dispatch = useDispatch();
     const isAuth = useSelector(store => store.auth.isAuth);
 
-    const handleClick = () => {
-        if(!isAuth){
+    const handleClick = (e) => {
+        e.preventDefault();
+        if (!isAuth) {
             dispatch(setClikedId(id));
         }
         navigate(`/talent/${id}`);
@@ -48,12 +49,16 @@ const TalentGridCard = ({ name, surname, profilePicture, kindOfTalent, id }) => 
 
     return (
         <>
-            <Card sx={{
-                width: cardWidthBreakpoints,
-                height: cardHeightBreakpoints, //same as cardMedia
-                borderRadius: "12px"
-            }} title={isAuth ? `${name} ${surname}` : "You need to log in to see talent profiles"}>
+            <Card
+                sx={{
+                    width: cardWidthBreakpoints,
+                    height: cardHeightBreakpoints, //same as cardMedia
+                    borderRadius: "12px",
+                }}
+                title={isAuth ? `${name} ${surname}` : "You need to log in to see talent profiles"}>
                 <CardActionArea
+                    component="a"
+                    href={`/talent/${id}`}
                     sx={{
                         display: "flex",
                         flexDirection: "row"
