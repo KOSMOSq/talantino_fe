@@ -31,16 +31,7 @@ function TalentProofArea() {
 	
 	return (
 		<>
-			<Box>
-				<Typography
-					variant="h5"
-					component="h5"
-					mt={2}
-					mb={2}
-					sx={{ fontWeight: "bold" }}
-				>
-					Proofs
-				</Typography>
+			<Box mt={2}>
 				{id === Number(talentId) ? <CreateProofForm />: null}
 				{proofs.map((element) => {
 					return (
