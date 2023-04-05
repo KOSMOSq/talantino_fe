@@ -96,7 +96,9 @@ function AuthView() {
 									<AccountCircleIcon fontSize="small" />
 								</ListItemIcon>
 								<Link
-									onClick={() => {
+									href={`/talent/${id}`}
+									onClick={(e) => {
+										e.preventDefault();
 										navigate(`/talent/${id}`);
 									}}
 								>
@@ -108,7 +110,9 @@ function AuthView() {
 									<SettingsIcon fontSize="small" />
 								</ListItemIcon>
 								<Link
-									onClick={() => {
+									href="/settings"
+									onClick={(e) => {
+										e.preventDefault();
 										navigate(`/settings`);
 									}}
 								>

@@ -3,6 +3,7 @@ import { Box, Grid, LinearProgress, Typography } from "@mui/material";
 import { TalentProof } from "./components/TalentProof";
 import { proofsAPI } from "../../../../../../api/proofsAPI";
 import { useState, useEffect } from "react";
+import { CreateProofForm } from "../../../../../Forms/CreateProofForm/CreateProofForm";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -27,7 +28,7 @@ function TalentProofArea() {
 	if (isLoading || !proofs) {
 		return <LinearProgress />;
 	}
-
+	
 	return (
 		<>
 			<Box>
@@ -40,6 +41,7 @@ function TalentProofArea() {
 				>
 					Proofs
 				</Typography>
+				{id === Number(talentId) ? <CreateProofForm />: null}
 				{proofs.map((element) => {
 					return (
 						<Grid item key={element.id}>
