@@ -9,7 +9,8 @@ function TalentListCard({ name, surname, profilePicture, kindOfTalent, id }){
     const navigate = useNavigate();
     const isAuth = useSelector(store => store.auth.isAuth);
 
-    const handleClick = () => {
+    const handleClick = (e) => {
+        e.preventDefault();
         if(!isAuth){
             dispatch(setClikedId(id));
         }
@@ -19,6 +20,8 @@ function TalentListCard({ name, surname, profilePicture, kindOfTalent, id }){
     return (
         <>
             <ListItem 
+                component="a"
+                href={`/talent/${id}`}
                 title={isAuth ? `${name} ${surname}` : "You need to log in to see talent profiles"}
                 onClick={handleClick} 
                 sx={{
