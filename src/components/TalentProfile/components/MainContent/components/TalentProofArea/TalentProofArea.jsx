@@ -1,4 +1,4 @@
-import { Box, Grid, LinearProgress, Typography } from "@mui/material";
+import { Box, Grid, LinearProgress } from "@mui/material";
 //import { proofs } from "../../../../../../common/proofs";
 import { TalentProof } from "./components/TalentProof";
 import { proofsAPI } from "../../../../../../api/proofsAPI";
