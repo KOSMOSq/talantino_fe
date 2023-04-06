@@ -3,6 +3,10 @@ import ReactMarkdown from 'react-markdown';
 import remarkEmoji from 'remark-emoji';
 import remarkGfm from 'remark-gfm';
 
+const ImageRenderer = (props)=>{
+    return <img {...props} style={{width: "700px"}} />
+}
+
 const Overview = ({ talentDescription }) => {
     return (
         <>
@@ -11,7 +15,12 @@ const Overview = ({ talentDescription }) => {
                     About
                 </Typography>
                 <Typography variant="h6" component="h6" mt={2} mb={2}>
-                    {talentDescription ? <ReactMarkdown children={talentDescription} remarkPlugins={[[remarkEmoji, {emoticon: true}], remarkGfm]}/> :
+                    {talentDescription ? 
+                    <ReactMarkdown 
+                        children={talentDescription} 
+                        remarkPlugins={[[remarkEmoji, {emoticon: true}], remarkGfm]}
+                        renderers={{image: ImageRenderer}}
+                        /> :
                         <Typography variant="p" component="p" sx={{ fontSize: "18px", color: "#888888" }}>
                             There you can write about yourself or describe your talents.<br />
                             Only registered users will see this information.</Typography>
