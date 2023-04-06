@@ -16,8 +16,8 @@ function App() {
 
 	useEffect(() => {
 		if (token && (JSON.parse(atob(token.split('.')[1])).exp > Math.floor(Date.now() / 1000))) {
-			dispatch(getAuthThunk(token));
 			dispatch(setToken(token));
+			dispatch(getAuthThunk());
 		} else {
 			dispatch(initialize());
 		}

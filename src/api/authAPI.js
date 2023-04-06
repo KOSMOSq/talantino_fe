@@ -4,11 +4,7 @@ import { Buffer } from "buffer";
 const authAPI = {
 	async register(data) {
 		return (
-			await axiosInstance.post(`/talents/register`, data, {
-				headers: {
-					"Content-Type": "application/json",
-				},
-			})
+			await axiosInstance.post(`/talents/register`, data)
 		).data;
 	},
 	async login({ email, password }) {
@@ -21,7 +17,6 @@ const authAPI = {
 				{},
 				{
 					headers: {
-						"Content-Type": "application/json",
 						Authorization: `Basic ${base64encodedData}`,
 					},
 				}

@@ -12,12 +12,17 @@ function TalentProof({ id, date, title, description, author }) {
 	};
 	const auto = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
 
-	let getRelativeTime = (date1, date2 = new Date()) => {
-		let result = date1 - date2;
-		for (let item in timeUnits)
-			if (Math.abs(result) > timeUnits[item] || item === "second")
+	const getRelativeTime = (date1, date2 = new Date()) => {
+		const result = date1 - date2;
+		for (let item in timeUnits) {
+			if (Math.abs(result) > timeUnits[item] || item === "second") {
 				return auto.format(Math.round(result / timeUnits[item]), item);
+			}
+		}
 	};
+
+	const dateOBJ = new Date(date);
+	const dateUTC = Date.UTC(dateOBJ.getFullYear(), dateOBJ.getMonth(), dateOBJ.getDate(), dateOBJ.getHours(), dateOBJ.getMinutes(), dateOBJ.getSeconds());
 
 	return (
 		<>
@@ -33,7 +38,7 @@ function TalentProof({ id, date, title, description, author }) {
 				<Typography variant="h6" sx={{ fontWeight: 700 }}>
 					{title}
 					<Typography sx={{ fontSize: "10px", color: "#888888" }}>
-						{getRelativeTime(+new Date(date))}
+						{getRelativeTime(dateUTC)}
 					</Typography>
 					<Typography sx={{ fontSize: "16px" }}>{description}</Typography>
 				</Typography>
