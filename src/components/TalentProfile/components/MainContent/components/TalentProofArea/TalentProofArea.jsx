@@ -27,7 +27,7 @@ function TalentProofArea() {
 		fetchMoreData();
 	}, [talentId]);
 
-
+	// add isLoading dep, proofs is an array so it is always true
 	if (!proofs) {
 		return <LinearProgress />;
 	}
@@ -36,6 +36,7 @@ function TalentProofArea() {
 		<>
 			<Box mt={2}>
 				{id === Number(talentId) ? <CreateProofForm /> : null}
+				{/* improve loader and end message */}
 				<InfiniteScroll
 					dataLength={proofs.length}
 					next={fetchMoreData}
