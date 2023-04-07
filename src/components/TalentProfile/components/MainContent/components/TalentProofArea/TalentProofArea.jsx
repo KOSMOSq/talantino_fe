@@ -1,70 +1,78 @@
 import { Box, Grid, LinearProgress } from "@mui/material";
 import { TalentProof } from "./components/TalentProof";
-import { proofsAPI } from "../../../../../../api/proofsAPI";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CreateProofForm } from "../../../../../Forms/CreateProofForm/CreateProofForm";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import {
+    deleteTalentProofThunk,
+    getTalentProofsThunk,
+    setTalentProofs,
+} from "../../../../../../redux/reducers/proofsReducer";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 function TalentProofArea() {
-    const [proofs, setProofs] = useState();
-    const [isLoading, setIsLoading] = useState(false);
-    const token = useSelector((store) => store.auth.token);
     const authId = useSelector((store) => store.auth.id);
     const { talentId } = useParams();
-    const status = authId === Number(talentId) ? "ALL" : "PUBLISHED";
-    const [isDeleted, setDeleted] = useState(false);
+    const proofs = useSelector((store) => store.proofs.talentProofs);
+    const token = useSelector((store) => store.auth.token);
+    const totalPages = useSelector((store) => store.proofs.totalTalentPages);
+    const [currentPage, setCurrentPage] = useState(0);
+    const dispatch = useDispatch();
+
+    const fetchMoreData = () => {
+        dispatch(
+            getTalentProofsThunk(
+                talentId,
+                "date",
+                talentId === authId ? "ALL" : "PUBLISHED",
+                "desc",
+                currentPage,
+                5
+            )
+        );
+        setCurrentPage((prev) => prev + 1);
+    };
 
     useEffect(() => {
-        const getProofs = async () => {
-            setIsLoading(true);
-            const response = await proofsAPI.getTalentProofs(
-                token,
-                talentId,
-                undefined,
-                status
-            );
-            setProofs(response.proofs);
-            setIsLoading(false);
-            setDeleted(false);
-        };
-        getProofs().catch((error) => console.log(error));
-    }, [isDeleted]);
+        dispatch(setTalentProofs([]));
+        setCurrentPage((prev) => 0);
+        fetchMoreData();
+    }, [talentId]);
 
-    if (isLoading || !proofs || isDeleted) {
+    // add isLoading dep, proofs is an array so it is always true
+    if (!proofs) {
         return <LinearProgress />;
     }
 
-    function scrollToTop() {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
-    }
-
     const handleDelete = async (id) => {
-        // const response = await proofsAPI.deleteProof(talentId, id, token);
-        // console.log(response);
-        setDeleted(true);
-        scrollToTop();
+        dispatch(deleteTalentProofThunk(id));
     };
 
     return (
         <>
             <Box mt={2}>
                 {authId === Number(talentId) ? <CreateProofForm /> : null}
-                {proofs.map((element) => {
-                    console.log(element);
-                    return (
-                        <Grid item key={element.id}>
-                            <TalentProof
-                                {...element}
-                                onDelete={handleDelete}
-                                talentId={talentId}
-                            />
-                        </Grid>
-                    );
-                })}
+                {/* improve loader and end message */}
+                <InfiniteScroll
+                    dataLength={proofs.length}
+                    next={fetchMoreData}
+                    hasMore={totalPages - 1 >= currentPage}
+                    loader={<h1>loading...</h1>}
+                    endMessage={<h1>You ve reached the end</h1>}
+                >
+                    {proofs.map((element) => {
+                        return (
+                            <Grid item key={element.id}>
+                                <TalentProof
+                                    {...element}
+                                    onDelete={handleDelete}
+                                    talentId={talentId}
+                                />
+                            </Grid>
+                        );
+                    })}
+                </InfiniteScroll>
             </Box>
         </>
     );
