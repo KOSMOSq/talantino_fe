@@ -4,38 +4,43 @@ import {
 	Button,
 	Container,
 	Divider,
+	LinearProgress,
 	TextField,
 	Typography,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { authAPI } from "../../api/authAPI";
-import { talentsAPI } from "../../api/talentsAPI";
-import { setTalentData } from "../../redux/reducers/authReducer";
+import { useDispatch, useSelector } from "react-redux"
 import { DeleteTalent } from "./components/DeleteTalent/DeleteTalent";
 import { useNavigate } from "react-router-dom";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { changeProfileDataThunk, setIsDone } from "../../redux/reducers/settingsReducer";
 
 const Settings = () => {
-	const id = useSelector((store) => store.auth.id);
-	const name = useSelector((store) => store.auth.name);
-	const surname = useSelector((store) => store.auth.surname);
-	const email = useSelector((store) => store.auth.email);
-	const kind = useSelector((store) => store.auth.kind);
-	const description = useSelector((store) => store.auth.description);
-	const avatar = useSelector((store) => store.auth.avatar);
-	const experience = useSelector((store) => store.auth.experience);
-	const location = useSelector((store) => store.auth.location);
-	const links = useSelector((store) => store.auth.links);
-	const token = useSelector((store) => store.auth.token);
+	const id = useSelector(store => store.auth.id);
+	const name = useSelector(store => store.auth.name);
+	const surname = useSelector(store => store.auth.surname);
+	const email = useSelector(store => store.auth.email);
+	const kind = useSelector(store => store.auth.kind);
+	const description = useSelector(store => store.auth.description);
+	const avatar = useSelector(store => store.auth.avatar);
+	const experience = useSelector(store => store.auth.experience);
+	const location = useSelector(store => store.auth.location);
+	const links = useSelector(store => store.auth.links);
+	const isLoading = useSelector(store => store.settings.isLoading);
+	const isDone = useSelector(store => store.settings.isDone);
+
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const [prPicture, setPrPicture] = useState();
-	const handleChangeAvatar = (event) => {
-		setPrPicture(event.target.value);
-	};
+
+	useEffect(() => {
+		if (isDone) {
+			navigate(`/talent/${id}`);
+			dispatch(setIsDone(false));
+		}
+	}, [isDone]);
 
 	const {
 		register,
@@ -62,21 +67,18 @@ const Settings = () => {
 		},
 	});
 
+
+	const handleChangeAvatar = (event) => {
+		setPrPicture(event.target.value);
+	};
+
 	const onSubmit = async (data) => {
-		data.links = [
-			data.links.zero,
-			data.links.one,
-			data.links.two,
-			data.links.three,
-		];
-		await talentsAPI.changeData(id, token, data);
-		const responseAuth = await authAPI.auth(token);
-		dispatch(setTalentData(responseAuth));
-		navigate(`/talent/${id}`);
+		dispatch(changeProfileDataThunk(data));
 	};
 
 	return (
 		<>
+			{isLoading ? <LinearProgress /> : null}
 			<Container sx={{ marginTop: 4, paddingBottom: 5 }}>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<Box display={"flex"} width={"100%"} justifyContent={"space-between"}>

@@ -10,16 +10,12 @@ function ProfileStickyHeader({ nextId, prevId }) {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const handleClick = (e) => {
-		//for future implementation of pages
-	};
-
 	const currentPage = useSelector(store => store.talents.currentPage);
 	const handleClose = () => {
 		navigate(`/talents/?page=${currentPage}`);
 	};
 
-	const handleNextTalent = () => {
+	const handlePrevTalent = () => {
 		if (nextId) {
 			navigate(`/talent/${nextId}`);
 		} else {
@@ -27,7 +23,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
 		}
 	};
 
-	const handlePrevTalent = () => {
+	const handleNextTalent = () => {
 		if (prevId) {
 			navigate(`/talent/${prevId}`);
 		} else {
@@ -43,15 +39,14 @@ function ProfileStickyHeader({ nextId, prevId }) {
 					return (
 						<Button
 							key={itemLowerCase}
-							onClick={handleClick}
 							component={NavLink}
 							to={`${itemLowerCase === "overview" ? "" : itemLowerCase}`}
 						>
 							{item}
 						</Button>)
 				})}
-				<Button sx={{ marginLeft: "auto" }} onClick={handlePrevTalent} disabled={!prevId}>PREV TALENT</Button>
-				<Button onClick={handleNextTalent} disabled={!nextId}>NEXT TALENT</Button>
+				<Button sx={{ marginLeft: "auto" }} onClick={handlePrevTalent} disabled={!nextId}>PREV TALENT</Button>
+				<Button onClick={handleNextTalent} disabled={!prevId}>NEXT TALENT</Button>
 				<IconButton onClick={handleClose}>
 					<CloseIcon />
 				</IconButton>
