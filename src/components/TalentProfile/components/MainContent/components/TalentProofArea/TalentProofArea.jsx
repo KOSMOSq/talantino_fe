@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { CreateProofForm } from "../../../../../Forms/CreateProofForm/CreateProofForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
-import { getTalentProofsThunk, incrementTalentCurrentPage, setTalentProofs, clearTalentCurrentPage } from "../../../../../../redux/reducers/proofsReducer";
+import { getTalentProofsThunk, setTalentProofs } from "../../../../../../redux/reducers/proofsReducer";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 function TalentProofArea() {
@@ -15,7 +15,6 @@ function TalentProofArea() {
 
 	const dispatch = useDispatch();
 	const { talentId } = useParams();
-	const location = useLocation();
 
 	const fetchMoreData = () => {
 		dispatch(getTalentProofsThunk(talentId, "date", (talentId === id ? "ALL": "PUBLISHED"), "desc", currentPage, 5));
@@ -26,8 +25,8 @@ function TalentProofArea() {
 		dispatch(setTalentProofs([]));
 		setCurrentPage(prev => 0);
 		fetchMoreData();
-		console.log("DONE");
-	}, [location]);
+	}, [talentId]);
+
 
 	if (!proofs) {
 		return <LinearProgress />;

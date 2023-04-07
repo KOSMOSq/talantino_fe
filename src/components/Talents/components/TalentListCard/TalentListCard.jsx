@@ -7,6 +7,7 @@ import { setClikedId } from "../../../../redux/reducers/talentsReducer";
 function TalentListCard({ name, surname, profilePicture, kindOfTalent, id }){
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    //перенести в компонент вище, redux має бути на найвищому рівні
     const isAuth = useSelector(store => store.auth.isAuth);
 
     const handleClick = (e) => {

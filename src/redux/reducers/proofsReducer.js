@@ -55,10 +55,10 @@ export const getTalentProofsThunk = (id, sort, status, type, page, amount, renew
 
     try {
         const response = await proofsAPI.getTalentProofs(token, id, sort, status, type, page, amount);
-        dispatch(setTotalTalentPages(Math.ceil(response.totalAmount / amount)));
         if (renew) {
             dispatch(setTalentProofs([...response.proofs, ...getState().proofs.talentProofs]));
         } else {
+            dispatch(setTotalTalentPages(Math.ceil(response.totalAmount / amount)));
             dispatch(setTalentProofs([...getState().proofs.talentProofs, ...response.proofs]));
         }
     } catch (err) {
