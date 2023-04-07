@@ -1,8 +1,9 @@
-import { Box, Chip, Typography } from "@mui/material";
+import { Box, Chip, Typography, getBreadcrumbsUtilityClass } from "@mui/material";
 
 import { createTheme } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { getRelativeTime } from "../../../../../../../shared/functions/getRelativeTime";
 
 function TalentProof({ date, title, description, author, status }) {
 	const theme = createTheme({
@@ -13,24 +14,6 @@ function TalentProof({ date, title, description, author, status }) {
 			},
 		},
 	});
-
-	const timeUnits = {
-		year: 24 * 60 * 60 * 1000 * 365,
-		month: (24 * 60 * 60 * 1000 * 365) / 12,
-		week: (24 * 60 * 60 * 1000 * 30.4) / 4,
-		day: 24 * 60 * 60 * 1000,
-		hour: 60 * 60 * 1000,
-		minute: 60 * 1000,
-		second: 1000,
-	};
-	const auto = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
-
-	let getRelativeTime = (date1, date2 = new Date()) => {
-		let result = date1 - date2;
-		for (let item in timeUnits)
-			if (Math.abs(result) > timeUnits[item] || item === "second")
-				return auto.format(Math.round(result / timeUnits[item]), item);
-	};
 
 	const { talentId } = useParams();
 	const authId = useSelector((store) => store.auth.id);
