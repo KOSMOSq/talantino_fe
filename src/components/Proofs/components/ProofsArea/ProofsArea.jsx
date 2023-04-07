@@ -6,7 +6,7 @@ import { Proof } from "./Proof/Proof";
 const ProofsArea = () => {
     
     return (
-        <Box display="flex" justifyContent="center" pt={4} width={"100%"}>
+        <Box display="flex" justifyContent="center" pt={2} width={"100%"}>
             <List>
                 {proofs.map((item)=>{
                     return <Proof {...item} key={item.id}/>
