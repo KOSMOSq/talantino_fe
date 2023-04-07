@@ -1,9 +1,9 @@
-import { Box, Button, Grid, LinearProgress } from "@mui/material";
+import { Box, Grid, LinearProgress } from "@mui/material";
 import { TalentProof } from "./components/TalentProof";
 import { useEffect, useState } from "react";
 import { CreateProofForm } from "../../../../../Forms/CreateProofForm/CreateProofForm";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getTalentProofsThunk, setTalentProofs } from "../../../../../../redux/reducers/proofsReducer";
 import InfiniteScroll from "react-infinite-scroll-component";
 

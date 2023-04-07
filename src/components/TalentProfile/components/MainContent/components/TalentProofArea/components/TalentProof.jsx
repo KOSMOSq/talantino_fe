@@ -1,6 +1,22 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Chip, Typography } from "@mui/material";
 
-function TalentProof({ id, date, title, description, author }) {
+import { createTheme } from "@mui/material/styles";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+
+function TalentProof({ date, title, description, author, status }) {
+	const { talentId } = useParams();
+	const authId = useSelector((store) => store.auth.id);
+
+	const theme = createTheme({
+		palette: {
+			neutral: {
+				main: "#64748B",
+				contrastText: "#fff",
+			},
+		},
+	});
+
 	const timeUnits = {
 		year: 24 * 60 * 60 * 1000 * 365,
 		month: (24 * 60 * 60 * 1000 * 365) / 12,
@@ -33,15 +49,54 @@ function TalentProof({ id, date, title, description, author }) {
 					borderRadius: "5px",
 					padding: "20px",
 					marginBottom: "20px",
+					display: "flex",
+					justifyContent: "space-between",
 				}}
 			>
-				<Typography variant="h6" sx={{ fontWeight: 700 }}>
-					{title}
-					<Typography sx={{ fontSize: "10px", color: "#888888" }}>
-						{getRelativeTime(dateUTC)}
+				<Box>
+					<Typography variant="h6" sx={{ fontWeight: 700 }}>
+						{title}
+
+						<Typography sx={{ fontSize: "10px", color: "#888888" }}>
+							{getRelativeTime(dateUTC)}
+						</Typography>
+						<Typography sx={{ fontSize: "16px" }}>{description}</Typography>
 					</Typography>
-					<Typography sx={{ fontSize: "16px" }}>{description}</Typography>
-				</Typography>
+				</Box>
+				{+talentId === authId ? (
+					<Box
+						sx={{
+							display: "flex",
+							alignItems: "start",
+						}}
+					>
+						<Box
+							sx={{
+								display: "flex",
+								alignItems: "center",
+								gap: "10px",
+							}}
+						>
+							<Chip
+								sx={{
+									justifySelf: "right",
+									fontSize: "16px",
+								}}
+								theme={theme}
+								color={
+									status === "PUBLISHED"
+										? "success"
+										: status === "DRAFT"
+										? "default"
+										: "neutral"
+								}
+								label={status}
+							/>
+						</Box>
+					</Box>
+				) : (
+					""
+				)}
 			</Box>
 		</>
 	);
