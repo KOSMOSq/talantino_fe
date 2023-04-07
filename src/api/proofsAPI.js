@@ -5,8 +5,15 @@ const proofsAPI = {
         return (await axiosInstance.get(`/talents/${id}/proofs?sort=${sort}&status=${status}&type=${type}&page=${page}&amount=${amount}`, {
             headers: { Authorization: `Bearer ${token}` },
         })).data
-
     },
+
+    async deleteProof(id, proofId, token) {
+		return (
+			await axiosInstance.delete(`/talents/${id}/proofs/${proofId}`, {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+		).data;
+	},
 }
 
 export {proofsAPI};

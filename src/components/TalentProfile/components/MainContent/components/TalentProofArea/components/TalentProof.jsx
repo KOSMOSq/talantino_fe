@@ -1,12 +1,19 @@
-import { Box, Chip, Typography } from "@mui/material";
+import { Box, Chip, IconButton, Typography } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 
 import { createTheme } from "@mui/material/styles";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 
-function TalentProof({ date, title, description, author, status }) {
+function TalentProof({
+    date,
+    title,
+    description,
+    status,
+    id,
+    talentId,
+    onDelete,
+}) {
     const theme = createTheme({
         palette: {
             neutral: {
@@ -34,7 +41,6 @@ function TalentProof({ date, title, description, author, status }) {
                 return auto.format(Math.round(result / timeUnits[item]), item);
     };
 
-    const { talentId } = useParams();
     const authId = useSelector((store) => store.auth.id);
 
     return (
@@ -53,7 +59,6 @@ function TalentProof({ date, title, description, author, status }) {
                 <Box>
                     <Typography variant="h6" sx={{ fontWeight: 700 }}>
                         {title}
-
                         <Typography sx={{ fontSize: "10px", color: "#888888" }}>
                             {getRelativeTime(+new Date(date))}
                         </Typography>
@@ -92,7 +97,9 @@ function TalentProof({ date, title, description, author, status }) {
                                 label={status}
                             />
                             <EditIcon />
-                            <DeleteForeverIcon fontSize="medium" />
+                            <IconButton onClick={() => onDelete(id)}>
+                                <DeleteForeverIcon fontSize="medium" />
+                            </IconButton>
                         </Box>
                     </Box>
                 ) : (
