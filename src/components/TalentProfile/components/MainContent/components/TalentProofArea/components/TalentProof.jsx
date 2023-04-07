@@ -6,6 +6,9 @@ import { useParams } from "react-router-dom";
 import { getRelativeTime } from "../../../../../../../shared/functions/getRelativeTime";
 
 function TalentProof({ date, title, description, author, status }) {
+	const { talentId } = useParams();
+	const authId = useSelector((store) => store.auth.id);
+
 	const theme = createTheme({
 		palette: {
 			neutral: {
@@ -15,8 +18,8 @@ function TalentProof({ date, title, description, author, status }) {
 		},
 	});
 
-	const { talentId } = useParams();
-	const authId = useSelector((store) => store.auth.id);
+	const dateOBJ = new Date(date);
+	const dateUTC = Date.UTC(dateOBJ.getFullYear(), dateOBJ.getMonth(), dateOBJ.getDate(), dateOBJ.getHours(), dateOBJ.getMinutes(), dateOBJ.getSeconds());
 
 	return (
 		<>
@@ -36,7 +39,7 @@ function TalentProof({ date, title, description, author, status }) {
 						{title}
 
 						<Typography sx={{ fontSize: "10px", color: "#888888" }}>
-							{getRelativeTime(+new Date(date))}
+							{getRelativeTime(dateUTC)}
 						</Typography>
 						<Typography sx={{ fontSize: "16px" }}>{description}</Typography>
 					</Typography>

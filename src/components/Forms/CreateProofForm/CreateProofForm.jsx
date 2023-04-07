@@ -1,19 +1,26 @@
-import { Box, Button, FormControl, FormHelperText, OutlinedInput, TextField, Typography } from "@mui/material";
+import { Box, Button, FormHelperText, OutlinedInput, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { addTalentProofThunk, getTalentProofsThunk } from "../../../redux/reducers/proofsReducer";
+import { useDispatch, useSelector } from "react-redux";
 
 const CreateProofForm = () => {
-
     const {
         register,
         handleSubmit,
-        formState: { errors, isValid },
-        reset
+        reset,
+        formState: { errors, isValid }
     } = useForm({
-        mode: "onBlur"
+        mode: "all"
     });
 
+    const dispatch = useDispatch();
+    const id = useSelector(store => store.auth.id);
+
     const onSubmit = (data, e) => {
-        console.log(data, e.nativeEvent.submitter.value);
+        data.status = e.nativeEvent.submitter.value;
+        dispatch(addTalentProofThunk(data));
+        dispatch(getTalentProofsThunk(id, "date", "ALL", "desc", 0, 1, true));
+        reset();
     };
 
     return (
@@ -29,10 +36,7 @@ const CreateProofForm = () => {
                     }}
                     display="flex"
                     flexDirection="column"
-                >
-                    <Typography sx={{ fontSize: "16px", fontWeight: "bold", marginLeft: "auto", marginRight: "auto", marginBottom: "14px" }}>
-                        Create proof
-                    </Typography>
+                >  
                     <OutlinedInput
                         sx={{ width: "100%", height: "32px", marginBottom: "10px", fontWeight: "bold" }}
                         placeholder="Title"
@@ -47,14 +51,13 @@ const CreateProofForm = () => {
                                 message: "Title should'nt be larger than 80 symbols"
                             }
                         })}
-                        error={Boolean(errors.title)}
                     />
                     <TextField
                         sx={{ width: "100%", height: "100px", marginBottom: "10px" }}
                         placeholder="Tell everyone your proof"
                         rows={3}
                         multiline
-                        {...register("proofText", {
+                        {...register("description", {
                             required: "Proof should be at least 2 symbols long",
                             minLength: {
                                 value: 2,
@@ -65,15 +68,14 @@ const CreateProofForm = () => {
                                 message: "Proof should'nt be larger than 2000 symbols"
                             }
                         })}
-                        error={Boolean(errors.proofText)}
                     />
                     <Box display="flex" gap="10px">
-                        <FormHelperText component="span" error sx={{ marginLeft: "10px", marginTop: "auto", marginBottom: "auto" }}>
-                            {errors.proofText?.message || errors.title?.message}
+                        <FormHelperText component="span" sx={{ marginLeft: "10px", marginTop: "auto", marginBottom: "auto" }}>
+                            {errors.description?.message || errors.title?.message}
                         </FormHelperText>
                         <Box sx={{ marginLeft: "auto" }} display="flex" gap="10px">
-                            <Button type="submit" value="save" variant="outlined" color="inherit" disabled={!isValid}>Save</Button>
-                            <Button type="submit" value="publish" variant="contained" disabled={!isValid}>Publish</Button>
+                            <Button type="submit" value="DRAFT" title="Save as draft" variant="outlined" color="inherit" disabled={!isValid}>Save</Button>
+                            <Button type="submit" value="PUBLISHED" color="success" variant="contained" disabled={!isValid}>Publish</Button>
                         </Box>
                     </Box>
                 </Box>

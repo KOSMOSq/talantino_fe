@@ -80,21 +80,27 @@ const authReducer = (state = initialState, action) => {
 export const setTalentData = ({ id, name, surname, email, kind, description, avatar, experience, location, links }) => ({ type: SET_TALENT_DATA, id, name, surname, email, kind, description, avatar, experience, location, links });
 export const clearData = () => ({ type: CLEAR_DATA });
 export const initialize = () => ({ type: INITIALIZE });
-export const setToken = (token) => ({ type: SET_TOKEN, token });
+export const setToken = token => ({ type: SET_TOKEN, token });
 export const setIsLoading = isLoading => ({ type: SET_IS_LOADING, isLoading });
 
-export const getAuthThunk = (token) => async dispatch => {
+export const getAuthThunk = () => async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const isInitialized = getState().auth.isInitialized;
+
     try {
         const response = await authAPI.auth(token);
         dispatch(setTalentData(response));
-        dispatch(initialize());
+        if (!isInitialized) {
+            dispatch(initialize());
+        }
     } catch (err) {
-        console.log(err);
+        dispatch(setGlobalError(err.response?.data.message ? err.response.data.message : "Unknown error"));
+    } finally {
         dispatch(initialize());
     }
 };
 
-export const loginThunk = (data) => async dispatch => {
+export const loginThunk = data => async dispatch => {
     try {
         dispatch(setIsLoading(true));
         const response = await authAPI.login({
@@ -103,23 +109,30 @@ export const loginThunk = (data) => async dispatch => {
         });
         localStorage.setItem("token", response.token);
         dispatch(setToken(response.token));
-        dispatch(getAuthThunk(response.token));
+        dispatch(getAuthThunk());
     } catch (err) {
-        dispatch(setGlobalError("Wrong email or password"));
+        dispatch(setGlobalError(err.response?.data.message ? "Invalid email or password" : "Unknown error"));
+    } finally {
+        dispatch(setIsLoading(false));
     }
-    dispatch(setIsLoading(false));
 };
 
-export const registerThunk = (data) => async dispatch => {
-    dispatch(setIsLoading(true));
-    await authAPI.register({
-        email: data.email,
-        password: data.password,
-        name: data.fName,
-        surname: data.lName,
-        kind: data.kindOfTalent,
-    });
-    dispatch(loginThunk(data));
+export const registerThunk = data => async dispatch => {
+    try {
+        dispatch(setIsLoading(true));
+        await authAPI.register({
+            email: data.email,
+            password: data.password,
+            name: data.fName,
+            surname: data.lName,
+            kind: data.kindOfTalent,
+        });
+        dispatch(loginThunk(data));
+    } catch (err) {
+        dispatch(setGlobalError(err.response?.data.message ? err.response.data.message : "Unknown error"));
+    } finally {
+        dispatch(setIsLoading(false));
+    }
 };
 
 export default authReducer;
