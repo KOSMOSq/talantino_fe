@@ -17,13 +17,16 @@ const settingsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.payload
-            }
+            };
         default:
             return state;
     }
 };
 
-export const setIsLoading = isLoading => ({ type: SET_IS_LOADING, payload: { isLoading } });
+export const setIsLoading = isLoading => ({
+    type: SET_IS_LOADING,
+    payload: { isLoading }
+});
 export const setIsDone = isDone => ({ type: SET_IS_DONE, payload: { isDone } });
 
 export const changeProfileDataThunk = data => async (dispatch, getState) => {
@@ -34,14 +37,20 @@ export const changeProfileDataThunk = data => async (dispatch, getState) => {
         data.links.zero,
         data.links.one,
         data.links.two,
-        data.links.three,
+        data.links.three
     ];
     try {
         await talentsAPI.changeData(id, token, data);
         dispatch(setIsDone(true));
         dispatch(getAuthThunk());
     } catch (err) {
-        dispatch(setGlobalError(err.response?.data.message ? err.response.data.message : "Unknown error"));
+        dispatch(
+            setGlobalError(
+                err.response?.data.message
+                    ? err.response.data.message
+                    : "Unknown error"
+            )
+        );
     } finally {
         dispatch(setIsLoading(false));
     }

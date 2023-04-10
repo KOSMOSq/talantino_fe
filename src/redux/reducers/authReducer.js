@@ -22,7 +22,7 @@ const initialState = {
     token: null,
     isInitialized: false,
     isLoading: false
-}
+};
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -39,8 +39,8 @@ const authReducer = (state = initialState, action) => {
                 experience: action.experience,
                 location: action.location,
                 links: action.links,
-                isAuth: true,
-            }
+                isAuth: true
+            };
         case CLEAR_DATA:
             return {
                 ...state,
@@ -56,28 +56,51 @@ const authReducer = (state = initialState, action) => {
                 links: [],
                 isAuth: false,
                 token: null
-            }
+            };
         case SET_TOKEN:
             return {
                 ...state,
                 token: action.token
-            }
+            };
         case INITIALIZE:
             return {
                 ...state,
                 isInitialized: true
-            }
+            };
         case SET_IS_LOADING:
             return {
                 ...state,
                 isLoading: action.isLoading
-            }
+            };
         default:
             return state;
     }
 };
 
-export const setTalentData = ({ id, name, surname, email, kind, description, avatar, experience, location, links }) => ({ type: SET_TALENT_DATA, id, name, surname, email, kind, description, avatar, experience, location, links });
+export const setTalentData = ({
+    id,
+    name,
+    surname,
+    email,
+    kind,
+    description,
+    avatar,
+    experience,
+    location,
+    links
+}) => ({
+    type: SET_TALENT_DATA,
+    id,
+    name,
+    surname,
+    email,
+    kind,
+    description,
+    avatar,
+    experience,
+    location,
+    links
+});
 export const clearData = () => ({ type: CLEAR_DATA });
 export const initialize = () => ({ type: INITIALIZE });
 export const setToken = token => ({ type: SET_TOKEN, token });
@@ -94,7 +117,13 @@ export const getAuthThunk = () => async (dispatch, getState) => {
             dispatch(initialize());
         }
     } catch (err) {
-        dispatch(setGlobalError(err.response?.data.message ? err.response.data.message : "Unknown error"));
+        dispatch(
+            setGlobalError(
+                err.response?.data.message
+                    ? err.response.data.message
+                    : "Unknown error"
+            )
+        );
     } finally {
         dispatch(initialize());
     }
@@ -105,13 +134,19 @@ export const loginThunk = data => async dispatch => {
         dispatch(setIsLoading(true));
         const response = await authAPI.login({
             email: data.email,
-            password: data.password,
+            password: data.password
         });
         localStorage.setItem("token", response.token);
         dispatch(setToken(response.token));
         dispatch(getAuthThunk());
     } catch (err) {
-        dispatch(setGlobalError(err.response?.data.message ? "Invalid email or password" : "Unknown error"));
+        dispatch(
+            setGlobalError(
+                err.response?.data.message
+                    ? "Invalid email or password"
+                    : "Unknown error"
+            )
+        );
     } finally {
         dispatch(setIsLoading(false));
     }
@@ -125,11 +160,17 @@ export const registerThunk = data => async dispatch => {
             password: data.password,
             name: data.fName,
             surname: data.lName,
-            kind: data.kindOfTalent,
+            kind: data.kindOfTalent
         });
         dispatch(loginThunk(data));
     } catch (err) {
-        dispatch(setGlobalError(err.response?.data.message ? err.response.data.message : "Unknown error"));
+        dispatch(
+            setGlobalError(
+                err.response?.data.message
+                    ? err.response.data.message
+                    : "Unknown error"
+            )
+        );
     } finally {
         dispatch(setIsLoading(false));
     }

@@ -13,20 +13,27 @@ function TalentProof({
     status,
     id,
     talentId,
-    onDelete,
+    onDelete
 }) {
-    const authId = useSelector((store) => store.auth.id);
+    const authId = useSelector(store => store.auth.id);
     const theme = createTheme({
         palette: {
             neutral: {
                 main: "#64748B",
-                contrastText: "#fff",
-            },
-        },
+                contrastText: "#fff"
+            }
+        }
     });
 
     const dateOBJ = new Date(date);
-    const dateUTC = Date.UTC(dateOBJ.getFullYear(), dateOBJ.getMonth(), dateOBJ.getDate(), dateOBJ.getHours(), dateOBJ.getMinutes(), dateOBJ.getSeconds());
+    const dateUTC = Date.UTC(
+        dateOBJ.getFullYear(),
+        dateOBJ.getMonth(),
+        dateOBJ.getDate(),
+        dateOBJ.getHours(),
+        dateOBJ.getMinutes(),
+        dateOBJ.getSeconds()
+    );
 
     return (
         <>
@@ -38,7 +45,7 @@ function TalentProof({
                     padding: "20px",
                     marginBottom: "20px",
                     display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "space-between"
                 }}
             >
                 <Box>
@@ -56,20 +63,20 @@ function TalentProof({
                     <Box
                         sx={{
                             display: "flex",
-                            alignItems: "start",
+                            alignItems: "start"
                         }}
                     >
                         <Box
                             sx={{
                                 display: "flex",
                                 alignItems: "center",
-                                gap: "10px",
+                                gap: "10px"
                             }}
                         >
                             <Chip
                                 sx={{
                                     justifySelf: "right",
-                                    fontSize: "16px",
+                                    fontSize: "16px"
                                 }}
                                 theme={theme}
                                 color={

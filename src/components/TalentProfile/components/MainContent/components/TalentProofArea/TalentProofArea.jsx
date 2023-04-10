@@ -7,15 +7,15 @@ import { useParams } from "react-router-dom";
 import {
     deleteTalentProofThunk,
     getTalentProofsThunk,
-    setTalentProofs,
+    setTalentProofs
 } from "../../../../../../redux/reducers/proofsReducer";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 function TalentProofArea() {
-    const authId = useSelector((store) => store.auth.id);
+    const authId = useSelector(store => store.auth.id);
     const { talentId } = useParams();
-    const proofs = useSelector((store) => store.proofs.talentProofs);
-    const totalPages = useSelector((store) => store.proofs.totalTalentPages);
+    const proofs = useSelector(store => store.proofs.talentProofs);
+    const totalPages = useSelector(store => store.proofs.totalTalentPages);
     const [currentPage, setCurrentPage] = useState(0);
     const dispatch = useDispatch();
 
@@ -30,12 +30,12 @@ function TalentProofArea() {
                 5
             )
         );
-        setCurrentPage((prev) => prev + 1);
+        setCurrentPage(prev => prev + 1);
     };
 
     useEffect(() => {
         dispatch(setTalentProofs([]));
-        setCurrentPage((prev) => 0);
+        setCurrentPage(prev => 0);
         fetchMoreData();
     }, [talentId]);
 
@@ -44,7 +44,7 @@ function TalentProofArea() {
         return <LinearProgress />;
     }
 
-    const handleDelete = async (id) => {
+    const handleDelete = async id => {
         dispatch(deleteTalentProofThunk(id));
     };
 
@@ -58,9 +58,15 @@ function TalentProofArea() {
                     next={fetchMoreData}
                     hasMore={totalPages - 1 >= currentPage}
                     loader={<h1>loading...</h1>}
-                    endMessage={proofs.length === 0 ?  <h1>No proofs here</h1> : <h1>You ve reached the end</h1>}
+                    endMessage={
+                        proofs.length === 0 ? (
+                            <h1>No proofs here</h1>
+                        ) : (
+                            <h1>You ve reached the end</h1>
+                        )
+                    }
                 >
-                    {proofs.map((element) => {
+                    {proofs.map(element => {
                         return (
                             <Grid item key={element.id}>
                                 <TalentProof

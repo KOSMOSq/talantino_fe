@@ -15,15 +15,15 @@ const btnStyle = {
     marginLeft: "auto",
     right: 40,
     fontSize: 20,
-    color: "grey",
+    color: "grey"
 };
 
 function AuthView() {
     const dispatch = useDispatch();
-    const avatar = useSelector((store) => store.auth.avatar);
-    const name = useSelector((store) => store.auth.name);
-    const isAuth = useSelector((store) => store.auth.isAuth);
-    const id = useSelector((store) => store.auth.id);
+    const avatar = useSelector(store => store.auth.avatar);
+    const name = useSelector(store => store.auth.name);
+    const isAuth = useSelector(store => store.auth.isAuth);
+    const id = useSelector(store => store.auth.id);
 
     const handleLogout = () => {
         dispatch(clearData());
@@ -39,7 +39,7 @@ function AuthView() {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    const handleClick = (event) => {
+    const handleClick = event => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
@@ -85,17 +85,17 @@ function AuthView() {
                                         bgcolor: "background.paper",
                                         transform:
                                             "translateY(-50%) rotate(45deg)",
-                                        zIndex: 0,
-                                    },
-                                },
+                                        zIndex: 0
+                                    }
+                                }
                             }}
                             transformOrigin={{
                                 horizontal: "right",
-                                vertical: "top",
+                                vertical: "top"
                             }}
                             anchorOrigin={{
                                 horizontal: "right",
-                                vertical: "bottom",
+                                vertical: "bottom"
                             }}
                         >
                             <MenuItem onClick={handleClose}>
@@ -104,10 +104,10 @@ function AuthView() {
                                 </ListItemIcon>
                                 <Link
                                     href={`/talent/${id}`}
-                                    onClick={(e) => {
+                                    onClick={e => {
                                         e.preventDefault();
                                         navigate(`/talent/${id}`, {
-                                            state: { from: "profile-click" },
+                                            state: { from: "profile-click" }
                                         });
                                     }}
                                 >
@@ -120,7 +120,7 @@ function AuthView() {
                                 </ListItemIcon>
                                 <Link
                                     href="/settings"
-                                    onClick={(e) => {
+                                    onClick={e => {
                                         e.preventDefault();
                                         navigate(`/settings`);
                                     }}

@@ -4,16 +4,15 @@ import { proofs } from "../../../../common/proofs";
 import { Proof } from "./Proof/Proof";
 
 const ProofsArea = () => {
-    
     return (
         <Box display="flex" justifyContent="center" pt={2} width={"100%"}>
             <List>
-                {proofs.map((item)=>{
-                    return <Proof {...item} key={item.id}/>
+                {proofs.map(item => {
+                    return <Proof {...item} key={item.id} />;
                 })}
             </List>
         </Box>
-    )
-}
+    );
+};
 
-export {ProofsArea};
+export { ProofsArea };

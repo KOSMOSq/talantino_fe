@@ -5,24 +5,24 @@ import { Overview } from "./components/Overview/Overview";
 import { TalentProofArea } from "./components/TalentProofArea/TalentProofArea";
 
 function MainContent({ talentDescription, talentId, id, prevId, nextId }) {
-	return (
-		<Box width={"70%"} sx={{ display: "flex", flexDirection: "column" }}>
-			<ProfileStickyHeader
-				talentId={talentId}
-				id={id}
-				nextId={nextId}
-				prevId={prevId}
-			/>
-			<Routes>
-				<Route path="proofs" element={<TalentProofArea />} />
-				<Route
-					path="/"
-					element={<Overview talentDescription={talentDescription} />}
-				/>
-				<Route path="*" element={<Navigate to="/404" />} />
-			</Routes>
-		</Box>
-	);
+    return (
+        <Box width={"70%"} sx={{ display: "flex", flexDirection: "column" }}>
+            <ProfileStickyHeader
+                talentId={talentId}
+                id={id}
+                nextId={nextId}
+                prevId={prevId}
+            />
+            <Routes>
+                <Route path="proofs" element={<TalentProofArea />} />
+                <Route
+                    path="/"
+                    element={<Overview talentDescription={talentDescription} />}
+                />
+                <Route path="*" element={<Navigate to="/404" />} />
+            </Routes>
+        </Box>
+    );
 }
 
 export { MainContent };

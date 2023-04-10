@@ -12,67 +12,67 @@ import { talentsAPI } from "../../../../api/talentsAPI";
 import { clearData } from "../../../../redux/reducers/authReducer";
 
 function DeleteTalent() {
-	const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
 
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
-	const handleClose = () => {
-		setOpen(false);
-	};
-	const token = useSelector((store) => store.auth.token);
-	const talentId = useSelector((store) => store.auth.id);
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const token = useSelector(store => store.auth.token);
+    const talentId = useSelector(store => store.auth.id);
 
-	const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-	const handleClickDelete = async () => {
-		const response = await talentsAPI.deleteTalent(talentId, token);
-		dispatch(clearData());
-		console.log(response);
-	};
-	return (
-		<div>
-			<Button
-				variant="outlined"
-				onClick={handleClickOpen}
-				sx={{ color: "red", borderColor: "red" }}
-			>
-				Delete account
-			</Button>
-			<Dialog
-				open={open}
-				onClose={handleClose}
-				sx={{
-					"& .MuiDialog-paper": {
-						backgroundColor: "transparent",
-						boxShadow: "none",
-					},
-				}}
-			>
-				<DialogContent>
-					<Alert severity="error">
-						<AlertTitle>Delete your talent profile?</AlertTitle>
-						Are you sure you want to delete your talent profile? Access to it
-						will be lost forever.{" "}
-						<strong>Access to it will be lost forever.</strong>
-						<DialogActions>
-							<Button
-								autoFocus
-								onClick={(handleClose, handleClickDelete)}
-								sx={{ color: "red" }}
-							>
-								Delete
-							</Button>
-							<Button onClick={handleClose} autoFocus>
-								Cancel
-							</Button>
-						</DialogActions>
-					</Alert>
-				</DialogContent>
-			</Dialog>
-		</div>
-	);
+    const handleClickDelete = async () => {
+        const response = await talentsAPI.deleteTalent(talentId, token);
+        dispatch(clearData());
+        console.log(response);
+    };
+    return (
+        <div>
+            <Button
+                variant="outlined"
+                onClick={handleClickOpen}
+                sx={{ color: "red", borderColor: "red" }}
+            >
+                Delete account
+            </Button>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                sx={{
+                    "& .MuiDialog-paper": {
+                        backgroundColor: "transparent",
+                        boxShadow: "none"
+                    }
+                }}
+            >
+                <DialogContent>
+                    <Alert severity="error">
+                        <AlertTitle>Delete your talent profile?</AlertTitle>
+                        Are you sure you want to delete your talent profile?
+                        Access to it will be lost forever.{" "}
+                        <strong>Access to it will be lost forever.</strong>
+                        <DialogActions>
+                            <Button
+                                autoFocus
+                                onClick={(handleClose, handleClickDelete)}
+                                sx={{ color: "red" }}
+                            >
+                                Delete
+                            </Button>
+                            <Button onClick={handleClose} autoFocus>
+                                Cancel
+                            </Button>
+                        </DialogActions>
+                    </Alert>
+                </DialogContent>
+            </Dialog>
+        </div>
+    );
 }
 
 export { DeleteTalent };
