@@ -1,9 +1,7 @@
 import { Box, List } from "@mui/material";
-import { TalentProof } from "../../../TalentProfile/components/MainContent/components/TalentProofArea/components/TalentProof";
-import { proofs } from "../../../../common/proofs";
 import { Proof } from "./Proof/Proof";
 
-const ProofsArea = () => {
+const ProofsArea = ({ proofs }) => {
     return (
         <Box display="flex" justifyContent="center" pt={2} width={"100%"}>
             <List>
