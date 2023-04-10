@@ -15,7 +15,6 @@ function TalentProofArea() {
     const authId = useSelector((store) => store.auth.id);
     const { talentId } = useParams();
     const proofs = useSelector((store) => store.proofs.talentProofs);
-    const token = useSelector((store) => store.auth.token);
     const totalPages = useSelector((store) => store.proofs.totalTalentPages);
     const [currentPage, setCurrentPage] = useState(0);
     const dispatch = useDispatch();
@@ -25,7 +24,7 @@ function TalentProofArea() {
             getTalentProofsThunk(
                 talentId,
                 "date",
-                talentId === authId ? "ALL" : "PUBLISHED",
+                +talentId === authId ? "ALL" : "PUBLISHED",
                 "desc",
                 currentPage,
                 5
@@ -59,7 +58,7 @@ function TalentProofArea() {
                     next={fetchMoreData}
                     hasMore={totalPages - 1 >= currentPage}
                     loader={<h1>loading...</h1>}
-                    endMessage={<h1>You ve reached the end</h1>}
+                    endMessage={proofs.length === 0 ?  <h1>No proofs here</h1> : <h1>You ve reached the end</h1>}
                 >
                     {proofs.map((element) => {
                         return (
