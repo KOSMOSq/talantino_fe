@@ -10,20 +10,29 @@ const TalentsArea = () => {
 
     return (
         <>
-            <Box zIndex={1} position={"absolute"} right={80} mt={"15px"} mb={"15px"}>
+            <Box
+                zIndex={1}
+                position={"absolute"}
+                right={80}
+                mt={"15px"}
+                mb={"15px"}
+            >
                 <ChangeViewButton />
             </Box>
 
-            {talentsView === "grid" ? 
+            {talentsView === "grid" ? (
                 <Box display="flex" justifyContent="center" pt={4}>
-                    <Grid container item
+                    <Grid
+                        container
+                        item
                         sm={12}
                         md={12}
                         lg={12}
                         xl={9}
                         spacing={2}
                         display="flex"
-                        justifyContent="center">
+                        justifyContent="center"
+                    >
                         {talents.map(element => {
                             return (
                                 <Grid item key={element.id}>
@@ -32,19 +41,20 @@ const TalentsArea = () => {
                             );
                         })}
                     </Grid>
-                </Box> :
-                <Box display="flex" justifyContent="center" pt={2}>
-                    <List sx={{width: "700px"}}>
-                    {talents.map(element => {
-                        return (
-                            <Grid item key={element.id}>
-                                <TalentListCard {...element} />
-                            </Grid>
-                        );
-                    })}
-                </List>
                 </Box>
-            }
+            ) : (
+                <Box display="flex" justifyContent="center" pt={2}>
+                    <List sx={{ width: "700px" }}>
+                        {talents.map(element => {
+                            return (
+                                <Grid item key={element.id}>
+                                    <TalentListCard {...element} />
+                                </Grid>
+                            );
+                        })}
+                    </List>
+                </Box>
+            )}
         </>
     );
 };

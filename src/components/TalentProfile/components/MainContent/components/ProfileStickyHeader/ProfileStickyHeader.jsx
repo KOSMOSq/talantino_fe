@@ -14,7 +14,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const currentPage = useSelector((store) => store.talents.currentPage);
+    const currentPage = useSelector(store => store.talents.currentPage);
     const handleClose = () => {
         navigate(`/talents/?page=${currentPage}`);
     };
@@ -42,18 +42,18 @@ function ProfileStickyHeader({ nextId, prevId }) {
             sx={{
                 boxShadow: "0 1px 0 0 #888888",
                 height: "7vh",
-                marginTop: "1vh",
+                marginTop: "1vh"
             }}
         >
             <Toolbar variant="dense" sx={{ display: "flex" }}>
-                {profileSubPages.map((item) => {
+                {profileSubPages.map(item => {
                     const itemLowerCase = item.toLocaleLowerCase();
                     return (
                         <Button
                             key={itemLowerCase}
                             href={`/talent/${talentId}/`}
                             component={NavLink}
-                            onClick={(e) => {
+                            onClick={e => {
                                 e.preventDefault();
                                 navigate(
                                     `/talent/${talentId}/${
@@ -65,7 +65,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
                                         state:
                                             from !== "profile-click"
                                                 ? { from: null }
-                                                : { from: "profile-click" },
+                                                : { from: "profile-click" }
                                     }
                                 );
                             }}
