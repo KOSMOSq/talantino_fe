@@ -20,6 +20,10 @@ const proofsAPI = {
 			})
 		).data;
 	},
-}
+
+    async getProofs() {
+        return (await axiosInstance.get(`/ourProofsEndpoint`)).data;
+    },
+};
 
 export { proofsAPI };

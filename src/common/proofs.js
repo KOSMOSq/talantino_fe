@@ -66,13 +66,6 @@ const proofs = [
 		description: "text for proof 9",
 		author: 3,
 	},
-	{
-		id: 10,
-		date: Date.parse("03.20.2023"),
-		title: "Proof 10",
-		description: "text for proof 1",
-		author: 3,
-	},
 ];
 
 export { proofs };
