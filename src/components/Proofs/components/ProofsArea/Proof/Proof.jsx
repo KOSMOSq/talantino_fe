@@ -25,8 +25,17 @@ const Proof = ({ date, title, description, author }) => {
                             {getRelativeTime(dateUTC)}
                         </Typography>
                         <Typography sx={{ fontSize: "16px" }}>
-                            {description +
-                                (description.length === 200 ? "..." : "")}
+                            {description}
+                            {description.length === 200 ? (
+                                <Typography
+                                    variant="p"
+                                    sx={{ fontWeight: 700 }}
+                                >
+                                    ...
+                                </Typography>
+                            ) : (
+                                ""
+                            )}
                         </Typography>
                     </Typography>
                 </Box>
