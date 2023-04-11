@@ -4,6 +4,7 @@ import authReducer from "./reducers/authReducer";
 import talentsReducer from "./reducers/talentsReducer";
 import settingsReducer from "./reducers/settingsReducer";
 import talentsProofsReducer from "./reducers/talentsProofsReducer";
+import proofsReducer from "./reducers/proofsReducer";
 
 const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
         talents: talentsReducer,
         app: appReducer,
         settings: settingsReducer,
-        talentProofs: talentsProofsReducer
+        talentProofs: talentsProofsReducer,
+        proofs: proofsReducer
     }
 });
 
