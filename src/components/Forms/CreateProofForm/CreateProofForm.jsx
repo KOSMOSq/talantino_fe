@@ -70,11 +70,12 @@ const CreateProofForm = () => {
                     <TextField
                         sx={{
                             width: "100%",
-                            height: "100px",
+                            height: "auto",
                             marginBottom: "10px"
                         }}
                         placeholder="Tell everyone your proof"
-                        rows={3}
+                        minRows={2}
+                        maxRows={10}
                         multiline
                         {...register("description", {
                             required: "Proof should be at least 2 symbols long",

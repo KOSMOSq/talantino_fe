@@ -1,10 +1,11 @@
-import { Box, Chip, IconButton, Typography } from "@mui/material";
+import { Box, Chip, IconButton, TextField, Typography } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-
-import { createTheme } from "@mui/material/styles";
+import { theme } from "../../../../../../../shared/themes/neutralColorTheme";
 import { useSelector } from "react-redux";
 import { getRelativeTime } from "../../../../../../../shared/functions/getRelativeTime";
+import { useState } from "react";
+import { EditProofForm } from "../../../../../../Forms/EditProofForm/EditProofForm";
 
 function TalentProof({
     date,
@@ -15,15 +16,9 @@ function TalentProof({
     talentId,
     onDelete
 }) {
+    const [editMode, setEditMode] = useState(false);
+
     const authId = useSelector(store => store.auth.id);
-    const theme = createTheme({
-        palette: {
-            neutral: {
-                main: "#64748B",
-                contrastText: "#fff"
-            }
-        }
-    });
 
     return (
         <>
@@ -39,69 +34,84 @@ function TalentProof({
                 }}
             >
                 <Box sx={{ width: "100%" }}>
-                    <Box sx={{ display: "flex", flexDirection: "row" }}>
-                        <Box sx={{ width: "80%" }}>
-                            <Typography
-                                variant="h6"
-                                sx={{ fontWeight: 700, width: "100%" }}
-                            >
-                                {title}
-                            </Typography>
-                            <Typography
-                                sx={{ fontSize: "10px", color: "#888888" }}
-                            >
-                                {getRelativeTime(date)}
-                            </Typography>
-                        </Box>
-                        {+talentId === authId ? (
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    alignItems: "start",
-                                    height: "20px",
-                                    justifyContent: "right",
-                                    width: "30%"
-                                }}
-                            >
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: "10px"
-                                    }}
-                                >
-                                    <Chip
+                    {!editMode ? (
+                        <>
+                            <Box sx={{ display: "flex", flexDirection: "row" }}>
+                                <Box sx={{ width: "80%" }}>
+                                    <Typography
+                                        variant="h6"
+                                        sx={{ fontWeight: 700, width: "100%" }}
+                                    >
+                                        {title}
+                                    </Typography>
+                                    <Typography
                                         sx={{
-                                            justifySelf: "right",
-                                            fontSize: "16px"
+                                            fontSize: "10px",
+                                            color: "#888888"
                                         }}
-                                        theme={theme}
-                                        color={
-                                            status === "PUBLISHED"
-                                                ? "success"
-                                                : status === "DRAFT"
-                                                ? "default"
-                                                : "neutral"
-                                        }
-                                        label={status}
-                                    />
-                                    {status === "DRAFT" ? (
-                                        <IconButton>
-                                            <EditIcon />
-                                        </IconButton>
-                                    ) : null}
-                                    <IconButton onClick={() => onDelete(id)}>
-                                        <DeleteForeverIcon fontSize="medium" />
-                                    </IconButton>
+                                    >
+                                        {getRelativeTime(date)}
+                                    </Typography>
                                 </Box>
+                                {+talentId === authId ? (
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            alignItems: "start",
+                                            height: "20px",
+                                            justifyContent: "right",
+                                            width: "30%"
+                                        }}
+                                    >
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                gap: "10px"
+                                            }}
+                                        >
+                                            <Chip
+                                                sx={{
+                                                    justifySelf: "right",
+                                                    fontSize: "16px"
+                                                }}
+                                                theme={theme}
+                                                color={
+                                                    status === "PUBLISHED"
+                                                        ? "success"
+                                                        : status === "DRAFT"
+                                                        ? "default"
+                                                        : "neutral"
+                                                }
+                                                label={status}
+                                            />
+                                            <IconButton
+                                                title="Edit proof"
+                                                onClick={() =>
+                                                    setEditMode(prev => true)
+                                                }
+                                            >
+                                                <EditIcon />
+                                            </IconButton>
+                                            <IconButton
+                                                onClick={() => onDelete(id)}
+                                                title="Delete proof"
+                                            >
+                                                <DeleteForeverIcon fontSize="medium" />
+                                            </IconButton>
+                                        </Box>
+                                    </Box>
+                                ) : (
+                                    ""
+                                )}
                             </Box>
-                        ) : (
-                            ""
-                        )}
-                    </Box>
-                    <Typography sx={{ fontSize: "16px" }}>
-                        {description}
-                    </Typography>
+                            <Typography sx={{ fontSize: "16px", overflowWrap: "break-word" }}>
+                                {description}
+                            </Typography>
+                        </>
+                    ) : (
+                        <EditProofForm id={id} date={date} title={title} description={description} status={status} setEditMode={setEditMode}/>
+                    )}
                 </Box>
             </Box>
         </>
