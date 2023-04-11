@@ -4,7 +4,7 @@ import { Proof } from "./Proof/Proof";
 const ProofsArea = ({ proofs }) => {
     return (
         <Box display="flex" justifyContent="center" pt={2} width={"100%"}>
-            <List>
+            <List sx={{ width: "100%" }}>
                 {proofs.map(item => {
                     return <Proof {...item} key={item.id} />;
                 })}
