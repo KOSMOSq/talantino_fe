@@ -42,6 +42,18 @@ const proofsAPI = {
                 `/proofs?sort=${sort}&type=${type}&page=${page}&count=${count}`
             )
         ).data;
+    },
+
+    async editProof(talentId, proofId, data, token) {
+        return (
+            await axiosInstance.patch(
+                `/talents/${talentId}/proofs/${proofId}`,
+                data,
+                {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            )
+        ).data;
     }
 };
 

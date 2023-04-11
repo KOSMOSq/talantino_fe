@@ -26,15 +26,23 @@ const Talents = () => {
             setIsLoading(true);
         }
 
-        const urlPage = Number(searchParams.get("page")) || 1;
+        const urlPageParam = Number(searchParams.get("page"));
+        const urlPage =
+            urlPageParam && urlPageParam > 0
+                ? urlPageParam
+                : (() => {
+                    navigate(`/talents?page=${1}`);
+                    return 1;
+                })();
         dispatch(setCurrentPage(urlPage));
 
         const getTalents = async (amount = 9, page) => {
             const response = await talentsAPI.getTalents(amount, page - 1);
             const total = Math.ceil(response.totalAmount / amount);
 
-            if (urlPage > total) {
+            if (page > total) {
                 navigate(`/talents?page=${total}`);
+                return;
             }
             dispatch(setTalents(response.talents));
             dispatch(setTotalPages(total));

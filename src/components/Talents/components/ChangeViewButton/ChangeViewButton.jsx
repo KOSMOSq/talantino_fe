@@ -9,7 +9,7 @@ function ChangeViewButton() {
     const dispatch = useDispatch();
 
     const handleChange = (event, value) => {
-        if (value != null) {
+        if (value !== null) {
             dispatch(setTalentsView(value));
         }
     };
