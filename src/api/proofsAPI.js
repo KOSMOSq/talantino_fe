@@ -36,8 +36,12 @@ const proofsAPI = {
         ).data;
     },
 
-    async getProofs() {
-        return (await axiosInstance.get(`/ourProofsEndpoint`)).data;
+    async getProofs(sort = "date", type = "desc", page, count = 9) {
+        return (
+            await axiosInstance.get(
+                `/proofs?sort=${sort}&type=${type}&page=${page}&count=${count}`
+            )
+        ).data;
     }
 };
 
