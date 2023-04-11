@@ -16,6 +16,16 @@ const Proof = ({ date, title, description, author }) => {
                         </Typography>
                         <Typography sx={{ fontSize: "16px" }}>
                             {description}
+                            {description.length === 200 ? (
+                                <Typography
+                                    variant="p"
+                                    sx={{ fontWeight: 700 }}
+                                >
+                                    ...
+                                </Typography>
+                            ) : (
+                                ""
+                            )}
                         </Typography>
                     </Typography>
                 </Box>
