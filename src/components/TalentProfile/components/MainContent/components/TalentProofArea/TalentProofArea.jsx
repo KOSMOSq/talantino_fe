@@ -11,13 +11,13 @@ import { TalentProof } from "./components/TalentProof";
 import { CreateProofForm } from "../../../../../Forms/CreateProofForm/CreateProofForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteTalentProofThunk } from "../../../../../../redux/reducers/proofsReducer";
+import { deleteTalentProofThunk } from "../../../../../../redux/reducers/talentsProofsReducer";
 
 function TalentProofArea() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const authId = useSelector(store => store.auth.id);
-    let proofs = useSelector(store => store.proofs.talentProofs);
+    const proofs = useSelector(store => store.talentProofs.talentProofs);
     const { talentId } = useParams();
 
     const handleChange = event => {

@@ -9,10 +9,11 @@ const DELETE_TALENT_PROOF = "proofs/DELETE-TALENT-PROOF";
 const initialState = {
     talentProofs: [],
     totalTalentPages: 1,
-    talentCurrentPage: 0
+    talentCurrentPage: 0,
+    status: "PUBLISHED"
 };
 
-const proofsReducer = (state = initialState, action) => {
+const talentProofsReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_TALENT_PROOFS:
         case SET_TOTAL_TALENT_PAGES:
@@ -69,14 +70,30 @@ export const addTalentProofThunk = data => async (dispatch, getState) => {
 
     try {
         await proofsAPI.addProof(id, token, data);
+        if (data.status === getState().talentProofs.status) {
+            const response = await proofsAPI.getTalentProofs(
+                token,
+                id,
+                "date",
+                data.status,
+                "desc",
+                0,
+                1
+            );
+            dispatch(
+                setTalentProofs([
+                    ...response.proofs,
+                    ...getState().talentProofs.talentProofs
+                ])
+            );
+        }
     } catch (err) {
         console.log(err);
     }
 };
 
 export const getTalentProofsThunk =
-    (id, sort, status, type, page, amount, renew = false) =>
-    async (dispatch, getState) => {
+    (id, sort, status, type, page, amount) => async (dispatch, getState) => {
         const token = getState().auth.token;
 
         try {
@@ -89,26 +106,15 @@ export const getTalentProofsThunk =
                 page,
                 amount
             );
-            if (renew) {
-                dispatch(
-                    setTalentProofs([
-                        ...response.proofs,
-                        ...getState().proofs.talentProofs
-                    ])
-                );
-            } else {
-                dispatch(
-                    setTotalTalentPages(
-                        Math.ceil(response.totalAmount / amount)
-                    )
-                );
-                dispatch(
-                    setTalentProofs([
-                        ...getState().proofs.talentProofs,
-                        ...response.proofs
-                    ])
-                );
-            }
+            dispatch(
+                setTotalTalentPages(Math.ceil(response.totalAmount / amount))
+            );
+            dispatch(
+                setTalentProofs([
+                    ...getState().talentProofs.talentProofs,
+                    ...response.proofs
+                ])
+            );
         } catch (err) {
             console.log(err);
         }
@@ -126,4 +132,4 @@ export const deleteTalentProofThunk = proofId => async (dispatch, getState) => {
     }
 };
 
-export default proofsReducer;
+export default talentProofsReducer;

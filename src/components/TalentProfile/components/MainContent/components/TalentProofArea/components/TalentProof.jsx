@@ -25,16 +25,6 @@ function TalentProof({
         }
     });
 
-    const dateOBJ = new Date(date);
-    const dateUTC = Date.UTC(
-        dateOBJ.getFullYear(),
-        dateOBJ.getMonth(),
-        dateOBJ.getDate(),
-        dateOBJ.getHours(),
-        dateOBJ.getMinutes(),
-        dateOBJ.getSeconds()
-    );
-
     return (
         <>
             <Box
@@ -60,7 +50,7 @@ function TalentProof({
                             <Typography
                                 sx={{ fontSize: "10px", color: "#888888" }}
                             >
-                                {getRelativeTime(dateUTC)}
+                                {getRelativeTime(date)}
                             </Typography>
                         </Box>
                         {+talentId === authId ? (
@@ -95,7 +85,11 @@ function TalentProof({
                                         }
                                         label={status}
                                     />
-                                    <EditIcon />
+                                    {status === "DRAFT" ? (
+                                        <IconButton>
+                                            <EditIcon />
+                                        </IconButton>
+                                    ) : null}
                                     <IconButton onClick={() => onDelete(id)}>
                                         <DeleteForeverIcon fontSize="medium" />
                                     </IconButton>
