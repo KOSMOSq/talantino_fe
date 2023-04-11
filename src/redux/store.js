@@ -3,7 +3,7 @@ import appReducer from "./reducers/appReducer";
 import authReducer from "./reducers/authReducer";
 import talentsReducer from "./reducers/talentsReducer";
 import settingsReducer from "./reducers/settingsReducer";
-import proofsReducer from "./reducers/proofsReducer";
+import talentsProofsReducer from "./reducers/talentsProofsReducer";
 
 const store = configureStore({
     reducer: {
@@ -11,7 +11,7 @@ const store = configureStore({
         talents: talentsReducer,
         app: appReducer,
         settings: settingsReducer,
-        proofs: proofsReducer
+        talentProofs: talentsProofsReducer
     }
 });
 

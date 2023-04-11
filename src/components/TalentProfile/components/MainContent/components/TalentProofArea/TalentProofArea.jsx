@@ -1,83 +1,69 @@
-import { Box, Grid, LinearProgress } from "@mui/material";
+import {
+    Box,
+    Button,
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select
+} from "@mui/material";
 import { TalentProof } from "./components/TalentProof";
-import { useEffect, useState } from "react";
 import { CreateProofForm } from "../../../../../Forms/CreateProofForm/CreateProofForm";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import {
-    deleteTalentProofThunk,
-    getTalentProofsThunk,
-    setTalentProofs
-} from "../../../../../../redux/reducers/proofsReducer";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { useNavigate, useParams } from "react-router-dom";
+import { deleteTalentProofThunk } from "../../../../../../redux/reducers/talentsProofsReducer";
 
 function TalentProofArea() {
-    const authId = useSelector(store => store.auth.id);
-    const { talentId } = useParams();
-    const proofs = useSelector(store => store.proofs.talentProofs);
-    const totalPages = useSelector(store => store.proofs.totalTalentPages);
-    const [currentPage, setCurrentPage] = useState(0);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const authId = useSelector(store => store.auth.id);
+    const proofs = useSelector(store => store.talentProofs.talentProofs);
+    const { talentId } = useParams();
 
-    const fetchMoreData = () => {
-        dispatch(
-            getTalentProofsThunk(
-                talentId,
-                "date",
-                +talentId === authId ? "ALL" : "PUBLISHED",
-                "desc",
-                currentPage,
-                5
-            )
-        );
-        setCurrentPage(prev => prev + 1);
+    const handleChange = event => {
+        navigate(`?status=${event.target.value}`);
     };
 
-    useEffect(() => {
-        dispatch(setTalentProofs([]));
-        setCurrentPage(prev => 0);
-        fetchMoreData();
-    }, [talentId]);
-
-    // add isLoading dep, proofs is an array so it is always true
-    if (!proofs) {
-        return <LinearProgress />;
-    }
+    const handleMoreDate = () => {};
 
     const handleDelete = async id => {
         dispatch(deleteTalentProofThunk(id));
     };
 
+    const fetchMoreData = async () => {};
+
     return (
         <>
             <Box mt={2}>
                 {authId === Number(talentId) ? <CreateProofForm /> : null}
-                {/* improve loader and end message */}
-                <InfiniteScroll
-                    dataLength={proofs.length}
-                    next={fetchMoreData}
-                    hasMore={totalPages - 1 >= currentPage}
-                    loader={<h1>loading...</h1>}
-                    endMessage={
-                        proofs.length === 0 ? (
-                            <h1>No proofs here</h1>
-                        ) : (
-                            <h1>You ve reached the end</h1>
-                        )
-                    }
-                >
-                    {proofs.map(element => {
-                        return (
-                            <Grid item key={element.id}>
-                                <TalentProof
-                                    {...element}
-                                    onDelete={handleDelete}
-                                    talentId={talentId}
-                                />
-                            </Grid>
-                        );
-                    })}
-                </InfiniteScroll>
+                <Box mb={2}>
+                    <FormControl sx={{ width: "120px" }}>
+                        <InputLabel id="selectStatus">Status</InputLabel>
+                        <Select
+                            labelId="selectStatus"
+                            value={"ALL"}
+                            // value={status}
+                            onChange={handleChange}
+                        >
+                            <MenuItem value={"ALL"}>All</MenuItem>
+                            <MenuItem value={"PUBLISHED"}>Published</MenuItem>
+                            <MenuItem value={"HIDDEN"}>Hidden</MenuItem>
+                            <MenuItem value={"DRAFT"}>Draft</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+                {proofs.map(element => {
+                    return (
+                        <Grid item key={element.id}>
+                            <TalentProof
+                                {...element}
+                                onDelete={handleDelete}
+                                talentId={talentId}
+                            />
+                        </Grid>
+                    );
+                })}
+                <Button onClick={handleMoreDate}>Get more data</Button>
             </Box>
         </>
     );

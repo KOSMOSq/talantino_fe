@@ -25,16 +25,6 @@ function TalentProof({
         }
     });
 
-    const dateOBJ = new Date(date);
-    const dateUTC = Date.UTC(
-        dateOBJ.getFullYear(),
-        dateOBJ.getMonth(),
-        dateOBJ.getDate(),
-        dateOBJ.getHours(),
-        dateOBJ.getMinutes(),
-        dateOBJ.getSeconds()
-    );
-
     return (
         <>
             <Box
@@ -48,55 +38,71 @@ function TalentProof({
                     justifyContent: "space-between"
                 }}
             >
-                <Box>
-                    <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                        {title}
-                        <Typography sx={{ fontSize: "10px", color: "#888888" }}>
-                            {getRelativeTime(dateUTC)}
-                        </Typography>
-                        <Typography sx={{ fontSize: "16px" }}>
-                            {description}
-                        </Typography>
+                <Box sx={{ width: "100%" }}>
+                    <Box sx={{ display: "flex", flexDirection: "row" }}>
+                        <Box sx={{ width: "80%" }}>
+                            <Typography
+                                variant="h6"
+                                sx={{ fontWeight: 700, width: "100%" }}
+                            >
+                                {title}
+                            </Typography>
+                            <Typography
+                                sx={{ fontSize: "10px", color: "#888888" }}
+                            >
+                                {getRelativeTime(date)}
+                            </Typography>
+                        </Box>
+                        {+talentId === authId ? (
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "start",
+                                    height: "20px",
+                                    justifyContent: "right",
+                                    width: "30%"
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "10px"
+                                    }}
+                                >
+                                    <Chip
+                                        sx={{
+                                            justifySelf: "right",
+                                            fontSize: "16px"
+                                        }}
+                                        theme={theme}
+                                        color={
+                                            status === "PUBLISHED"
+                                                ? "success"
+                                                : status === "DRAFT"
+                                                ? "default"
+                                                : "neutral"
+                                        }
+                                        label={status}
+                                    />
+                                    {status === "DRAFT" ? (
+                                        <IconButton>
+                                            <EditIcon />
+                                        </IconButton>
+                                    ) : null}
+                                    <IconButton onClick={() => onDelete(id)}>
+                                        <DeleteForeverIcon fontSize="medium" />
+                                    </IconButton>
+                                </Box>
+                            </Box>
+                        ) : (
+                            ""
+                        )}
+                    </Box>
+                    <Typography sx={{ fontSize: "16px" }}>
+                        {description}
                     </Typography>
                 </Box>
-                {+talentId === authId ? (
-                    <Box
-                        sx={{
-                            display: "flex",
-                            alignItems: "start"
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "10px"
-                            }}
-                        >
-                            <Chip
-                                sx={{
-                                    justifySelf: "right",
-                                    fontSize: "16px"
-                                }}
-                                theme={theme}
-                                color={
-                                    status === "PUBLISHED"
-                                        ? "success"
-                                        : status === "DRAFT"
-                                        ? "default"
-                                        : "neutral"
-                                }
-                                label={status}
-                            />
-                            <EditIcon />
-                            <IconButton onClick={() => onDelete(id)}>
-                                <DeleteForeverIcon fontSize="medium" />
-                            </IconButton>
-                        </Box>
-                    </Box>
-                ) : (
-                    ""
-                )}
             </Box>
         </>
     );
