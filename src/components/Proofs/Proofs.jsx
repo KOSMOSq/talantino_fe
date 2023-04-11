@@ -1,59 +1,47 @@
 import { Container, LinearProgress, Pagination } from "@mui/material";
 import { ProofsArea } from "./components/ProofsArea/ProofsArea";
-import { useEffect, useState } from "react";
-import { proofsAPI } from "../../api/proofsAPI";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    setPage,
+    setIsLoading,
+    getProofsThunk
+} from "../../redux/reducers/proofsReducer";
 
 const Proofs = () => {
-    const [proofs, setProofs] = useState();
-    const [isLoading, setIsLoading] = useState(true);
-    const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState();
+    const proofs = useSelector(store => store.proofs.proofs);
+    const isLoading = useSelector(store => store.proofs.isLoading);
+    const page = useSelector(store => store.proofs.currentPage);
+    const totalPages = useSelector(store => store.proofs.totalPages);
+    const sortType = useSelector(store => store.proofs.proofsSortType);
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-
-    const getProofs = async (page, count) => {
-        const response = await proofsAPI.getProofs(
-            undefined,
-            undefined,
-            page - 1,
-            count
-        );
-        const total = Math.ceil(response.totalAmount / count);
-        setTotalPages(total);
-
-        if (page > total) {
-            setPage(total);
-            navigate(`/proofs?page=${total}`);
-            return;
-        }
-
-        setProofs(response.proofs);
-        setIsLoading(false);
-    };
+    const dispatch = useDispatch();
+    const location = useLocation();
 
     useEffect(() => {
         if (!isLoading) {
-            setIsLoading(true);
+            dispatch(setIsLoading(true));
         }
         const urlPage = Number(searchParams.get("page")) || 1;
-        setPage(urlPage);
-        if (page < 1) {
-            setPage(1);
+        if (urlPage < 1) {
+            dispatch(setPage(1));
             navigate(`/proofs?page=1`);
             return;
         }
+        dispatch(setPage(urlPage));
 
-        getProofs(page, 9).catch(err => console.log(err));
-    }, [page]);
+        dispatch(getProofsThunk(urlPage, 9, sortType, navigate));
+    }, [page, sortType, location]);
 
     if (isLoading) {
         return <LinearProgress />;
     }
 
     const handleChange = (e, value) => {
-        setPage(value);
+        dispatch(setPage(value));
         navigate(`/proofs?page=${value}`);
     };
 

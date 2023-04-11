@@ -5,7 +5,7 @@ const Proof = ({ date, title, description, author }) => {
     return (
         <>
             <ListItem>
-                <Box>
+                <Box width={"100%"}>
                     <Typography
                         variant="h6"
                         sx={{ fontWeight: 700, fontSize: 24 }}
@@ -14,7 +14,12 @@ const Proof = ({ date, title, description, author }) => {
                         <Typography sx={{ fontSize: "10px", color: "#888888" }}>
                             {getRelativeTime(date)}
                         </Typography>
-                        <Typography sx={{ fontSize: "16px" }}>
+                        <Typography
+                            sx={{
+                                fontSize: "16px",
+                                overflowWrap: "break-word"
+                            }}
+                        >
                             {description}
                             {description.length === 200 ? (
                                 <Typography
