@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import {
     addTalentProofThunk,
     getTalentProofsThunk
-} from "../../../redux/reducers/proofsReducer";
+} from "../../../redux/reducers/talentsProofsReducer";
 import { useDispatch, useSelector } from "react-redux";
 
 const CreateProofForm = () => {
@@ -28,7 +28,6 @@ const CreateProofForm = () => {
     const onSubmit = (data, e) => {
         data.status = e.nativeEvent.submitter.value;
         dispatch(addTalentProofThunk(data));
-        dispatch(getTalentProofsThunk(id, "date", "ALL", "desc", 0, 1, true));
         reset();
     };
 

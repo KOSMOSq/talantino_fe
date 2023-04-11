@@ -10,8 +10,18 @@ const timeUnits = {
 
 const auto = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
 
-export const getRelativeTime = (date1, date2 = new Date()) => {
-    const result = date1 - date2;
+export const getRelativeTime = date => {
+    const dateOBJ = new Date(date);
+    const dateUTC = Date.UTC(
+        dateOBJ.getFullYear(),
+        dateOBJ.getMonth(),
+        dateOBJ.getDate(),
+        dateOBJ.getHours(),
+        dateOBJ.getMinutes(),
+        dateOBJ.getSeconds()
+    );
+    const result = dateUTC - new Date();
+
     for (let item in timeUnits) {
         if (Math.abs(result) > timeUnits[item] || item === "second") {
             return auto.format(Math.round(result / timeUnits[item]), item);
