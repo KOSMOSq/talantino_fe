@@ -9,7 +9,7 @@ const SET_IS_NEXT_TALENT = "talents/SET-IS-NEXT-TALENT";
 const initialState = {
     currentPage: 1,
     totalPages: 1,
-    talents: {},
+    talents: [],
     clickedId: null,
     totalTalents: 0,
     talentsView: "grid",

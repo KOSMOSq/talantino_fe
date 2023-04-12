@@ -1,4 +1,5 @@
 import { proofsAPI } from "../../api/proofsAPI";
+import { setGlobalError } from "./appReducer";
 
 const SET_PROOFS_SORT_TYPE = "proofs/SET-PROOFS-SORT-TYPE";
 const SET_PROOFS = "proofs/SET-PROOFS";
@@ -68,9 +69,13 @@ export const getProofsThunk =
             const total = Math.ceil(response.totalAmount / count);
             dispatch(setTotalPages(total));
 
-            if (page > total) {
+            if (page > total && total > 0) {
                 dispatch(setPage(total));
                 navigate(`/proofs?page=${total}`);
+                return;
+            } else if (total === 0) {
+                dispatch(setGlobalError("No proofs here ("));
+                dispatch(setIsLoading(false));
                 return;
             }
 

@@ -9,6 +9,7 @@ import {
     setTalents,
     setTotalPages
 } from "../../redux/reducers/talentsReducer";
+import { setGlobalError } from "../../redux/reducers/appReducer";
 
 const Talents = () => {
     const dispatch = useDispatch();
@@ -40,8 +41,12 @@ const Talents = () => {
             const response = await talentsAPI.getTalents(amount, page - 1);
             const total = Math.ceil(response.totalAmount / amount);
 
-            if (page > total) {
+            if (page > total && total > 0) {
                 navigate(`/talents?page=${total}`);
+                return;
+            } else if (total === 0){
+                dispatch(setGlobalError("No talents at all ("));
+                setIsLoading(false);
                 return;
             }
             dispatch(setTalents(response.talents));
@@ -57,7 +62,7 @@ const Talents = () => {
         navigate(`/talents?page=${value}`);
     };
 
-    if (!talents || isLoading) {
+    if (isLoading) {
         return <LinearProgress />;
     }
 
