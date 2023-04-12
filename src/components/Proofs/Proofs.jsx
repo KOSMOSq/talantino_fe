@@ -25,7 +25,14 @@ const Proofs = () => {
         if (!isLoading) {
             dispatch(setIsLoading(true));
         }
-        const urlPage = Number(searchParams.get("page")) || 1;
+        const urlPageParam = Number(searchParams.get("page"));
+        const urlPage =
+            urlPageParam && urlPageParam > 0
+                ? urlPageParam
+                : (() => {
+                    navigate(`/proofs?page=${1}`);
+                    return 1;
+                })();
         if (urlPage < 1) {
             dispatch(setPage(1));
             navigate(`/proofs?page=1`);
