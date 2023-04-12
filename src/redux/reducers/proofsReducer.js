@@ -9,7 +9,7 @@ const SET_IS_LOADING = "proofs/SET-IS-LOADING";
 
 const initialState = {
     proofs: [],
-    totalPages: null,
+    totalPages: 1,
     currentPage: 1,
     proofsSortType: "desc",
     isLoading: true
@@ -67,18 +67,17 @@ export const getProofsThunk =
                 count
             );
             const total = Math.ceil(response.totalAmount / count);
-            dispatch(setTotalPages(total));
-
+            
             if (page > total && total > 0) {
-                dispatch(setPage(total));
                 navigate(`/proofs?page=${total}`);
                 return;
             } else if (total === 0) {
                 dispatch(setGlobalError("No proofs here ("));
-                dispatch(setIsLoading(false));
-                return;
             }
-
+            
+            if (total) {
+                dispatch(setTotalPages(total));
+            }
             dispatch(setProofs(response.proofs));
             dispatch(setIsLoading(false));
         } catch (err) {

@@ -46,11 +46,11 @@ const Talents = () => {
                 return;
             } else if (total === 0){
                 dispatch(setGlobalError("No talents at all ("));
-                setIsLoading(false);
-                return;
+            }
+            if (total) {
+                dispatch(setTotalPages(total));
             }
             dispatch(setTalents(response.talents));
-            dispatch(setTotalPages(total));
             setIsLoading(false);
         };
 
