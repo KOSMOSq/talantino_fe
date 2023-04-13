@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { editProofThunk } from "../../../redux/reducers/talentsProofsReducer";
 import { useState } from "react";
 import { getRelativeTime } from "../../../shared/functions/getRelativeTime";
+import { sharedValidation } from "../validation/sharedValidation";
 
 const EditProofForm = ({
     id,
@@ -67,20 +68,7 @@ const EditProofForm = ({
                                     fontWeight: "bold"
                                 }}
                                 placeholder="Title"
-                                {...register("title", {
-                                    required:
-                                        "Title should be at least 2 symbols long",
-                                    minLength: {
-                                        value: 2,
-                                        message:
-                                            "Title should be at least 2 symbols long"
-                                    },
-                                    maxLength: {
-                                        value: 40,
-                                        message:
-                                            "Title shouldn't be larger than 40 symbols"
-                                    }
-                                })}
+                                {...register("title", sharedValidation.proofTitle)}
                             />
                         ) : (
                             <>
@@ -151,19 +139,7 @@ const EditProofForm = ({
                         minRows={1}
                         maxRows={10}
                         multiline
-                        {...register("description", {
-                            required: "Proof should be at least 2 symbols long",
-                            minLength: {
-                                value: 2,
-                                message:
-                                    "Proof should be at least 2 symbols long"
-                            },
-                            maxLength: {
-                                value: 2000,
-                                message:
-                                    "Proof shouldn't be larger than 2000 symbols"
-                            }
-                        })}
+                        {...register("description", sharedValidation.proofDescription)}
                     />
                 ) : (
                     <Typography

@@ -34,37 +34,6 @@ function DeleteTalent() {
                 handleClose={() => setOpen(false)}
                 handleArgee={handleClickDelete}
             />
-            {/* <Dialog
-                open={open}
-                onClose={handleClose}
-                sx={{
-                    "& .MuiDialog-paper": {
-                        backgroundColor: "transparent",
-                        boxShadow: "none"
-                    }
-                }}
-            >
-                <DialogContent>
-                    <Alert severity="error">
-                        <AlertTitle>Delete your talent profile?</AlertTitle>
-                        Are you sure you want to delete your talent profile?
-                        Access to it will be lost forever.{" "}
-                        <strong>Access to it will be lost forever.</strong>
-                        <DialogActions>
-                            <Button
-                                autoFocus
-                                onClick={(handleClose, handleClickDelete)}
-                                sx={{ color: "red" }}
-                            >
-                                Delete
-                            </Button>
-                            <Button onClick={handleClose} autoFocus>
-                                Cancel
-                            </Button>
-                        </DialogActions>
-                    </Alert>
-                </DialogContent>
-            </Dialog> */}
         </div>
     );
 }

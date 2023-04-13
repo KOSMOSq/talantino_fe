@@ -8,6 +8,7 @@ import {
 import { useForm } from "react-hook-form";
 import { addTalentProofThunk } from "../../../redux/reducers/talentsProofsReducer";
 import { useDispatch } from "react-redux";
+import { sharedValidation } from "../validation/sharedValidation";
 
 const CreateProofForm = () => {
     const {
@@ -49,19 +50,7 @@ const CreateProofForm = () => {
                             fontWeight: "bold"
                         }}
                         placeholder="Title"
-                        {...register("title", {
-                            required: "Title should be at least 2 symbols long",
-                            minLength: {
-                                value: 2,
-                                message:
-                                    "Title should be at least 2 symbols long"
-                            },
-                            maxLength: {
-                                value: 40,
-                                message:
-                                    "Title shouldn't be larger than 40 symbols"
-                            }
-                        })}
+                        {...register("title", sharedValidation.proofTitle)}
                     />
                     <TextField
                         sx={{
@@ -73,19 +62,7 @@ const CreateProofForm = () => {
                         minRows={2}
                         maxRows={10}
                         multiline
-                        {...register("description", {
-                            required: "Proof should be at least 2 symbols long",
-                            minLength: {
-                                value: 2,
-                                message:
-                                    "Proof should be at least 2 symbols long"
-                            },
-                            maxLength: {
-                                value: 2000,
-                                message:
-                                    "Proof shouldn't be larger than 2000 symbols"
-                            }
-                        })}
+                        {...register("description", sharedValidation.proofDescription)}
                     />
                     <Box display="flex" gap="10px">
                         <FormHelperText
