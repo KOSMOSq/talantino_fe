@@ -1,5 +1,5 @@
 import { authAPI } from "../../api/authAPI";
-import { setGlobalError } from "./appReducer";
+import { setMessage } from "./appReducer";
 
 const SET_TALENT_DATA = "auth/SET-TALENT-DATA";
 const CLEAR_DATA = "auth/CLEAR-DATA";
@@ -8,16 +8,18 @@ const INITIALIZE = "auth/INITIALIZE";
 const SET_IS_LOADING = "auth/SET_IS_LOADING";
 
 const initialState = {
-    id: null,
-    name: null,
-    surname: null,
-    email: null,
-    kind: null,
-    description: null,
-    avatar: null,
-    experience: null,
-    location: null,
-    links: [],
+    user: {
+        id: null,
+        name: null,
+        surname: null,
+        email: null,
+        kind: null,
+        description: null,
+        avatar: null,
+        experience: null,
+        location: null,
+        links: []
+    },
     isAuth: false,
     token: null,
     isInitialized: false,
@@ -29,31 +31,13 @@ const authReducer = (state = initialState, action) => {
         case SET_TALENT_DATA:
             return {
                 ...state,
-                id: action.id,
-                name: action.name,
-                surname: action.surname,
-                email: action.email,
-                kind: action.kind,
-                description: action.description,
-                avatar: action.avatar,
-                experience: action.experience,
-                location: action.location,
-                links: action.links,
+                user: action.user,
                 isAuth: true
             };
         case CLEAR_DATA:
             return {
                 ...state,
-                id: null,
-                name: null,
-                surname: null,
-                email: null,
-                kind: null,
-                description: null,
-                avatar: null,
-                experience: null,
-                location: null,
-                links: [],
+                user: initialState.user,
                 isAuth: false,
                 token: null
             };
@@ -77,30 +61,7 @@ const authReducer = (state = initialState, action) => {
     }
 };
 
-export const setTalentData = ({
-    id,
-    name,
-    surname,
-    email,
-    kind,
-    description,
-    avatar,
-    experience,
-    location,
-    links
-}) => ({
-    type: SET_TALENT_DATA,
-    id,
-    name,
-    surname,
-    email,
-    kind,
-    description,
-    avatar,
-    experience,
-    location,
-    links
-});
+export const setTalentData = user => ({ type: SET_TALENT_DATA, user });
 export const clearData = () => ({ type: CLEAR_DATA });
 export const initialize = () => ({ type: INITIALIZE });
 export const setToken = token => ({ type: SET_TOKEN, token });
@@ -118,10 +79,11 @@ export const getAuthThunk = () => async (dispatch, getState) => {
         }
     } catch (err) {
         dispatch(
-            setGlobalError(
+            setMessage(
                 err.response?.data.message
                     ? err.response.data.message
-                    : "Unknown error"
+                    : "Network error",
+                "error"
             )
         );
     } finally {
@@ -141,10 +103,11 @@ export const loginThunk = data => async dispatch => {
         dispatch(getAuthThunk());
     } catch (err) {
         dispatch(
-            setGlobalError(
+            setMessage(
                 err.response?.data.message
                     ? "Invalid email or password"
-                    : "Unknown error"
+                    : "Network error",
+                "error"
             )
         );
     } finally {
@@ -165,10 +128,11 @@ export const registerThunk = data => async dispatch => {
         dispatch(loginThunk(data));
     } catch (err) {
         dispatch(
-            setGlobalError(
+            setMessage(
                 err.response?.data.message
                     ? err.response.data.message
-                    : "Unknown error"
+                    : "Network error",
+                "error"
             )
         );
     } finally {

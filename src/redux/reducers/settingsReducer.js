@@ -1,5 +1,5 @@
 import { talentsAPI } from "../../api/talentsAPI";
-import { setGlobalError } from "./appReducer";
+import { setMessage } from "./appReducer";
 import { getAuthThunk } from "./authReducer";
 
 const SET_IS_LOADING = "settings/SET-IS-LOADING";
@@ -31,7 +31,7 @@ export const setIsDone = isDone => ({ type: SET_IS_DONE, payload: { isDone } });
 
 export const changeProfileDataThunk = data => async (dispatch, getState) => {
     dispatch(setIsLoading(true));
-    const id = getState().auth.id;
+    const id = getState().auth.user.id;
     const token = getState().auth.token;
     data.links = [
         data.links.zero,
@@ -43,12 +43,14 @@ export const changeProfileDataThunk = data => async (dispatch, getState) => {
         await talentsAPI.changeData(id, token, data);
         dispatch(setIsDone(true));
         dispatch(getAuthThunk());
+        dispatch(setMessage("Your profile was successfully edited!", "success"));
     } catch (err) {
         dispatch(
-            setGlobalError(
+            setMessage(
                 err.response?.data.message
                     ? err.response.data.message
-                    : "Unknown error"
+                    : "Network error",
+                "error"
             )
         );
     } finally {

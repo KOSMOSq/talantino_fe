@@ -1,4 +1,4 @@
-import { Box, Chip, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Chip, IconButton, Typography } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { theme } from "../../../../../../../shared/themes/neutralColorTheme";
@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { getRelativeTime } from "../../../../../../../shared/functions/getRelativeTime";
 import { useState } from "react";
 import { EditProofForm } from "../../../../../../Forms/EditProofForm/EditProofForm";
+import { ModalConfirmation } from "../../../../../../ModalConfirmation/ModalConfirmation";
 
 function TalentProof({
     date,
@@ -17,8 +18,9 @@ function TalentProof({
     onDelete
 }) {
     const [editMode, setEditMode] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
 
-    const authId = useSelector(store => store.auth.id);
+    const authId = useSelector(store => store.auth.user.id);
 
     return (
         <>
@@ -94,7 +96,9 @@ function TalentProof({
                                                 <EditIcon />
                                             </IconButton>
                                             <IconButton
-                                                onClick={() => onDelete(id)}
+                                                onClick={() =>
+                                                    setOpenModal(true)
+                                                }
                                                 title="Delete proof"
                                             >
                                                 <DeleteForeverIcon fontSize="medium" />
@@ -105,15 +109,34 @@ function TalentProof({
                                     ""
                                 )}
                             </Box>
-                            <Typography sx={{ fontSize: "16px", overflowWrap: "break-word" }}>
+                            <Typography
+                                sx={{
+                                    fontSize: "16px",
+                                    overflowWrap: "break-word"
+                                }}
+                            >
                                 {description}
                             </Typography>
                         </>
                     ) : (
-                        <EditProofForm id={id} date={date} title={title} description={description} status={status} setEditMode={setEditMode}/>
+                        <EditProofForm
+                            id={id}
+                            date={date}
+                            title={title}
+                            description={description}
+                            status={status}
+                            setEditMode={setEditMode}
+                        />
                     )}
                 </Box>
             </Box>
+            <ModalConfirmation
+                title={"Are you sure you want delete the proof?"}
+                description={"It cannot be restored."}
+                open={openModal}
+                handleClose={() => setOpenModal(false)}
+                handleArgee={() => onDelete(id)}
+            />
         </>
     );
 }

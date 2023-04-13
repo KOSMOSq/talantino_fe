@@ -20,7 +20,7 @@ const Overview = ({ talentDescription }) => {
                         <ReactMarkdown
                             components={{
                                 p: "span",
-                                img: (props) => <img {...props} width="230" height="230" style={{ objectFit: "contain" }}/>
+                                img: (props) => <img {...props} width="230" height="230" style={{ objectFit: "contain" }} alt="Markdown"/>
                             }}
                             children={talentDescription}
                             remarkPlugins={[

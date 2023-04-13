@@ -1,5 +1,5 @@
 import { proofsAPI } from "../../api/proofsAPI";
-import { setGlobalError } from "./appReducer";
+import { setMessage } from "./appReducer";
 
 const SET_PROOFS_SORT_TYPE = "proofs/SET-PROOFS-SORT-TYPE";
 const SET_PROOFS = "proofs/SET-PROOFS";
@@ -67,21 +67,28 @@ export const getProofsThunk =
                 count
             );
             const total = Math.ceil(response.totalAmount / count);
-            
+
             if (page > total && total > 0) {
                 navigate(`/proofs?page=${total}`);
                 return;
             } else if (total === 0) {
-                dispatch(setGlobalError("No proofs here ("));
+                dispatch(setMessage("No proofs here ("));
             }
-            
+
             if (total) {
                 dispatch(setTotalPages(total));
             }
             dispatch(setProofs(response.proofs));
             dispatch(setIsLoading(false));
         } catch (err) {
-            console.log(err);
+            dispatch(
+                setMessage(
+                    err.response?.data.message
+                        ? err.response.data.message
+                        : "Network error",
+                    "error"
+                )
+            );
         }
     };
 

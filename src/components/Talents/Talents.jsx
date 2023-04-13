@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Container, LinearProgress, Pagination } from "@mui/material";
+import {
+    Container,
+    LinearProgress,
+    Pagination,
+    Typography
+} from "@mui/material";
 import { TalentsArea } from "./components/TalentsArea/TalentsArea";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { talentsAPI } from "../../api/talentsAPI";
@@ -9,7 +14,7 @@ import {
     setTalents,
     setTotalPages
 } from "../../redux/reducers/talentsReducer";
-import { setGlobalError } from "../../redux/reducers/appReducer";
+import { setMessage } from "../../redux/reducers/appReducer";
 
 const Talents = () => {
     const dispatch = useDispatch();
@@ -32,9 +37,9 @@ const Talents = () => {
             urlPageParam && urlPageParam > 0
                 ? urlPageParam
                 : (() => {
-                    navigate(`/talents?page=${1}`);
-                    return 1;
-                })();
+                      navigate(`/talents?page=${1}`);
+                      return 1;
+                  })();
         dispatch(setCurrentPage(urlPage));
 
         const getTalents = async (amount = 9, page) => {
@@ -44,8 +49,8 @@ const Talents = () => {
             if (page > total && total > 0) {
                 navigate(`/talents?page=${total}`);
                 return;
-            } else if (total === 0){
-                dispatch(setGlobalError("No talents at all ("));
+            } else if (total === 0) {
+                dispatch(setMessage("No talents at all ("));
             }
             if (total) {
                 dispatch(setTotalPages(total));
@@ -54,7 +59,14 @@ const Talents = () => {
             setIsLoading(false);
         };
 
-        getTalents(undefined, urlPage).catch(err => console.log(err));
+        getTalents(undefined, urlPage).catch(err => dispatch(
+            setMessage(
+                err.response?.data.message
+                    ? err.response.data.message
+                    : "Network error",
+                "error"
+            )
+        ));
     }, [location]);
 
     const handleChange = (e, value) => {
@@ -64,6 +76,17 @@ const Talents = () => {
 
     if (isLoading) {
         return <LinearProgress />;
+    } else if (talents.length === 0) {
+        return (
+            <Typography variant="h6" sx={{ textAlign: "center", marginTop: "200px" }}>
+                {"No talents yet :("}
+                <Typography variant="caption" sx={{ display: "block" }}>
+                    {
+                        "You can create account and become the first talent in our application!"
+                    }
+                </Typography>
+            </Typography>
+        );
     }
 
     return (

@@ -2,7 +2,7 @@ import { AppBar, Toolbar, Button, IconButton, Box } from "@mui/material";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
-import { setGlobalError } from "../../../../../../redux/reducers/appReducer";
+import { setMessage } from "../../../../../../redux/reducers/appReducer";
 import { useLocation } from "react-router-dom";
 
 function ProfileStickyHeader({ nextId, prevId }) {
@@ -23,7 +23,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
         if (nextId) {
             navigate(`/talent/${nextId}`);
         } else {
-            dispatch(setGlobalError("No more talents"));
+            dispatch(setMessage("No more talents"));
         }
     };
 
@@ -31,7 +31,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
         if (prevId) {
             navigate(`/talent/${prevId}`);
         } else {
-            dispatch(setGlobalError("No more previous talents"));
+            dispatch(setMessage("No more previous talents"));
         }
     };
 

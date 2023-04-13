@@ -2,11 +2,11 @@ import { Container, LinearProgress } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { talentsAPI } from "../../api/talentsAPI";
-import { useLocation } from "react-router-dom";
 import { SideBar } from "./components/SideBar/SideBar";
 import { MainContent } from "./components/MainContent/MainContent";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { setMessage } from "../../redux/reducers/appReducer";
 
 function TalentProfile() {
     const [talentInfo, setTalentInfo] = useState();
@@ -14,6 +14,7 @@ function TalentProfile() {
     const { talentId } = useParams();
 
     const token = useSelector(store => store.auth.token);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const getTalent = async () => {
@@ -23,7 +24,16 @@ function TalentProfile() {
             setIsLoading(false);
         };
 
-        getTalent().catch(error => console.log(error));
+        getTalent().catch(err =>
+            dispatch(
+                setMessage(
+                    err.response?.data.message
+                        ? err.response.data.message
+                        : "Network error",
+                    "error"
+                )
+            )
+        );
     }, [talentId]);
 
     if (isLoading || !talentInfo) {

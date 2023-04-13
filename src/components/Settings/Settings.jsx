@@ -20,16 +20,8 @@ import {
 } from "../../redux/reducers/settingsReducer";
 
 const Settings = () => {
-    const id = useSelector(store => store.auth.id);
-    const name = useSelector(store => store.auth.name);
-    const surname = useSelector(store => store.auth.surname);
-    const email = useSelector(store => store.auth.email);
-    const kind = useSelector(store => store.auth.kind);
-    const description = useSelector(store => store.auth.description);
-    const avatar = useSelector(store => store.auth.avatar);
-    const experience = useSelector(store => store.auth.experience);
-    const location = useSelector(store => store.auth.location);
-    const links = useSelector(store => store.auth.links);
+    const user = useSelector(store => store.auth.user);
+    const id = useSelector(store => store.auth.user.id);
     const isLoading = useSelector(store => store.settings.isLoading);
     const isDone = useSelector(store => store.settings.isDone);
 
@@ -52,20 +44,20 @@ const Settings = () => {
     } = useForm({
         mode: "onChange",
         defaultValues: {
-            id: id,
-            name: name,
-            surname: surname,
-            email: email,
-            kind: kind,
-            description: description,
-            avatar: avatar,
-            experience: experience,
-            location: location,
+            id: user.id,
+            name: user.name,
+            surname: user.surname,
+            email: user.email,
+            kind: user.kind,
+            description: user.description,
+            avatar: user.avatar,
+            experience: user.experience,
+            location: user.location,
             links: {
-                zero: links[0],
-                one: links[1],
-                two: links[2],
-                three: links[3]
+                zero: user.links[0],
+                one: user.links[1],
+                two: user.links[2],
+                three: user.links[3]
             }
         }
     });
@@ -342,8 +334,8 @@ const Settings = () => {
                                 alignItems={"center"}
                             >
                                 <Avatar
-                                    alt={name}
-                                    src={prPicture || avatar || "error"}
+                                    alt={user.name}
+                                    src={prPicture || user.avatar || "error"}
                                     sx={{
                                         width: 190,
                                         height: 190,

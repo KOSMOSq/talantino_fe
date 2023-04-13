@@ -1,4 +1,5 @@
 import { proofsAPI } from "../../api/proofsAPI";
+import { setMessage } from "./appReducer";
 
 const SET_TALENT_PROOFS = "talentProofs/SET-TALENT-PROOFS";
 const SET_TOTAL_PAGES = "talentProofs/SET-TOTAL-PAGES";
@@ -37,13 +38,16 @@ const talentProofsReducer = (state = initialState, action) => {
 
             state.talentProofs.forEach(proof => {
                 if (action.proof.id === proof.id) {
-                    if (action.proof.status === proof.status || state.status === "ALL") {
+                    if (
+                        action.proof.status === proof.status ||
+                        state.status === "ALL"
+                    ) {
                         newTalentProofs.push(action.proof);
                     }
                 } else {
                     newTalentProofs.push(proof);
                 }
-            })
+            });
 
             return {
                 ...state,
@@ -80,7 +84,7 @@ const editProof = proof => ({
 });
 
 export const addTalentProofThunk = data => async (dispatch, getState) => {
-    const id = getState().auth.id;
+    const id = getState().auth.user.id;
     const token = getState().auth.token;
     const status = getState().talentProofs.status;
 
@@ -104,7 +108,14 @@ export const addTalentProofThunk = data => async (dispatch, getState) => {
             );
         }
     } catch (err) {
-        console.log(err);
+        dispatch(
+            setMessage(
+                err.response?.data.message
+                    ? err.response.data.message
+                    : "Network error",
+                "error"
+            )
+        );
     }
 };
 
@@ -137,30 +148,60 @@ export const getTalentProofsThunk =
             }
             dispatch(setIsLoading(false));
         } catch (err) {
-            console.log(err);
+            dispatch(
+                setMessage(
+                    err.response?.data.message
+                        ? err.response.data.message
+                        : "Network error",
+                    "error"
+                )
+            );
         }
     };
 
 export const deleteTalentProofThunk = proofId => async (dispatch, getState) => {
-    const talentId = getState().auth.id;
+    const talentId = getState().auth.user.id;
     const token = getState().auth.token;
 
     try {
         await proofsAPI.deleteProof(talentId, proofId, token);
         dispatch(deleteTalentProof(proofId));
+        dispatch(
+            getTalentProofsThunk(talentId, "date", "ALL", "desc", 0, 5, true)
+        );
+        dispatch(setMessage("Proof was successfully deleted!", "success"));
     } catch (err) {
-        console.log(err);
+        dispatch(
+            setMessage(
+                err.response?.data.message
+                    ? err.response.data.message
+                    : "Network error",
+                "error"
+            )
+        );
     }
 };
 
 export const editProofThunk = (proofId, data) => async (dispatch, getState) => {
     const token = getState().auth.token;
-    const talentId = getState().auth.id;
+    const talentId = getState().auth.user.id;
     try {
-        const response = await proofsAPI.editProof(talentId, proofId, data, token);
+        const response = await proofsAPI.editProof(
+            talentId,
+            proofId,
+            data,
+            token
+        );
         dispatch(editProof(response));
     } catch (err) {
-        console.log(err);
+        dispatch(
+            setMessage(
+                err.response?.data.message
+                    ? err.response.data.message
+                    : "Network error",
+                "error"
+            )
+        );
     }
 };
 

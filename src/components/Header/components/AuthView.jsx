@@ -20,10 +20,10 @@ const btnStyle = {
 
 function AuthView() {
     const dispatch = useDispatch();
-    const avatar = useSelector(store => store.auth.avatar);
-    const name = useSelector(store => store.auth.name);
+    const avatar = useSelector(store => store.auth.user.avatar);
+    const name = useSelector(store => store.auth.user.name);
     const isAuth = useSelector(store => store.auth.isAuth);
-    const id = useSelector(store => store.auth.id);
+    const id = useSelector(store => store.auth.user.id);
 
     const handleLogout = () => {
         dispatch(clearData());
