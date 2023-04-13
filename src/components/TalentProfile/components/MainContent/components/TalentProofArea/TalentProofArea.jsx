@@ -12,7 +12,6 @@ import { TalentProof } from "./components/TalentProof";
 import { CreateProofForm } from "../../../../../Forms/CreateProofForm/CreateProofForm";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    useLocation,
     useNavigate,
     useParams,
     useSearchParams
@@ -31,7 +30,7 @@ function TalentProofArea() {
     const [page, setPage] = useState(0);
 
     const dispatch = useDispatch();
-    const authId = useSelector(store => store.auth.id);
+    const authId = useSelector(store => store.auth.user.id);
     const proofs = useSelector(store => store.talentProofs.talentProofs);
     const status = useSelector(store => store.talentProofs.status);
     const totalPages = useSelector(store => store.talentProofs.totalPages);
@@ -47,6 +46,7 @@ function TalentProofArea() {
     };
 
     const handleDelete = async id => {
+        setPage(1);
         dispatch(deleteTalentProofThunk(id));
     };
 
@@ -134,13 +134,14 @@ function TalentProofArea() {
                     justifyContent={"center"}
                 >
                     {isLoading || !proofs ? (
-                        <CircularProgress size={60} sx={{ marginLeft: "auto", marginRight: "auto" }}/>
+                        <CircularProgress
+                            size={60}
+                            sx={{ marginLeft: "auto", marginRight: "auto" }}
+                        />
                     ) : null}
-                    {!(totalPages <= page) ?<Button
-                        onClick={handleClick}
-                    >
-                        Get more data
-                    </Button>: null}
+                    {!(totalPages <= page) ? (
+                        <Button onClick={handleClick}>Get more data</Button>
+                    ) : null}
                 </Box>
             </Box>
         </>

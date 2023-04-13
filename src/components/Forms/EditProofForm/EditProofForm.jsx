@@ -76,9 +76,9 @@ const EditProofForm = ({
                                             "Title should be at least 2 symbols long"
                                     },
                                     maxLength: {
-                                        value: 80,
+                                        value: 40,
                                         message:
-                                            "Title should'nt be larger than 80 symbols"
+                                            "Title shouldn't be larger than 40 symbols"
                                     }
                                 })}
                             />
@@ -161,7 +161,7 @@ const EditProofForm = ({
                             maxLength: {
                                 value: 2000,
                                 message:
-                                    "Proof should'nt be larger than 2000 symbols"
+                                    "Proof shouldn't be larger than 2000 symbols"
                             }
                         })}
                     />
@@ -177,6 +177,7 @@ const EditProofForm = ({
                 )}
                 <Box display="flex">
                     <FormHelperText
+                        error
                         component="span"
                         sx={{
                             marginLeft: "10px",

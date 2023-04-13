@@ -2,7 +2,7 @@ export const ImageRenderer = props => {
     return (
         <img
             {...props}
-            alt="image"
+            alt="markdown"
             style={{
                 objectFit: "contain",
                 objectPosition: "left",

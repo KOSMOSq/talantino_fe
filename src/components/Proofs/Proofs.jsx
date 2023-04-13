@@ -1,4 +1,4 @@
-import { Container, LinearProgress, Pagination } from "@mui/material";
+import { Container, LinearProgress, Pagination, Typography } from "@mui/material";
 import { ProofsArea } from "./components/ProofsArea/ProofsArea";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
@@ -45,6 +45,17 @@ const Proofs = () => {
 
     if (isLoading) {
         return <LinearProgress />;
+    } else if (proofs.length === 0) {
+        return (
+            <Typography variant="h6" sx={{ textAlign: "center", marginTop: "200px" }}>
+                {"No proofs yet :("}
+                <Typography variant="caption" sx={{ display: "block" }}>
+                    {
+                        "You can create the first proof in our application!"
+                    }
+                </Typography>
+            </Typography>
+        );
     }
 
     const handleChange = (e, value) => {
