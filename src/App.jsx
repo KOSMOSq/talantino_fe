@@ -9,6 +9,8 @@ import {
 } from "./redux/reducers/authReducer";
 import { Alert, LinearProgress, Snackbar } from "@mui/material";
 import { clearGlobalError } from "./redux/reducers/appReducer";
+import { ThemeProvider } from "@mui/material/styles";
+import { fontFamilyTheme } from "./shared/themes/fontFamilyTheme.js";
 
 function App() {
     const isInitialized = useSelector(store => store.auth.isInitialized);
@@ -41,18 +43,20 @@ function App() {
     }
 
     return (
-        <BrowserRouter>
-            <Snackbar
-                open={globalError}
-                autoHideDuration={3000}
-                onClose={handleClose}
-            >
-                <Alert severity="error" onClose={handleClose}>
-                    {globalErrorMessage}
-                </Alert>
-            </Snackbar>
-            <Router />
-        </BrowserRouter>
+        <ThemeProvider theme={fontFamilyTheme}>
+            <BrowserRouter>
+                <Snackbar
+                    open={globalError}
+                    autoHideDuration={3000}
+                    onClose={handleClose}
+                >
+                    <Alert severity="error" onClose={handleClose}>
+                        {globalErrorMessage}
+                    </Alert>
+                </Snackbar>
+                <Router />
+            </BrowserRouter>
+        </ThemeProvider>
     );
 }
 
