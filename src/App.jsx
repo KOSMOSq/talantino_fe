@@ -9,6 +9,8 @@ import {
 } from "./redux/reducers/authReducer";
 import { Alert, LinearProgress, Snackbar } from "@mui/material";
 import { clearGlobalError } from "./redux/reducers/appReducer";
+import { createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 
 function App() {
     const isInitialized = useSelector(store => store.auth.isInitialized);
@@ -40,19 +42,31 @@ function App() {
         return <LinearProgress />;
     }
 
+    const THEME = createTheme({
+        typography: {
+            allVariants: {
+                fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
+                fontWeightLight: 300,
+                fontWeightRegular: 400,
+                fontWeightMedium: 500
+            }
+        }
+    });
     return (
-        <BrowserRouter>
-            <Snackbar
-                open={globalError}
-                autoHideDuration={3000}
-                onClose={handleClose}
-            >
-                <Alert severity="error" onClose={handleClose}>
-                    {globalErrorMessage}
-                </Alert>
-            </Snackbar>
-            <Router />
-        </BrowserRouter>
+        <ThemeProvider theme={THEME}>
+            <BrowserRouter>
+                <Snackbar
+                    open={globalError}
+                    autoHideDuration={3000}
+                    onClose={handleClose}
+                >
+                    <Alert severity="error" onClose={handleClose}>
+                        {globalErrorMessage}
+                    </Alert>
+                </Snackbar>
+                <Router />
+            </BrowserRouter>
+        </ThemeProvider>
     );
 }
 
