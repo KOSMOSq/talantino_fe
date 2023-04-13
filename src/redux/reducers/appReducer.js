@@ -7,21 +7,21 @@ const initialState = {
 };
 
 const appReducer = (state = initialState, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case SET_GLOBAL_ERROR:
             return {
                 ...state,
                 globalErrorMessage: action.message,
                 globalError: true
-            }
+            };
         case CLEAR_GLOBAL_ERROR:
             return {
                 ...state,
                 globalErrorMessage: "",
                 globalError: false
-            }
-        default: 
-            return state
+            };
+        default:
+            return state;
     }
 };
 
