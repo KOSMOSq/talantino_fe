@@ -2,11 +2,12 @@ import { Routes, Route, Link, Navigate } from "react-router-dom";
 import { LoginForm } from "../Forms/LoginForm/LoginForm";
 
 import { Talents } from "../Talents/Talents";
-import { Layout } from "./components/Layout";
+import { Layout } from "./components/Layout/Layout";
 import { CreateAccForm } from "../Forms/CreateAccForm/CreateAccForm";
 import Settings from "../Settings/Settings";
 import TalentProfile from "../TalentProfile/TalentProfile";
 import Proofs from "../Proofs/Proofs";
+import { Page404 } from "./components/Page404/Page404";
 
 function Router() {
     return (
@@ -23,16 +24,8 @@ function Router() {
                         element={<TalentProfile />}
                     />
                     <Route path="settings" element={<Settings />} />
-                    <Route
-                        path="*"
-                        element={
-                            <h1>
-                                This page doesn't exist! Return to{" "}
-                                <Link to="/"> home </Link> page
-                            </h1>
-                        }
-                    />
                 </Route>
+                <Route path="*" element={<Page404 />} />
             </Routes>
         </>
     );
