@@ -1,10 +1,10 @@
-import style from "./Page404.css";
+import style from "./Page404.module.css";
 
 const Page404 = () => {
     return (
-        <div className="page404Wrapper">
-            <section className="page404Container">
-                <div className="page404Img">
+        <div className={style.wrapper}>
+            <section className={style.container}>
+                <div className={style.img}>
                     <img
                         src="https://assets.codepen.io/5647096/backToTheHomepage.png"
                         alt="Back to the Homepage"
@@ -14,7 +14,7 @@ const Page404 = () => {
                         alt="El Delorean, El Doc y Marti McFly"
                     />
                 </div>
-                <div className="page404Text">
+                <div className={style.text}>
                     <h1>404</h1>
                     <h2>PAGE NOT FOUND</h2>
                     <h3>BACK TO HOME?</h3>
