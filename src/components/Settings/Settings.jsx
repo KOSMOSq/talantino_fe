@@ -187,7 +187,7 @@ const Settings = () => {
                                 }
                             />
                             <TextField
-                                label="Description"
+                                label="Description  (Markdown is supported)"
                                 multiline
                                 maxRows={7}
                                 minRows={7}
