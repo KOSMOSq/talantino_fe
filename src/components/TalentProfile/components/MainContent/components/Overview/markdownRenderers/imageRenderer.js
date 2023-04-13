@@ -6,7 +6,8 @@ export const ImageRenderer = props => {
             style={{
                 objectFit: "contain",
                 objectPosition: "left",
-                maxWidth: "100%"
+                maxWidth: "100%",
+                maxHeight: "600px"
             }}
         />
     );
