@@ -6,6 +6,7 @@ import rehypeRaw from "rehype-raw";
 import { ImageRenderer } from "./markdownRenderers/imageRenderer";
 import { paragraphRenderer } from "./markdownRenderers/paragraphRenderer";
 import { iframeRenderer } from "./markdownRenderers/iframeRenderer";
+import styles from "./Overview.module.css";
 
 const Overview = ({ talentDescription }) => {
     return (
@@ -23,6 +24,7 @@ const Overview = ({ talentDescription }) => {
 
                 {talentDescription ? (
                     <ReactMarkdown
+                        className={styles.reactMarkDown}
                         components={{
                             p: paragraphRenderer,
                             img: ImageRenderer,
