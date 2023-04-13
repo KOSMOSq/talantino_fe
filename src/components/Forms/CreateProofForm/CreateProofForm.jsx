@@ -6,11 +6,8 @@ import {
     TextField
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import {
-    addTalentProofThunk,
-    getTalentProofsThunk
-} from "../../../redux/reducers/talentsProofsReducer";
-import { useDispatch, useSelector } from "react-redux";
+import { addTalentProofThunk } from "../../../redux/reducers/talentsProofsReducer";
+import { useDispatch } from "react-redux";
 
 const CreateProofForm = () => {
     const {
@@ -23,7 +20,6 @@ const CreateProofForm = () => {
     });
 
     const dispatch = useDispatch();
-    const id = useSelector(store => store.auth.id);
 
     const onSubmit = (data, e) => {
         data.status = e.nativeEvent.submitter.value;
@@ -61,9 +57,9 @@ const CreateProofForm = () => {
                                     "Title should be at least 2 symbols long"
                             },
                             maxLength: {
-                                value: 80,
+                                value: 40,
                                 message:
-                                    "Title should'nt be larger than 80 symbols"
+                                    "Title shouldn't be larger than 40 symbols"
                             }
                         })}
                     />
@@ -73,7 +69,7 @@ const CreateProofForm = () => {
                             height: "auto",
                             marginBottom: "10px"
                         }}
-                        placeholder="Tell everyone your proof"
+                        placeholder="Tell everyone about your proof"
                         minRows={2}
                         maxRows={10}
                         multiline
@@ -87,12 +83,13 @@ const CreateProofForm = () => {
                             maxLength: {
                                 value: 2000,
                                 message:
-                                    "Proof should'nt be larger than 2000 symbols"
+                                    "Proof shouldn't be larger than 2000 symbols"
                             }
                         })}
                     />
                     <Box display="flex" gap="10px">
                         <FormHelperText
+                            error
                             component="span"
                             sx={{
                                 marginLeft: "10px",

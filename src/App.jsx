@@ -7,17 +7,13 @@ import {
     initialize,
     setToken
 } from "./redux/reducers/authReducer";
-import { Alert, LinearProgress, Snackbar } from "@mui/material";
-import { clearGlobalError } from "./redux/reducers/appReducer";
+import { LinearProgress } from "@mui/material";
+import { PopUpMessage } from "./components/PopUpMessage/PopUpMessage.jsx";
 import { ThemeProvider } from "@mui/material/styles";
 import { fontFamilyTheme } from "./shared/themes/fontFamilyTheme.js";
 
 function App() {
     const isInitialized = useSelector(store => store.auth.isInitialized);
-    const globalError = useSelector(store => store.app.globalError);
-    const globalErrorMessage = useSelector(
-        store => store.app.globalErrorMessage
-    );
     const token = localStorage.getItem("token");
     const dispatch = useDispatch();
 
@@ -34,10 +30,6 @@ function App() {
         }
     }, []);
 
-    const handleClose = (e, reason) => {
-        dispatch(clearGlobalError());
-    };
-
     if (!isInitialized) {
         return <LinearProgress />;
     }
@@ -45,15 +37,7 @@ function App() {
     return (
         <ThemeProvider theme={fontFamilyTheme}>
             <BrowserRouter>
-                <Snackbar
-                    open={globalError}
-                    autoHideDuration={3000}
-                    onClose={handleClose}
-                >
-                    <Alert severity="error" onClose={handleClose}>
-                        {globalErrorMessage}
-                    </Alert>
-                </Snackbar>
+                <PopUpMessage />
                 <Router />
             </BrowserRouter>
         </ThemeProvider>

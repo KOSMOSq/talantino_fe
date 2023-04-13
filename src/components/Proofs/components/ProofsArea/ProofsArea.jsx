@@ -3,8 +3,7 @@ import {
     List,
     FormControl,
     Select,
-    MenuItem,
-    InputLabel
+    MenuItem
 } from "@mui/material";
 import { Proof } from "./Proof/Proof";
 import { useSelector, useDispatch } from "react-redux";
