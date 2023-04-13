@@ -21,7 +21,9 @@ function TalentListCard({ name, surname, profilePicture, kindOfTalent, id }) {
     const handleClick = e => {
         e.preventDefault();
         if (!isAuth) {
+            navigate(`/login`);
             dispatch(setClikedId(id));
+            return;
         }
         navigate(`/talent/${id}`);
     };

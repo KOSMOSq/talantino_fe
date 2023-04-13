@@ -27,7 +27,9 @@ const TalentGridCard = ({
     const handleClick = e => {
         e.preventDefault();
         if (!isAuth) {
+            navigate(`/login`);
             dispatch(setClikedId(id));
+            return;
         }
         navigate(`/talent/${id}`);
     };
