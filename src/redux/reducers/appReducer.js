@@ -1,31 +1,38 @@
-const SET_GLOBAL_ERROR = "app/SET-GLOBAL-ERROR";
-const CLEAR_GLOBAL_ERROR = "app/CLEAR-GLOBAL-ERROR";
+const SET_MESSAGE = "app/SET-MESSAGE";
+const CLEAR_MESSAGE = "app/CLEAR-MESSAGE";
 
 const initialState = {
-    globalError: false,
-    globalErrorMessage: ""
+    isMessage: false,
+    messageText: "",
+    status: ""
 };
 
 const appReducer = (state = initialState, action) => {
-    switch(action.type) {
-        case SET_GLOBAL_ERROR:
+    switch (action.type) {
+        case SET_MESSAGE:
             return {
                 ...state,
-                globalErrorMessage: action.message,
-                globalError: true
-            }
-        case CLEAR_GLOBAL_ERROR:
+                isMessage: true,
+                messageText: action.text,
+                status: action.status
+            };
+        case CLEAR_MESSAGE:
             return {
                 ...state,
-                globalErrorMessage: "",
-                globalError: false
-            }
-        default: 
-            return state
+                isMessage: false,
+                messageText: "",
+                status: ""
+            };
+        default:
+            return state;
     }
 };
 
-export const setGlobalError = message => ({ type: SET_GLOBAL_ERROR, message });
-export const clearGlobalError = () => ({ type: CLEAR_GLOBAL_ERROR });
+export const setMessage = (text, status) => ({
+    type: SET_MESSAGE,
+    text,
+    status
+});
+export const clearMessage = () => ({ type: CLEAR_MESSAGE });
 
 export default appReducer;

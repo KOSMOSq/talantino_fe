@@ -2,19 +2,19 @@ import { Container, LinearProgress } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { talentsAPI } from "../../api/talentsAPI";
-import { useLocation } from "react-router-dom";
-import { SideBar } from "./components/SideBar";
-import { MainContent } from "./components/MainContent";
-import { useSelector } from "react-redux";
+import { SideBar } from "./components/SideBar/SideBar";
+import { MainContent } from "./components/MainContent/MainContent";
+import { useDispatch, useSelector } from "react-redux";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { setMessage } from "../../redux/reducers/appReducer";
 
 function TalentProfile() {
     const [talentInfo, setTalentInfo] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const { talentId } = useParams();
-    const location = useLocation();
 
     const token = useSelector(store => store.auth.token);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const getTalent = async () => {
@@ -22,22 +22,41 @@ function TalentProfile() {
             const response = await talentsAPI.getTalent(talentId, token);
             setTalentInfo(response);
             setIsLoading(false);
-        }
+        };
 
-        getTalent()
-            .catch(error => console.log(error));
-    }, [location]);
+        getTalent().catch(err =>
+            dispatch(
+                setMessage(
+                    err.response?.data.message
+                        ? err.response.data.message
+                        : "Network error",
+                    "error"
+                )
+            )
+        );
+    }, [talentId]);
 
     if (isLoading || !talentInfo) {
         return <LinearProgress />;
     }
 
     return (
-        <Container sx={{ display: "flex", flexDirection: "row", paddingLeft: "24px", paddingRight: "24px" }}>
+        <Container
+            sx={{
+                display: "flex",
+                flexDirection: "row",
+                paddingLeft: "24px",
+                paddingRight: "24px"
+            }}
+        >
             <SideBar talentInfo={talentInfo} />
-            <MainContent talentDescription={talentInfo.description} nextId={talentInfo.nextId} prevId={talentInfo.prevId}/>
+            <MainContent
+                talentDescription={talentInfo.description}
+                nextId={talentInfo.nextId}
+                prevId={talentInfo.prevId}
+            />
         </Container>
-    )
+    );
 }
 
 export default withAuthRedirect(TalentProfile);
