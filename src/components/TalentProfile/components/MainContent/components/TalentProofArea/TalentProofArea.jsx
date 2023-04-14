@@ -6,7 +6,8 @@ import {
     Grid,
     InputLabel,
     MenuItem,
-    Select
+    Select,
+    Typography
 } from "@mui/material";
 import { TalentProof } from "./components/TalentProof";
 import { CreateProofForm } from "../../../../../Forms/CreateProofForm/CreateProofForm";
@@ -116,7 +117,7 @@ function TalentProofArea() {
                         </Box>
                     </>
                 ) : null}
-                {proofs.map(element => {
+                {proofs.length === 0 && !isLoading ? <Typography varitant="caption" sx={{ color: "gray" }} align="center">No proofs yet!</Typography> : proofs.map(element => {
                     return (
                         <Grid item key={element.id}>
                             <TalentProof
