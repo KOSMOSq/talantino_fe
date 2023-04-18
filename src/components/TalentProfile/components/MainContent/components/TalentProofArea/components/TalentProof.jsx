@@ -7,6 +7,7 @@ import { getRelativeTime } from "../../../../../../../shared/functions/getRelati
 import { useState } from "react";
 import { EditProofForm } from "../../../../../../Forms/EditProofForm/EditProofForm";
 import { ModalConfirmation } from "../../../../../../ModalConfirmation/ModalConfirmation";
+import { KudosButton } from "../../../../../../../shared/components/KudosButton/KudosButton";
 
 function TalentProof({
     date,
@@ -15,7 +16,9 @@ function TalentProof({
     status,
     id,
     talentId,
-    onDelete
+    onDelete,
+    isKudosed,
+    totalKudos
 }) {
     const [editMode, setEditMode] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -128,8 +131,11 @@ function TalentProof({
                             setEditMode={setEditMode}
                         />
                     )}
+                    {+talentId === authId ? <Box sx={{ ml: "-10px", mb: "-10px" }}><KudosButton id={id} isKudosed={isKudosed} totalKudos={totalKudos}/></Box> : null}
                 </Box>
+                {+talentId !== authId ? <KudosButton id={id} isKudosed={isKudosed} totalKudos={totalKudos}/> : null}
             </Box>
+            
             <ModalConfirmation
                 title={"Are you sure you want delete the proof?"}
                 description={"It cannot be restored."}

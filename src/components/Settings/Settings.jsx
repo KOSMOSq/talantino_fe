@@ -40,7 +40,9 @@ const Settings = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
+        setError,
+        clearErrors
     } = useForm({
         mode: "onChange",
         defaultValues: {
@@ -66,7 +68,7 @@ const Settings = () => {
         setPrPicture(event.target.value);
     };
 
-    const onSubmit = async data => {
+    const onSubmit = data => {
         dispatch(changeProfileDataThunk(data));
     };
 
@@ -349,8 +351,9 @@ const Settings = () => {
                                     {...register("avatar", {
                                         maxLength: {
                                             value: 1000,
-                                            message: "Too long link"
-                                        }
+                                            message: "Your link is too long!"
+                                        },
+                                        onChange: handleChangeAvatar
                                     })}
                                     error={Boolean(errors.avatar)}
                                     helperText={
@@ -358,7 +361,6 @@ const Settings = () => {
                                             ? errors.avatar.message
                                             : " "
                                     }
-                                    onChange={handleChangeAvatar}
                                 />
                             </Box>
                             <Box
