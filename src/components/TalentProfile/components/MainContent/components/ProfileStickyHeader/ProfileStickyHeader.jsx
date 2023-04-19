@@ -19,9 +19,11 @@ function ProfileStickyHeader({ nextId, prevId }) {
         navigate(`/talents/?page=${currentPage}`);
     };
 
+    const subPage = useParams()["*"];
+
     const handleNextTalent = () => {
         if (nextId) {
-            navigate(`/talent/${nextId}`);
+            navigate(`/talent/${nextId}/${subPage ? subPage : ""}`);
         } else {
             dispatch(setMessage("No more talents"));
         }
@@ -29,7 +31,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
 
     const handlePrevTalent = () => {
         if (prevId) {
-            navigate(`/talent/${prevId}`);
+            navigate(`/talent/${prevId}/${subPage ? subPage : ""}`);
         } else {
             dispatch(setMessage("No more previous talents"));
         }

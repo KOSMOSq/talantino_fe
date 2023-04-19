@@ -18,7 +18,8 @@ function TalentProof({
     talentId,
     onDelete,
     isKudosed,
-    totalKudos
+    totalKudos,
+    authorId
 }) {
     const [editMode, setEditMode] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -131,11 +132,27 @@ function TalentProof({
                             setEditMode={setEditMode}
                         />
                     )}
-                    {+talentId === authId ? <Box sx={{ ml: "-10px", mb: "-10px" }}><KudosButton id={id} isKudosed={isKudosed} totalKudos={totalKudos}/></Box> : null}
+                    {+talentId === authId ? (
+                        <Box sx={{ ml: "-10px", mb: "-10px" }}>
+                            <KudosButton
+                                id={id}
+                                isKudosed={isKudosed}
+                                totalKudos={totalKudos}
+                                authorId={authorId}
+                            />
+                        </Box>
+                    ) : null}
                 </Box>
-                {+talentId !== authId ? <KudosButton id={id} isKudosed={isKudosed} totalKudos={totalKudos}/> : null}
+                {+talentId !== authId ? (
+                    <KudosButton
+                        id={id}
+                        isKudosed={isKudosed}
+                        totalKudos={totalKudos}
+                        authorId={authorId}
+                    />
+                ) : null}
             </Box>
-            
+
             <ModalConfirmation
                 title={"Are you sure you want delete the proof?"}
                 description={"It cannot be restored."}
