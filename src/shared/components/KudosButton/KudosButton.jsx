@@ -8,16 +8,18 @@ import { useNavigate } from "react-router-dom";
 import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
 import kudosIconInactive from "../../../assets/icons/kudosIconInactive.svg";
 
-const KudosButton = ({ id, isKudosed, totalKudos }) => {
+const KudosButton = ({ id, isKudosed, totalKudos, authorId, isAuthor }) => {
     const [kudosed, setKudosed] = useState(isKudosed);
     const [counter, setCounter] = useState(totalKudos);
-    
+
     const token = useSelector(store => store.auth.token);
     const isAuth = useSelector(store => store.auth.isAuth);
     const page = useSelector(store => store.proofs.currentPage);
+    const myId = useSelector(store => store.auth.user.id);
 
     const formatter = Intl.NumberFormat("en", { notation: "compact" });
     const navigate = useNavigate();
+    const checkMyProof = authorId === myId;
 
     const handleKudos = async () => {
         if (!isAuth) {
@@ -35,15 +37,28 @@ const KudosButton = ({ id, isKudosed, totalKudos }) => {
 
     return (
         <>
-            <Box display="flex" flexDirection="rows" alignItems="center">
-                <IconButton onClick={handleKudos} disabled={kudosed} size="small">
+            <Box
+                display="flex"
+                flexDirection="rows"
+                alignItems="center"
+                title={isAuthor ? "You can't send kudos to your proof" : ""}
+            >
+                <IconButton
+                    onClick={handleKudos}
+                    disabled={kudosed || checkMyProof || isAuthor}
+                    size="small"
+                >
                     {kudosed ? (
                         <img src={kudosIconActive}/>
                     ) : (
                         <img src={kudosIconInactive}/>
                     )}
                 </IconButton>
-                <Typography component="span" sx={{ cursor: "default" }} title={counter}>
+                <Typography
+                    component="span"
+                    sx={{ cursor: "default" }}
+                    title={counter}
+                >
                     {formatter.format(counter)}
                 </Typography>
             </Box>

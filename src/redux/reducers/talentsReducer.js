@@ -13,7 +13,7 @@ const initialState = {
     clickedId: null,
     totalTalents: 0,
     talentsView: "grid",
-    isNextTalent: true
+    isNextTalent: true,
 };
 
 const talentsReducer = (state = initialState, action) => {

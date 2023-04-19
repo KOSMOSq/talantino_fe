@@ -1,4 +1,9 @@
-import { Container, LinearProgress, Pagination, Typography } from "@mui/material";
+import {
+    Container,
+    LinearProgress,
+    Pagination,
+    Typography
+} from "@mui/material";
 import { ProofsArea } from "./components/ProofsArea/ProofsArea";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
@@ -30,9 +35,9 @@ const Proofs = () => {
             urlPageParam && urlPageParam > 0
                 ? urlPageParam
                 : (() => {
-                    navigate(`/proofs?page=${1}`);
-                    return 1;
-                })();
+                      navigate(`/proofs?page=${1}`);
+                      return 1;
+                  })();
         if (urlPage < 1) {
             dispatch(setPage(1));
             navigate(`/proofs?page=1`);
@@ -47,12 +52,13 @@ const Proofs = () => {
         return <LinearProgress />;
     } else if (proofs.length === 0) {
         return (
-            <Typography variant="h6" sx={{ textAlign: "center", marginTop: "200px" }}>
+            <Typography
+                variant="h6"
+                sx={{ textAlign: "center", marginTop: "200px" }}
+            >
                 {"No proofs yet :("}
                 <Typography variant="caption" sx={{ display: "block" }}>
-                    {
-                        "You can create the first proof in our application!"
-                    }
+                    {"You can create the first proof in our application!"}
                 </Typography>
             </Typography>
         );
