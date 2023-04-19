@@ -5,6 +5,8 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { kudosAPI } from "../../../api/kudosAPI";
 import { useNavigate } from "react-router-dom";
+import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
+import kudosIconInactive from "../../../assets/icons/kudosIconInactive.svg";
 
 const KudosButton = ({ id, isKudosed, totalKudos }) => {
     const [kudosed, setKudosed] = useState(isKudosed);
@@ -26,7 +28,7 @@ const KudosButton = ({ id, isKudosed, totalKudos }) => {
         } else if (kudosed) {
             return;
         }
-        await kudosAPI.sendKudos(id, token);
+        kudosAPI.sendKudos(id, token);
         setKudosed(true);
         setCounter(prev => prev + 1);
     };
@@ -34,11 +36,11 @@ const KudosButton = ({ id, isKudosed, totalKudos }) => {
     return (
         <>
             <Box display="flex" flexDirection="rows" alignItems="center">
-                <IconButton onClick={handleKudos} disabled={kudosed}>
+                <IconButton onClick={handleKudos} disabled={kudosed} size="small">
                     {kudosed ? (
-                        <FavoriteIcon sx={{ color: "red" }} />
+                        <img src={kudosIconActive}/>
                     ) : (
-                        <FavoriteBorderIcon />
+                        <img src={kudosIconInactive}/>
                     )}
                 </IconButton>
                 <Typography component="span" sx={{ cursor: "default" }} title={counter}>
