@@ -4,6 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../../../../../redux/reducers/appReducer";
 import { useLocation } from "react-router-dom";
+import { setClikedSubPage } from "../../../../../../redux/reducers/talentsReducer";
 
 function ProfileStickyHeader({ nextId, prevId }) {
     const location = useLocation();
@@ -15,13 +16,19 @@ function ProfileStickyHeader({ nextId, prevId }) {
     const dispatch = useDispatch();
 
     const currentPage = useSelector(store => store.talents.currentPage);
+    const clikedSubPage = useSelector(store => store.talents.clikedSubPage);
     const handleClose = () => {
         navigate(`/talents/?page=${currentPage}`);
     };
 
     const handleNextTalent = () => {
+        console.log(location);
         if (nextId) {
-            navigate(`/talent/${nextId}`);
+            navigate(
+                `/talent/${nextId}/${
+                    clikedSubPage === "overview" ? "" : clikedSubPage
+                }`
+            );
         } else {
             dispatch(setMessage("No more talents"));
         }
@@ -29,7 +36,11 @@ function ProfileStickyHeader({ nextId, prevId }) {
 
     const handlePrevTalent = () => {
         if (prevId) {
-            navigate(`/talent/${prevId}`);
+            navigate(
+                `/talent/${prevId}/${
+                    clikedSubPage === "overview" ? "" : clikedSubPage
+                }`
+            );
         } else {
             dispatch(setMessage("No more previous talents"));
         }
@@ -55,6 +66,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
                             component={NavLink}
                             onClick={e => {
                                 e.preventDefault();
+                                dispatch(setClikedSubPage(itemLowerCase));
                                 navigate(
                                     `/talent/${talentId}/${
                                         itemLowerCase === "overview"

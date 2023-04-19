@@ -5,6 +5,7 @@ const SET_CLICKED_ID = "talents/SET-CLICKED-ID";
 const SET_TOTAL_TALENTS = "talents/SET-TOTAL-TALENTS";
 const SET_TALENTS_VIEW = "talents/SET-TALENTS-VIEW";
 const SET_IS_NEXT_TALENT = "talents/SET-IS-NEXT-TALENT";
+const SET_CLIKED_SUB_PAGE = "talents/SET-CLIKED-SUB-PAGE";
 
 const initialState = {
     currentPage: 1,
@@ -13,7 +14,8 @@ const initialState = {
     clickedId: null,
     totalTalents: 0,
     talentsView: "grid",
-    isNextTalent: true
+    isNextTalent: true,
+    clikedSubPage: "overview"
 };
 
 const talentsReducer = (state = initialState, action) => {
@@ -53,6 +55,11 @@ const talentsReducer = (state = initialState, action) => {
                 ...state,
                 isNextTalent: action.bool
             };
+        case SET_CLIKED_SUB_PAGE:
+            return {
+                ...state,
+                clikedSubPage: action.clikedSubPage
+            };
         default:
             return state;
     }
@@ -71,5 +78,9 @@ export const setTalentsView = talentsView => ({
     talentsView
 });
 export const setIsNextTalent = bool => ({ type: SET_IS_NEXT_TALENT, bool });
+export const setClikedSubPage = clikedSubPage => ({
+    type: SET_CLIKED_SUB_PAGE,
+    clikedSubPage
+});
 
 export default talentsReducer;
