@@ -2,7 +2,15 @@ import { Box, Divider, ListItem, Typography } from "@mui/material";
 import { getRelativeTime } from "../../../../../shared/functions/getRelativeTime";
 import { KudosButton } from "../../../../../shared/components/KudosButton/KudosButton";
 
-const Proof = ({ id, date, title, description, isKudosed, totalKudos, author }) => {
+const Proof = ({
+    id,
+    date,
+    title,
+    description,
+    isKudosed,
+    totalKudos,
+    isAuthor
+}) => {
     return (
         <>
             <ListItem>
@@ -35,7 +43,12 @@ const Proof = ({ id, date, title, description, isKudosed, totalKudos, author }) 
                         </Typography>
                     </Typography>
                 </Box>
-                <KudosButton id={id} isKudosed={isKudosed} totalKudos={totalKudos}/>
+                <KudosButton
+                    id={id}
+                    isKudosed={isKudosed}
+                    totalKudos={totalKudos}
+                    isAuthor={isAuthor}
+                />
             </ListItem>
             <Divider variant="middle" component="li" sx={{ marginBottom: 2 }} />
         </>
