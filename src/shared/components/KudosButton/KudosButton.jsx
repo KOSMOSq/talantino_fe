@@ -1,5 +1,3 @@
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -49,9 +47,9 @@ const KudosButton = ({ id, isKudosed, totalKudos, authorId, isAuthor }) => {
                     size="small"
                 >
                     {kudosed ? (
-                        <img src={kudosIconActive}/>
+                        <img src={kudosIconActive} alt="Kudos" />
                     ) : (
-                        <img src={kudosIconInactive}/>
+                        <img src={kudosIconInactive} alt="Kudos" />
                     )}
                 </IconButton>
                 <Typography
