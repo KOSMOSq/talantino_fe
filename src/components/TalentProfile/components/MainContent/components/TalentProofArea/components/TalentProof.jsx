@@ -132,7 +132,7 @@ function TalentProof({
                             setEditMode={setEditMode}
                         />
                     )}
-                    {+talentId === authId ? (
+                    {+talentId === authId && !editMode ? (
                         <Box sx={{ ml: "-10px", mb: "-10px" }}>
                             <KudosButton
                                 id={id}
