@@ -115,16 +115,28 @@ export const loginThunk = data => async dispatch => {
     }
 };
 
-export const registerThunk = data => async dispatch => {
+export const registerThunk = (data, role) => async dispatch => {
     try {
         dispatch(setIsLoading(true));
-        await authAPI.register({
-            email: data.email,
-            password: data.password,
-            name: data.fName,
-            surname: data.lName,
-            kind: data.kindOfTalent
-        });
+        if (role === "TALENT") {
+            await authAPI.register({
+                email: data.email,
+                password: data.password,
+                name: data.fName,
+                surname: data.lName,
+                kind: data.kindOfTalent
+            }, "talents");
+        } else if (role === "SPONSOR") {
+            await authAPI.register({
+                email: data.email,
+                password: data.password,
+                name: data.fName,
+                surname: data.lName
+            }, "sponsor");
+        } else {
+            console.log("Wrong usage of register thunk!");
+            throw new Error("Error!");
+        }
         dispatch(loginThunk(data));
     } catch (err) {
         dispatch(
