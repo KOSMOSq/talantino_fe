@@ -6,26 +6,23 @@ import { useNavigate } from "react-router-dom";
 import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
 import kudosIconInactive from "../../../assets/icons/kudosIconInactive.svg";
 
-const KudosButton = ({ id, isKudosed, totalKudos, authorId, isAuthor }) => {
+const KudosButton = ({ id, isKudosed, totalKudos }) => {
     const [kudosed, setKudosed] = useState(isKudosed);
     const [counter, setCounter] = useState(totalKudos);
 
     const token = useSelector(store => store.auth.token);
     const isAuth = useSelector(store => store.auth.isAuth);
     const page = useSelector(store => store.proofs.currentPage);
-    const myId = useSelector(store => store.auth.user.id);
+    const role = useSelector(store => store.auth.user.role);
 
     const formatter = Intl.NumberFormat("en", { notation: "compact" });
     const navigate = useNavigate();
-    const checkMyProof = authorId === myId;
 
     const handleKudos = async () => {
         if (!isAuth) {
             navigate("/login", {
                 state: { from: "proofs", page }
             });
-            return;
-        } else if (kudosed) {
             return;
         }
         kudosAPI.sendKudos(id, token);
@@ -35,18 +32,13 @@ const KudosButton = ({ id, isKudosed, totalKudos, authorId, isAuthor }) => {
 
     return (
         <>
-            <Box
-                display="flex"
-                flexDirection="rows"
-                alignItems="center"
-                title={isAuthor ? "You can't send kudos to your proof" : ""}
-            >
+            <Box display="flex" flexDirection="rows" alignItems="center">
                 <IconButton
                     onClick={handleKudos}
-                    disabled={kudosed || checkMyProof || isAuthor}
+                    disabled={role === "TALENT"}
                     size="small"
                 >
-                    {kudosed ? (
+                    {role === "TALENT" || kudosed ? (
                         <img src={kudosIconActive} alt="Kudos" />
                     ) : (
                         <img src={kudosIconInactive} alt="Kudos" />
