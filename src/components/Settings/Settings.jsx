@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteTalent } from "./components/DeleteTalent/DeleteTalent";
+import { DeleteUser } from "./components/DeleteUser/DeleteUser";
 import { useNavigate } from "react-router-dom";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { useEffect, useState } from "react";
@@ -368,7 +368,7 @@ const Settings = () => {
                                 justifyContent={"center"}
                                 mb={4}
                             >
-                                <DeleteTalent />
+                                <DeleteUser />
                             </Box>
                         </Box>
                     </Box>
