@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useSearchParams } from "react-router-dom";
+import { Navigate, useParams, useSearchParams } from "react-router-dom";
 import { setMessage } from "../../redux/reducers/appReducer";
 import { Container, LinearProgress } from "@mui/material";
 import { SideBar } from "../TalentProfile/components/SideBar/SideBar";
@@ -34,6 +34,10 @@ const SponsorProfile = () => {
             )
         );
     }, [sponsorId]);
+
+    if (sponsor.role !== "SPONSOR") {
+        return <Navigate to="/" />
+    }
 
     if (isLoading || !sponsorInfo) {
         return <LinearProgress />;
