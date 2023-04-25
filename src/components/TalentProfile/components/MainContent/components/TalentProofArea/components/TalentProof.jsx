@@ -25,6 +25,7 @@ function TalentProof({
     const [openModal, setOpenModal] = useState(false);
 
     const authId = useSelector(store => store.auth.user.id);
+    const role = useSelector(store => store.auth.user.role);
 
     return (
         <>
@@ -59,7 +60,7 @@ function TalentProof({
                                         {getRelativeTime(date)}
                                     </Typography>
                                 </Box>
-                                {+talentId === authId ? (
+                                {+talentId === authId && role === "TALENT" ? (
                                     <Box
                                         sx={{
                                             display: "flex",
