@@ -14,5 +14,14 @@ export const sponsorAPI = {
                 headers: { Authorization: `Bearer ${token}` }
             })
         ).data;
+    },
+    async deleteSponsor(id, token) {
+        return (
+            await axiosInstance.delete(`/sponsors/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+        ).data;
     }
 };
+
+export { sponsorAPI };
