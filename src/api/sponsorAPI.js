@@ -23,5 +23,3 @@ export const sponsorAPI = {
         ).data;
     }
 };
-
-export { sponsorAPI };
