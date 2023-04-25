@@ -22,6 +22,7 @@ function AuthView() {
     const dispatch = useDispatch();
     const avatar = useSelector(store => store.auth.user.avatar);
     const name = useSelector(store => store.auth.user.name);
+    const role = useSelector(store => store.auth.user.role);
     const isAuth = useSelector(store => store.auth.isAuth);
     const id = useSelector(store => store.auth.user.id);
 
@@ -103,10 +104,12 @@ function AuthView() {
                                     <AccountCircleIcon fontSize="small" />
                                 </ListItemIcon>
                                 <Link
-                                    href={`/talent/${id}`}
+                                    //href={`/talent/${id}`}
+                                    href={`/${role === "SPONSOR" ? "sponsor" : role === "TALENT" ? "talent" : "notFound"}/${id}`}
                                     onClick={e => {
                                         e.preventDefault();
-                                        navigate(`/talent/${id}`, {
+                                        //navigate(`/talent/${id}`, {
+                                        navigate(`/${role === "SPONSOR" ? "sponsor" : role === "TALENT" ? "talent" : "notFound"}/${id}`, {
                                             state: { from: "profile-click" }
                                         });
                                     }}
