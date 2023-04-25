@@ -18,12 +18,11 @@ function TalentProof({
     talentId,
     onDelete,
     isKudosed,
-    totalKudos,
-    authorId
+    totalKudos
 }) {
     const [editMode, setEditMode] = useState(false);
     const [openModal, setOpenModal] = useState(false);
-
+    const role = useSelector(store => store.auth.user.role);
     const authId = useSelector(store => store.auth.user.id);
 
     return (
@@ -59,7 +58,7 @@ function TalentProof({
                                         {getRelativeTime(date)}
                                     </Typography>
                                 </Box>
-                                {+talentId === authId ? (
+                                {+talentId === authId && role === "TALENT" ? (
                                     <Box
                                         sx={{
                                             display: "flex",
@@ -138,7 +137,6 @@ function TalentProof({
                                 id={id}
                                 isKudosed={isKudosed}
                                 totalKudos={totalKudos}
-                                authorId={authorId}
                             />
                         </Box>
                     ) : null}
@@ -148,7 +146,6 @@ function TalentProof({
                         id={id}
                         isKudosed={isKudosed}
                         totalKudos={totalKudos}
-                        authorId={authorId}
                     />
                 ) : null}
             </Box>
