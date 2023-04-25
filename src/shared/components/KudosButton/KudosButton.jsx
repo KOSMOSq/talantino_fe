@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { kudosAPI } from "../../../api/kudosAPI";
 import { useNavigate } from "react-router-dom";
 import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
 import kudosIconInactive from "../../../assets/icons/kudosIconInactive.svg";
+import { setMessage } from "../../../redux/reducers/appReducer";
 
 const KudosButton = ({ id, isKudosed, totalKudos, authorId, isAuthor }) => {
     const [kudosed, setKudosed] = useState(isKudosed);
@@ -18,6 +19,7 @@ const KudosButton = ({ id, isKudosed, totalKudos, authorId, isAuthor }) => {
     const formatter = Intl.NumberFormat("en", { notation: "compact" });
     const navigate = useNavigate();
     const checkMyProof = authorId === myId;
+    const dispatch = useDispatch();
 
     const handleKudos = async () => {
         if (!isAuth) {
@@ -28,9 +30,20 @@ const KudosButton = ({ id, isKudosed, totalKudos, authorId, isAuthor }) => {
         } else if (kudosed) {
             return;
         }
-        kudosAPI.sendKudos(id, token);
-        setKudosed(true);
-        setCounter(prev => prev + 1);
+        try {
+            await kudosAPI.sendKudos(id, token);
+            setKudosed(true);
+            setCounter(prev => prev + 1);
+        } catch (err) {
+            dispatch(
+                setMessage(
+                    err.response?.data.message
+                        ? err.response.data.message
+                        : "Network error",
+                    "error"
+                )
+            );
+        }
     };
 
     return (
