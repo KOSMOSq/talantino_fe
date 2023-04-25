@@ -1,25 +1,23 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { setMessage } from "../../redux/reducers/appReducer";
 import { Container, LinearProgress } from "@mui/material";
-import { sponsorAPI } from "../../api/sponsorAPI";
-import { sponsor } from "../../common/sponsor";
 import { SideBar } from "../TalentProfile/components/SideBar/SideBar";
 import { SponsorMainContent } from "./components/SponsorMainContent/SponsorMainContent";
 
 const SponsorProfile = () => {
     const [sponsorInfo, setSponsorInfo] = useState();
     const [isLoading, setIsLoading] = useState(false);
+    const sponsor = useSelector(store => store.auth.user);
     const { sponsorId } = useParams();
+    
 
-    const token = useSelector(store => store.auth.token);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const getSponsor = async () => {
             setIsLoading(true);
-            //const response = await sponsorAPI.getSponsor(sponsorId, token);
             const response = sponsor;
             setSponsorInfo(response);
             setIsLoading(false);
