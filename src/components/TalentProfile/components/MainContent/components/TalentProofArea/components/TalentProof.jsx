@@ -24,6 +24,7 @@ function TalentProof({
     const [openModal, setOpenModal] = useState(false);
     const role = useSelector(store => store.auth.user.role);
     const authId = useSelector(store => store.auth.user.id);
+    const role = useSelector(store => store.auth.user.role);
 
     return (
         <>
