@@ -11,7 +11,7 @@ const authAPI = {
         );
         return (
             await axiosInstance.post(
-                `/talents/login`,
+                `/login`,
                 {},
                 {
                     headers: {

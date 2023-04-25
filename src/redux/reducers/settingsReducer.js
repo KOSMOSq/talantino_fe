@@ -1,3 +1,4 @@
+import { sponsorAPI } from "../../api/sponsorAPI";
 import { talentsAPI } from "../../api/talentsAPI";
 import { setMessage } from "./appReducer";
 import { getAuthThunk } from "./authReducer";
@@ -41,6 +42,30 @@ export const changeProfileDataThunk = data => async (dispatch, getState) => {
     ];
     try {
         await talentsAPI.changeData(id, token, data);
+        dispatch(setIsDone(true));
+        dispatch(getAuthThunk());
+        dispatch(setMessage("Your profile was successfully edited!", "success"));
+    } catch (err) {
+        dispatch(
+            setMessage(
+                err.response?.data.message
+                    ? err.response.data.message
+                    : "Network error",
+                "error"
+            )
+        );
+    } finally {
+        dispatch(setIsLoading(false));
+    }
+};
+
+export const changeSponsorDataThunk = data => async (dispatch, getState) => {
+    dispatch(setIsLoading(true));
+    const id = getState().auth.user.id;
+    const token = getState().auth.token;
+    
+    try {
+        await sponsorAPI.changeData(id, token, data);
         dispatch(setIsDone(true));
         dispatch(getAuthThunk());
         dispatch(setMessage("Your profile was successfully edited!", "success"));

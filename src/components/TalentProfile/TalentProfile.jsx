@@ -49,7 +49,7 @@ function TalentProfile() {
                 paddingRight: "24px"
             }}
         >
-            <SideBar talentInfo={talentInfo} />
+            <SideBar userInfo={talentInfo} />
             <MainContent
                 talentDescription={talentInfo.description}
                 nextId={talentInfo.nextId}
