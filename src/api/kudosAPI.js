@@ -15,8 +15,8 @@ const kudosAPI = {
     async addKudos(token, amount) {
         return (
             await axiosInstance.post(
-                `/sponsors/balance?amount=${amount}`,
-                {},
+                `/sponsors/balance`,
+                { amount },
                 {
                     headers: { Authorization: `Bearer ${token}` }
                 }

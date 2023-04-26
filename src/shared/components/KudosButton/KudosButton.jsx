@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
 import kudosIconInactive from "../../../assets/icons/kudosIconInactive.svg";
 import { setMessage } from "../../../redux/reducers/appReducer";
+import { getAuthThunk } from "../../../redux/reducers/authReducer";
 
 const KudosButton = ({ id, isKudosed, totalKudos }) => {
     const [kudosed, setKudosed] = useState(isKudosed);
@@ -29,6 +30,7 @@ const KudosButton = ({ id, isKudosed, totalKudos }) => {
         }
         try {
             await kudosAPI.sendKudos(id, token);
+            dispatch(getAuthThunk());
             setKudosed(true);
             setCounter(prev => prev + 1);
         } catch (err) {

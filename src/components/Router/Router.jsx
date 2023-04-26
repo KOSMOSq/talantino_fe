@@ -8,7 +8,7 @@ import Settings from "../Settings/Settings";
 import TalentProfile from "../TalentProfile/TalentProfile";
 import Proofs from "../Proofs/Proofs";
 import { Page404 } from "./components/Page404/Page404";
-import { SponsorProfile } from "../SponsorProfile/SponsorProfile";
+import SponsorProfile from "../SponsorProfile/SponsorProfile";
 
 function Router() {
     return (

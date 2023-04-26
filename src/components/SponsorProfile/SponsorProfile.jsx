@@ -5,6 +5,7 @@ import { setMessage } from "../../redux/reducers/appReducer";
 import { Container, LinearProgress } from "@mui/material";
 import { SideBar } from "../TalentProfile/components/SideBar/SideBar";
 import { SponsorMainContent } from "./components/SponsorMainContent/SponsorMainContent";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 
 const SponsorProfile = () => {
     const [sponsorInfo, setSponsorInfo] = useState();
@@ -58,4 +59,4 @@ const SponsorProfile = () => {
     );
 };
 
-export { SponsorProfile };
+export default withAuthRedirect(SponsorProfile);
