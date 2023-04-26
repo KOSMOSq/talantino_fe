@@ -52,7 +52,7 @@ const KudosPopper = ({
             id={idPop}
             open={open}
             anchorEl={anchorEl}
-            placement="bottom"
+            placement="bottom-end"
             transition
         >
             {({ TransitionProps }) => (
