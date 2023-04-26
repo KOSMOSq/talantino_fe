@@ -57,14 +57,13 @@ const KudosButton = ({ id, isKudosed, totalKudos, totalKudosFromSponsor }) => {
     };
 
     const handlePop = event => {
-        if (balance === 0) {
-            dispatch(setMessage("You have to top up your balance", "error"));
-            return;
-        }
         if (!isAuth) {
             navigate("/login", {
                 state: { from: "proofs", page }
             });
+            return;
+        } else if (balance === 0) {
+            dispatch(setMessage("You have to top up your balance", "error"));
             return;
         }
         setAnchorEl(anchorEl ? null : event.currentTarget);
