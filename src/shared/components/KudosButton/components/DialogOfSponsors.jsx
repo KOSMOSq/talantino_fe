@@ -16,13 +16,7 @@ import { setMessage } from "../../../../redux/reducers/appReducer";
 import kudosIconActive from "../../../../assets/icons/kudosIconActive.svg";
 import CloseIcon from "@mui/icons-material/Close";
 
-const DialogOfSponsors = ({
-    counter,
-    formatter,
-    sponsorKudoses,
-    id,
-    token
-}) => {
+const DialogOfSponsors = ({ counter, formatter, id, token }) => {
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const [info, setInfo] = useState([]);

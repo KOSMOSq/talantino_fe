@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, ClickAwayListener, IconButton, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
 import kudosIconInactive from "../../../assets/icons/kudosIconInactive.svg";
+import { KudosPopper } from "./components/KudosPopper";
 import { setMessage } from "../../../redux/reducers/appReducer";
 import { getAuthThunk } from "../../../redux/reducers/authReducer";
 import { DialogOfSponsors } from "./components/DialogOfSponsors";
 import { kudosAPI } from "../../../api/kudosAPI";
+import { formatter } from "../../utils/numberFormatter";
 
 const KudosButton = ({
     id,
@@ -19,6 +21,8 @@ const KudosButton = ({
     const [kudosed, setKudosed] = useState(isKudosed);
     const [sponsorKudoses, setSponsorKudoses] = useState(totalKudosFromSponsor);
     const [counter, setCounter] = useState(totalKudos);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [kudosAmount, setKudosAmount] = useState(1);
 
     const token = useSelector(store => store.auth.token);
     const isAuth = useSelector(store => store.auth.isAuth);
@@ -27,24 +31,23 @@ const KudosButton = ({
     const authId = useSelector(store => store.auth.user.id);
     const location = useLocation();
     const from = location.state?.from;
+    const balance = useSelector(store => store.auth.user.balance);
 
-    const formatter = Intl.NumberFormat("en", { notation: "compact" });
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const handleKudos = async () => {
-        if (!isAuth) {
-            navigate("/login", {
-                state: { from: "proofs", page }
-            });
-            return;
-        }
         try {
-            await kudosAPI.sendKudos(id, token);
+            await kudosAPI.sendKudos(id, token, kudosAmount);
             dispatch(getAuthThunk());
+            dispatch(
+                setMessage(`${kudosAmount} kudos sent successfully`, "success")
+            );
+            setKudosAmount(1);
+            setAnchorEl(null);
             setKudosed(true);
-            setCounter(prev => prev + 1);
-            setSponsorKudoses(prev => prev + 1);
+            setCounter(prev => prev + kudosAmount);
+            setSponsorKudoses(prev => prev + kudosAmount);
         } catch (err) {
             dispatch(
                 setMessage(
@@ -57,44 +60,140 @@ const KudosButton = ({
         }
     };
 
+    const handlePop = event => {
+        if (!isAuth) {
+            navigate("/login", {
+                state: { from: "proofs", page }
+            });
+            return;
+        } else if (balance === 0) {
+            dispatch(setMessage("You have to top up your balance", "error"));
+            return;
+        }
+        setAnchorEl(anchorEl ? null : event.currentTarget);
+    };
+
+    const handleClickAway = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+    const idPop = open ? "kudosPopper" : undefined;
+
     return (
         <>
-            <Box display="flex" flexDirection="rows" alignItems="center">
-                <IconButton
-                    onClick={handleKudos}
-                    disabled={role === "TALENT"}
-                    size="small"
-                >
-                    {role === "TALENT" || kudosed ? (
-                        <img src={kudosIconActive} alt="Kudos" />
-                    ) : (
-                        <img src={kudosIconInactive} alt="Kudos" />
-                    )}
-                </IconButton>
-                {role === "TALENT" &&
-                authId === authorId &&
-                from === "profile-click" ? (
-                    <DialogOfSponsors
-                        counter={counter}
-                        formatter={formatter}
-                        sponsorKudoses={sponsorKudoses}
-                        id={id}
-                        token={token}
+            <ClickAwayListener onClickAway={handleClickAway}>
+                <Box>
+                    <KudosPopper
+                        idPop={idPop}
+                        open={open}
+                        anchorEl={anchorEl}
+                        balance={balance}
+                        kudosAmount={kudosAmount}
+                        setKudosAmount={setKudosAmount}
+                        handleKudos={handleKudos}
                     />
-                ) : (
-                    <Typography
-                        component="div"
-                        sx={{ cursor: "default" }}
-                        title={`${counter}${
-                            sponsorKudoses !== null
-                                ? `, ${sponsorKudoses} given by you`
-                                : ""
-                        }`}
+                    <Box
+                        display="flex"
+                        flexDirection="rows"
+                        alignItems="center"
                     >
-                        {formatter.format(counter)}
-                    </Typography>
-                )}
-            </Box>
+                        <IconButton
+                            aria-describedby={idPop}
+                            onClick={handlePop}
+                            disabled={role === "TALENT"}
+                            size="small"
+                            title={
+                                role !== "SPONSOR"
+                                    ? "You need to be a sponsor to send kudos"
+                                    : ""
+                            }
+                            sx={{
+                                [":disabled"]: {
+                                    pointerEvents: "all"
+                                }
+                            }}
+                        >
+                            {role === "TALENT" || kudosed ? (
+                                <img src={kudosIconActive} alt="Kudos" />
+                            ) : (
+                                <img src={kudosIconInactive} alt="Kudos" />
+                            )}
+                        </IconButton>
+                        {role === "TALENT" &&
+                        authId === authorId &&
+                        from === "profile-click" ? (
+                            <DialogOfSponsors
+                                counter={counter}
+                                formatter={formatter}
+                                id={id}
+                                token={token}
+                            />
+                        ) : (
+                            <Typography
+                                component="div"
+                                sx={{ cursor: "default" }}
+                                title={`${counter}${
+                                    sponsorKudoses !== null
+                                        ? `, ${sponsorKudoses} given by you`
+                                        : ""
+                                }`}
+                            >
+                                {formatter.format(counter)}
+                            </Typography>
+                        )}
+                    </Box>
+                </Box>
+            </ClickAwayListener>
+            {/* <ClickAwayListener onClickAway={handleClickAway}>
+                <Box>
+                    <KudosPopper
+                        idPop={idPop}
+                        open={open}
+                        anchorEl={anchorEl}
+                        balance={balance}
+                        kudosAmount={kudosAmount}
+                        setKudosAmount={setKudosAmount}
+                        handleKudos={handleKudos}
+                    />
+
+                    <Box display="flex" flexDirection="row" alignItems="center">
+                        <IconButton
+                            aria-describedby={idPop}
+                            onClick={handlePop}
+                            disabled={role === "TALENT"}
+                            size="small"
+                            title={
+                                role !== "SPONSOR"
+                                    ? "You need to be a sponsor to send kudos"
+                                    : ""
+                            }
+                            sx={{
+                                [":disabled"]: {
+                                    pointerEvents: "all"
+                                }
+                            }}
+                        >
+                            {role === "TALENT" || kudosed ? (
+                                <img src={kudosIconActive} alt="Kudos" />
+                            ) : (
+                                <img src={kudosIconInactive} alt="Kudos" />
+                            )}
+                        </IconButton>
+                        <Typography
+                            component="span"
+                            sx={{ cursor: "default" }}
+                            title={`${counter}${
+                                sponsorKudoses !== null
+                                    ? `, ${sponsorKudoses} given by you`
+                                    : ""
+                            }`}
+                        >
+                            {formatter.format(counter)}
+                        </Typography>
+                    </Box>
+                </Box>
+            </ClickAwayListener> */}
         </>
     );
 };

@@ -1,10 +1,10 @@
 import { axiosInstance } from ".";
 
 const kudosAPI = {
-    async sendKudos(id, token) {
+    async sendKudos(id, token, amount) {
         return (
             await axiosInstance.post(
-                `/proofs/${id}/kudos`,
+                `/proofs/${id}/kudos?amount=${amount}`,
                 {},
                 {
                     headers: { Authorization: `Bearer ${token}` }

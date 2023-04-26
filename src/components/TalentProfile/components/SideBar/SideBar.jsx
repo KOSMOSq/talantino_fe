@@ -62,17 +62,17 @@ function SideBar({ userInfo }) {
                     </>
                 ) : userInfo.role === "SPONSOR" ? (
                     <Box display="flex" flexDirection="column">
-                        <Typography >
-                            -- STATS -- 
+                        <Typography sx={{ color: "gray" }}>
+                            STATS
                         </Typography>
-                        <Typography >
-                            BALANCE: 78 KUDOS
+                        <Typography sx={{ fontSize: "16px" }}>
+                            Balance: <Typography component="span" sx={{ fontWeight: "bold" }}>{userInfo.balance} kudos</Typography>
                         </Typography>
-                        <Typography >
-                            PROOFS KUDOSED: 45
+                        <Typography sx={{ fontSize: "16px" }}>
+                            Total kudosed: <Typography component="span" sx={{ fontWeight: "bold" }}>{userInfo.totalProofsKudosed || 34} proofs</Typography>
                         </Typography>
-                        <Typography >
-                            TOTAL KUDOS SPENT: 987 
+                        <Typography sx={{ fontSize: "16px" }}>
+                            Total spent: <Typography component="span" sx={{ fontWeight: "bold" }}>{userInfo.totalKudosSpent || 34} kudos</Typography>
                         </Typography>
                     </Box>
                 ) : null}
