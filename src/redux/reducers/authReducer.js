@@ -1,7 +1,7 @@
 import { authAPI } from "../../api/authAPI";
 import { setMessage } from "./appReducer";
 
-const SET_TALENT_DATA = "auth/SET-TALENT-DATA";
+const SET_USER_DATA = "auth/SET-USER-DATA";
 const CLEAR_DATA = "auth/CLEAR-DATA";
 const SET_TOKEN = "auth/SET-TOKEN";
 const INITIALIZE = "auth/INITIALIZE";
@@ -18,6 +18,7 @@ const initialState = {
         avatar: null,
         experience: null,
         location: null,
+        role: null,
         links: []
     },
     isAuth: false,
@@ -28,7 +29,7 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_TALENT_DATA:
+        case SET_USER_DATA:
             return {
                 ...state,
                 user: action.user,
@@ -61,7 +62,7 @@ const authReducer = (state = initialState, action) => {
     }
 };
 
-export const setTalentData = user => ({ type: SET_TALENT_DATA, user });
+export const setUserData = user => ({ type: SET_USER_DATA, user });
 export const clearData = () => ({ type: CLEAR_DATA });
 export const initialize = () => ({ type: INITIALIZE });
 export const setToken = token => ({ type: SET_TOKEN, token });
@@ -73,7 +74,7 @@ export const getAuthThunk = () => async (dispatch, getState) => {
 
     try {
         const response = await authAPI.auth(token);
-        dispatch(setTalentData(response));
+        dispatch(setUserData(response));
         if (!isInitialized) {
             dispatch(initialize());
         }
@@ -115,16 +116,28 @@ export const loginThunk = data => async dispatch => {
     }
 };
 
-export const registerThunk = data => async dispatch => {
+export const registerThunk = (data, role) => async dispatch => {
     try {
         dispatch(setIsLoading(true));
-        await authAPI.register({
-            email: data.email,
-            password: data.password,
-            name: data.fName,
-            surname: data.lName,
-            kind: data.kindOfTalent
-        });
+        if (role === "TALENT") {
+            await authAPI.register({
+                email: data.email,
+                password: data.password,
+                name: data.fName,
+                surname: data.lName,
+                kind: data.kindOfTalent
+            }, "talents");
+        } else if (role === "SPONSOR") {
+            await authAPI.register({
+                email: data.email,
+                password: data.password,
+                name: data.fName,
+                surname: data.lName
+            }, "sponsor");
+        } else {
+            console.log("Wrong usage of register thunk!");
+            throw new Error("Error!");
+        }
         dispatch(loginThunk(data));
     } catch (err) {
         dispatch(

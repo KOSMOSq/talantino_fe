@@ -50,7 +50,7 @@ const Talents = () => {
                 navigate(`/talents?page=${total}`);
                 return;
             } else if (total === 0) {
-                dispatch(setMessage("No talents at all ("));
+                dispatch(setMessage("No talents at all (", "error"));
             }
             if (total) {
                 dispatch(setTotalPages(total));

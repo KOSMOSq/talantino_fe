@@ -2,8 +2,8 @@ import { axiosInstance } from ".";
 import { Buffer } from "buffer";
 
 const authAPI = {
-    async register(data) {
-        return (await axiosInstance.post(`/talents/register`, data)).data;
+    async register(data, endpoint) {
+        return (await axiosInstance.post(`/${endpoint}/register`, data)).data;
     },
     async login({ email, password }) {
         const base64encodedData = Buffer.from(`${email}:${password}`).toString(
@@ -11,7 +11,7 @@ const authAPI = {
         );
         return (
             await axiosInstance.post(
-                `/talents/login`,
+                `/login`,
                 {},
                 {
                     headers: {

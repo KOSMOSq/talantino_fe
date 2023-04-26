@@ -9,7 +9,7 @@ const Proof = ({
     description,
     isKudosed,
     totalKudos,
-    isAuthor
+    totalKudosFromSponsor
 }) => {
     return (
         <>
@@ -47,7 +47,7 @@ const Proof = ({
                     id={id}
                     isKudosed={isKudosed}
                     totalKudos={totalKudos}
-                    isAuthor={isAuthor}
+                    totalKudosFromSponsor={totalKudosFromSponsor}
                 />
             </ListItem>
             <Divider variant="middle" component="li" sx={{ marginBottom: 2 }} />
