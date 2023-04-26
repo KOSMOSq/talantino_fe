@@ -11,7 +11,7 @@ const SponsorMainContent = () => {
                     <LinkTabs
                         tabs={[
                             { lable: "Balance", href: "" },
-                            { lable: "History", href: "history" }
+                            //{ lable: "History", href: "history" }
                         ]}
                     />
                 <Box sx={{ marginTop: "16px" }}>

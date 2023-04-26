@@ -14,6 +14,7 @@ import kudosIconInactive from "../../../assets/icons/kudosIconInactive.svg";
 import { KudosPopper } from "./components/KudosPopper";
 import { setMessage } from "../../../redux/reducers/appReducer";
 import { getAuthThunk } from "../../../redux/reducers/authReducer";
+import { formatter } from "../../utils/numberFormatter";
 
 const KudosButton = ({ id, isKudosed, totalKudos, totalKudosFromSponsor }) => {
     const [kudosed, setKudosed] = useState(isKudosed);
@@ -28,7 +29,6 @@ const KudosButton = ({ id, isKudosed, totalKudos, totalKudosFromSponsor }) => {
     const role = useSelector(store => store.auth.user.role);
     const balance = useSelector(store => store.auth.user.balance);
 
-    const formatter = Intl.NumberFormat("en", { notation: "compact" });
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -96,6 +96,16 @@ const KudosButton = ({ id, isKudosed, totalKudos, totalKudosFromSponsor }) => {
                             onClick={handlePop}
                             disabled={role === "TALENT"}
                             size="small"
+                            title={
+                                role !== "SPONSOR"
+                                    ? "You need to be a sponsor to send kudos"
+                                    : ""
+                            }
+                            sx={{
+                                [":disabled"]: {
+                                    pointerEvents: "all"
+                                }
+                            }}
                         >
                             {role === "TALENT" || kudosed ? (
                                 <img src={kudosIconActive} alt="Kudos" />

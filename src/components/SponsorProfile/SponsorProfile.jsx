@@ -34,7 +34,7 @@ const SponsorProfile = () => {
                 )
             )
         );
-    }, [sponsorId]);
+    }, [sponsorId, sponsor]);
 
     if (sponsor.role !== "SPONSOR") {
         return <Navigate to="/" />

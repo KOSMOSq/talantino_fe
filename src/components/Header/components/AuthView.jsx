@@ -4,19 +4,22 @@ import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { clearData } from "../../../redux/reducers/authReducer";
-import { Link, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
+import {
+    Box,
+    Divider,
+    Link,
+    ListItemIcon,
+    Menu,
+    MenuItem,
+    Typography
+} from "@mui/material";
 import Logout from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState } from "react";
 import { setClikedId } from "../../../redux/reducers/talentsReducer";
-
-const btnStyle = {
-    marginLeft: "auto",
-    right: 40,
-    fontSize: 20,
-    color: "grey"
-};
+import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
+import { formatter } from "../../../shared/utils/numberFormatter";
 
 function AuthView() {
     const dispatch = useDispatch();
@@ -52,10 +55,42 @@ function AuthView() {
         <>
             {isAuth ? (
                 <>
-                    {role === "SPONSOR" ? <Typography sx={{ marginLeft: "auto" }}>
-                        Kudos: {balance}
-                    </Typography>: null}
-                    <Typography sx={btnStyle}>
+                    {role === "SPONSOR" ? (
+                        <>
+                            <Box
+                                display="flex"
+                                flexDirection="column"
+                                alignItems="center"
+                                sx={{ marginLeft: "auto", marginRight: "16px" }}
+                            >
+                                <Typography sx={{ color: "gray" }}>
+                                    Balance
+                                </Typography>
+                                <Typography
+                                    sx={{ fontWeight: "bold" }}
+                                    title={balance}
+                                    display="flex"
+                                    gap={0.5}
+                                >
+                                    {formatter.format(balance)}
+                                    <img
+                                        src={kudosIconActive}
+                                        alt="kudos icon"
+                                        width="22"
+                                    />
+                                </Typography>
+                            </Box>
+                            <Divider orientation="vertical" flexItem />
+                        </>
+                    ) : null}
+                    <Typography
+                        sx={{
+                            marginLeft: role === "SPONSOR" ? "16px" : "auto",
+                            right: 40,
+                            fontSize: 20,
+                            color: "grey"
+                        }}
+                    >
                         Hi, {name}
                         <IconButton
                             onClick={handleClick}
@@ -108,12 +143,27 @@ function AuthView() {
                                     <AccountCircleIcon fontSize="small" />
                                 </ListItemIcon>
                                 <Link
-                                    href={`/${role === "SPONSOR" ? "sponsor" : role === "TALENT" ? "talent" : "notFound"}/${id}`}
+                                    href={`/${
+                                        role === "SPONSOR"
+                                            ? "sponsor"
+                                            : role === "TALENT"
+                                            ? "talent"
+                                            : "notFound"
+                                    }/${id}`}
                                     onClick={e => {
                                         e.preventDefault();
-                                        navigate(`/${role === "SPONSOR" ? "sponsor" : role === "TALENT" ? "talent" : "notFound"}/${id}`, {
-                                            state: { from: "profile-click" }
-                                        });
+                                        navigate(
+                                            `/${
+                                                role === "SPONSOR"
+                                                    ? "sponsor"
+                                                    : role === "TALENT"
+                                                    ? "talent"
+                                                    : "notFound"
+                                            }/${id}`,
+                                            {
+                                                state: { from: "profile-click" }
+                                            }
+                                        );
                                     }}
                                 >
                                     Profile

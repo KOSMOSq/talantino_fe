@@ -25,7 +25,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
         if (nextId) {
             navigate(`/talent/${nextId}/${subPage ? subPage : ""}`);
         } else {
-            dispatch(setMessage("No more talents"));
+            dispatch(setMessage("No more talents", "error"));
         }
     };
 
@@ -33,7 +33,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
         if (prevId) {
             navigate(`/talent/${prevId}/${subPage ? subPage : ""}`);
         } else {
-            dispatch(setMessage("No more previous talents"));
+            dispatch(setMessage("No more previous talents", "error"));
         }
     };
 
