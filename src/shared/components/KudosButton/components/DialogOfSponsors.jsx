@@ -74,7 +74,7 @@ const DialogOfSponsors = ({ counter, formatter, id, token }) => {
                         paddingBottom: 3
                     }}
                 >
-                    {info.map((item, index) => {
+                    {info.length === 0 ? <Typography>{"Nobody send kudos on this proof yet :("}</Typography>: info.map((item, index) => {
                         return (
                             <ListItem
                                 key={index}

@@ -2,21 +2,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { kudosAPI } from "../../../api/kudosAPI";
 import { setMessage } from "../../../redux/reducers/appReducer";
 import { getAuthThunk } from "../../../redux/reducers/authReducer";
-import { Button, TextField } from "@mui/material";
+import { Box, Button, FormHelperText, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
+import CreditCard from "react-credit-card-component";
+import "react-credit-card-component/dist/styles-compiled.css";
+import { useState } from "react";
 
 const BalanceForm = () => {
-    const token = useSelector(store => store.auth.token);
+    const [focusedField, setFocusedField] = useState("");
 
+    const token = useSelector(store => store.auth.token);
     const dispatch = useDispatch();
 
     const {
         register,
         handleSubmit,
         formState: { errors },
+        watch,
         reset
     } = useForm({
-        mode: "onChange"
+        mode: "all",
+        defaultValues: {
+            cvc: "",
+            cardName: "",
+            cardNumber: "",
+            expiryDate: ""
+        }
     });
 
     const onSubmit = async data => {
@@ -45,33 +56,173 @@ const BalanceForm = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <TextField
-                    label="Kudos"
-                    {...register("kudos", {
-                        required: {
-                            value: true,
-                            message: "This field is requeired!"
-                        },
-                        min: {
-                            value: 1,
-                            message:
-                                "You cannot add 0 or less kudos to your balance!"
-                        },
-                        max: {
-                            value: 1000,
-                            message: "You are not a billionaire, calm down :)"
-                        },
-                        pattern: {
-                            value: /^[0-9]+$/,
-                            message: "This field can contain only numbers!"
-                        }
-                    })}
-                    error={Boolean(errors.kudos)}
-                    helperText={errors.kudos ? errors.kudos.message : " "}
-                />
-                <Button type="submit">ADD KUDOS</Button>
-            </form>
+            <Box
+                display="flex"
+                gap={4}
+                alignItems="center"
+                sx={{ marginTop: "32px", marginLeft: "64px" }}
+            >
+                <Box
+                    sx={{ width: "300px", textAlign: "center" }}
+                    onClick={() =>
+                        setFocusedField(prev => (prev === "cvc" ? "" : "cvc"))
+                    }
+                >
+                    <CreditCard
+                        cvc={watch("cvc").slice(0, 4)}
+                        expiry={watch("expiryDate").slice(0, 5)}
+                        focused={focusedField}
+                        name={watch("cardName")}
+                        number={watch("cardNumber").slice(0, 16)}
+                        locale={{ valid: "GOOD THRU" }}
+                    />
+                </Box>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <Box display="flex" flexDirection="column" gap={3}>
+                        <TextField
+                            sx={{ width: "220px" }}
+                            label="Card number"
+                            {...register("cardNumber", {
+                                required: {
+                                    value: true,
+                                    message: "Enter a card number!"
+                                },
+                                minLength: {
+                                    value: 13,
+                                    message: "Your card number is to short!"
+                                },
+                                maxLength: {
+                                    value: 16,
+                                    message: "Your card number is to long!"
+                                },
+                                //validate: () => {},
+                                onBlur: () => setFocusedField("")
+                            })}
+                            onFocus={() => setFocusedField("number")}
+                            error={Boolean(errors.cardNumber)}
+                        />
+                        <TextField
+                            label="Holder name"
+                            {...register("cardName", {
+                                required: "Holder name is required",
+                                maxLength: {
+                                    value: 48,
+                                    message: "Your name is too long"
+                                },
+                                minLength: {
+                                    value: 2,
+                                    message: "Your name is too short"
+                                },
+                                pattern: {
+                                    value: /^[a-zA-Z ]+$/,
+                                    message:
+                                        "Holder name can only contain letters"
+                                },
+                                onBlur: () => setFocusedField("")
+                            })}
+                            onFocus={() => setFocusedField("name")}
+                            error={Boolean(errors.cardName)}
+                        />
+                        <Box display="flex" gap={3}>
+                            <TextField
+                                label="Expiry date"
+                                sx={{ width: "131px" }}
+                                {...register("expiryDate", {
+                                    required: {
+                                        value: true,
+                                        message: "Date is required"
+                                    },
+                                    minLength: {
+                                        value: 4,
+                                        message:
+                                            "Date should be at least 4 numbers long"
+                                    },
+                                    maxLength: {
+                                        value: 4,
+                                        message:
+                                            "Date cannot be longer than 4 numbers"
+                                    },
+                                    pattern: {
+                                        value: /^[0-9]+$/,
+                                        message:
+                                            "Date can only contain numbers!"
+                                    },
+                                    onBlur: () => setFocusedField("")
+                                })}
+                                onFocus={() => setFocusedField("expiry")}
+                                error={Boolean(errors.expiryDate)}
+                            />
+                            <TextField
+                                label="CVC"
+                                sx={{ width: "65px" }}
+                                {...register("cvc", {
+                                    required: {
+                                        value: true,
+                                        message: "CVC is required"
+                                    },
+                                    minLength: {
+                                        value: 3,
+                                        message:
+                                            "CVC should be at least 3 numbers long"
+                                    },
+                                    maxLength: {
+                                        value: 4,
+                                        message:
+                                            "CVC cannot be longer than 4 numbers"
+                                    },
+                                    pattern: {
+                                        value: /^[0-9]+$/,
+                                        message: "CVC can only contain numbers!"
+                                    },
+                                    onBlur: () => setFocusedField("")
+                                })}
+                                onFocus={() => setFocusedField("cvc")}
+                                error={Boolean(errors.cvc)}
+                            />
+                        </Box>
+                        <Box display="flex" flexDirection="column">
+                            <TextField
+                                label="Kudos"
+                                {...register("kudos", {
+                                    required: "Kudos field is requeired!",
+                                    min: {
+                                        value: 1,
+                                        message:
+                                            "You cannot add 0 or less kudos to your balance!"
+                                    },
+                                    max: {
+                                        value: 1000,
+                                        message:
+                                            "You are not a billionaire, calm down :)"
+                                    },
+                                    pattern: {
+                                        value: /^[0-9]+$/,
+                                        message:
+                                            "Kudos can only contain numbers!"
+                                    }
+                                })}
+                                error={Boolean(errors.kudos)}
+                            />
+                            <FormHelperText
+                                error
+                                component="span"
+                                sx={{
+                                    height: "20px"
+                                }}
+                            >
+                                {errors.cardNumber?.message ||
+                                    errors.cardName?.message ||
+                                    errors.expiryDate?.message ||
+                                    errors.cvc?.message ||
+                                    errors.kudos?.message || " "}
+                            </FormHelperText>
+                        </Box>
+                        <Button type="submit" variant="contained" sx={{ marginTop: "-12px" }}>
+                            ADD KUDOS
+                        </Button>
+                    </Box>
+                </form>
+            </Box>
         </>
     );
 };
