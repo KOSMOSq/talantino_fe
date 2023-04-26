@@ -15,8 +15,9 @@ import { KudosPopper } from "./components/KudosPopper";
 import { setMessage } from "../../../redux/reducers/appReducer";
 import { getAuthThunk } from "../../../redux/reducers/authReducer";
 
-const KudosButton = ({ id, isKudosed, totalKudos }) => {
+const KudosButton = ({ id, isKudosed, totalKudos, totalKudosFromSponsor }) => {
     const [kudosed, setKudosed] = useState(isKudosed);
+    const [sponsorKudoses, setSponsorKudoses] = useState(totalKudosFromSponsor);
     const [counter, setCounter] = useState(totalKudos);
     const [anchorEl, setAnchorEl] = useState(null);
     const [kudosAmount, setKudosAmount] = useState(1);
@@ -38,9 +39,11 @@ const KudosButton = ({ id, isKudosed, totalKudos }) => {
             dispatch(
                 setMessage(`${kudosAmount} kudos sent successfully`, "success")
             );
+            setKudosAmount(1);
             setAnchorEl(null);
             setKudosed(true);
             setCounter(prev => prev + kudosAmount);
+            setSponsorKudoses(prev => prev + kudosAmount);
         } catch (err) {
             dispatch(
                 setMessage(
@@ -54,6 +57,10 @@ const KudosButton = ({ id, isKudosed, totalKudos }) => {
     };
 
     const handlePop = event => {
+        if (balance === 0) {
+            dispatch(setMessage("You have to top up your balance", "error"));
+            return;
+        }
         if (!isAuth) {
             navigate("/login", {
                 state: { from: "proofs", page }
@@ -100,7 +107,11 @@ const KudosButton = ({ id, isKudosed, totalKudos }) => {
                         <Typography
                             component="span"
                             sx={{ cursor: "default" }}
-                            title={counter}
+                            title={`${counter}${
+                                sponsorKudoses !== null
+                                    ? `, ${sponsorKudoses} given by you`
+                                    : ""
+                            }`}
                         >
                             {formatter.format(counter)}
                         </Typography>

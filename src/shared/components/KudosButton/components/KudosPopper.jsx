@@ -33,6 +33,20 @@ const KudosPopper = ({
         ];
     }, [balance]);
 
+    const marksForTwo = useMemo(() => {
+        return [
+            { value: 1, label: "1" },
+            { value: 2, label: 2 }
+        ];
+    }, [balance]);
+
+    const marksForOne = useMemo(() => {
+        return [
+            { value: 0, label: "0" },
+            { value: 1, label: "1" }
+        ];
+    }, [balance]);
+
     return (
         <Popper
             id={idPop}
@@ -68,16 +82,26 @@ const KudosPopper = ({
                         >
                             <Slider
                                 defaultValue={1}
-                                min={1}
+                                min={balance === 1 ? 0 : 1}
                                 max={balance}
                                 value={kudosAmount}
                                 onChange={handleChange}
                                 valueLabelDisplay="auto"
-                                marks={marks}
+                                marks={
+                                    balance !== 2
+                                        ? balance === 1
+                                            ? marksForOne
+                                            : marks
+                                        : marksForTwo
+                                }
                             />
                         </Box>
 
-                        <Button variant="contained" onClick={handleKudos}>
+                        <Button
+                            variant="contained"
+                            onClick={handleKudos}
+                            disabled={kudosAmount === 0}
+                        >
                             Send {kudosAmount} kudos
                         </Button>
                     </Paper>
