@@ -23,6 +23,7 @@ import {
 const Settings = () => {
     const user = useSelector(store => store.auth.user);
     const id = useSelector(store => store.auth.user.id);
+    const role = useSelector(store => store.auth.user.role);
     const isLoading = useSelector(store => store.settings.isLoading);
     const isDone = useSelector(store => store.settings.isDone);
 
@@ -33,7 +34,9 @@ const Settings = () => {
 
     useEffect(() => {
         if (isDone) {
-            navigate(`/talent/${id}`);
+            role === "SPONSOR"
+                ? navigate(`/sponsor/${id}`)
+                : navigate(`/talent/${id}`);
             dispatch(setIsDone(false));
         }
     }, [isDone]);

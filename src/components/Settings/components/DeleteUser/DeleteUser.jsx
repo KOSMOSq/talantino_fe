@@ -5,6 +5,7 @@ import { talentsAPI } from "../../../../api/talentsAPI";
 import { clearData } from "../../../../redux/reducers/authReducer";
 import { ModalConfirmation } from "../../../ModalConfirmation/ModalConfirmation";
 import { sponsorAPI } from "../../../../api/sponsorAPI";
+import { setMessage } from "../../../../redux/reducers/appReducer";
 
 function DeleteUser() {
     const [open, setOpen] = useState(false);
@@ -16,10 +17,25 @@ function DeleteUser() {
     const dispatch = useDispatch();
 
     const handleClickDelete = async () => {
-        role === "TALENT"
-            ? await talentsAPI.deleteTalent(talentId, token)
-            : await sponsorAPI.deleteSponsor(talentId, token);
+        try {
+            if (role === "TALENT") {
+                await talentsAPI.deleteTalent(talentId, token);
+            } else {
+                await sponsorAPI.deleteSponsor(talentId, token);
+            }
+        } catch (error) {
+            dispatch(
+                setMessage(
+                    error.response?.data.message
+                        ? error.response.data.message
+                        : "Network error",
+                    "error"
+                )
+            );
+        }
+
         dispatch(clearData());
+        localStorage.clear();
     };
     return (
         <div>

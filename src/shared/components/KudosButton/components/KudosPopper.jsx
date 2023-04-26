@@ -38,14 +38,14 @@ const KudosPopper = ({
             { value: 1, label: "1" },
             { value: 2, label: 2 }
         ];
-    }, [balance]);
+    }, []);
 
     const marksForOne = useMemo(() => {
         return [
             { value: 0, label: "0" },
             { value: 1, label: "1" }
         ];
-    }, [balance]);
+    }, []);
 
     return (
         <Popper
