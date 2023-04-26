@@ -145,55 +145,6 @@ const KudosButton = ({
                     </Box>
                 </Box>
             </ClickAwayListener>
-            {/* <ClickAwayListener onClickAway={handleClickAway}>
-                <Box>
-                    <KudosPopper
-                        idPop={idPop}
-                        open={open}
-                        anchorEl={anchorEl}
-                        balance={balance}
-                        kudosAmount={kudosAmount}
-                        setKudosAmount={setKudosAmount}
-                        handleKudos={handleKudos}
-                    />
-
-                    <Box display="flex" flexDirection="row" alignItems="center">
-                        <IconButton
-                            aria-describedby={idPop}
-                            onClick={handlePop}
-                            disabled={role === "TALENT"}
-                            size="small"
-                            title={
-                                role !== "SPONSOR"
-                                    ? "You need to be a sponsor to send kudos"
-                                    : ""
-                            }
-                            sx={{
-                                [":disabled"]: {
-                                    pointerEvents: "all"
-                                }
-                            }}
-                        >
-                            {role === "TALENT" || kudosed ? (
-                                <img src={kudosIconActive} alt="Kudos" />
-                            ) : (
-                                <img src={kudosIconInactive} alt="Kudos" />
-                            )}
-                        </IconButton>
-                        <Typography
-                            component="span"
-                            sx={{ cursor: "default" }}
-                            title={`${counter}${
-                                sponsorKudoses !== null
-                                    ? `, ${sponsorKudoses} given by you`
-                                    : ""
-                            }`}
-                        >
-                            {formatter.format(counter)}
-                        </Typography>
-                    </Box>
-                </Box>
-            </ClickAwayListener> */}
         </>
     );
 };
