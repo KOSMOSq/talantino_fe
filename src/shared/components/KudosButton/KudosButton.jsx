@@ -8,8 +8,9 @@ import kudosIconInactive from "../../../assets/icons/kudosIconInactive.svg";
 import { setMessage } from "../../../redux/reducers/appReducer";
 import { getAuthThunk } from "../../../redux/reducers/authReducer";
 
-const KudosButton = ({ id, isKudosed, totalKudos }) => {
+const KudosButton = ({ id, isKudosed, totalKudos, totalKudosFromSponsor }) => {
     const [kudosed, setKudosed] = useState(isKudosed);
+    const [sponsorKudoses, setSponsorKudoses] = useState(totalKudosFromSponsor);
     const [counter, setCounter] = useState(totalKudos);
 
     const token = useSelector(store => store.auth.token);
@@ -33,6 +34,7 @@ const KudosButton = ({ id, isKudosed, totalKudos }) => {
             dispatch(getAuthThunk());
             setKudosed(true);
             setCounter(prev => prev + 1);
+            setSponsorKudoses(prev => prev + 1);
         } catch (err) {
             dispatch(
                 setMessage(
@@ -60,9 +62,13 @@ const KudosButton = ({ id, isKudosed, totalKudos }) => {
                     )}
                 </IconButton>
                 <Typography
-                    component="span"
+                    component="div"
                     sx={{ cursor: "default" }}
-                    title={counter}
+                    title={`${counter}${
+                        sponsorKudoses !== null
+                            ? `, ${sponsorKudoses} given by you`
+                            : ""
+                    }`}
                 >
                     {formatter.format(counter)}
                 </Typography>
