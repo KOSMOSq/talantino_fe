@@ -74,7 +74,7 @@ export const getProofsThunk =
                 navigate(`/proofs?page=${total}`);
                 return;
             } else if (total === 0) {
-                dispatch(setMessage("No proofs here ("));
+                dispatch(setMessage("No proofs here (", "error"));
             }
 
             if (total) {

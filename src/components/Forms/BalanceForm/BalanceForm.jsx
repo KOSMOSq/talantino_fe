@@ -59,7 +59,7 @@ const BalanceForm = () => {
                                 "You cannot add 0 or less kudos to your balance!"
                         },
                         max: {
-                            value: 100,
+                            value: 1000,
                             message: "You are not a billionaire, calm down :)"
                         },
                         pattern: {
