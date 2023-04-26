@@ -34,7 +34,6 @@ const KudosPopper = ({
     }, [balance]);
 
     return (
-        // add animation
         <Popper
             id={idPop}
             open={open}

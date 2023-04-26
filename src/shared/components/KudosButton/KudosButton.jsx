@@ -35,6 +35,9 @@ const KudosButton = ({ id, isKudosed, totalKudos }) => {
         try {
             await kudosAPI.sendKudos(id, token, kudosAmount);
             dispatch(getAuthThunk());
+            dispatch(
+                setMessage(`${kudosAmount} kudos sent successfully`, "success")
+            );
             setAnchorEl(null);
             setKudosed(true);
             setCounter(prev => prev + kudosAmount);
