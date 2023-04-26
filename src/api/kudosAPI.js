@@ -22,6 +22,16 @@ const kudosAPI = {
                 }
             )
         ).data;
+    },
+    async getSponsorsOfProof(id, token) {
+        return (
+            await axiosInstance.get(
+                `/proofs/${id}/kudos`,
+                {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            )
+        ).data;
     }
 };
 
