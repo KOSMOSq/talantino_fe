@@ -71,19 +71,15 @@ const KudosButton = ({ id, isKudosed, totalKudos }) => {
         <>
             <ClickAwayListener onClickAway={handleClickAway}>
                 <Box>
-                    <Popper
-                        id={idPop}
+                    <KudosPopper
+                        idPop={idPop}
                         open={open}
                         anchorEl={anchorEl}
-                        placement="bottom"
-                    >
-                        <KudosPopper
-                            balance={balance}
-                            kudosAmount={kudosAmount}
-                            setKudosAmount={setKudosAmount}
-                            handleKudos={handleKudos}
-                        />
-                    </Popper>
+                        balance={balance}
+                        kudosAmount={kudosAmount}
+                        setKudosAmount={setKudosAmount}
+                        handleKudos={handleKudos}
+                    />
 
                     <Box display="flex" flexDirection="row" alignItems="center">
                         <IconButton
