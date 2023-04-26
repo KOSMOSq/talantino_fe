@@ -18,7 +18,8 @@ function TalentProof({
     talentId,
     onDelete,
     isKudosed,
-    totalKudos
+    totalKudos,
+    authorId
 }) {
     const [editMode, setEditMode] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -137,6 +138,7 @@ function TalentProof({
                                 id={id}
                                 isKudosed={isKudosed}
                                 totalKudos={totalKudos}
+                                authorId={authorId}
                             />
                         </Box>
                     ) : null}
@@ -146,6 +148,7 @@ function TalentProof({
                         id={id}
                         isKudosed={isKudosed}
                         totalKudos={totalKudos}
+                        authorId={authorId}
                     />
                 ) : null}
             </Box>
