@@ -21,5 +21,10 @@ export const sponsorAPI = {
                 headers: { Authorization: `Bearer ${token}` }
             })
         ).data;
+    },
+    async recoverAccount(token) {
+        return (
+            await axiosInstance.post(`/sponsors/recover?token=${token}`, {})
+        ).data;
     }
 };

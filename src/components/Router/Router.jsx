@@ -9,6 +9,7 @@ import TalentProfile from "../TalentProfile/TalentProfile";
 import Proofs from "../Proofs/Proofs";
 import { Page404 } from "./components/Page404/Page404";
 import SponsorProfile from "../SponsorProfile/SponsorProfile";
+import { Recover } from "../Recover/Recover";
 
 function Router() {
     return (
@@ -24,11 +25,12 @@ function Router() {
                         path="talent/:talentId/*"
                         element={<TalentProfile />}
                     />
-                    <Route 
+                    <Route
                         path="sponsor/:sponsorId/*"
                         element={<SponsorProfile />}
                     />
                     <Route path="settings" element={<Settings />} />
+                    <Route path="sponsors/recover" element={<Recover />} />
                 </Route>
                 <Route path="*" element={<Page404 />} />
             </Routes>
