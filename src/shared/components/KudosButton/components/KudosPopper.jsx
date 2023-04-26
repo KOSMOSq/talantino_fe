@@ -1,9 +1,20 @@
 import { Box, Typography, Slider, Button } from "@mui/material";
+import { useMemo } from "react";
 
 const KudosPopper = ({ balance, kudosAmount, setKudosAmount, handleKudos }) => {
     const handleChange = (e, value) => {
         setKudosAmount(value);
     };
+    const marks = useMemo(() => {
+        return [
+            { value: 1, label: "1" },
+            {
+                value: Math.ceil(balance / 2),
+                label: Math.ceil(balance / 2)
+            },
+            { value: balance, label: balance }
+        ];
+    }, [balance]);
 
     return (
         <Box
@@ -35,10 +46,8 @@ const KudosPopper = ({ balance, kudosAmount, setKudosAmount, handleKudos }) => {
                     value={kudosAmount}
                     onChange={handleChange}
                     valueLabelDisplay={"on"}
+                    marks={marks}
                 />
-                {/* <Typography variant="h6" sx={{ fontSize: "16px" }}>
-                    {balance}
-                </Typography> */}
             </Box>
 
             <Button variant="contained" onClick={handleKudos}>
@@ -48,4 +57,4 @@ const KudosPopper = ({ balance, kudosAmount, setKudosAmount, handleKudos }) => {
     );
 };
 
-export default KudosPopper;
+export { KudosPopper };

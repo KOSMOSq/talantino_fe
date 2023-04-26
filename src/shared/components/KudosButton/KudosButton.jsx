@@ -11,7 +11,7 @@ import { kudosAPI } from "../../../api/kudosAPI";
 import { useNavigate } from "react-router-dom";
 import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
 import kudosIconInactive from "../../../assets/icons/kudosIconInactive.svg";
-import KudosPopper from "./components/KudosPopper";
+import { KudosPopper } from "./components/KudosPopper";
 import { setMessage } from "../../../redux/reducers/appReducer";
 import { getAuthThunk } from "../../../redux/reducers/authReducer";
 
@@ -65,7 +65,6 @@ const KudosButton = ({ id, isKudosed, totalKudos }) => {
     };
 
     const open = Boolean(anchorEl);
-
     const idPop = open ? "kudosPopper" : undefined;
 
     return (
