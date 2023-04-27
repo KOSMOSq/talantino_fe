@@ -19,7 +19,8 @@ function TalentProof({
     onDelete,
     isKudosed,
     totalKudos,
-    authorId
+    authorId,
+    totalKudosFromSponsor
 }) {
     const [editMode, setEditMode] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -132,23 +133,25 @@ function TalentProof({
                             setEditMode={setEditMode}
                         />
                     )}
-                    {+talentId === authId && !editMode ? (
+                    {+talentId === authId && role !== "SPONSOR" && !editMode ? (
                         <Box sx={{ ml: "-10px", mb: "-10px" }}>
                             <KudosButton
                                 id={id}
                                 isKudosed={isKudosed}
                                 totalKudos={totalKudos}
                                 authorId={authorId}
+                                totalKudosFromSponsor={totalKudosFromSponsor}
                             />
                         </Box>
                     ) : null}
                 </Box>
-                {+talentId !== authId ? (
+                {+talentId !== authId || role !== "TALENT" ? (
                     <KudosButton
                         id={id}
                         isKudosed={isKudosed}
                         totalKudos={totalKudos}
                         authorId={authorId}
+                        totalKudosFromSponsor={totalKudosFromSponsor}
                     />
                 ) : null}
             </Box>

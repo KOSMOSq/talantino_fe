@@ -75,6 +75,7 @@ const BalanceForm = () => {
                         name={watch("cardName")}
                         number={watch("cardNumber").slice(0, 16)}
                         locale={{ valid: "GOOD THRU" }}
+                        acceptedCards={["visa", "mastercard", "maestro", "discover", "jcb", "unionpay", "hipercard"]}
                     />
                 </Box>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -94,6 +95,11 @@ const BalanceForm = () => {
                                 maxLength: {
                                     value: 16,
                                     message: "Your card number is to long!"
+                                },
+                                pattern: {
+                                    value: /^[0-9]+$/,
+                                    message:
+                                        "Card number can only contain numbers!"
                                 },
                                 //validate: () => {},
                                 onBlur: () => setFocusedField("")
@@ -182,6 +188,7 @@ const BalanceForm = () => {
                         </Box>
                         <Box display="flex" flexDirection="column">
                             <TextField
+                                sx={{ width: "220px" }}
                                 label="Kudos"
                                 {...register("kudos", {
                                     required: "Kudos field is requeired!",
@@ -207,7 +214,8 @@ const BalanceForm = () => {
                                 error
                                 component="span"
                                 sx={{
-                                    height: "20px"
+                                    height: "20px",
+                                    width: "220px"
                                 }}
                             >
                                 {errors.cardNumber?.message ||
@@ -217,7 +225,7 @@ const BalanceForm = () => {
                                     errors.kudos?.message || " "}
                             </FormHelperText>
                         </Box>
-                        <Button type="submit" variant="contained" sx={{ marginTop: "-12px" }}>
+                        <Button type="submit" variant="contained" sx={{ marginTop: "-8px", width: "220px" }}>
                             ADD KUDOS
                         </Button>
                     </Box>

@@ -69,10 +69,10 @@ function SideBar({ userInfo }) {
                             Balance: <Typography component="span" sx={{ fontWeight: "bold" }}>{userInfo.balance} kudos</Typography>
                         </Typography>
                         <Typography sx={{ fontSize: "16px" }}>
-                            Total kudosed: <Typography component="span" sx={{ fontWeight: "bold" }}>{userInfo.totalProofsKudosed || 34} proofs</Typography>
+                            Total kudosed: <Typography component="span" sx={{ fontWeight: "bold" }}>{userInfo.totalKudosed} proofs</Typography>
                         </Typography>
                         <Typography sx={{ fontSize: "16px" }}>
-                            Total spent: <Typography component="span" sx={{ fontWeight: "bold" }}>{userInfo.totalKudosSpent || 34} kudos</Typography>
+                            Total spent: <Typography component="span" sx={{ fontWeight: "bold" }}>{userInfo.totalSpent} kudos</Typography>
                         </Typography>
                     </Box>
                 ) : null}
