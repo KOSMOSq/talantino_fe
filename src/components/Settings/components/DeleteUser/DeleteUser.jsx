@@ -37,6 +37,10 @@ function DeleteUser() {
         dispatch(clearData());
         localStorage.clear();
     };
+
+    const talentDescription = `Are you sure you want to delete your talent profile? Access to it will be lost forever.`;
+    const sponsorDescription = `Are you sure you want to delete your sponsor profile? You can restore it during the 7 days after deleting by following the link we'll send to your email. After that period access to your account will be lost forever! `;
+
     return (
         <div>
             <Button
@@ -49,7 +53,9 @@ function DeleteUser() {
             <ModalConfirmation
                 error
                 title={`Delete your ${role.toLowerCase()} profile?`}
-                description={`Are you sure you want to delete your ${role.toLowerCase()} profile?\nAccess to it will be lost forever.`}
+                description={
+                    role === "TALENT" ? talentDescription : sponsorDescription
+                }
                 open={open}
                 handleClose={() => setOpen(false)}
                 handleArgee={handleClickDelete}
