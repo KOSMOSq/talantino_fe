@@ -1,25 +1,20 @@
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Box, IconButton, Link } from "@mui/material";
+import { HostIcon } from "./HostIcon";
 
 function Links({ talentLinks }) {
-    // TODO: implement setting icon for different hostname links
-    // * Can be used for set icon for different hostname links
-    // const url = new URL('http://example.com/path/index.html');
-    // console.log(url.hostname); // => 'example.com'
-
     return (
         <Box mt={2}>
             {talentLinks.map((item, index) => {
                 if (!item) {
                     return null;
                 }
+
+                const hostname = new URL(item).hostname;
+
                 return (
                     <IconButton key={index}>
                         <Link href={item} target="_blank">
-                            <OpenInNewIcon
-                                variant="contained"
-                                sx={{ fontSize: 35 }}
-                            />
+                            <HostIcon hostname={hostname} />
                         </Link>
                     </IconButton>
                 );

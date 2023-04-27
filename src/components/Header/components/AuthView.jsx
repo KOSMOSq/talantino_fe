@@ -194,7 +194,12 @@ function AuthView() {
                 </>
             ) : (
                 <Button
-                    sx={{ marginLeft: "auto", right: 40, fontSize: 20 }}
+                    sx={{
+                        marginLeft: "auto",
+                        right: 40,
+                        fontSize: 20,
+                        borderRadius: "10px"
+                    }}
                     onClick={(handleLogout, handleClickLogin)}
                 >
                     Login
