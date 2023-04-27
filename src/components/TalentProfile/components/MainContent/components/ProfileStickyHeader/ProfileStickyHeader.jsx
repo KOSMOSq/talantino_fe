@@ -52,6 +52,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
                     const itemLowerCase = item.toLocaleLowerCase();
                     return (
                         <Button
+                            sx={{ borderRadius: "10px" }}
                             key={itemLowerCase}
                             href={`/talent/${talentId}/`}
                             component={NavLink}
@@ -81,12 +82,14 @@ function ProfileStickyHeader({ nextId, prevId }) {
                     {from !== "profile-click" ? (
                         <>
                             <Button
+                                sx={{ borderRadius: "10px" }}
                                 onClick={handlePrevTalent}
                                 disabled={!prevId}
                             >
                                 PREV TALENT
                             </Button>
                             <Button
+                                sx={{ borderRadius: "10px" }}
                                 onClick={handleNextTalent}
                                 disabled={!nextId}
                             >

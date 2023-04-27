@@ -14,7 +14,6 @@ function SideBar({ userInfo }) {
                     fontSize: "64px"
                 }}
             />
-            {/* { //TODO: display smth when some field is not set} */}
             <Box>
                 <Typography
                     variant="h6"
@@ -23,7 +22,7 @@ function SideBar({ userInfo }) {
                 >
                     {`${userInfo.name} ${userInfo.surname}`}
                 </Typography>
-                {/* {userInfo.role === "TALENT" ? ( */}
+
                 {userInfo.role !== "SPONSOR" ? (
                     <>
                         <Chip
@@ -62,17 +61,33 @@ function SideBar({ userInfo }) {
                     </>
                 ) : userInfo.role === "SPONSOR" ? (
                     <Box display="flex" flexDirection="column">
-                        <Typography sx={{ color: "gray" }}>
-                            STATS
+                        <Typography sx={{ color: "gray" }}>STATS</Typography>
+                        <Typography sx={{ fontSize: "16px" }}>
+                            Balance:{" "}
+                            <Typography
+                                component="span"
+                                sx={{ fontWeight: "bold" }}
+                            >
+                                {userInfo.balance} kudos
+                            </Typography>
                         </Typography>
                         <Typography sx={{ fontSize: "16px" }}>
-                            Balance: <Typography component="span" sx={{ fontWeight: "bold" }}>{userInfo.balance} kudos</Typography>
+                            Total kudosed:{" "}
+                            <Typography
+                                component="span"
+                                sx={{ fontWeight: "bold" }}
+                            >
+                                {userInfo.totalKudosed} proofs
+                            </Typography>
                         </Typography>
                         <Typography sx={{ fontSize: "16px" }}>
-                            Total kudosed: <Typography component="span" sx={{ fontWeight: "bold" }}>{userInfo.totalKudosed} proofs</Typography>
-                        </Typography>
-                        <Typography sx={{ fontSize: "16px" }}>
-                            Total spent: <Typography component="span" sx={{ fontWeight: "bold" }}>{userInfo.totalSpent} kudos</Typography>
+                            Total spent:{" "}
+                            <Typography
+                                component="span"
+                                sx={{ fontWeight: "bold" }}
+                            >
+                                {userInfo.totalSpent} kudos
+                            </Typography>
                         </Typography>
                     </Box>
                 ) : null}
