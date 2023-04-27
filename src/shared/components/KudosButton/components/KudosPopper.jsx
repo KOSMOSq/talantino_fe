@@ -25,20 +25,9 @@ const KudosPopper = ({
     const marks = useMemo(() => {
         return [
             { value: 1, label: "1" },
-            {
-                value: Math.round(balance / 2) + (balance % 2 !== 0 ? 0 : 0.5),
-                label: Math.round(balance / 2)
-            },
             { value: balance, label: balance }
         ];
     }, [balance]);
-
-    const marksForTwo = useMemo(() => {
-        return [
-            { value: 1, label: "1" },
-            { value: 2, label: 2 }
-        ];
-    }, []);
 
     const marksForOne = useMemo(() => {
         return [
@@ -52,7 +41,7 @@ const KudosPopper = ({
             id={idPop}
             open={open}
             anchorEl={anchorEl}
-            placement="bottom-end"
+            placement="bottom"
             transition
         >
             {({ TransitionProps }) => (
@@ -87,13 +76,7 @@ const KudosPopper = ({
                                 value={kudosAmount}
                                 onChange={handleChange}
                                 valueLabelDisplay="auto"
-                                marks={
-                                    balance !== 2
-                                        ? balance === 1
-                                            ? marksForOne
-                                            : marks
-                                        : marksForTwo
-                                }
+                                marks={balance === 1 ? marksForOne : marks}
                             />
                         </Box>
 
