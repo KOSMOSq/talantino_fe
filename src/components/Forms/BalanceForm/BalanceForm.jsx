@@ -19,6 +19,7 @@ const BalanceForm = () => {
         handleSubmit,
         formState: { errors },
         watch,
+        setValue,
         reset
     } = useForm({
         mode: "all",
@@ -75,6 +76,15 @@ const BalanceForm = () => {
                         name={watch("cardName")}
                         number={watch("cardNumber").slice(0, 16)}
                         locale={{ valid: "GOOD THRU" }}
+                        acceptedCards={[
+                            "visa",
+                            "mastercard",
+                            "maestro",
+                            "discover",
+                            "jcb",
+                            "unionpay",
+                            "hipercard"
+                        ]}
                     />
                 </Box>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -95,7 +105,33 @@ const BalanceForm = () => {
                                     value: 16,
                                     message: "Your card number is to long!"
                                 },
-                                //validate: () => {},
+                                pattern: {
+                                    value: /^[0-9]+$/,
+                                    message:
+                                        "Card number can only contain numbers!"
+                                },
+                                validate: cardNum => {
+                                    let firstDigits = "";
+                                    let secondDigits = 0;
+                                    cardNum.split("").forEach((num, index) => {
+                                        if (index % 2 === 0) {
+                                            firstDigits += num * 2;
+                                        } else {
+                                            secondDigits += Number(num);
+                                        }
+                                    });
+                                    return (firstDigits
+                                        .split("")
+                                        .reduce(
+                                            (accum, num) => Number(num) + accum,
+                                            0
+                                        ) +
+                                        secondDigits) %
+                                        10 ===
+                                        0
+                                        ? true
+                                        : "Card number is not valid!";
+                                },
                                 onBlur: () => setFocusedField("")
                             })}
                             onFocus={() => setFocusedField("number")}
@@ -147,6 +183,16 @@ const BalanceForm = () => {
                                         message:
                                             "Date can only contain numbers!"
                                     },
+                                    validate: value => {
+                                        const month = Number(value.slice(0, 2));
+                                        const year = Number(value.slice(2, 4));
+                                        const now = new Date();
+                                        if (month > 12 || month < now.getMonth() + 1) {
+                                            return "Your month is not valid!";
+                                        } else if (year < now.getFullYear().toString().slice(2, 4)) {
+                                            return "Your year is not valid!"
+                                        }
+                                    },
                                     onBlur: () => setFocusedField("")
                                 })}
                                 onFocus={() => setFocusedField("expiry")}
@@ -182,6 +228,7 @@ const BalanceForm = () => {
                         </Box>
                         <Box display="flex" flexDirection="column">
                             <TextField
+                                sx={{ width: "220px" }}
                                 label="Kudos"
                                 {...register("kudos", {
                                     required: "Kudos field is requeired!",
@@ -207,17 +254,23 @@ const BalanceForm = () => {
                                 error
                                 component="span"
                                 sx={{
-                                    height: "20px"
+                                    height: "20px",
+                                    width: "220px"
                                 }}
                             >
                                 {errors.cardNumber?.message ||
                                     errors.cardName?.message ||
                                     errors.expiryDate?.message ||
                                     errors.cvc?.message ||
-                                    errors.kudos?.message || " "}
+                                    errors.kudos?.message ||
+                                    " "}
                             </FormHelperText>
                         </Box>
-                        <Button type="submit" variant="contained" sx={{ marginTop: "-12px" }}>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            sx={{ marginTop: "-8px", width: "220px" }}
+                        >
                             ADD KUDOS
                         </Button>
                     </Box>
