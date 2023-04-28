@@ -187,10 +187,22 @@ const BalanceForm = () => {
                                         const month = Number(value.slice(0, 2));
                                         const year = Number(value.slice(2, 4));
                                         const now = new Date();
-                                        if (month > 12 || month < now.getMonth() + 1) {
+                                        const nowYear = Number(
+                                            now
+                                                .getFullYear()
+                                                .toString()
+                                                .slice(2, 4)
+                                        );
+                                        if (month > 12 || month < 1) {
                                             return "Your month is not valid!";
-                                        } else if (year < now.getFullYear().toString().slice(2, 4)) {
-                                            return "Your year is not valid!"
+                                        } else if (
+                                            year === nowYear
+                                                ? month < now.getMonth() + 1
+                                                : month < 1
+                                        ) {
+                                            return "Your card is expired!";
+                                        } else if (year < nowYear) {
+                                            return "Your card is expired!";
                                         }
                                     },
                                     onBlur: () => setFocusedField("")
