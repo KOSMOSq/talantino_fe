@@ -28,7 +28,10 @@ const Overview = ({ talentDescription }) => {
                         components={{
                             p: paragraphRenderer,
                             img: ImageRenderer,
-                            iframe: iframeRenderer
+                            iframe: iframeRenderer,
+                            style: () => {
+                                return;
+                            }
                         }}
                         children={talentDescription}
                         remarkPlugins={[
