@@ -1,3 +1,4 @@
+import { avatarAPI } from "../../api/avatarAPI";
 import { sponsorAPI } from "../../api/sponsorAPI";
 import { talentsAPI } from "../../api/talentsAPI";
 import { setMessage } from "./appReducer";
@@ -41,10 +42,17 @@ export const changeProfileDataThunk = data => async (dispatch, getState) => {
         data.links.three
     ];
     try {
-        await talentsAPI.changeData(id, token, data);
+        if (typeof data.avatar === "string") {
+            await talentsAPI.changeData(id, token, data);
+        } else {
+            await talentsAPI.changeData(id, token, { ...data, avatar: "" });
+            await avatarAPI.sendAvatar(data.avatar[0], token);
+        }
         dispatch(setIsDone(true));
         dispatch(getAuthThunk());
-        dispatch(setMessage("Your profile was successfully edited!", "success"));
+        dispatch(
+            setMessage("Your profile was successfully edited!", "success")
+        );
     } catch (err) {
         dispatch(
             setMessage(
@@ -63,12 +71,19 @@ export const changeSponsorDataThunk = data => async (dispatch, getState) => {
     dispatch(setIsLoading(true));
     const id = getState().auth.user.id;
     const token = getState().auth.token;
-    
+
     try {
-        await sponsorAPI.changeData(id, token, data);
+        if (typeof data.avatar === "string") {
+            await sponsorAPI.changeData(id, token, data);
+        } else {
+            await sponsorAPI.changeData(id, token, { ...data, avatar: "" });
+            await avatarAPI.sendAvatar(data.avatar[0], token);
+        }
         dispatch(setIsDone(true));
         dispatch(getAuthThunk());
-        dispatch(setMessage("Your profile was successfully edited!", "success"));
+        dispatch(
+            setMessage("Your profile was successfully edited!", "success")
+        );
     } catch (err) {
         dispatch(
             setMessage(

@@ -4,10 +4,13 @@ import {
     Button,
     Container,
     Divider,
+    IconButton,
     LinearProgress,
     TextField,
+    Tooltip,
     Typography
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteUser } from "./components/DeleteUser/DeleteUser";
@@ -30,7 +33,7 @@ const Settings = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [prPicture, setPrPicture] = useState();
+    const [avatarSrc, setAvatarSrc] = useState();
 
     useEffect(() => {
         if (isDone) {
@@ -76,8 +79,10 @@ const Settings = () => {
                   }
     });
 
-    const handleChangeAvatar = event => {
-        setPrPicture(event.target.value);
+    const handleFileChange = e => {
+        if (e.target.files.length) {
+            setAvatarSrc(URL.createObjectURL(e.target.files[0]));
+        }
     };
 
     const onSubmit = data => {
@@ -364,43 +369,51 @@ const Settings = () => {
                             flexDirection={"column"}
                             justifyContent={"space-between"}
                         >
-                            <Box
-                                display={"flex"}
-                                flexDirection={"column"}
-                                alignItems={"center"}
-                            >
+                            <Box>
                                 <Avatar
                                     alt={user.name}
-                                    src={prPicture || user.avatar || "error"}
+                                    src={avatarSrc || user.avatar || "error"}
                                     sx={{
                                         width: 190,
                                         height: 190,
-                                        marginBottom: 2,
                                         fontSize: "64px"
                                     }}
                                 />
-
-                                <TextField
-                                    label="Avatar URL"
-                                    {...register("avatar", {
-                                        maxLength: {
-                                            value: 1000,
-                                            message: "Your link is too long!"
-                                        },
-                                        onChange: handleChangeAvatar
-                                    })}
-                                    error={Boolean(errors.avatar)}
-                                    helperText={
-                                        errors.avatar
-                                            ? errors.avatar.message
-                                            : " "
-                                    }
-                                />
+                                <Box display="flex" justifyContent={"end"}>
+                                    <Tooltip title="Upload file">
+                                        <IconButton
+                                            component="label"
+                                            sx={{
+                                                backgroundColor: "white",
+                                                [":hover"]: {
+                                                    backgroundColor: "#f1f1f1"
+                                                },
+                                                boxShadow: 4,
+                                                marginTop: "-40px",
+                                                marginRight: "10px"
+                                            }}
+                                        >
+                                            <input
+                                                {...register("avatar", {
+                                                    onChange: handleFileChange
+                                                })}
+                                                type="file"
+                                                accept="image/*"
+                                                hidden
+                                            />
+                                            <EditIcon
+                                                color="primary"
+                                                fontSize="medium"
+                                            />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box>
                             </Box>
                             <Box
                                 display={"flex"}
                                 justifyContent={"center"}
                                 mb={4}
+                                mt={role === "SPONSOR" ? 5 : 0}
                             >
                                 <DeleteUser />
                             </Box>
