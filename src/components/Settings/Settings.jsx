@@ -264,6 +264,7 @@ const Settings = () => {
                                         {["zero", "one", "two", "three"].map(
                                             item => (
                                                 <SocialLink
+                                                    key={item}
                                                     register={register}
                                                     errors={errors}
                                                     num={item}
