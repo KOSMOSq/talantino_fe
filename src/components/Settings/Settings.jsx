@@ -1,13 +1,4 @@
-import {
-    Box,
-    Button,
-    Container,
-    Divider,
-    LinearProgress,
-    TextField,
-    Typography
-} from "@mui/material";
-
+import { Box, Container, LinearProgress, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteUser } from "./components/DeleteUser/DeleteUser";
@@ -47,9 +38,7 @@ const Settings = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors },
-        setError,
-        clearErrors
+        formState: { errors }
     } = useForm({
         mode: "onChange",
         defaultValues:
