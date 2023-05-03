@@ -6,6 +6,7 @@ import { clearData } from "../../../../redux/reducers/authReducer";
 import { ModalConfirmation } from "../../../ModalConfirmation/ModalConfirmation";
 import { sponsorAPI } from "../../../../api/sponsorAPI";
 import { setMessage } from "../../../../redux/reducers/appReducer";
+import { Box } from "@mui/material";
 
 function DeleteUser() {
     const [open, setOpen] = useState(false);
@@ -42,7 +43,12 @@ function DeleteUser() {
     const sponsorDescription = `Are you sure you want to delete your sponsor profile? You can restore it during the 7 days after deleting by following the link we'll send to your email. After that period access to your account will be lost forever! `;
 
     return (
-        <div>
+        <Box
+            display={"flex"}
+            justifyContent={"center"}
+            mb={4}
+            mt={role === "SPONSOR" ? 5 : 0}
+        >
             <Button
                 variant="outlined"
                 onClick={() => setOpen(true)}
@@ -60,7 +66,7 @@ function DeleteUser() {
                 handleClose={() => setOpen(false)}
                 handleArgee={handleClickDelete}
             />
-        </div>
+        </Box>
     );
 }
 

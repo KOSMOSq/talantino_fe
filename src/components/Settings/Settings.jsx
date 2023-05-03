@@ -1,16 +1,4 @@
-import {
-    Avatar,
-    Box,
-    Button,
-    Container,
-    Divider,
-    IconButton,
-    LinearProgress,
-    TextField,
-    Tooltip,
-    Typography
-} from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+import { Box, Container, LinearProgress, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteUser } from "./components/DeleteUser/DeleteUser";
@@ -22,6 +10,9 @@ import {
     changeSponsorDataThunk,
     setIsDone
 } from "../../redux/reducers/settingsReducer";
+import { ProfileAvatar } from "./components/ProfileAvatar/ProfileAvatar";
+import { SettingsHeader } from "./components/SettingsHeader/SettingsHeader";
+import { SocialLink } from "./components/SocialLinks/SocialLink";
 
 const Settings = () => {
     const user = useSelector(store => store.auth.user);
@@ -47,9 +38,7 @@ const Settings = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors },
-        setError,
-        clearErrors
+        formState: { errors }
     } = useForm({
         mode: "onChange",
         defaultValues:
@@ -98,31 +87,7 @@ const Settings = () => {
             {isLoading ? <LinearProgress /> : null}
             <Container sx={{ marginTop: 4, paddingBottom: 5 }}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <Box
-                        display={"flex"}
-                        width={"100%"}
-                        justifyContent={"space-between"}
-                    >
-                        <Typography
-                            sx={{
-                                display: "inline",
-                                fontSize: 24,
-                                fontWeight: "bold"
-                            }}
-                            component="h6"
-                            variant="h6"
-                        >
-                            Editing profile
-                        </Typography>
-                        <Button
-                            variant="outlined"
-                            type="submit"
-                            sx={{ fontSize: 16 }}
-                        >
-                            Save changes
-                        </Button>
-                    </Box>
-                    <Divider sx={{ marginTop: 2 }} />
+                    <SettingsHeader />
 
                     <Box
                         display={"flex"}
@@ -294,71 +259,17 @@ const Settings = () => {
                                         display={"flex"}
                                         flexDirection={"row"}
                                         mt={2}
+                                        gap={2}
                                     >
-                                        <TextField
-                                            label="Social link"
-                                            {...register("links.zero", {
-                                                maxLength: {
-                                                    value: 100,
-                                                    message: "Too long link"
-                                                }
-                                            })}
-                                            error={Boolean(errors.links?.zero)}
-                                            helperText={
-                                                errors.links?.zero
-                                                    ? errors.links?.zero.message
-                                                    : " "
-                                            }
-                                        />
-                                        <TextField
-                                            label="Social link"
-                                            sx={{ marginLeft: 2 }}
-                                            {...register("links.one", {
-                                                maxLength: {
-                                                    value: 100,
-                                                    message: "Too long link"
-                                                }
-                                            })}
-                                            error={Boolean(errors.links?.one)}
-                                            helperText={
-                                                errors.links?.one
-                                                    ? errors.links?.one.message
-                                                    : " "
-                                            }
-                                        />
-                                        <TextField
-                                            label="Social link"
-                                            sx={{ marginLeft: 2 }}
-                                            {...register("links.two", {
-                                                maxLength: {
-                                                    value: 100,
-                                                    message: "Too long link"
-                                                }
-                                            })}
-                                            error={Boolean(errors.links?.two)}
-                                            helperText={
-                                                errors.links?.two
-                                                    ? errors.links?.two.message
-                                                    : " "
-                                            }
-                                        />
-                                        <TextField
-                                            label="Social link"
-                                            sx={{ marginLeft: 2 }}
-                                            {...register("links.three", {
-                                                maxLength: {
-                                                    value: 100,
-                                                    message: "Too long link"
-                                                }
-                                            })}
-                                            error={Boolean(errors.links?.three)}
-                                            helperText={
-                                                errors.links?.three
-                                                    ? errors.links?.three
-                                                          .message
-                                                    : " "
-                                            }
-                                        />
+                                        {["zero", "one", "two", "three"].map(
+                                            item => (
+                                                <SocialLink
+                                                    register={register}
+                                                    errors={errors}
+                                                    num={item}
+                                                />
+                                            )
+                                        )}
                                     </Box>
                                 </>
                             ) : null}
@@ -369,54 +280,14 @@ const Settings = () => {
                             flexDirection={"column"}
                             justifyContent={"space-between"}
                         >
-                            <Box>
-                                <Avatar
-                                    alt={user.name}
-                                    src={avatarSrc || user.avatar || "error"}
-                                    sx={{
-                                        width: 190,
-                                        height: 190,
-                                        fontSize: "64px"
-                                    }}
-                                />
-                                <Box display="flex" justifyContent={"end"}>
-                                    <Tooltip title="Upload file">
-                                        <IconButton
-                                            component="label"
-                                            sx={{
-                                                backgroundColor: "white",
-                                                [":hover"]: {
-                                                    backgroundColor: "#f1f1f1"
-                                                },
-                                                boxShadow: 4,
-                                                marginTop: "-40px",
-                                                marginRight: "10px"
-                                            }}
-                                        >
-                                            <input
-                                                {...register("avatar", {
-                                                    onChange: handleFileChange
-                                                })}
-                                                type="file"
-                                                accept="image/*"
-                                                hidden
-                                            />
-                                            <EditIcon
-                                                color="primary"
-                                                fontSize="medium"
-                                            />
-                                        </IconButton>
-                                    </Tooltip>
-                                </Box>
-                            </Box>
-                            <Box
-                                display={"flex"}
-                                justifyContent={"center"}
-                                mb={4}
-                                mt={role === "SPONSOR" ? 5 : 0}
-                            >
-                                <DeleteUser />
-                            </Box>
+                            <ProfileAvatar
+                                user={user}
+                                avatarSrc={avatarSrc}
+                                handleFileChange={handleFileChange}
+                                register={register}
+                            />
+
+                            <DeleteUser />
                         </Box>
                     </Box>
                 </form>
