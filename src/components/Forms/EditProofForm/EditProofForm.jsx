@@ -10,11 +10,13 @@ import {
     Typography
 } from "@mui/material";
 import { theme } from "../../../shared/themes/neutralColorTheme";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { editProofThunk } from "../../../redux/reducers/talentsProofsReducer";
 import { useState } from "react";
 import { getRelativeTime } from "../../../shared/functions/getRelativeTime";
+import { ProofSkillsArea } from "../../TalentProfile/components/MainContent/components/TalentProofArea/components/ProofSkillsArea/ProofSkillsArea";
+import { SkillAutocomplete } from "../../../shared/components/SkillAutocomplete/SkillAutocomplete";
 
 const EditProofForm = ({
     id,
@@ -22,14 +24,16 @@ const EditProofForm = ({
     description,
     status,
     setEditMode,
-    date
+    date,
+    skills
 }) => {
     const [alignment, setAlignment] = useState(status);
     const {
         register,
         handleSubmit,
         formState: { errors, isValid },
-        setValue
+        setValue,
+        control
     } = useForm({
         mode: "all",
         defaultValues: {
@@ -41,7 +45,7 @@ const EditProofForm = ({
 
     const dispatch = useDispatch();
 
-    const onSubmit = (data, e) => {
+    const onSubmit = (data) => {
         dispatch(editProofThunk(id, data));
         setEditMode(false);
     };
@@ -175,6 +179,14 @@ const EditProofForm = ({
                         {description}
                     </Typography>
                 )}
+                {status === "DRAFT" ?  <Controller
+                        name="skills"
+                        control={control}
+                        rules={{ required: "Add at least one skill" }}
+                        render={({ field: { onChange } }) => (
+                            <SkillAutocomplete onChange={onChange} defaultSkills={skills}/>
+                        )}
+                    /> : <ProofSkillsArea skills={skills} />}
                 <Box display="flex">
                     <FormHelperText
                         error
@@ -194,7 +206,7 @@ const EditProofForm = ({
                                 </FormHelperText>
                             ))}
                     </FormHelperText>
-                    <Box marginLeft="auto" display="flex" gap="10px">
+                    <Box marginLeft="auto" display="flex" gap="10px" marginTop="8px">
                         <Button
                             color="error"
                             variant="outlined"
