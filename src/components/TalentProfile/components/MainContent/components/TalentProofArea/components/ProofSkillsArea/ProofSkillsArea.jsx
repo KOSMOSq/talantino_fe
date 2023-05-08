@@ -13,8 +13,7 @@ const ProofSkillsArea = ({ skills = [] }) => {
                 {skills.map((skill, index) => (
                     <SkillChip
                         key={index}
-                        label={skill.label}
-                        icon={skill.icon}
+                        {...skill}
                     />
                 ))}
             </Box>

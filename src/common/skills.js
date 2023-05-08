@@ -1,208 +1,152 @@
-import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import HowToVoteIcon from "@mui/icons-material/HowToVote";
-import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
-import AdjustIcon from "@mui/icons-material/Adjust";
-import BrushIcon from "@mui/icons-material/Brush";
-import ScheduleIcon from "@mui/icons-material/Schedule";
-import PeopleIcon from "@mui/icons-material/People";
-import FlashOnIcon from "@mui/icons-material/FlashOn";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
-import MoodIcon from "@mui/icons-material/Mood";
-import WbIncandescentIcon from "@mui/icons-material/WbIncandescent";
-import FlagIcon from "@mui/icons-material/Flag";
-import InsightsIcon from "@mui/icons-material/Insights";
-import SchoolIcon from "@mui/icons-material/School";
-import EventNoteIcon from "@mui/icons-material/EventNote";
-import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
-import SlideshowIcon from "@mui/icons-material/Slideshow";
-import GavelIcon from "@mui/icons-material/Gavel";
-import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
-import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
-import BuildIcon from "@mui/icons-material/Build";
-import ComputerIcon from "@mui/icons-material/Computer";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import ListAltIcon from "@mui/icons-material/ListAlt";
-
-export const icons = {
-    ChatBubbleIcon: <ChatBubbleIcon />,
-    HowToVoteIcon: <HowToVoteIcon />,
-    DoneOutlineIcon: <DoneOutlineIcon />,
-    AdjustIcon: <AdjustIcon />,
-    BrushIcon: <BrushIcon />,
-    ScheduleIcon: <ScheduleIcon />,
-    PeopleIcon: <PeopleIcon />,
-    FlashOnIcon: <FlashOnIcon />,
-    AssignmentIcon: <AssignmentIcon />,
-    FitnessCenterIcon: <FitnessCenterIcon />,
-    BorderColorIcon: <BorderColorIcon />,
-    MoodIcon: <MoodIcon />,
-    WbIncandescentIcon: <WbIncandescentIcon />,
-    FlagIcon: <FlagIcon />,
-    InsightsIcon: <InsightsIcon />,
-    SchoolIcon: <SchoolIcon />,
-    EventNoteIcon: <EventNoteIcon />,
-    BusinessCenterIcon: <BusinessCenterIcon />,
-    SlideshowIcon: <SlideshowIcon />,
-    GavelIcon: <GavelIcon />,
-    AssignmentTurnedInIcon: <AssignmentTurnedInIcon />,
-    VerifiedUserIcon: <VerifiedUserIcon />,
-    BuildIcon: <BuildIcon />,
-    ComputerIcon: <ComputerIcon />,
-    TrendingUpIcon: <TrendingUpIcon />,
-    ListAltIcon: <ListAltIcon />
-};
-
 export const skills = [
     {
-        id: 0,
+        color: "communication",
         label: "Communication skills",
-        icon: "ChatBubbleIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 1,
+        color: "leadership",
         label: "Leadership",
-        icon: "HowToVoteIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 2,
+        color: "problemSolving",
         label: "Problem-solving ability",
-        icon: "DoneOutlineIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 3,
+        color: "adaptability",
         label: "Adaptability",
-        icon: "AdjustIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 4,
+        color: "creativity",
         label: "Creativity",
-        icon: "BrushIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 5,
+        color: "timeManagement",
         label: "Time management",
-        icon: "ScheduleIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 6,
+        color: "teamwork",
         label: "Teamwork",
-        icon: "PeopleIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 7,
+        color: "initiative",
         label: "Initiative",
-        icon: "FlashOnIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 8,
+        color: "responsibility",
         label: "Responsibility",
-        icon: "AssignmentIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 9,
+        color: "workEthic",
         label: "Work ethic",
-        icon: "FitnessCenterIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 10,
+        color: "attentionToDetail",
         label: "Attention to detail",
-        icon: "BorderColorIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 11,
+        color: "selfMotivation",
         label: "Self-motivation",
-        icon: "MoodIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 12,
+        color: "positiveAttitude",
         label: "Positive attitude",
-        icon: "MoodIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 13,
+        color: "criticalThinking",
         label: "Critical thinking",
-        icon: "WbIncandescentIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 14,
+        color: "decisionMakingSkills",
         label: "Decision-making skills",
-        icon: "HowToVoteIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 15,
+        color: "interpersonalSkills",
         label: "Interpersonal skills",
-        icon: "PeopleIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 16,
+        color: "goalOrientation",
         label: "Goal orientation",
-        icon: "FlagIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 17,
+        color: "analyticalSkills",
         label: "Analytical skills",
-        icon: "InsightsIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 18,
+        color: "learningAgility",
         label: "Learning agility",
-        icon: "SchoolIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 19,
+        color: "organizationalSkills",
         label: "Organizational skills",
-        icon: "EventNoteIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 20,
+        color: "professionalism",
         label: "Professionalism",
-        icon: "BusinessCenterIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 21,
+        color: "presentationSkills",
         label: "Presentation skills",
-        icon: "SlideshowIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 22,
+        color: "emotionalIntelligence",
         label: "Emotional intelligence",
-        icon: "MoodIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 23,
+        color: "negotiationSkills",
         label: "Negotiation skills",
-        icon: "GavelIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 24,
+        color: "projectManagement",
         label: "Project management",
-        icon: "AssignmentTurnedInIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 25,
+        color: "dependability",
         label: "Dependability",
-        icon: "VerifiedUserIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 26,
+        color: "resourcefulness",
         label: "Resourcefulness",
-        icon: "BuildIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 27,
+        color: "technologyProficiency",
         label: "Technology proficiency",
-        icon: "ComputerIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 28,
+        color: "strategicThinking",
         label: "Strategic thinking",
-        icon: "TrendingUpIcon"
+        icon: "INSERT URL HERE"
     },
     {
-        id: 29,
+        color: "multitaskingAbility",
         label: "Multitasking ability",
-        icon: "ListAltIcon"
+        icon: "INSERT URL HERE"
     }
 ];

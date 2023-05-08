@@ -8,7 +8,7 @@ import {
     TextField,
     Typography
 } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteTalent } from "./components/DeleteTalent/DeleteTalent";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,7 @@ import {
     changeProfileDataThunk,
     setIsDone
 } from "../../redux/reducers/settingsReducer";
+import { SkillAutocomplete } from "../../shared/components/SkillAutocomplete/SkillAutocomplete";
 
 const Settings = () => {
     const user = useSelector(store => store.auth.user);
@@ -40,7 +41,8 @@ const Settings = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
+        control
     } = useForm({
         mode: "onChange",
         defaultValues: {
@@ -191,7 +193,7 @@ const Settings = () => {
                                 multiline
                                 maxRows={7}
                                 minRows={7}
-                                sx={{ width: "91%", marginTop: 2 }}
+                                sx={{ width: "100%", marginTop: 2 }}
                                 {...register("description", {
                                     maxLength: {
                                         value: 3000,
@@ -209,7 +211,15 @@ const Settings = () => {
                                         : " "
                                 }
                             />
-                            <Box mt={2}>
+                            <Controller
+                                name="skills"
+                                control={control}
+                                rules={{ required: "Add at least one skill" }}
+                                render={({ field: { onChange } }) => (
+                                    <SkillAutocomplete onChange={onChange} defaultSkills={user.skills}/>
+                                )}
+                            />
+                            <Box mt={4}>
                                 <TextField
                                     label="Kind of talent"
                                     {...register("kind", {

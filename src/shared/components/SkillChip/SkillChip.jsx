@@ -1,10 +1,13 @@
-import { Chip } from "@mui/material";
+import { Chip, ThemeProvider } from "@mui/material";
+import theme from "../../themes/skillsTheme";
 
-const SkillChip = ({ icon, label, handleDelete }) => {
+const SkillChip = ({ icon, label, color, handleDelete }) => {
 
     return (
         <>
-            <Chip icon={icon} label={label} size="small" onDelete={handleDelete} />
+        <ThemeProvider theme={theme}>
+            <Chip icon={icon} label={label} size="small" onDelete={handleDelete} color={color}/>
+        </ThemeProvider>
         </>
     );
 };

@@ -1,5 +1,6 @@
 import { Box, Avatar, Typography, Chip } from "@mui/material";
 import { Links } from "./components/Links/Links";
+import { ProofSkillsArea } from "../MainContent/components/TalentProofArea/components/ProofSkillsArea/ProofSkillsArea";
 
 function SideBar({ talentInfo }) {
     return (
@@ -32,7 +33,6 @@ function SideBar({ talentInfo }) {
                     color="primary"
                     size="medium"
                 />
-
                 <Typography
                     variant="h6"
                     component="h6"
@@ -59,7 +59,7 @@ function SideBar({ talentInfo }) {
                 >
                     {talentInfo.email}
                 </Typography>
-
+                {talentInfo.skills ? <ProofSkillsArea skills={talentInfo.skills} /> : null}
                 <Links talentLinks={talentInfo.links} />
             </Box>
         </Box>
