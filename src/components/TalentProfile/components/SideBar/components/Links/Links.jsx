@@ -8,17 +8,17 @@ function Links({ talentLinks }) {
     // console.log(url.hostname); // => 'example.com'
 
     return (
-        <Box mt={2}>
+        <Box mt={1}>
             {talentLinks.map((item, index) => {
                 if (!item) {
                     return null;
                 }
                 return (
-                    <IconButton key={index}>
-                        <Link href={item} target="_blank">
+                    <IconButton key={index} width="36px" height="36px">
+                        <Link href={item} target="_blank" width="36px" height="36px">
                             <OpenInNewIcon
                                 variant="contained"
-                                sx={{ fontSize: 35 }}
+                                sx={{ fontSize: 36 }}
                             />
                         </Link>
                     </IconButton>

@@ -8,5 +8,12 @@ export const fontFamilyTheme = createTheme({
             fontWeightRegular: 400,
             fontWeightMedium: 500
         }
+    },
+    palette: {
+        govno: {
+            main: "#00FF00",
+            dark: "#00FF11",
+            contrastText: "#fff"
+        }
     }
 });
