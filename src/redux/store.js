@@ -5,6 +5,7 @@ import talentsReducer from "./reducers/talentsReducer";
 import settingsReducer from "./reducers/settingsReducer";
 import talentsProofsReducer from "./reducers/talentsProofsReducer";
 import proofsReducer from "./reducers/proofsReducer";
+import skillsReducer from "./reducers/skillsReducer";
 
 const store = configureStore({
     reducer: {
@@ -13,7 +14,8 @@ const store = configureStore({
         app: appReducer,
         settings: settingsReducer,
         talentProofs: talentsProofsReducer,
-        proofs: proofsReducer
+        proofs: proofsReducer,
+        skills: skillsReducer
     }
 });
 

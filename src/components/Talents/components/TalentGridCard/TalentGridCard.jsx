@@ -105,6 +105,7 @@ const TalentGridCard = ({
                     <CardContent
                         sx={{
                             width: "50%",
+                            height: "100%",
                             padding: 0,
                             display: "flex",
                             flexDirection: "column",
@@ -118,7 +119,8 @@ const TalentGridCard = ({
                                 fontSize: cardFontBreakpoints,
                                 fontWeight: "bold",
                                 textAlign: "center",
-                                overflow: "hidden"
+                                overflow: "hidden",
+                                width: "100%"
                             }}
                         >
                             {name} {surname}

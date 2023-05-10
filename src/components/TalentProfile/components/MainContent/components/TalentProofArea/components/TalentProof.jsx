@@ -7,6 +7,7 @@ import { getRelativeTime } from "../../../../../../../shared/functions/getRelati
 import { useState } from "react";
 import { EditProofForm } from "../../../../../../Forms/EditProofForm/EditProofForm";
 import { ModalConfirmation } from "../../../../../../ModalConfirmation/ModalConfirmation";
+import { ProofSkillsArea } from "./ProofSkillsArea/ProofSkillsArea";
 
 function TalentProof({
     date,
@@ -15,7 +16,8 @@ function TalentProof({
     status,
     id,
     talentId,
-    onDelete
+    onDelete,
+    skills
 }) {
     const [editMode, setEditMode] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -117,6 +119,7 @@ function TalentProof({
                             >
                                 {description}
                             </Typography>
+                            <ProofSkillsArea skills={skills} />
                         </>
                     ) : (
                         <EditProofForm
@@ -126,6 +129,7 @@ function TalentProof({
                             description={description}
                             status={status}
                             setEditMode={setEditMode}
+                            skills={skills}
                         />
                     )}
                 </Box>
