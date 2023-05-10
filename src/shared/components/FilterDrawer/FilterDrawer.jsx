@@ -41,12 +41,13 @@ const FilterDrawer = ({ setQuery }) => {
     const handleFilter = data => {
         //page reload when click submit with skill from redux in autocomplete (when you dont match skill but it self set from redux)
         if (data.skills.length) {
-            console.log(data);
+            console.log(data.skills);
             const skills = encodeURIComponent(data.skills.join("%2C"));
             setQuery(skills);
             handleDrawerClose();
-            dispatch(setFilterSkills(data.skills));
+            //maybe it is solution
             navigate(`/talents?page=${page}&skills=${skills}`);
+            setTimeout(() => dispatch(setFilterSkills(data.skills)), 1000);
             return;
         } else {
             dispatch(setFilterSkills([]));
