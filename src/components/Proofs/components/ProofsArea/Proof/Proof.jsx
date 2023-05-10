@@ -1,7 +1,8 @@
 import { Box, Divider, ListItem, Typography } from "@mui/material";
 import { getRelativeTime } from "../../../../../shared/functions/getRelativeTime";
+import { ProofSkillsArea } from "../../../../TalentProfile/components/MainContent/components/TalentProofArea/components/ProofSkillsArea/ProofSkillsArea";
 
-const Proof = ({ date, title, description, author }) => {
+const Proof = ({ date, title, description, skills, author }) => {
     return (
         <>
             <ListItem>
@@ -33,6 +34,7 @@ const Proof = ({ date, title, description, author }) => {
                             )}
                         </Typography>
                     </Typography>
+                <ProofSkillsArea skills={skills} />
                 </Box>
             </ListItem>
             <Divider variant="middle" component="li" sx={{ marginBottom: 2 }} />

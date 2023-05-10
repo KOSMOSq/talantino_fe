@@ -60,7 +60,8 @@ const Settings = () => {
                 one: user.links[1],
                 two: user.links[2],
                 three: user.links[3]
-            }
+            },
+            skills: user.skills
         }
     });
 
@@ -214,9 +215,8 @@ const Settings = () => {
                             <Controller
                                 name="skills"
                                 control={control}
-                                rules={{ required: "Add at least one skill" }}
                                 render={({ field: { onChange } }) => (
-                                    <SkillAutocomplete onChange={onChange} defaultSkills={user.skills}/>
+                                    <SkillAutocomplete onChange={onChange} defaultSkills={user.skills} error={errors.skills}/>
                                 )}
                             />
                             <Box mt={4}>

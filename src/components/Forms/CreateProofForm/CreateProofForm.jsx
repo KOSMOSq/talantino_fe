@@ -18,7 +18,10 @@ const CreateProofForm = () => {
         formState: { errors, isValid },
         control
     } = useForm({
-        mode: "all"
+        mode: "all",
+        defaultValues: {
+            skills: []
+        }
     });
 
     const dispatch = useDispatch();
@@ -92,7 +95,6 @@ const CreateProofForm = () => {
                     <Controller
                         name="skills"
                         control={control}
-                        rules={{ required: "Add at least one skill" }}
                         render={({ field: { onChange } }) => (
                             <SkillAutocomplete onChange={onChange} />
                         )}

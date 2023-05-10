@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSkillsThunk } from "../../../redux/reducers/skillsReducer";
 import { useEffect } from "react";
 
-const SkillAutocomplete = ({ defaultSkills = [], onChange }) => {
+const SkillAutocomplete = ({ defaultSkills = [], onChange, error = null }) => {
     const skills = useSelector(store => store.skills.skills);
     const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ const SkillAutocomplete = ({ defaultSkills = [], onChange }) => {
                 ))
             }
             renderInput={params => {
-                return <TextField {...params} placeholder="Add skills" />;
+                return <TextField {...params} placeholder="Add skills" error={Boolean(error)} helperText={error?.message}/>;
             }}
             renderOption={(props, option) => (
                 <li {...props}>

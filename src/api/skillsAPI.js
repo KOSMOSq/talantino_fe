@@ -1,8 +1,12 @@
 import { axiosInstance } from ".";
 
 export const skillsAPI = {
-    async getSkills() {
-        return (await axiosInstance.get(`/skills`)).data;
+    async getSkills(token) {
+        return (
+            await axiosInstance.get(`/skill`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+        ).data;
     },
     async deleteSkillFromProof(talentId, proofId, skillId, token) {
         return (

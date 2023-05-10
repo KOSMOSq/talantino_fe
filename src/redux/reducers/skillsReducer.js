@@ -21,10 +21,12 @@ const skillsReducer = (state = initialState, action) => {
 
 const setSkills = skills => ({ type: SET_SKILLS, skills });
 
-export const getSkillsThunk = () => async dispatch => {
+export const getSkillsThunk = () => async (dispatch, getState) => {
+    const token = getState().auth.token;
+
     try {
-        const response = await skillsAPI.getSkills();
-        dispatch(setSkills(response));
+        const response = await skillsAPI.getSkills(token);
+        dispatch(setSkills(response.skills));
     } catch (err) {
         dispatch(
             setMessage(

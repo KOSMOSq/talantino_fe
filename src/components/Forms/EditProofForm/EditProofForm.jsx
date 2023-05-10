@@ -39,7 +39,8 @@ const EditProofForm = ({
         defaultValues: {
             title: title,
             description: description,
-            status: status
+            status: status,
+            skills: skills.map(item => item.label)
         }
     });
 
@@ -182,7 +183,6 @@ const EditProofForm = ({
                 {status === "DRAFT" ?  <Controller
                         name="skills"
                         control={control}
-                        rules={{ required: "Add at least one skill" }}
                         render={({ field: { onChange } }) => (
                             <SkillAutocomplete onChange={onChange} defaultSkills={skills}/>
                         )}
