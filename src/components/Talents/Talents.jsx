@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+    Box,
     Container,
     LinearProgress,
     Pagination,
@@ -15,6 +16,8 @@ import {
     setTotalPages
 } from "../../redux/reducers/talentsReducer";
 import { setMessage } from "../../redux/reducers/appReducer";
+import { FilterDrawer } from "../../shared/components/FilterDrawer";
+import { ChangeViewButton } from "./components/ChangeViewButton/ChangeViewButton";
 
 const Talents = () => {
     const dispatch = useDispatch();
@@ -22,12 +25,15 @@ const Talents = () => {
     const totalPages = useSelector(store => store.talents.totalPages);
     const talents = useSelector(store => store.talents.talents);
     const [isLoading, setIsLoading] = useState(true);
+    const [query, setQuery] = useState("");
 
     const navigate = useNavigate();
     const location = useLocation();
     const [searchParams] = useSearchParams();
 
     useEffect(() => {
+        //delete query when click "talents"
+        //setQuery("");
         if (!isLoading) {
             setIsLoading(true);
         }
@@ -42,8 +48,12 @@ const Talents = () => {
                   })();
         dispatch(setCurrentPage(urlPage));
 
-        const getTalents = async (amount = 9, page) => {
-            const response = await talentsAPI.getTalents(amount, page - 1);
+        const getTalents = async (amount = 9, page, query = "") => {
+            const response = await talentsAPI.getTalents(
+                amount,
+                page - 1,
+                query
+            );
             const total = Math.ceil(response.totalAmount / amount);
 
             if (page > total && total > 0) {
@@ -59,14 +69,16 @@ const Talents = () => {
             setIsLoading(false);
         };
 
-        getTalents(undefined, urlPage).catch(err => dispatch(
-            setMessage(
-                err.response?.data.message
-                    ? err.response.data.message
-                    : "Network error",
-                "error"
+        getTalents(undefined, urlPage, query).catch(err =>
+            dispatch(
+                setMessage(
+                    err.response?.data.message
+                        ? err.response.data.message
+                        : "Network error",
+                    "error"
+                )
             )
-        ));
+        );
     }, [location]);
 
     const handleChange = (e, value) => {
@@ -76,9 +88,12 @@ const Talents = () => {
 
     if (isLoading) {
         return <LinearProgress />;
-    } else if (talents.length === 0) {
+    } else if (talents.length === 0 && !searchParams.get("skills")) {
         return (
-            <Typography variant="h6" sx={{ textAlign: "center", marginTop: "200px" }}>
+            <Typography
+                variant="h6"
+                sx={{ textAlign: "center", marginTop: "200px" }}
+            >
                 {"No talents yet :("}
                 <Typography variant="caption" sx={{ display: "block" }}>
                     {
@@ -89,6 +104,7 @@ const Talents = () => {
         );
     }
 
+    //показувати фільтрацію, коли немає талантів за такимито параметрами та повідомлення про це
     return (
         <Container
             sx={{
@@ -97,6 +113,18 @@ const Talents = () => {
                 flexDirection: "column"
             }}
         >
+            <Box
+                display="flex"
+                justifyContent="space-between"
+                mt={"15px"}
+                mb={"15px"}
+                mr={20}
+                ml={20}
+            >
+                <FilterDrawer setQuery={setQuery} />
+                <ChangeViewButton />
+            </Box>
+
             <TalentsArea />
             <Pagination
                 sx={{
