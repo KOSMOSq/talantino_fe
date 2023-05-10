@@ -61,7 +61,7 @@ const Settings = () => {
                 two: user.links[2],
                 three: user.links[3]
             },
-            skills: user.skills
+            skills: user.skills.map(item => item.label)
         }
     });
 

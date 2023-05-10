@@ -14,7 +14,8 @@ const SkillAutocomplete = ({ defaultSkills = [], onChange, error = null }) => {
     }, []);
 
     return (
-        <Autocomplete
+        <>
+        {skills.length === 0 ? null :<Autocomplete
             sx={{
                 width: "100%",
                 height: "auto",
@@ -53,7 +54,8 @@ const SkillAutocomplete = ({ defaultSkills = [], onChange, error = null }) => {
                 onChange(data.map(data => data.label));
                 return data;
             }}
-        />
+        />}
+        </>
     );
 };
 
