@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-    Box,
-    Container,
-    LinearProgress,
-    Pagination,
-    Typography
-} from "@mui/material";
+import { Box, Container, LinearProgress, Pagination } from "@mui/material";
 import { TalentsArea } from "./components/TalentsArea/TalentsArea";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { talentsAPI } from "../../api/talentsAPI";
@@ -16,8 +10,10 @@ import {
     setTotalPages
 } from "../../redux/reducers/talentsReducer";
 import { setMessage } from "../../redux/reducers/appReducer";
-import { FilterDrawer } from "../../shared/components/FilterDrawer";
+import { FilterDrawer } from "../../shared/components/FilterDrawer/FilterDrawer";
 import { ChangeViewButton } from "./components/ChangeViewButton/ChangeViewButton";
+import { NoMatchesTalents } from "./components/NoMatchesTalents/NoMatchesTalents";
+import { NoTalentsYet } from "./components/NoTalentsYet/NoTalentsYet";
 
 const Talents = () => {
     const dispatch = useDispatch();
@@ -60,7 +56,7 @@ const Talents = () => {
                 navigate(`/talents?page=${total}`);
                 return;
             } else if (total === 0) {
-                dispatch(setMessage("No talents at all ("));
+                dispatch(setMessage("No talents at all (", "error"));
             }
             if (total) {
                 dispatch(setTotalPages(total));
@@ -89,22 +85,9 @@ const Talents = () => {
     if (isLoading) {
         return <LinearProgress />;
     } else if (talents.length === 0 && !searchParams.get("skills")) {
-        return (
-            <Typography
-                variant="h6"
-                sx={{ textAlign: "center", marginTop: "200px" }}
-            >
-                {"No talents yet :("}
-                <Typography variant="caption" sx={{ display: "block" }}>
-                    {
-                        "You can create account and become the first talent in our application!"
-                    }
-                </Typography>
-            </Typography>
-        );
+        return <NoTalentsYet />;
     }
 
-    //показувати фільтрацію, коли немає талантів за такимито параметрами та повідомлення про це
     return (
         <Container
             sx={{
@@ -124,19 +107,24 @@ const Talents = () => {
                 <FilterDrawer setQuery={setQuery} />
                 <ChangeViewButton />
             </Box>
-
-            <TalentsArea />
-            <Pagination
-                sx={{
-                    marginTop: "20px",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginBottom: 2
-                }}
-                page={page}
-                count={totalPages}
-                onChange={handleChange}
-            />
+            {talents.length === 0 && searchParams.get("skills") ? (
+                <NoMatchesTalents />
+            ) : (
+                <>
+                    <TalentsArea />
+                    <Pagination
+                        sx={{
+                            marginTop: "20px",
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                            marginBottom: 2
+                        }}
+                        page={page}
+                        count={totalPages}
+                        onChange={handleChange}
+                    />
+                </>
+            )}
         </Container>
     );
 };
