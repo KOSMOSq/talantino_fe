@@ -22,22 +22,22 @@ const Talents = () => {
     const totalPages = useSelector(store => store.talents.totalPages);
     const talents = useSelector(store => store.talents.talents);
     const [isLoading, setIsLoading] = useState(true);
-    const query = useSelector(store => store.skills.query);
 
     const navigate = useNavigate();
     const location = useLocation();
     const [searchParams] = useSearchParams();
 
-    //
-    // useEffect(() => {
-    //     if (query === "") {
-    //         navigate(`/talents?page=${1}`);
-    //     }
-    // }, []);
+    const skillsParam = searchParams.get("skills");
 
+    
     useEffect(() => {
         if (!isLoading) {
             setIsLoading(true);
+        }
+        if (skillsParam) {
+            dispatch(setFilterSkills(decodeURIComponent(skillsParam).split(",")));
+        } else {
+            dispatch(setFilterSkills([]));
         }
         const urlPageParam = Number(searchParams.get("page"));
         const urlPage =
@@ -70,7 +70,7 @@ const Talents = () => {
             setIsLoading(false);
         };
 
-        getTalents(undefined, urlPage, query).catch(err =>
+        getTalents(undefined, urlPage, skillsParam).catch(err =>
             dispatch(
                 setMessage(
                     err.response?.data.message
@@ -84,7 +84,11 @@ const Talents = () => {
 
     const handleChange = (e, value) => {
         dispatch(setCurrentPage(value));
-        navigate(`/talents?page=${value}${query ? `&skills=${query}` : ""}`);
+        navigate(
+            `/talents?page=${value}${
+                skillsParam ? `&skills=${skillsParam}` : ""
+            }`
+        );
     };
 
     if (isLoading) {
