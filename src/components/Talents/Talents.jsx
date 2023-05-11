@@ -29,6 +29,12 @@ const Talents = () => {
     const [searchParams] = useSearchParams();
 
     useEffect(() => {
+        if (query === "") {
+            navigate(`/talents?page=${1}`);
+        }
+    }, []);
+
+    useEffect(() => {
         if (!isLoading) {
             setIsLoading(true);
         }
