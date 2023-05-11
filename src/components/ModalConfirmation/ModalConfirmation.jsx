@@ -6,7 +6,7 @@ import {
     DialogContentText,
     DialogTitle
 } from "@mui/material";
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 const ModalConfirmation = ({
     title,
@@ -14,23 +14,43 @@ const ModalConfirmation = ({
     open,
     handleClose,
     handleArgee,
-    error = false
+    error = false,
+    infoDialog = false
 }) => {
     return (
         <>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle color={error ? "error" : ""} display="flex" alignItems="center" gap="6px">
-                    {error ? <ErrorOutlineIcon sx={{ marginBottom: "2px" }}/> : null}
+                <DialogTitle
+                    color={error ? "error" : ""}
+                    display="flex"
+                    alignItems="center"
+                    gap="6px"
+                >
+                    {error ? (
+                        <ErrorOutlineIcon sx={{ marginBottom: "2px" }} />
+                    ) : null}
                     {title}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>{description}</DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleArgee} autoFocus color="error">
-                        Delete
-                    </Button>
+                    {!infoDialog ? (
+                        <>
+                            <Button onClick={handleClose}>Cancel</Button>
+                            <Button
+                                onClick={handleArgee}
+                                autoFocus
+                                color="error"
+                            >
+                                Delete
+                            </Button>
+                        </>
+                    ) : (
+                        <Button onClick={handleArgee} autoFocus color="primary">
+                            Ok
+                        </Button>
+                    )}
                 </DialogActions>
             </Dialog>
         </>

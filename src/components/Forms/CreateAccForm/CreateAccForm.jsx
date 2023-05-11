@@ -6,7 +6,8 @@ import {
     Container,
     LinearProgress,
     InputAdornment,
-    IconButton
+    IconButton,
+    Dialog
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { mailValidation } from "../validation";
@@ -15,10 +16,12 @@ import { registerThunk } from "../../../redux/reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { ModalConfirmation } from "../../ModalConfirmation/ModalConfirmation";
 
 function CreateAccForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordCheck, setShowPasswordCheck] = useState(false);
+    const [open, setOpen] = useState(false);
 
     const {
         register,
@@ -33,15 +36,9 @@ function CreateAccForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isLoading = useSelector(store => store.auth.isLoading);
-    const isAuth = useSelector(store => store.auth.isAuth);
-
-    useEffect(() => {
-        if (isAuth) {
-            navigate(`/settings`);
-        }
-    }, [isAuth]);
 
     const onSubmit = data => {
+        setOpen(true);
         dispatch(registerThunk(data));
         reset();
     };
@@ -271,6 +268,14 @@ function CreateAccForm() {
                         Already have an account? <Link to="/login">Log in</Link>
                     </Typography>
                 </form>
+                <ModalConfirmation
+                    title="We have sent you a letter to the specified mailbox with a request to confirm it."
+                    description="To complete the registration process, please follow the link in this email. Please check your mailbox, including your Spam folder, if the email did not appear in your inbox."
+                    infoDialog
+                    open={open}
+                    handleClose={() => setOpen(false)}
+                    handleArgee={() => navigate("/talents")}
+                />
             </Container>
         </>
     );

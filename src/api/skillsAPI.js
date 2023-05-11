@@ -1,7 +1,7 @@
 import { axiosInstance } from ".";
 
 export const skillsAPI = {
-    async getSkills(token) {
+    async getSkills() {
         return (await axiosInstance.get(`/skills`, {})).data;
     }
 };

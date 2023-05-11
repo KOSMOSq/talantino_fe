@@ -29,6 +29,10 @@ const authAPI = {
                 }
             })
         ).data;
+    },
+    async emailConfirm(token) {
+        return (await axiosInstance.post(`/email-confirm?token=${token}`, {}))
+            .data.token;
     }
 };
 

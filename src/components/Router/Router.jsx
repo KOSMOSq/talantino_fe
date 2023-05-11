@@ -8,6 +8,7 @@ import Settings from "../Settings/Settings";
 import TalentProfile from "../TalentProfile/TalentProfile";
 import Proofs from "../Proofs/Proofs";
 import { Page404 } from "./components/Page404/Page404";
+import { EmailConfirm } from "../EmailConfirm/EmailConfirm";
 
 function Router() {
     return (
@@ -24,6 +25,7 @@ function Router() {
                         element={<TalentProfile />}
                     />
                     <Route path="settings" element={<Settings />} />
+                    <Route path="email-confirm" element={<EmailConfirm />} />
                 </Route>
                 <Route path="*" element={<Page404 />} />
             </Routes>

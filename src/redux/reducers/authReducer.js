@@ -125,7 +125,6 @@ export const registerThunk = data => async dispatch => {
             surname: data.lName,
             kind: data.kindOfTalent
         });
-        dispatch(loginThunk(data));
     } catch (err) {
         dispatch(
             setMessage(
