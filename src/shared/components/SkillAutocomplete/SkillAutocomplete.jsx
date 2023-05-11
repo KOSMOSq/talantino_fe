@@ -13,6 +13,29 @@ const SkillAutocomplete = ({ defaultSkills = [], onChange, error = null }) => {
         }
     }, []);
 
+    const onSearch = (options, state) => {
+        const query = state.inputValue;
+        return options
+            .filter(item => {
+                return item.label.toLowerCase().includes(query);
+            })
+            .sort((a, b) => {
+                const aLabel = a.label.toLowerCase();
+                const bLabel = b.label.toLowerCase();
+
+                if (aLabel.startsWith(query) && bLabel.startsWith(query)) {
+                    return 0;
+                } else if (
+                    aLabel.startsWith(query) &&
+                    !bLabel.startsWith(query)
+                ) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            });
+    };
+
     return (
         <>
             {skills.length === 0 ? null : (
@@ -26,6 +49,7 @@ const SkillAutocomplete = ({ defaultSkills = [], onChange, error = null }) => {
                     multiple
                     id="tags-outlined"
                     options={skills}
+                    filterOptions={onSearch}
                     defaultValue={defaultSkills.map(item =>
                         skills.find(lowerItem => item.label === lowerItem.label)
                     )}

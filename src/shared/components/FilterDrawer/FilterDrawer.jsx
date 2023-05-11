@@ -38,13 +38,13 @@ const FilterDrawer = () => {
     const handleFilter = data => {
         if (data.skills.length) {
             const skills = encodeURIComponent(data.skills.join("%2C"));
-            dispatch(setFilterSkills(data.skills));
             handleDrawerClose();
+            dispatch(setFilterSkills(data.skills));
             navigate(`/talents?page=${page}&skills=${skills}`);
             return;
         } else {
-            dispatch(setFilterSkills([]));
             handleDrawerClose();
+            dispatch(setFilterSkills([]));
             navigate(`/talents?page=${page}`);
         }
     };
@@ -100,12 +100,11 @@ const FilterDrawer = () => {
                             alignItems="center"
                         >
                             <Controller
-                                key={open}
+                                key={filterSkills.length}
                                 name="skills"
                                 control={control}
-                                render={({ field: { onChange, value } }) => (
+                                render={({ field: { onChange } }) => (
                                     <SkillAutocomplete
-                                        value={value}
                                         onChange={onChange}
                                         defaultSkills={filterSkills.map(
                                             item => ({ label: item })
