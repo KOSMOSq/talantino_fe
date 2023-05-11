@@ -8,12 +8,14 @@ import {
     setTalentData,
     setToken
 } from "../../redux/reducers/authReducer";
+import { setMessage } from "../../redux/reducers/appReducer";
 
 const EmailConfirm = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [searchParams] = useSearchParams();
     const isAuth = useSelector(store => store.auth.isAuth);
+
     useEffect(() => {
         const getConfired = async () => {
             const response = await authAPI.emailConfirm(
@@ -22,12 +24,24 @@ const EmailConfirm = () => {
             localStorage.setItem("token", response);
             dispatch(setToken(response));
             dispatch(getAuthThunk());
-            //navigate("/settings");
         };
-        getConfired();
+        getConfired().catch(err => {
+            dispatch(
+                setMessage(
+                    err.response?.data.message
+                        ? err.response.data.message
+                        : "Network error",
+                    "error"
+                )
+            );
+            navigate("/");
+        });
     }, []);
+
     useEffect(() => {
-        navigate("/settings");
+        if (isAuth) {
+            navigate("/settings");
+        }
     }, [isAuth]);
 
     return <LinearProgress />;
