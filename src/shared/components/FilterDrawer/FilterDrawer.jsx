@@ -14,14 +14,12 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { SkillAutocomplete } from "../SkillAutocomplete/SkillAutocomplete";
 import { Controller, useForm } from "react-hook-form";
-import {
-    setFilterSkills,
-    setQuery
-} from "../../../redux/reducers/skillsReducer";
+import { setFilterSkills } from "../../../redux/reducers/skillsReducer";
 
 const FilterDrawer = () => {
     const [open, setOpen] = useState(false);
     const filterSkills = useSelector(store => store.skills.filterSkills);
+
     const page = useSelector(store => store.talents.currentPage);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -40,13 +38,12 @@ const FilterDrawer = () => {
     const handleFilter = data => {
         if (data.skills.length) {
             const skills = encodeURIComponent(data.skills.join("%2C"));
-            dispatch(setQuery(skills));
+            dispatch(setFilterSkills(data.skills));
             handleDrawerClose();
             navigate(`/talents?page=${page}&skills=${skills}`);
             return;
         } else {
             dispatch(setFilterSkills([]));
-            dispatch(setQuery(""));
             handleDrawerClose();
             navigate(`/talents?page=${page}`);
         }
@@ -103,15 +100,15 @@ const FilterDrawer = () => {
                             alignItems="center"
                         >
                             <Controller
+                                key={open}
                                 name="skills"
                                 control={control}
-                                render={({ field: { onChange } }) => (
+                                render={({ field: { onChange, value } }) => (
                                     <SkillAutocomplete
+                                        value={value}
                                         onChange={onChange}
                                         defaultSkills={filterSkills.map(
-                                            item => {
-                                                return { label: item };
-                                            }
+                                            item => ({ label: item })
                                         )}
                                     />
                                 )}
