@@ -28,11 +28,12 @@ const Talents = () => {
     const location = useLocation();
     const [searchParams] = useSearchParams();
 
-    useEffect(() => {
-        if (query === "") {
-            navigate(`/talents?page=${1}`);
-        }
-    }, []);
+    //
+    // useEffect(() => {
+    //     if (query === "") {
+    //         navigate(`/talents?page=${1}`);
+    //     }
+    // }, []);
 
     useEffect(() => {
         if (!isLoading) {
