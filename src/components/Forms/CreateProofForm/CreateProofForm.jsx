@@ -9,8 +9,11 @@ import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { SkillAutocomplete } from "../../../shared/components/SkillAutocomplete/SkillAutocomplete";
 import { addTalentProofThunk } from "../../../redux/reducers/talentsProofsReducer";
+import { useState } from "react";
 
 const CreateProofForm = () => {
+    const [keyForControl, setKeyForControl] = useState(true);
+
     const {
         register,
         handleSubmit,
@@ -29,6 +32,7 @@ const CreateProofForm = () => {
     const onSubmit = (data, e) => {
         data.status = e.nativeEvent.submitter.value;
         dispatch(addTalentProofThunk(data));
+        setKeyForControl(prev => !prev);
         reset();
     };
 
@@ -93,6 +97,7 @@ const CreateProofForm = () => {
                         })}
                     />
                     <Controller
+                        key={keyForControl}
                         name="skills"
                         control={control}
                         render={({ field: { onChange } }) => (
