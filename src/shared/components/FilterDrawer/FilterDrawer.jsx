@@ -87,7 +87,14 @@ const FilterDrawer = () => {
                         </IconButton>
                     </Box>
                     <Divider />
-                    <form onSubmit={handleSubmit(handleFilter)}>
+                    <form
+                        onSubmit={handleSubmit(handleFilter)}
+                        onKeyDown={e => {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                            }
+                        }}
+                    >
                         <Box
                             m={5}
                             mt={2}
