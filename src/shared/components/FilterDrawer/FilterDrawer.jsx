@@ -14,15 +14,14 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { SkillAutocomplete } from "../SkillAutocomplete/SkillAutocomplete";
 import { Controller, useForm } from "react-hook-form";
-import { setFilterSkills } from "../../../redux/reducers/skillsReducer";
+import {
+    setFilterSkills,
+    setQuery
+} from "../../../redux/reducers/skillsReducer";
 
-const FilterDrawer = ({ setQuery }) => {
+const FilterDrawer = () => {
     const [open, setOpen] = useState(false);
-    const filterSkills = useSelector(store => store.skills.filterSkills).map(
-        item => {
-            return { label: item };
-        }
-    );
+    const filterSkills = useSelector(store => store.skills.filterSkills);
     const page = useSelector(store => store.talents.currentPage);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -30,7 +29,7 @@ const FilterDrawer = ({ setQuery }) => {
     const { handleSubmit, control } = useForm({
         mode: "all",
         defaultValues: {
-            skills: []
+            skills: filterSkills
         }
     });
 
@@ -39,21 +38,17 @@ const FilterDrawer = ({ setQuery }) => {
     };
 
     const handleFilter = data => {
-        //page reload when click submit with skill from redux in autocomplete (when you dont match skill but it self set from redux)
         if (data.skills.length) {
-            console.log(data.skills);
             const skills = encodeURIComponent(data.skills.join("%2C"));
-            setQuery(skills);
+            dispatch(setQuery(skills));
             handleDrawerClose();
-            //maybe it is solution
             navigate(`/talents?page=${page}&skills=${skills}`);
-            setTimeout(() => dispatch(setFilterSkills(data.skills)), 1000);
             return;
         } else {
             dispatch(setFilterSkills([]));
-            setQuery("");
-            navigate(`/talents?page=${page}`);
+            dispatch(setQuery(""));
             handleDrawerClose();
+            navigate(`/talents?page=${page}`);
         }
     };
 
@@ -106,21 +101,16 @@ const FilterDrawer = ({ setQuery }) => {
                                 render={({ field: { onChange } }) => (
                                     <SkillAutocomplete
                                         onChange={onChange}
-                                        defaultSkills={filterSkills}
+                                        defaultSkills={filterSkills.map(
+                                            item => {
+                                                return { label: item };
+                                            }
+                                        )}
                                     />
                                 )}
                             />
 
-                            {/* <SkillAutocomplete
-                            onChange={handleChange}
-                            defaultSkills={value.map(item => {
-                                return { label: item };
-                            })}
-                        /> */}
                             <Box mt={10} display="flex" gap={2}>
-                                <Button variant="contained">
-                                    Clean the filter
-                                </Button>
                                 <Button
                                     type="submit"
                                     variant="contained"

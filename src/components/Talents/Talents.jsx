@@ -14,6 +14,7 @@ import { FilterDrawer } from "../../shared/components/FilterDrawer/FilterDrawer"
 import { ChangeViewButton } from "./components/ChangeViewButton/ChangeViewButton";
 import { NoMatchesTalents } from "./components/NoMatchesTalents/NoMatchesTalents";
 import { NoTalentsYet } from "./components/NoTalentsYet/NoTalentsYet";
+import { setFilterSkills } from "../../redux/reducers/skillsReducer";
 
 const Talents = () => {
     const dispatch = useDispatch();
@@ -21,19 +22,16 @@ const Talents = () => {
     const totalPages = useSelector(store => store.talents.totalPages);
     const talents = useSelector(store => store.talents.talents);
     const [isLoading, setIsLoading] = useState(true);
-    const [query, setQuery] = useState("");
+    const query = useSelector(store => store.skills.query);
 
     const navigate = useNavigate();
     const location = useLocation();
     const [searchParams] = useSearchParams();
 
     useEffect(() => {
-        //delete query when click "talents"
-        //setQuery("");
         if (!isLoading) {
             setIsLoading(true);
         }
-
         const urlPageParam = Number(searchParams.get("page"));
         const urlPage =
             urlPageParam && urlPageParam > 0
@@ -79,7 +77,7 @@ const Talents = () => {
 
     const handleChange = (e, value) => {
         dispatch(setCurrentPage(value));
-        navigate(`/talents?page=${value}`);
+        navigate(`/talents?page=${value}${query ? `&skills=${query}` : ""}`);
     };
 
     if (isLoading) {
@@ -104,7 +102,7 @@ const Talents = () => {
                 mr={20}
                 ml={20}
             >
-                <FilterDrawer setQuery={setQuery} />
+                <FilterDrawer />
                 <ChangeViewButton />
             </Box>
             {talents.length === 0 && searchParams.get("skills") ? (
