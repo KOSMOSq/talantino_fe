@@ -103,9 +103,8 @@ const FilterDrawer = () => {
                                 key={open}
                                 name="skills"
                                 control={control}
-                                render={({ field: { onChange, value } }) => (
+                                render={({ field: { onChange } }) => (
                                     <SkillAutocomplete
-                                        value={value}
                                         onChange={onChange}
                                         defaultSkills={filterSkills.map(
                                             item => ({ label: item })
