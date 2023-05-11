@@ -12,7 +12,7 @@ const initialState = {
     talents: [],
     clickedId: null,
     totalTalents: 0,
-    talentsView: "grid",
+    talentsView: "list",
     isNextTalent: true
 };
 
