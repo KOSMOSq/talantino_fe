@@ -7,6 +7,9 @@ const SkillAutocomplete = ({ defaultSkills = [], onChange, error = null }) => {
     const skills = useSelector(store => store.skills.skills);
     const dispatch = useDispatch();
 
+    const skillsLabels = skills.map(item => item.label);
+    defaultSkills = defaultSkills.filter(item => skillsLabels.includes(item.label));
+
     useEffect(() => {
         if (skills.length === 0) {
             dispatch(getSkillsThunk());
@@ -14,7 +17,7 @@ const SkillAutocomplete = ({ defaultSkills = [], onChange, error = null }) => {
     }, []);
 
     const onSearch = (options, state) => {
-        const query = state.inputValue;
+        const query = state.inputValue.toLowerCase();
         return options
             .filter(item => {
                 return item.label.toLowerCase().includes(query);
