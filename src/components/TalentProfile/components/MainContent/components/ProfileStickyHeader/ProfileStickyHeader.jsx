@@ -19,19 +19,21 @@ function ProfileStickyHeader({ nextId, prevId }) {
         navigate(`/talents/?page=${currentPage}`);
     };
 
+    const subPage = useParams()["*"];
+
     const handleNextTalent = () => {
         if (nextId) {
-            navigate(`/talent/${nextId}`);
+            navigate(`/talent/${nextId}/${subPage ? subPage : ""}`);
         } else {
-            dispatch(setMessage("No more talents"));
+            dispatch(setMessage("No more talents", "error"));
         }
     };
 
     const handlePrevTalent = () => {
         if (prevId) {
-            navigate(`/talent/${prevId}`);
+            navigate(`/talent/${prevId}/${subPage ? subPage : ""}`);
         } else {
-            dispatch(setMessage("No more previous talents"));
+            dispatch(setMessage("No more previous talents", "error"));
         }
     };
 
@@ -50,6 +52,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
                     const itemLowerCase = item.toLocaleLowerCase();
                     return (
                         <Button
+                            sx={{ borderRadius: "10px" }}
                             key={itemLowerCase}
                             href={`/talent/${talentId}/`}
                             component={NavLink}
@@ -79,12 +82,14 @@ function ProfileStickyHeader({ nextId, prevId }) {
                     {from !== "profile-click" ? (
                         <>
                             <Button
+                                sx={{ borderRadius: "10px" }}
                                 onClick={handlePrevTalent}
                                 disabled={!prevId}
                             >
                                 PREV TALENT
                             </Button>
                             <Button
+                                sx={{ borderRadius: "10px" }}
                                 onClick={handleNextTalent}
                                 disabled={!nextId}
                             >

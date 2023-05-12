@@ -8,7 +8,7 @@ import {
     IconButton,
     InputAdornment
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { mailValidation } from "../validation";
 import { useDispatch, useSelector } from "react-redux";
 import { loginThunk } from "../../../redux/reducers/authReducer";
@@ -26,6 +26,10 @@ function LoginForm() {
         formState: { errors, isValid }
     } = useForm({ mode: "onTouched" });
 
+    const location = useLocation();
+    const from = location.state?.from;
+    const page = location.state?.page;
+    
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isAuth = useSelector(store => store.auth.isAuth);
@@ -33,8 +37,10 @@ function LoginForm() {
     const isLoading = useSelector(store => store.auth.isLoading);
 
     useEffect(() => {
-        if (isAuth) {
+        if (isAuth && from !== "proofs") {
             navigate(`/talent${clickedId ? `/${clickedId}` : "s"}`);
+        } else if (isAuth) {
+            navigate(`/proofs${page ? `?page=${page}` : ""}`);
         }
     }, [isAuth]);
 

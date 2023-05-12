@@ -7,21 +7,23 @@ import {
     LinearProgress,
     InputAdornment,
     IconButton,
-    Dialog
+    Stack
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { mailValidation } from "../validation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { registerThunk } from "../../../redux/reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { ModalConfirmation } from "../../ModalConfirmation/ModalConfirmation";
+import { RoleSwitch } from "./components/RoleSwitch/RoleSwitch";
 
 function CreateAccForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordCheck, setShowPasswordCheck] = useState(false);
     const [open, setOpen] = useState(false);
+    const [checkedTalent, setCheckedTalent] = useState(true);
 
     const {
         register,
@@ -30,7 +32,8 @@ function CreateAccForm() {
         clearErrors,
         setError,
         reset,
-        formState: { errors, isValid }
+        trigger,
+        formState: { errors, isValid, isDirty }
     } = useForm({ mode: "onTouched" });
 
     const navigate = useNavigate();
@@ -39,8 +42,19 @@ function CreateAccForm() {
 
     const onSubmit = data => {
         setOpen(true);
-        dispatch(registerThunk(data));
+        if (checkedTalent) {
+            dispatch(registerThunk(data, "TALENT"));
+        } else {
+            dispatch(registerThunk(data, "SPONSOR"));
+        }
         reset();
+    };
+
+    const handleSwitch = async () => {
+        setCheckedTalent(prev => !prev);
+        if (isDirty) {
+            await trigger();
+        }
     };
 
     return (
@@ -218,36 +232,49 @@ function CreateAccForm() {
                             )
                         }}
                     />
-
-                    <TextField
-                        id="kindOfTalent"
-                        label="Kind of Talent"
-                        type="text"
-                        {...register("kindOfTalent", {
-                            required: "Kind of talent is required",
-                            maxLength: {
-                                value: 18,
-                                message: "Your talent is to BIG"
-                            },
-                            minLength: {
-                                value: 2,
-                                message: "Your talent is to short"
-                            },
-                            pattern: {
-                                value: /^[a-zA-Z ]+$/,
-                                message:
-                                    "Kind of talent can only contain letters"
+                    <Stack direction="row" spacing={1} alignItems="center">
+                        <TextField
+                            id="kindOfTalent"
+                            label="Kind of Talent"
+                            type="text"
+                            {...register("kindOfTalent", {
+                                disabled: !checkedTalent,
+                                required: {
+                                    value: true,
+                                    message: "Kind of talent is required"
+                                },
+                                maxLength: {
+                                    value: 18,
+                                    message: "Your talent is to BIG"
+                                },
+                                minLength: {
+                                    value: 2,
+                                    message: "Your talent is to short"
+                                },
+                                pattern: {
+                                    value: /^[a-zA-Z ]+$/,
+                                    message:
+                                        "Kind of talent can only contain letters"
+                                }
+                            })}
+                            error={Boolean(errors.kindOfTalent)}
+                            helperText={
+                                errors.kindOfTalent
+                                    ? errors.kindOfTalent.message
+                                    : " "
                             }
-                        })}
-                        error={Boolean(errors.kindOfTalent)}
-                        helperText={
-                            errors.kindOfTalent
-                                ? errors.kindOfTalent.message
-                                : " "
-                        }
-                        sx={{ marginTop: 2, width: 300, marginLeft: 19 }}
-                    />
-
+                            sx={{
+                                marginTop: 2,
+                                width: 300,
+                                marginRight: 5,
+                                marginLeft: 5
+                            }}
+                        />
+                        <RoleSwitch
+                            checkedTalent={checkedTalent}
+                            handleSwitch={handleSwitch}
+                        />
+                    </Stack>
                     <Button
                         type="submit"
                         variant="contained"

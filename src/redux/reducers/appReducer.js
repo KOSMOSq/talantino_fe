@@ -4,7 +4,7 @@ const CLEAR_MESSAGE = "app/CLEAR-MESSAGE";
 const initialState = {
     isMessage: false,
     messageText: "",
-    status: ""
+    status: "error"
 };
 
 const appReducer = (state = initialState, action) => {
@@ -19,9 +19,7 @@ const appReducer = (state = initialState, action) => {
         case CLEAR_MESSAGE:
             return {
                 ...state,
-                isMessage: false,
-                messageText: "",
-                status: ""
+                isMessage: false
             };
         default:
             return state;

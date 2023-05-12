@@ -1,8 +1,19 @@
 import { Box, Divider, ListItem, Typography } from "@mui/material";
 import { getRelativeTime } from "../../../../../shared/functions/getRelativeTime";
+import { KudosButton } from "../../../../../shared/components/KudosButton/KudosButton";
 import { ProofSkillsArea } from "../../../../TalentProfile/components/MainContent/components/TalentProofArea/components/ProofSkillsArea/ProofSkillsArea";
 
-const Proof = ({ date, title, description, skills, author }) => {
+const Proof = ({
+    id,
+    date,
+    title,
+    description,
+    skills,
+    isKudosed,
+    totalKudos,
+    totalKudosFromSponsor,
+    author
+}) => {
     return (
         <>
             <ListItem>
@@ -34,8 +45,14 @@ const Proof = ({ date, title, description, skills, author }) => {
                             )}
                         </Typography>
                     </Typography>
-                <ProofSkillsArea skills={skills} />
+                    <ProofSkillsArea skills={skills} />
                 </Box>
+                <KudosButton
+                    id={id}
+                    isKudosed={isKudosed}
+                    totalKudos={totalKudos}
+                    totalKudosFromSponsor={totalKudosFromSponsor}
+                />
             </ListItem>
             <Divider variant="middle" component="li" sx={{ marginBottom: 2 }} />
         </>

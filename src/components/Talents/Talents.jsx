@@ -29,7 +29,7 @@ const Talents = () => {
 
     const skillsParam = searchParams.get("skills");
     const decodedSkillsArray = decodeURIComponent(skillsParam).split(",");
-    
+
     useEffect(() => {
         if (!isLoading) {
             setIsLoading(true);

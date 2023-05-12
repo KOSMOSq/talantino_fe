@@ -36,10 +36,14 @@ const proofsAPI = {
         ).data;
     },
 
-    async getProofs(sort = "date", type = "desc", page, count = 9) {
+    async getProofs(sort = "date", type = "desc", page, count = 9, token) {
+        const authorization = token === null ? null : `Bearer ${token}`;
         return (
             await axiosInstance.get(
-                `/proofs?sort=${sort}&type=${type}&page=${page}&count=${count}`
+                `/proofs?sort=${sort}&type=${type}&page=${page}&count=${count}`,
+                {
+                    headers: { Authorization: authorization }
+                }
             )
         ).data;
     },

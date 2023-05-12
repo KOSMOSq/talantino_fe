@@ -58,13 +58,15 @@ export const setIsLoading = bool => ({
 });
 
 export const getProofsThunk =
-    (page, count, sortType, navigate) => async dispatch => {
+    (page, count, sortType, navigate) => async (dispatch, getState) => {
+        const token = getState().auth.token;
         try {
             const response = await proofsAPI.getProofs(
                 undefined,
                 sortType,
                 page - 1,
-                count
+                count,
+                token
             );
             const total = Math.ceil(response.totalAmount / count);
 
@@ -72,7 +74,7 @@ export const getProofsThunk =
                 navigate(`/proofs?page=${total}`);
                 return;
             } else if (total === 0) {
-                dispatch(setMessage("No proofs here ("));
+                dispatch(setMessage("No proofs here (", "error"));
             }
 
             if (total) {

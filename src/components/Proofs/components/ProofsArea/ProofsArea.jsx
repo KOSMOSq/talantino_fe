@@ -1,10 +1,4 @@
-import {
-    Box,
-    List,
-    FormControl,
-    Select,
-    MenuItem
-} from "@mui/material";
+import { Box, List, FormControl, Select, MenuItem } from "@mui/material";
 import { Proof } from "./Proof/Proof";
 import { useSelector, useDispatch } from "react-redux";
 import { setProofsSortType } from "../../../../redux/reducers/proofsReducer";
