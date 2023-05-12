@@ -28,14 +28,14 @@ const Talents = () => {
     const [searchParams] = useSearchParams();
 
     const skillsParam = searchParams.get("skills");
-
+    const decodedSkillsArray = decodeURIComponent(skillsParam).split(",");
     
     useEffect(() => {
         if (!isLoading) {
             setIsLoading(true);
         }
         if (skillsParam) {
-            dispatch(setFilterSkills(decodeURIComponent(skillsParam).split(",")));
+            dispatch(setFilterSkills(decodedSkillsArray));
         } else {
             dispatch(setFilterSkills([]));
         }
@@ -60,7 +60,7 @@ const Talents = () => {
             if (page > total && total > 0) {
                 navigate(`/talents?page=${total}`);
                 return;
-            } else if (total === 0) {
+            } else if (total === 0 && !skillsParam) {
                 dispatch(setMessage("No talents at all (", "error"));
             }
             if (total) {
