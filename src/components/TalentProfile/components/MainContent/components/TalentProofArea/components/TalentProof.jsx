@@ -8,6 +8,7 @@ import { useState } from "react";
 import { EditProofForm } from "../../../../../../Forms/EditProofForm/EditProofForm";
 import { ModalConfirmation } from "../../../../../../ModalConfirmation/ModalConfirmation";
 import { ProofSkillsArea } from "./ProofSkillsArea/ProofSkillsArea";
+import { KudosButton } from "../../../../../../../shared/components/KudosButton/KudosButton";
 
 function TalentProof({
     date,
@@ -17,11 +18,15 @@ function TalentProof({
     id,
     talentId,
     onDelete,
-    skills
+    skills,
+    isKudosed,
+    totalKudos,
+    authorId,
+    totalKudosFromSponsor
 }) {
     const [editMode, setEditMode] = useState(false);
     const [openModal, setOpenModal] = useState(false);
-
+    const role = useSelector(store => store.auth.user.role);
     const authId = useSelector(store => store.auth.user.id);
 
     return (
@@ -57,7 +62,7 @@ function TalentProof({
                                         {getRelativeTime(date)}
                                     </Typography>
                                 </Box>
-                                {+talentId === authId ? (
+                                {+talentId === authId && role === "TALENT" ? (
                                     <Box
                                         sx={{
                                             display: "flex",
@@ -132,8 +137,29 @@ function TalentProof({
                             skills={skills}
                         />
                     )}
+                    {+talentId === authId && role !== "SPONSOR" && !editMode ? (
+                        <Box sx={{ ml: "-10px", mb: "-10px" }}>
+                            <KudosButton
+                                id={id}
+                                isKudosed={isKudosed}
+                                totalKudos={totalKudos}
+                                authorId={authorId}
+                                totalKudosFromSponsor={totalKudosFromSponsor}
+                            />
+                        </Box>
+                    ) : null}
                 </Box>
+                {+talentId !== authId || role !== "TALENT" ? (
+                    <KudosButton
+                        id={id}
+                        isKudosed={isKudosed}
+                        totalKudos={totalKudos}
+                        authorId={authorId}
+                        totalKudosFromSponsor={totalKudosFromSponsor}
+                    />
+                ) : null}
             </Box>
+
             <ModalConfirmation
                 title={"Are you sure you want delete the proof?"}
                 description={"It cannot be restored."}

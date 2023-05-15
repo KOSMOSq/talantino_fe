@@ -3,11 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { authAPI } from "../../api/authAPI";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    getAuthThunk,
-    setTalentData,
-    setToken
-} from "../../redux/reducers/authReducer";
+import { getAuthThunk, setToken } from "../../redux/reducers/authReducer";
 import { setMessage } from "../../redux/reducers/appReducer";
 
 const EmailConfirm = () => {

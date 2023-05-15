@@ -1,6 +1,10 @@
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, Slide, Snackbar } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { clearMessage } from "../../redux/reducers/appReducer";
+
+function SlideTransition(props) {
+    return <Slide {...props} direction="up" />;
+}
 
 const PopUpMessage = () => {
     const status = useSelector(store => store.app.status);
@@ -14,22 +18,21 @@ const PopUpMessage = () => {
 
     return (
         <>
-            {isMessage && (
-                <Snackbar
-                    open={isMessage}
-                    autoHideDuration={3000}
-                    message={message}
+            <Snackbar
+                open={isMessage}
+                autoHideDuration={3000}
+                message={message}
+                onClose={handleClose}
+                TransitionComponent={SlideTransition}
+            >
+                <Alert
                     onClose={handleClose}
+                    severity={status}
+                    sx={{ width: "100%" }}
                 >
-                    <Alert
-                        onClose={handleClose}
-                        severity={status}
-                        sx={{ width: "100%" }}
-                    >
-                        {message}
-                    </Alert>
-                </Snackbar>
-            )}
+                    {message}
+                </Alert>
+            </Snackbar>
         </>
     );
 };

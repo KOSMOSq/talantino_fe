@@ -31,6 +31,7 @@ function TalentProofArea() {
     const [page, setPage] = useState(0);
 
     const dispatch = useDispatch();
+    const role = useSelector(store => store.auth.user.role);
     const authId = useSelector(store => store.auth.user.id);
     const proofs = useSelector(store => store.talentProofs.talentProofs);
     const status = useSelector(store => store.talentProofs.status);
@@ -65,10 +66,11 @@ function TalentProofArea() {
         if (
             urlStatusParam &&
             STATUSES.includes(urlStatusParam) &&
-            authId === Number(talentId)
+            authId === Number(talentId) &&
+            role === "TALENT"
         ) {
             statusParam = urlStatusParam;
-        } else if (authId === Number(talentId)) {
+        } else if (authId === Number(talentId) && role === "TALENT") {
             statusParam = "ALL";
         } else {
             statusParam = "PUBLISHED";
@@ -91,7 +93,7 @@ function TalentProofArea() {
     return (
         <>
             <Box mt={2}>
-                {authId === Number(talentId) ? (
+                {authId === Number(talentId) && role === "TALENT" ? (
                     <>
                         <CreateProofForm />
                         <Box mb={2}>

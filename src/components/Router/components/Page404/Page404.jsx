@@ -22,6 +22,7 @@ const Page404 = () => {
                     <a
                         href="https://www.youtube.com/watch?v=G3AfIvJBcGo"
                         target="_blank"
+                        rel="noreferrer"
                     >
                         NO
                     </a>
