@@ -81,9 +81,9 @@ const EditProofForm = ({
                                             "Title should be at least 2 symbols long"
                                     },
                                     maxLength: {
-                                        value: 40,
+                                        value: 160,
                                         message:
-                                            "Title shouldn't be larger than 40 symbols"
+                                            "Title shouldn't be larger than 160 symbols"
                                     }
                                 })}
                             />

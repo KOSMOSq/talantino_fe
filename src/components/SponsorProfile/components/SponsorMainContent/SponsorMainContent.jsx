@@ -10,8 +10,8 @@ const SponsorMainContent = () => {
             <Box sx={{ width: "70%" }}>
                     <LinkTabs
                         tabs={[
-                            { lable: "Balance", href: "" },
-                            { lable: "History", href: "history" }
+                            { label: "Balance", href: "" },
+                            { label: "History", href: "history" }
                         ]}
                     />
                     <Divider />

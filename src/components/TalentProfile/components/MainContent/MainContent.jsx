@@ -3,6 +3,7 @@ import { ProfileStickyHeader } from "./components/ProfileStickyHeader/ProfileSti
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Overview } from "./components/Overview/Overview";
 import { TalentProofArea } from "./components/TalentProofArea/TalentProofArea";
+import { TalentStats } from "./components/TalentStats/TalentStats";
 
 function MainContent({ talentDescription, talentId, id, prevId, nextId }) {
     return (
@@ -15,6 +16,7 @@ function MainContent({ talentDescription, talentId, id, prevId, nextId }) {
             />
             <Routes>
                 <Route path="proofs" element={<TalentProofArea />} />
+                <Route path="statistics" element={<TalentStats />}/>
                 <Route
                     path="/"
                     element={<Overview talentDescription={talentDescription} />}

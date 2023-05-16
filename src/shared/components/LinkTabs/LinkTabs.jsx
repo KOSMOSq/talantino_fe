@@ -26,8 +26,8 @@ const LinkTabs = ({ tabs }) => {
                 >
                     {tabs.map(tab => (
                         <LinkTab
-                            key={tab.lable}
-                            label={tab.lable}
+                            key={tab.label}
+                            label={tab.label}
                             to={tab.href}
                         />
                     ))}
