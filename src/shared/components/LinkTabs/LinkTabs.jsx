@@ -26,6 +26,7 @@ const LinkTabs = ({ tabs }) => {
                 >
                     {tabs.map(tab => (
                         <LinkTab
+                            sx={{ borderTopLeftRadius: "10px", borderTopRightRadius: "10px"}}
                             key={tab.label}
                             label={tab.label}
                             to={tab.href}

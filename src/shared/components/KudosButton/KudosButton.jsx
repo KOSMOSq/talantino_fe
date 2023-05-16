@@ -121,8 +121,7 @@ const KudosButton = ({
                             )}
                         </IconButton>
                         {role === "TALENT" &&
-                        authId === authorId &&
-                        from === "profile-click" ? (
+                        authId === authorId ? (
                             <DialogOfSponsors
                                 counter={counter}
                                 formatter={formatter}
