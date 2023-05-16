@@ -8,7 +8,9 @@ const SkillAutocomplete = ({ defaultSkills = [], onChange, error = null }) => {
     const dispatch = useDispatch();
 
     const skillsLabels = skills.map(item => item.label);
-    defaultSkills = defaultSkills.filter(item => skillsLabels.includes(item.label));
+    defaultSkills = defaultSkills.filter(item =>
+        skillsLabels.includes(item.label)
+    );
 
     useEffect(() => {
         if (skills.length === 0) {
