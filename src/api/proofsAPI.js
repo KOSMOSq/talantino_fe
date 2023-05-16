@@ -58,6 +58,17 @@ const proofsAPI = {
                 }
             )
         ).data;
+    },
+    async reportProof(proofId, token) {
+        return (
+            await axiosInstance.post(
+                `/proofs/${proofId}/report`,
+                {},
+                {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            )
+        ).data;
     }
 };
 

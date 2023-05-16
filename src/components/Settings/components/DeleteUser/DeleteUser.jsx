@@ -65,6 +65,7 @@ function DeleteUser() {
                 open={open}
                 handleClose={() => setOpen(false)}
                 handleArgee={handleClickDelete}
+                agreeButtonText="Delete"
             />
         </Box>
     );
