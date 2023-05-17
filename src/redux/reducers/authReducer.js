@@ -138,7 +138,6 @@ export const registerThunk = (data, role) => async dispatch => {
             console.log("Wrong usage of register thunk!");
             throw new Error("Error!");
         }
-        dispatch(loginThunk(data));
     } catch (err) {
         dispatch(
             setMessage(

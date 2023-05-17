@@ -19,7 +19,6 @@ const BalanceForm = () => {
         handleSubmit,
         formState: { errors },
         watch,
-        setValue,
         reset
     } = useForm({
         mode: "all",

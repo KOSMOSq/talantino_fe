@@ -16,6 +16,7 @@ function ChangeViewButton() {
 
     return (
         <ToggleButtonGroup
+            size="small"
             value={talentsView}
             onChange={handleChange}
             exclusive

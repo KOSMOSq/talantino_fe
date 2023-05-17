@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useParams, useSearchParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { setMessage } from "../../redux/reducers/appReducer";
 import { Container, LinearProgress } from "@mui/material";
 import { SideBar } from "../TalentProfile/components/SideBar/SideBar";
@@ -12,7 +12,6 @@ const SponsorProfile = () => {
     const [isLoading, setIsLoading] = useState(false);
     const sponsor = useSelector(store => store.auth.user);
     const { sponsorId } = useParams();
-    
 
     const dispatch = useDispatch();
 
@@ -37,7 +36,7 @@ const SponsorProfile = () => {
     }, [sponsorId, sponsor]);
 
     if (sponsor.role !== "SPONSOR") {
-        return <Navigate to="/" />
+        return <Navigate to="/" />;
     }
 
     if (isLoading || !sponsorInfo) {
@@ -53,7 +52,7 @@ const SponsorProfile = () => {
                 paddingRight: "24px"
             }}
         >
-            <SideBar userInfo={sponsorInfo}/>
+            <SideBar userInfo={sponsorInfo} />
             <SponsorMainContent />
         </Container>
     );

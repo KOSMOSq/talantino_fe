@@ -1,4 +1,4 @@
-import { Routes, Route, Link, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { LoginForm } from "../Forms/LoginForm/LoginForm";
 
 import { Talents } from "../Talents/Talents";
@@ -8,6 +8,7 @@ import Settings from "../Settings/Settings";
 import TalentProfile from "../TalentProfile/TalentProfile";
 import Proofs from "../Proofs/Proofs";
 import { Page404 } from "./components/Page404/Page404";
+import { EmailConfirm } from "../EmailConfirm/EmailConfirm";
 import SponsorProfile from "../SponsorProfile/SponsorProfile";
 import { Recover } from "../Recover/Recover";
 
@@ -30,6 +31,7 @@ function Router() {
                         element={<SponsorProfile />}
                     />
                     <Route path="settings" element={<Settings />} />
+                    <Route path="email-confirm" element={<EmailConfirm />} />
                     <Route path="sponsors/recover" element={<Recover />} />
                 </Route>
                 <Route path="*" element={<Page404 />} />

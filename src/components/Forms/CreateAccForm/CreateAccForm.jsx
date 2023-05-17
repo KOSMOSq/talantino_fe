@@ -11,16 +11,18 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { mailValidation } from "../validation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { registerThunk } from "../../../redux/reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { ModalConfirmation } from "../../ModalConfirmation/ModalConfirmation";
 import { RoleSwitch } from "./components/RoleSwitch/RoleSwitch";
 
 function CreateAccForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordCheck, setShowPasswordCheck] = useState(false);
+    const [open, setOpen] = useState(false);
     const [checkedTalent, setCheckedTalent] = useState(true);
 
     const {
@@ -37,15 +39,9 @@ function CreateAccForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isLoading = useSelector(store => store.auth.isLoading);
-    const isAuth = useSelector(store => store.auth.isAuth);
-
-    useEffect(() => {
-        if (isAuth) {
-            navigate(`/settings`);
-        }
-    }, [isAuth]);
 
     const onSubmit = data => {
+        setOpen(true);
         if (checkedTalent) {
             dispatch(registerThunk(data, "TALENT"));
         } else {
@@ -236,11 +232,7 @@ function CreateAccForm() {
                             )
                         }}
                     />
-                    <Stack
-                        direction="row"
-                        spacing={1}
-                        alignItems="center"
-                    >
+                    <Stack direction="row" spacing={1} alignItems="center">
                         <TextField
                             id="kindOfTalent"
                             label="Kind of Talent"
@@ -271,9 +263,17 @@ function CreateAccForm() {
                                     ? errors.kindOfTalent.message
                                     : " "
                             }
-                            sx={{ marginTop: 2, width: 300, marginRight: 5, marginLeft: 5 }}
+                            sx={{
+                                marginTop: 2,
+                                width: 300,
+                                marginRight: 5,
+                                marginLeft: 5
+                            }}
                         />
-                        <RoleSwitch checkedTalent={checkedTalent} handleSwitch={handleSwitch}/>
+                        <RoleSwitch
+                            checkedTalent={checkedTalent}
+                            handleSwitch={handleSwitch}
+                        />
                     </Stack>
                     <Button
                         type="submit"
@@ -295,6 +295,14 @@ function CreateAccForm() {
                         Already have an account? <Link to="/login">Log in</Link>
                     </Typography>
                 </form>
+                <ModalConfirmation
+                    title="We have sent you a letter to the specified mailbox with a request to confirm it."
+                    description="To complete the registration process, please follow the link in this email. Please check your mailbox, including your Spam folder, if the email did not appear in your inbox."
+                    infoDialog
+                    open={open}
+                    handleClose={() => setOpen(false)}
+                    handleArgee={() => navigate("/talents")}
+                />
             </Container>
         </>
     );

@@ -7,6 +7,7 @@ import { getRelativeTime } from "../../../../../../../shared/functions/getRelati
 import { useState } from "react";
 import { EditProofForm } from "../../../../../../Forms/EditProofForm/EditProofForm";
 import { ModalConfirmation } from "../../../../../../ModalConfirmation/ModalConfirmation";
+import { ProofSkillsArea } from "./ProofSkillsArea/ProofSkillsArea";
 import { KudosButton } from "../../../../../../../shared/components/KudosButton/KudosButton";
 
 function TalentProof({
@@ -17,6 +18,7 @@ function TalentProof({
     id,
     talentId,
     onDelete,
+    skills,
     isKudosed,
     totalKudos,
     authorId,
@@ -122,6 +124,7 @@ function TalentProof({
                             >
                                 {description}
                             </Typography>
+                            <ProofSkillsArea skills={skills} />
                         </>
                     ) : (
                         <EditProofForm
@@ -131,6 +134,7 @@ function TalentProof({
                             description={description}
                             status={status}
                             setEditMode={setEditMode}
+                            skills={skills}
                         />
                     )}
                     {+talentId === authId && role !== "SPONSOR" && !editMode ? (
@@ -162,6 +166,7 @@ function TalentProof({
                 open={openModal}
                 handleClose={() => setOpenModal(false)}
                 handleArgee={() => onDelete(id)}
+                agreeButtonText="Delete"
             />
         </>
     );

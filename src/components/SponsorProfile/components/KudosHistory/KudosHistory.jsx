@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { sponsorAPI } from "../../../../api/sponsorAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../../../redux/reducers/appReducer";
-import { Box, Card, Divider, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import { getRelativeTime } from "../../../../shared/functions/getRelativeTime";
 
 const KudosHistory = () => {

@@ -3,7 +3,7 @@ import { HostIcon } from "./HostIcon";
 
 function Links({ talentLinks }) {
     return (
-        <Box mt={2}>
+        <Box mt={1}>
             {talentLinks.map((item, index) => {
                 if (!item) {
                     return null;
@@ -11,9 +11,15 @@ function Links({ talentLinks }) {
 
                 const hostname = new URL(item).hostname;
 
+                //!check this
                 return (
-                    <IconButton key={index}>
-                        <Link href={item} target="_blank">
+                    <IconButton key={index} width="35px" height="35px">
+                        <Link
+                            href={item}
+                            target="_blank"
+                            width="35px"
+                            height="35px"
+                        >
                             <HostIcon hostname={hostname} />
                         </Link>
                     </IconButton>

@@ -139,10 +139,11 @@ function AuthView() {
                             }}
                         >
                             <MenuItem onClick={handleClose}>
-                                <ListItemIcon>
-                                    <AccountCircleIcon fontSize="small" />
-                                </ListItemIcon>
                                 <Link
+                                    sx={{
+                                        textDecoration: "none",
+                                        display: "flex"
+                                    }}
                                     href={`/${
                                         role === "SPONSOR"
                                             ? "sponsor"
@@ -166,28 +167,43 @@ function AuthView() {
                                         );
                                     }}
                                 >
+                                    <ListItemIcon sx={{ alignSelf: "center" }}>
+                                        <AccountCircleIcon fontSize="small" />
+                                    </ListItemIcon>
                                     Profile
                                 </Link>
                             </MenuItem>
                             <MenuItem onClick={handleClose}>
-                                <ListItemIcon>
-                                    <SettingsIcon fontSize="small" />
-                                </ListItemIcon>
                                 <Link
+                                    sx={{
+                                        textDecoration: "none",
+                                        display: "flex"
+                                    }}
                                     href="/settings"
                                     onClick={e => {
                                         e.preventDefault();
                                         navigate(`/settings`);
                                     }}
                                 >
+                                    <ListItemIcon sx={{ alignSelf: "center" }}>
+                                        <SettingsIcon fontSize="small" />
+                                    </ListItemIcon>
                                     Settings
                                 </Link>
                             </MenuItem>
                             <MenuItem onClick={handleClose}>
-                                <ListItemIcon>
-                                    <Logout fontSize="small" />
-                                </ListItemIcon>
-                                <Link onClick={handleLogout}>Logout</Link>
+                                <Link
+                                    onClick={handleLogout}
+                                    sx={{
+                                        textDecoration: "none",
+                                        display: "flex"
+                                    }}
+                                >
+                                    <ListItemIcon sx={{ alignSelf: "center" }}>
+                                        <Logout fontSize="small" />
+                                    </ListItemIcon>
+                                    Logout
+                                </Link>
                             </MenuItem>
                         </Menu>
                     </Typography>

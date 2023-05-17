@@ -1,5 +1,5 @@
 import { Box, Container, LinearProgress, TextField } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteUser } from "./components/DeleteUser/DeleteUser";
 import { useNavigate } from "react-router-dom";
@@ -10,9 +10,11 @@ import {
     changeSponsorDataThunk,
     setIsDone
 } from "../../redux/reducers/settingsReducer";
+import { SkillAutocomplete } from "../../shared/components/SkillAutocomplete/SkillAutocomplete";
 import { ProfileAvatar } from "./components/ProfileAvatar/ProfileAvatar";
 import { SettingsHeader } from "./components/SettingsHeader/SettingsHeader";
 import { SocialLink } from "./components/SocialLinks/SocialLink";
+import { CountryAutocomplete } from "./components/CountryAutocomplete/CountryAutocomplete";
 
 const Settings = () => {
     const user = useSelector(store => store.auth.user);
@@ -38,7 +40,8 @@ const Settings = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
+        control
     } = useForm({
         mode: "onChange",
         defaultValues:
@@ -64,7 +67,8 @@ const Settings = () => {
                           one: user.links[1],
                           two: user.links[2],
                           three: user.links[3]
-                      }
+                      },
+                      skills: user.skills.map(item => item.label)
                   }
     });
 
@@ -94,96 +98,81 @@ const Settings = () => {
                         justifyContent={"space-between"}
                         mt={2}
                     >
-                        <Box
-                            width={{
-                                lg: "55vw",
-                                xl: "50vw"
-                            }}
-                        >
-                            <TextField
-                                label="Name"
-                                {...register("name", {
-                                    required: "First name is required",
-                                    maxLength: {
-                                        value: 24,
-                                        message: "Your name is too long"
-                                    },
-                                    minLength: {
-                                        value: 2,
-                                        message: "Your name is too short"
-                                    },
-                                    pattern: {
-                                        value: /^[a-zA-Z]+$/,
-                                        message:
-                                            "First name can only contain letters"
+                        <Box>
+                            <Box display="flex" gap={2} flexWrap={"wrap"}>
+                                <TextField
+                                    label="Name"
+                                    {...register("name", {
+                                        required: "First name is required",
+                                        maxLength: {
+                                            value: 24,
+                                            message: "Your name is too long"
+                                        },
+                                        minLength: {
+                                            value: 2,
+                                            message: "Your name is too short"
+                                        },
+                                        pattern: {
+                                            value: /^[a-zA-Z]+$/,
+                                            message:
+                                                "First name can only contain letters"
+                                        }
+                                    })}
+                                    error={Boolean(errors.name)}
+                                    helperText={
+                                        errors.name ? errors.name.message : " "
                                     }
-                                })}
-                                error={Boolean(errors.name)}
-                                helperText={
-                                    errors.name ? errors.name.message : " "
-                                }
-                            />
-                            <TextField
-                                label="Surname"
-                                sx={{ marginLeft: 2 }}
-                                {...register("surname", {
-                                    required: "Last name is required",
-                                    maxLength: {
-                                        value: 24,
-                                        message: "Your surname is too long"
-                                    },
-                                    minLength: {
-                                        value: 2,
-                                        message: "Your surname is too short"
-                                    },
-                                    pattern: {
-                                        value: /^[a-zA-Z]+$/,
-                                        message:
-                                            "Last name can only contain letters"
+                                />
+                                <TextField
+                                    label="Surname"
+                                    {...register("surname", {
+                                        required: "Last name is required",
+                                        maxLength: {
+                                            value: 24,
+                                            message: "Your surname is too long"
+                                        },
+                                        minLength: {
+                                            value: 2,
+                                            message: "Your surname is too short"
+                                        },
+                                        pattern: {
+                                            value: /^[a-zA-Z]+$/,
+                                            message:
+                                                "Last name can only contain letters"
+                                        }
+                                    })}
+                                    error={Boolean(errors.surname)}
+                                    helperText={
+                                        errors.surname
+                                            ? errors.surname.message
+                                            : " "
                                     }
-                                })}
-                                error={Boolean(errors.surname)}
-                                helperText={
-                                    errors.surname
-                                        ? errors.surname.message
-                                        : " "
-                                }
-                            />
+                                />
+                                {user.role === "TALENT" ? (
+                                    <Controller
+                                        sx={{
+                                            width: 200
+                                        }}
+                                        name="location"
+                                        control={control}
+                                        render={({ field: { onChange } }) => (
+                                            <CountryAutocomplete
+                                                onChange={onChange}
+                                                defaultLocation={user.location}
+                                                error={errors.location}
+                                            />
+                                        )}
+                                    />
+                                ) : null}
+                            </Box>
                             {user.role === "TALENT" ? (
                                 <>
-                                    <TextField
-                                        label="Location"
-                                        sx={{ marginLeft: 2 }}
-                                        {...register("location", {
-                                            maxLength: {
-                                                value: 100,
-                                                message:
-                                                    "Your location is too long"
-                                            },
-                                            minLength: {
-                                                value: 2,
-                                                message:
-                                                    "Your location is too short"
-                                            },
-                                            pattern: {
-                                                value: /^[a-zA-Z ,]+$/,
-                                                message:
-                                                    "Location can only contain letters"
-                                            }
-                                        })}
-                                        error={Boolean(errors.location)}
-                                        helperText={
-                                            errors.location
-                                                ? errors.location.message
-                                                : " "
-                                        }
-                                    />
                                     <TextField
                                         label="Description  (Markdown is supported)"
                                         multiline
                                         maxRows={7}
                                         minRows={7}
-                                        sx={{ width: "91%", marginTop: 2 }}
+                                        sx={{ width: "100%", marginTop: 2 }}
                                         {...register("description", {
                                             maxLength: {
                                                 value: 3000,
@@ -203,7 +192,23 @@ const Settings = () => {
                                                 : " "
                                         }
                                     />
-                                    <Box mt={2}>
+                                    <Controller
+                                        name="skills"
+                                        control={control}
+                                        render={({ field: { onChange } }) => (
+                                            <SkillAutocomplete
+                                                onChange={onChange}
+                                                defaultSkills={user.skills}
+                                                error={errors.skills}
+                                            />
+                                        )}
+                                    />
+                                    <Box
+                                        mt={4}
+                                        display="flex"
+                                        gap={2}
+                                        flexWrap="wrap"
+                                    >
                                         <TextField
                                             label="Kind of talent"
                                             {...register("kind", {
@@ -234,7 +239,6 @@ const Settings = () => {
                                         />
                                         <TextField
                                             label="Experience"
-                                            sx={{ marginLeft: 2 }}
                                             {...register("experience", {
                                                 validate: value =>
                                                     (Number(value) <= 60 &&
@@ -260,6 +264,7 @@ const Settings = () => {
                                         flexDirection={"row"}
                                         mt={2}
                                         gap={2}
+                                        flexWrap="wrap"
                                     >
                                         {["zero", "one", "two", "three"].map(
                                             item => (

@@ -143,7 +143,7 @@ function TalentProofArea() {
                         />
                     ) : null}
                     {!(totalPages <= page) ? (
-                        <Button onClick={handleClick}>Get more data</Button>
+                        <Button onClick={handleClick}>Get more proofs</Button>
                     ) : null}
                 </Box>
             </Box>

@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-    Container,
-    LinearProgress,
-    Pagination,
-    Typography
-} from "@mui/material";
+import { Box, Container, LinearProgress, Pagination } from "@mui/material";
 import { TalentsArea } from "./components/TalentsArea/TalentsArea";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { talentsAPI } from "../../api/talentsAPI";
@@ -15,6 +10,11 @@ import {
     setTotalPages
 } from "../../redux/reducers/talentsReducer";
 import { setMessage } from "../../redux/reducers/appReducer";
+import { FilterDrawer } from "../../shared/components/FilterDrawer/FilterDrawer";
+import { ChangeViewButton } from "./components/ChangeViewButton/ChangeViewButton";
+import { NoMatchesTalents } from "./components/NoMatchesTalents/NoMatchesTalents";
+import { NoTalentsYet } from "./components/NoTalentsYet/NoTalentsYet";
+import { setFilterSkills } from "../../redux/reducers/skillsReducer";
 
 const Talents = () => {
     const dispatch = useDispatch();
@@ -27,11 +27,18 @@ const Talents = () => {
     const location = useLocation();
     const [searchParams] = useSearchParams();
 
+    const skillsParam = searchParams.get("skills");
+    const decodedSkillsArray = decodeURIComponent(skillsParam).split(",");
+
     useEffect(() => {
         if (!isLoading) {
             setIsLoading(true);
         }
-
+        if (skillsParam) {
+            dispatch(setFilterSkills(decodedSkillsArray));
+        } else {
+            dispatch(setFilterSkills([]));
+        }
         const urlPageParam = Number(searchParams.get("page"));
         const urlPage =
             urlPageParam && urlPageParam > 0
@@ -42,14 +49,18 @@ const Talents = () => {
                   })();
         dispatch(setCurrentPage(urlPage));
 
-        const getTalents = async (amount = 9, page) => {
-            const response = await talentsAPI.getTalents(amount, page - 1);
+        const getTalents = async (amount = 9, page, query = "") => {
+            const response = await talentsAPI.getTalents(
+                amount,
+                page - 1,
+                query
+            );
             const total = Math.ceil(response.totalAmount / amount);
 
             if (page > total && total > 0) {
                 navigate(`/talents?page=${total}`);
                 return;
-            } else if (total === 0) {
+            } else if (total === 0 && !skillsParam) {
                 dispatch(setMessage("No talents at all (", "error"));
             }
             if (total) {
@@ -59,34 +70,31 @@ const Talents = () => {
             setIsLoading(false);
         };
 
-        getTalents(undefined, urlPage).catch(err => dispatch(
-            setMessage(
-                err.response?.data.message
-                    ? err.response.data.message
-                    : "Network error",
-                "error"
+        getTalents(undefined, urlPage, skillsParam).catch(err =>
+            dispatch(
+                setMessage(
+                    err.response?.data.message
+                        ? err.response.data.message
+                        : "Network error",
+                    "error"
+                )
             )
-        ));
+        );
     }, [location]);
 
     const handleChange = (e, value) => {
         dispatch(setCurrentPage(value));
-        navigate(`/talents?page=${value}`);
+        navigate(
+            `/talents?page=${value}${
+                skillsParam ? `&skills=${skillsParam}` : ""
+            }`
+        );
     };
 
     if (isLoading) {
         return <LinearProgress />;
-    } else if (talents.length === 0) {
-        return (
-            <Typography variant="h6" sx={{ textAlign: "center", marginTop: "200px" }}>
-                {"No talents yet :("}
-                <Typography variant="caption" sx={{ display: "block" }}>
-                    {
-                        "You can create account and become the first talent in our application!"
-                    }
-                </Typography>
-            </Typography>
-        );
+    } else if (talents.length === 0 && !searchParams.get("skills")) {
+        return <NoTalentsYet />;
     }
 
     return (
@@ -97,18 +105,35 @@ const Talents = () => {
                 flexDirection: "column"
             }}
         >
-            <TalentsArea />
-            <Pagination
-                sx={{
-                    marginTop: "20px",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginBottom: 2
-                }}
-                page={page}
-                count={totalPages}
-                onChange={handleChange}
-            />
+            <Box
+                display="flex"
+                justifyContent="space-between"
+                mt={"15px"}
+                mb={"15px"}
+                mr={20}
+                ml={20}
+            >
+                <FilterDrawer />
+                <ChangeViewButton />
+            </Box>
+            {talents.length === 0 && searchParams.get("skills") ? (
+                <NoMatchesTalents />
+            ) : (
+                <>
+                    <TalentsArea />
+                    <Pagination
+                        sx={{
+                            marginTop: "20px",
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                            marginBottom: 2
+                        }}
+                        page={page}
+                        count={totalPages}
+                        onChange={handleChange}
+                    />
+                </>
+            )}
         </Container>
     );
 };

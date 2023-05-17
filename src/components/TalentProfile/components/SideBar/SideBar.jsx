@@ -1,5 +1,6 @@
 import { Box, Avatar, Typography, Chip } from "@mui/material";
 import { Links } from "./components/Links/Links";
+import { ProofSkillsArea } from "../MainContent/components/TalentProofArea/components/ProofSkillsArea/ProofSkillsArea";
 
 function SideBar({ userInfo }) {
     return (
@@ -57,6 +58,9 @@ function SideBar({ userInfo }) {
                         >
                             {userInfo.email}
                         </Typography>
+                        {userInfo.skills ? (
+                            <ProofSkillsArea skills={userInfo.skills} />
+                        ) : null}
                         <Links talentLinks={userInfo.links} />
                     </>
                 ) : userInfo.role === "SPONSOR" ? (

@@ -5,18 +5,26 @@ import {
     OutlinedInput,
     TextField
 } from "@mui/material";
-import { useForm } from "react-hook-form";
-import { addTalentProofThunk } from "../../../redux/reducers/talentsProofsReducer";
+import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { SkillAutocomplete } from "../../../shared/components/SkillAutocomplete/SkillAutocomplete";
+import { addTalentProofThunk } from "../../../redux/reducers/talentsProofsReducer";
+import { useState } from "react";
 
 const CreateProofForm = () => {
+    const [keyForControl, setKeyForControl] = useState(true);
+
     const {
         register,
         handleSubmit,
         reset,
-        formState: { errors, isValid }
+        formState: { errors, isValid },
+        control
     } = useForm({
-        mode: "all"
+        mode: "all",
+        defaultValues: {
+            skills: []
+        }
     });
 
     const dispatch = useDispatch();
@@ -24,6 +32,7 @@ const CreateProofForm = () => {
     const onSubmit = (data, e) => {
         data.status = e.nativeEvent.submitter.value;
         dispatch(addTalentProofThunk(data));
+        setKeyForControl(prev => !prev);
         reset();
     };
 
@@ -86,6 +95,14 @@ const CreateProofForm = () => {
                                     "Proof shouldn't be larger than 2000 symbols"
                             }
                         })}
+                    />
+                    <Controller
+                        key={keyForControl}
+                        name="skills"
+                        control={control}
+                        render={({ field: { onChange } }) => (
+                            <SkillAutocomplete onChange={onChange} />
+                        )}
                     />
                     <Box display="flex" gap="10px">
                         <FormHelperText

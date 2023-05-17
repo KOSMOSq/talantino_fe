@@ -12,8 +12,8 @@ const initialState = {
     talents: [],
     clickedId: null,
     totalTalents: 0,
-    talentsView: "grid",
-    isNextTalent: true,
+    talentsView: "list",
+    isNextTalent: true
 };
 
 const talentsReducer = (state = initialState, action) => {

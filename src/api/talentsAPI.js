@@ -1,9 +1,13 @@
 import { axiosInstance } from ".";
 
 const talentsAPI = {
-    async getTalents(amount, page) {
+    async getTalents(amount, page, skills) {
         return (
-            await axiosInstance.get(`/talents?amount=${amount}&page=${page}`)
+            await axiosInstance.get(
+                `/talents?amount=${amount}&page=${page}${
+                    skills ? `&skills=${skills}` : ""
+                }`
+            )
         ).data;
     },
 
