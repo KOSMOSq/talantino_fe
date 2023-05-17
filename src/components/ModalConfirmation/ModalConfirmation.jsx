@@ -14,6 +14,7 @@ const ModalConfirmation = ({
     open,
     handleClose,
     handleArgee,
+    agreeButtonText,
     error = false,
     infoDialog = false
 }) => {
@@ -43,7 +44,7 @@ const ModalConfirmation = ({
                                 autoFocus
                                 color="error"
                             >
-                                Delete
+                                {agreeButtonText}
                             </Button>
                         </>
                     ) : (

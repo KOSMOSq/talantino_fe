@@ -3,6 +3,7 @@ import { TextField } from "@mui/material";
 const SocialLink = ({ register, errors, num }) => {
     return (
         <TextField
+            sx={{ width: 180 }}
             label="Social link"
             {...register(`links.${num}`, {
                 maxLength: {

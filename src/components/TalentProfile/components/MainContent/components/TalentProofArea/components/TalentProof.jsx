@@ -166,6 +166,7 @@ function TalentProof({
                 open={openModal}
                 handleClose={() => setOpenModal(false)}
                 handleArgee={() => onDelete(id)}
+                agreeButtonText="Delete"
             />
         </>
     );
