@@ -11,6 +11,7 @@ import {
     ListItemIcon,
     Menu,
     MenuItem,
+    Tooltip,
     Typography
 } from "@mui/material";
 import Logout from "@mui/icons-material/Logout";
@@ -66,19 +67,20 @@ function AuthView() {
                                 <Typography sx={{ color: "gray" }}>
                                     Balance
                                 </Typography>
-                                <Typography
-                                    sx={{ fontWeight: "bold" }}
-                                    title={balance}
-                                    display="flex"
-                                    gap={0.5}
-                                >
-                                    {formatter.format(balance)}
-                                    <img
-                                        src={kudosIconActive}
-                                        alt="kudos icon"
-                                        width="22"
-                                    />
-                                </Typography>
+                                <Tooltip title={balance} enterDelay={400} enterNextDelay={400}>
+                                    <Typography
+                                        sx={{ fontWeight: "bold" }}
+                                        display="flex"
+                                        gap={0.5}
+                                    >
+                                        {formatter.format(balance)}
+                                        <img
+                                            src={kudosIconActive}
+                                            alt="kudos icon"
+                                            width="22"
+                                        />
+                                    </Typography>
+                                </Tooltip>
                             </Box>
                             <Divider orientation="vertical" flexItem />
                         </>
@@ -160,10 +162,7 @@ function AuthView() {
                                                     : role === "TALENT"
                                                     ? "talent"
                                                     : "notFound"
-                                            }/${id}`,
-                                            {
-                                                state: { from: "profile-click" }
-                                            }
+                                            }/${id}`
                                         );
                                     }}
                                 >

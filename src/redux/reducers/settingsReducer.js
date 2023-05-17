@@ -42,7 +42,7 @@ export const changeProfileDataThunk = data => async (dispatch, getState) => {
         data.links.three
     ];
     try {
-        if (typeof data.avatar === "string") {
+        if (typeof data.avatar === "string" || data.avatar === null) {
             await talentsAPI.changeData(id, token, data);
         } else {
             await talentsAPI.changeData(id, token, { ...data, avatar: "" });

@@ -10,11 +10,17 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import noPictureFallback from "../../../../assets/pictures/noPictureFallback.svg";
 import { setClikedId } from "../../../../redux/reducers/talentsReducer";
 import { ProofSkillsArea } from "../../../TalentProfile/components/MainContent/components/TalentProofArea/components/ProofSkillsArea/ProofSkillsArea";
 
-function TalentListCard({ name, surname, profilePicture, kindOfTalent, id, skills = [] }) {
+function TalentListCard({
+    name,
+    surname,
+    profilePicture,
+    kindOfTalent,
+    id,
+    skills = []
+}) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     //перенести в компонент вище, redux має бути на найвищому рівні
@@ -59,14 +65,10 @@ function TalentListCard({ name, surname, profilePicture, kindOfTalent, id, skill
                     <Box>
                         <ListItemAvatar>
                             <Avatar
-                                sx={{ width: "100px", height: "100px" }}
+                                sx={{ width: "100px", height: "100px", fontSize: "48px" }}
                                 sizes={"medium"}
                                 alt={`${name} ${surname}`}
-                                src={
-                                    profilePicture
-                                        ? profilePicture
-                                        : noPictureFallback
-                                }
+                                src={profilePicture || "error"}
                             />
                         </ListItemAvatar>
                     </Box>
@@ -78,7 +80,7 @@ function TalentListCard({ name, surname, profilePicture, kindOfTalent, id, skill
                                     sx={{
                                         display: "inline",
                                         fontSize: 24,
-                                        fontWeight: "bold",
+                                        fontWeight: "bold"
                                     }}
                                     component="h6"
                                     variant="h6"

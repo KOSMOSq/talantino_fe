@@ -10,9 +10,26 @@ const timeUnits = {
 
 const auto = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
 
-export const getRelativeTime = date => {
+export const getBeautifulTimeString = date => {
+    const dateOBJ = new Date(getUTCdate(date));
+    const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: false
+    };
+
+    const dateString = dateOBJ.toLocaleDateString("en-US", options);
+    const index = dateString.lastIndexOf(",");
+    return dateString.slice(0, index) + dateString.slice(index + 1);
+};
+
+export const getUTCdate = date => {
     const dateOBJ = new Date(date);
-    const dateUTC = Date.UTC(
+    return Date.UTC(
         dateOBJ.getFullYear(),
         dateOBJ.getMonth(),
         dateOBJ.getDate(),
@@ -20,6 +37,9 @@ export const getRelativeTime = date => {
         dateOBJ.getMinutes(),
         dateOBJ.getSeconds()
     );
+};
+export const getRelativeTime = date => {
+    const dateUTC = getUTCdate(date);
     const result = dateUTC - new Date();
 
     for (let item in timeUnits) {

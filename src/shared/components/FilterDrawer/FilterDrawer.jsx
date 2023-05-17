@@ -100,11 +100,12 @@ const FilterDrawer = () => {
                             alignItems="center"
                         >
                             <Controller
-                                key={filterSkills.length}
+                                // key={filterSkills.length}
                                 name="skills"
                                 control={control}
-                                render={({ field: { onChange } }) => (
+                                render={({ field: { onChange, value } }) => (
                                     <SkillAutocomplete
+                                        value={value}
                                         onChange={onChange}
                                         defaultSkills={filterSkills.map(
                                             item => ({ label: item })

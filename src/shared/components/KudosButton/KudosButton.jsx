@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Box, ClickAwayListener, IconButton, Typography } from "@mui/material";
+import {
+    Box,
+    ClickAwayListener,
+    IconButton,
+    Tooltip,
+    Typography
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
@@ -103,25 +109,32 @@ const KudosButton = ({
                             onClick={handlePop}
                             disabled={role === "TALENT"}
                             size="small"
-                            title={
-                                role !== "SPONSOR"
-                                    ? "You need to be a sponsor to send kudos"
-                                    : ""
-                            }
                             sx={{
                                 [":disabled"]: {
                                     pointerEvents: "all"
                                 }
                             }}
                         >
-                            {role === "TALENT" || kudosed ? (
-                                <img src={kudosIconActive} alt="Kudos" />
-                            ) : (
-                                <img src={kudosIconInactive} alt="Kudos" />
-                            )}
+                            <Tooltip
+                                title={
+                                    role !== "SPONSOR"
+                                        ? "You need to be a sponsor to send kudos"
+                                        : ""
+                                }
+                                arrow
+                                enterDelay={400}
+                                enterNextDelay={400}
+                                leaveDelay={200}
+                                disableInteractive
+                            >
+                                {role === "TALENT" || kudosed ? (
+                                    <img src={kudosIconActive} alt="Kudos" />
+                                ) : (
+                                    <img src={kudosIconInactive} alt="Kudos" />
+                                )}
+                            </Tooltip>
                         </IconButton>
-                        {role === "TALENT" &&
-                        authId === authorId ? (
+                        {role === "TALENT" && authId === authorId ? (
                             <DialogOfSponsors
                                 counter={counter}
                                 formatter={formatter}
@@ -129,17 +142,25 @@ const KudosButton = ({
                                 token={token}
                             />
                         ) : (
-                            <Typography
-                                component="div"
-                                sx={{ cursor: "default" }}
+                            <Tooltip
                                 title={`${counter}${
                                     sponsorKudoses !== null
                                         ? `, ${sponsorKudoses} given by you`
                                         : ""
                                 }`}
+                                arrow
+                                enterDelay={200}
+                                enterNextDelay={200}
+                                leaveDelay={100}
+                                placement="right"
                             >
-                                {formatter.format(counter)}
-                            </Typography>
+                                <Typography
+                                    component="div"
+                                    sx={{ cursor: "default" }}
+                                >
+                                    {formatter.format(counter)}
+                                </Typography>
+                            </Tooltip>
                         )}
                     </Box>
                 </Box>

@@ -155,8 +155,9 @@ const Settings = () => {
                                         }}
                                         name="location"
                                         control={control}
-                                        render={({ field: { onChange } }) => (
+                                        render={({ field: { onChange, value } }) => (
                                             <CountryAutocomplete
+                                                value={value}
                                                 onChange={onChange}
                                                 defaultLocation={user.location}
                                                 error={errors.location}
@@ -195,8 +196,9 @@ const Settings = () => {
                                     <Controller
                                         name="skills"
                                         control={control}
-                                        render={({ field: { onChange } }) => (
+                                        render={({ field: { onChange, value } }) => (
                                             <SkillAutocomplete
+                                                value={value}
                                                 onChange={onChange}
                                                 defaultSkills={user.skills}
                                                 error={errors.skills}

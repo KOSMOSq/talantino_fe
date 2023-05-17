@@ -12,7 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     setPage,
     setIsLoading,
-    getProofsThunk
+    getProofsThunk,
+    setProofs
 } from "../../redux/reducers/proofsReducer";
 
 const Proofs = () => {
@@ -46,6 +47,10 @@ const Proofs = () => {
         dispatch(setPage(urlPage));
 
         dispatch(getProofsThunk(urlPage, 9, sortType, navigate));
+
+        return () => {
+            dispatch(setProofs([]));
+        }
     }, [page, sortType, location]);
 
     if (isLoading) {

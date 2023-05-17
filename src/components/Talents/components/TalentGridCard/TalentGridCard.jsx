@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import {
+    Avatar,
     Box,
     CardActionArea,
     CardContent,
@@ -9,7 +10,6 @@ import {
     Chip,
     Typography
 } from "@mui/material";
-import noPictureFallback from "../../../../assets/pictures/noPictureFallback.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { setClikedId } from "../../../../redux/reducers/talentsReducer";
 
@@ -91,16 +91,9 @@ const TalentGridCard = ({
                                 height: cardHeightBreakpoints, //same as card
                                 objectFit: "cover"
                             }}
-                            component="img"
-                            alt="Talent Avatar"
-                            image={
-                                profilePicture ? profilePicture : "errorTrigger"
-                            }
-                            onError={({ currentTarget }) => {
-                                currentTarget.onerror = null;
-                                currentTarget.src = noPictureFallback;
-                            }}
-                        />
+                        >
+                            <Avatar sx={{ width: "100%", height: "100%", fontSize: "72px" }} variant="square" alt={name + " " + surname} src={profilePicture || "error"}/>
+                        </CardMedia>
                     </Box>
                     <CardContent
                         sx={{
