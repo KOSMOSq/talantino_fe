@@ -142,6 +142,7 @@ function TalentProof({
                                 totalKudos={totalKudos}
                                 authorId={authorId}
                                 totalKudosFromSponsor={totalKudosFromSponsor}
+                                alignRight
                             />
                         </Box>
                     ) : null}

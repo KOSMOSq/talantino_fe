@@ -22,7 +22,8 @@ const KudosButton = ({
     isKudosed,
     totalKudos,
     totalKudosFromSponsor,
-    authorId
+    authorId,
+    alignRight = false
 }) => {
     const [kudosed, setKudosed] = useState(isKudosed);
     const [sponsorKudoses, setSponsorKudoses] = useState(totalKudosFromSponsor);
@@ -35,8 +36,6 @@ const KudosButton = ({
     const page = useSelector(store => store.proofs.currentPage);
     const role = useSelector(store => store.auth.user.role);
     const authId = useSelector(store => store.auth.user.id);
-    const location = useLocation();
-    const from = location.state?.from;
     const balance = useSelector(store => store.auth.user.balance);
 
     const navigate = useNavigate();
@@ -86,6 +85,33 @@ const KudosButton = ({
     const open = Boolean(anchorEl);
     const idPop = open ? "kudosPopper" : undefined;
 
+    const kudosNumber =
+        role === "TALENT" && authId === authorId ? (
+            <DialogOfSponsors
+                counter={counter}
+                formatter={formatter}
+                id={id}
+                token={token}
+            />
+        ) : (
+            <Tooltip
+                title={`${counter}${
+                    sponsorKudoses !== null
+                        ? `, ${sponsorKudoses} given by you`
+                        : ""
+                }`}
+                arrow
+                enterDelay={200}
+                enterNextDelay={200}
+                leaveDelay={100}
+                placement={alignRight ? "right" : "bottom"}
+            >
+                <Typography component="div" sx={{ cursor: "default" }}>
+                    {formatter.format(counter)}
+                </Typography>
+            </Tooltip>
+        );
+
     return (
         <>
             <ClickAwayListener onClickAway={handleClickAway}>
@@ -104,6 +130,7 @@ const KudosButton = ({
                         flexDirection="rows"
                         alignItems="center"
                     >
+                        {alignRight ? null : kudosNumber}
                         <IconButton
                             aria-describedby={idPop}
                             onClick={handlePop}
@@ -134,34 +161,7 @@ const KudosButton = ({
                                 )}
                             </Tooltip>
                         </IconButton>
-                        {role === "TALENT" && authId === authorId ? (
-                            <DialogOfSponsors
-                                counter={counter}
-                                formatter={formatter}
-                                id={id}
-                                token={token}
-                            />
-                        ) : (
-                            <Tooltip
-                                title={`${counter}${
-                                    sponsorKudoses !== null
-                                        ? `, ${sponsorKudoses} given by you`
-                                        : ""
-                                }`}
-                                arrow
-                                enterDelay={200}
-                                enterNextDelay={200}
-                                leaveDelay={100}
-                                placement="right"
-                            >
-                                <Typography
-                                    component="div"
-                                    sx={{ cursor: "default" }}
-                                >
-                                    {formatter.format(counter)}
-                                </Typography>
-                            </Tooltip>
-                        )}
+                        {alignRight ? kudosNumber: null}
                     </Box>
                 </Box>
             </ClickAwayListener>
