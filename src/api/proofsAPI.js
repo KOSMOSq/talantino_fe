@@ -19,7 +19,6 @@ const proofsAPI = {
             )
         ).data;
     },
-
     async addProof(id, token, data) {
         return (
             await axiosInstance.post(`/talents/${id}/proofs`, data, {
@@ -27,7 +26,6 @@ const proofsAPI = {
             })
         ).data;
     },
-
     async deleteProof(id, proofId, token) {
         return (
             await axiosInstance.delete(`/talents/${id}/proofs/${proofId}`, {
@@ -35,7 +33,6 @@ const proofsAPI = {
             })
         ).data;
     },
-
     async getProofs(sort = "date", type = "desc", page, count = 9, token) {
         const authorization = token === null ? null : `Bearer ${token}`;
         return (
@@ -47,7 +44,6 @@ const proofsAPI = {
             )
         ).data;
     },
-
     async editProof(talentId, proofId, data, token) {
         return (
             await axiosInstance.patch(

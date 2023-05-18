@@ -130,15 +130,17 @@ const CreateProofForm = () => {
                                 enterDelay={500}
                                 enterNextDelay={500}
                             >
-                                <Button
-                                    type="submit"
-                                    value="DRAFT"
-                                    variant="outlined"
-                                    color="inherit"
-                                    disabled={!isValid}
-                                >
-                                    Save
-                                </Button>
+                                <Box>
+                                    <Button
+                                        type="submit"
+                                        value="DRAFT"
+                                        variant="outlined"
+                                        color="inherit"
+                                        disabled={!isValid}
+                                    >
+                                        Save
+                                    </Button>
+                                </Box>
                             </Tooltip>
                             <Button
                                 type="submit"

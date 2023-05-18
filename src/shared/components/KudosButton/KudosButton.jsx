@@ -144,9 +144,11 @@ const KudosButton = ({
                         >
                             <Tooltip
                                 title={
-                                    role !== "SPONSOR"
-                                        ? "You need to be a sponsor to send kudos"
-                                        : ""
+                                    isAuth
+                                        ? role !== "SPONSOR"
+                                            ? "You need to be a sponsor to send kudos"
+                                            : ""
+                                        : "Log in to send kudos"
                                 }
                                 arrow
                                 enterDelay={400}
@@ -161,7 +163,7 @@ const KudosButton = ({
                                 )}
                             </Tooltip>
                         </IconButton>
-                        {alignRight ? kudosNumber: null}
+                        {alignRight ? kudosNumber : null}
                     </Box>
                 </Box>
             </ClickAwayListener>

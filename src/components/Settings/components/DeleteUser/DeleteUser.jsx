@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { talentsAPI } from "../../../../api/talentsAPI";
-import { clearData } from "../../../../redux/reducers/authReducer";
+import { clearDataThunk } from "../../../../redux/reducers/authReducer";
 import { ModalConfirmation } from "../../../ModalConfirmation/ModalConfirmation";
 import { sponsorAPI } from "../../../../api/sponsorAPI";
 import { setMessage } from "../../../../redux/reducers/appReducer";
@@ -35,8 +35,7 @@ function DeleteUser() {
             );
         }
 
-        dispatch(clearData());
-        localStorage.clear();
+        dispatch(clearDataThunk());
     };
 
     const talentDescription = `Are you sure you want to delete your talent profile? Access to it will be lost forever.`;

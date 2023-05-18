@@ -7,6 +7,7 @@ import {
     Menu,
     MenuItem,
     Skeleton,
+    Tooltip,
     Typography
 } from "@mui/material";
 import { KudosButton } from "../../../../../shared/components/KudosButton/KudosButton";
@@ -80,17 +81,29 @@ const Proof = ({
                     <Box width={"100%"}>
                         <Box>
                             {isAuth ? (
-                                <Box display="flex" gap={1.2} sx={{ width: "100%", marginBottom: "6px" }}>
+                                <Box
+                                    display="flex"
+                                    gap={1.2}
+                                    sx={{ width: "100%", marginBottom: "6px" }}
+                                >
                                     <Avatar
                                         component={Link}
                                         to={`/talent/${author.id}`}
                                         alt={author.name + " " + author.surname}
                                         src={author.avatar || "error"}
-                                        sx={{ width: "46px", height: "46px", textDecoration: "none" }}
+                                        sx={{
+                                            width: "46px",
+                                            height: "46px",
+                                            textDecoration: "none"
+                                        }}
                                     />
                                     <Box alignSelf="center">
                                         <Typography
-                                            sx={{ fontWeight: "bold", textDecoration: "none", color: "#202020" }}
+                                            sx={{
+                                                fontWeight: "bold",
+                                                textDecoration: "none",
+                                                color: "#202020"
+                                            }}
                                             component={Link}
                                             to={`/talent/${author.id}`}
                                         >
@@ -112,29 +125,34 @@ const Proof = ({
                             ) : null}
                             <Box display="flex">
                                 <Box>
-                                    <Typography
-                                        variant="h6"
-                                        sx={{ fontWeight: 700, fontSize: 24 }}
-                                    >
-                                        {title}
+                                    <Tooltip title={isAuth ? "" : "Log in to see proof's author"} placement="left" arrow enterDelay={1000} enterNextDelay={1000}>
                                         <Typography
+                                            variant="h6"
                                             sx={{
-                                                fontSize: "16px",
-                                                overflowWrap: "break-word"
+                                                fontWeight: 700,
+                                                fontSize: 24
                                             }}
                                         >
-                                            {description}
-                                            {description.length === 200 ? (
-                                                <Typography
-                                                    variant="p"
-                                                    sx={{ fontWeight: 700 }}
-                                                >
-                                                    ...
-                                                </Typography>
-                                            ) : (
-                                                ""
-                                            )}
+                                            {title}
                                         </Typography>
+                                    </Tooltip>
+                                    <Typography
+                                        sx={{
+                                            fontSize: "16px",
+                                            overflowWrap: "break-word"
+                                        }}
+                                    >
+                                        {description}
+                                        {description.length === 200 ? (
+                                            <Typography
+                                                variant="p"
+                                                sx={{ fontWeight: 700 }}
+                                            >
+                                                ...
+                                            </Typography>
+                                        ) : (
+                                            ""
+                                        )}
                                     </Typography>
                                     <ProofSkillsArea skills={skills} />
                                 </Box>

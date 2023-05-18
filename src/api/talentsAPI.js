@@ -10,7 +10,6 @@ const talentsAPI = {
             )
         ).data;
     },
-
     async getTalent(id, token) {
         return (
             await axiosInstance.get(`/talents/${id}`, {
