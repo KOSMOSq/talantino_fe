@@ -45,7 +45,6 @@ const Proof = ({
     };
 
     const handleClose = () => {
-        console.log("IT WORKS");
         setAnchorEl(null);
     };
 
