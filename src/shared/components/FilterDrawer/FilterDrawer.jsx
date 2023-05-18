@@ -100,7 +100,6 @@ const FilterDrawer = () => {
                             alignItems="center"
                         >
                             <Controller
-                                // key={filterSkills.length}
                                 name="skills"
                                 control={control}
                                 render={({ field: { onChange, value } }) => (
