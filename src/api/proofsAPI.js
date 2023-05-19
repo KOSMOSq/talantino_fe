@@ -65,6 +65,13 @@ const proofsAPI = {
                 }
             )
         ).data;
+    },
+    async getProof(proofId, token) {
+        return (
+            await axiosInstance.get(`/proofs/${proofId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+        ).data;
     }
 };
 

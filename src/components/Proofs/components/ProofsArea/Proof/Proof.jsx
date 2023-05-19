@@ -21,6 +21,8 @@ import { setMessage } from "../../../../../redux/reducers/appReducer";
 import { Report } from "../../Report/Report";
 import { ModalConfirmation } from "../../../../ModalConfirmation/ModalConfirmation";
 import { ProofTime } from "../../../../../shared/components/ProofTime/ProofTime";
+import { LocalConvenienceStoreOutlined } from "@mui/icons-material";
+import { ProofDescription } from "./components/ProofDescription.jsx/ProofDescription";
 
 const Proof = ({
     id,
@@ -35,7 +37,6 @@ const Proof = ({
 }) => {
     const token = useSelector(store => store.auth.token);
     const isAuth = useSelector(store => store.auth.isAuth);
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
@@ -51,6 +52,7 @@ const Proof = ({
 
     const handleClickReport = () => {
         setOpenDialog(prev => !prev);
+        handleClose();
     };
 
     const handleSendReport = async () => {
@@ -125,7 +127,17 @@ const Proof = ({
                             ) : null}
                             <Box display="flex">
                                 <Box>
-                                    <Tooltip title={isAuth ? "" : "Log in to see proof's author"} placement="left" arrow enterDelay={1000} enterNextDelay={1000}>
+                                    <Tooltip
+                                        title={
+                                            isAuth
+                                                ? ""
+                                                : "Log in to see proof's author"
+                                        }
+                                        placement="left"
+                                        arrow
+                                        enterDelay={1000}
+                                        enterNextDelay={1000}
+                                    >
                                         <Typography
                                             variant="h6"
                                             sx={{
@@ -136,41 +148,32 @@ const Proof = ({
                                             {title}
                                         </Typography>
                                     </Tooltip>
-                                    <Typography
+                                    <ProofDescription
+                                        isAuth={isAuth}
+                                        id={id}
+                                        token={token}
+                                        description={description}
+                                    />
+                                    <ProofSkillsArea skills={skills} />
+                                    <Box
                                         sx={{
-                                            fontSize: "16px",
-                                            overflowWrap: "break-word"
+                                            alignSelf: "center",
+                                            marginTop: "4px",
+                                            marginLeft: "-10px",
+                                            display: "flex",
+                                            justifyContent: "space-between"
                                         }}
                                     >
-                                        {description}
-                                        {description.length === 200 ? (
-                                            <Typography
-                                                variant="p"
-                                                sx={{ fontWeight: 700 }}
-                                            >
-                                                ...
-                                            </Typography>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Typography>
-                                    <ProofSkillsArea skills={skills} />
-                                </Box>
-                                <Box
-                                    sx={{
-                                        alignSelf: "center",
-                                        marginLeft: "auto",
-                                        marginTop: "-28px"
-                                    }}
-                                >
-                                    <KudosButton
-                                        id={id}
-                                        isKudosed={isKudosed}
-                                        totalKudos={totalKudos}
-                                        totalKudosFromSponsor={
-                                            totalKudosFromSponsor
-                                        }
-                                    />
+                                        <KudosButton
+                                            id={id}
+                                            isKudosed={isKudosed}
+                                            totalKudos={totalKudos}
+                                            totalKudosFromSponsor={
+                                                totalKudosFromSponsor
+                                            }
+                                            alignRight
+                                        />
+                                    </Box>
                                 </Box>
                             </Box>
                         </Box>
@@ -191,8 +194,8 @@ const Proof = ({
                         }}
                         disableScrollLock={true}
                     >
-                        <MenuItem onClick={handleClose}>
-                            <Report handleReport={handleClickReport} />
+                        <MenuItem onClick={handleClickReport}>
+                            <Report />
                         </MenuItem>
                     </Menu>
                     <ModalConfirmation

@@ -51,6 +51,7 @@ function TalentProfile() {
         >
             <SideBar userInfo={talentInfo} />
             <MainContent
+                talentId={talentId}
                 talentDescription={talentInfo.description}
                 nextId={talentInfo.nextId}
                 prevId={talentInfo.prevId}
