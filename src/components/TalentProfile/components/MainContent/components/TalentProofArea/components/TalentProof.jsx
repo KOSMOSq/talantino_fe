@@ -1,14 +1,14 @@
-import { Box, Chip, IconButton, Typography } from "@mui/material";
+import { Box, Chip, IconButton, Tooltip, Typography } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { theme } from "../../../../../../../shared/themes/neutralColorTheme";
 import { useSelector } from "react-redux";
-import { getRelativeTime } from "../../../../../../../shared/functions/getRelativeTime";
 import { useState } from "react";
 import { EditProofForm } from "../../../../../../Forms/EditProofForm/EditProofForm";
 import { ModalConfirmation } from "../../../../../../ModalConfirmation/ModalConfirmation";
 import { ProofSkillsArea } from "./ProofSkillsArea/ProofSkillsArea";
 import { KudosButton } from "../../../../../../../shared/components/KudosButton/KudosButton";
+import { ProofTime } from "../../../../../../../shared/components/ProofTime/ProofTime";
 
 function TalentProof({
     date,
@@ -53,14 +53,7 @@ function TalentProof({
                                     >
                                         {title}
                                     </Typography>
-                                    <Typography
-                                        sx={{
-                                            fontSize: "10px",
-                                            color: "#888888"
-                                        }}
-                                    >
-                                        {getRelativeTime(date)}
-                                    </Typography>
+                                    <ProofTime date={date} />
                                 </Box>
                                 {+talentId === authId && role === "TALENT" ? (
                                     <Box
@@ -94,22 +87,26 @@ function TalentProof({
                                                 }
                                                 label={status}
                                             />
-                                            <IconButton
-                                                title="Edit proof"
-                                                onClick={() =>
-                                                    setEditMode(prev => true)
-                                                }
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
-                                            <IconButton
-                                                onClick={() =>
-                                                    setOpenModal(true)
-                                                }
-                                                title="Delete proof"
-                                            >
-                                                <DeleteForeverIcon fontSize="medium" />
-                                            </IconButton>
+                                            <Tooltip title="Edit proof">
+                                                <IconButton
+                                                    onClick={() =>
+                                                        setEditMode(
+                                                            prev => true
+                                                        )
+                                                    }
+                                                >
+                                                    <EditIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip title="Delete proof">
+                                                <IconButton
+                                                    onClick={() =>
+                                                        setOpenModal(true)
+                                                    }
+                                                >
+                                                    <DeleteForeverIcon fontSize="medium" />
+                                                </IconButton>
+                                            </Tooltip>
                                         </Box>
                                     </Box>
                                 ) : (
@@ -145,6 +142,7 @@ function TalentProof({
                                 totalKudos={totalKudos}
                                 authorId={authorId}
                                 totalKudosFromSponsor={totalKudosFromSponsor}
+                                alignRight
                             />
                         </Box>
                     ) : null}

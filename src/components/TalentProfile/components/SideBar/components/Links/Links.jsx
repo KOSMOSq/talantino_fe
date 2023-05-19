@@ -3,7 +3,7 @@ import { HostIcon } from "./HostIcon";
 
 function Links({ talentLinks }) {
     return (
-        <Box mt={1}>
+        <Box mt={1} ml="-8px">
             {talentLinks.map((item, index) => {
                 if (!item) {
                     return null;
@@ -13,7 +13,7 @@ function Links({ talentLinks }) {
 
                 //!check this
                 return (
-                    <IconButton key={index} width="35px" height="35px">
+                    <IconButton key={index} width="35px" height="35px" title={item}>
                         <Link
                             href={item}
                             target="_blank"

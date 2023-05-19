@@ -12,7 +12,7 @@ function SideBar({ userInfo }) {
                     width: 256,
                     height: 256,
                     marginBottom: 2,
-                    fontSize: "64px"
+                    fontSize: "94px"
                 }}
             />
             <Box>

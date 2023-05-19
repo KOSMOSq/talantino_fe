@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Box, ClickAwayListener, IconButton, Typography } from "@mui/material";
+import {
+    Box,
+    ClickAwayListener,
+    IconButton,
+    Tooltip,
+    Typography
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
@@ -16,7 +22,8 @@ const KudosButton = ({
     isKudosed,
     totalKudos,
     totalKudosFromSponsor,
-    authorId
+    authorId,
+    alignRight = false
 }) => {
     const [kudosed, setKudosed] = useState(isKudosed);
     const [sponsorKudoses, setSponsorKudoses] = useState(totalKudosFromSponsor);
@@ -29,8 +36,6 @@ const KudosButton = ({
     const page = useSelector(store => store.proofs.currentPage);
     const role = useSelector(store => store.auth.user.role);
     const authId = useSelector(store => store.auth.user.id);
-    const location = useLocation();
-    const from = location.state?.from;
     const balance = useSelector(store => store.auth.user.balance);
 
     const navigate = useNavigate();
@@ -80,6 +85,33 @@ const KudosButton = ({
     const open = Boolean(anchorEl);
     const idPop = open ? "kudosPopper" : undefined;
 
+    const kudosNumber =
+        role === "TALENT" && authId === authorId ? (
+            <DialogOfSponsors
+                counter={counter}
+                formatter={formatter}
+                id={id}
+                token={token}
+            />
+        ) : (
+            <Tooltip
+                title={`${counter}${
+                    sponsorKudoses !== null
+                        ? `, ${sponsorKudoses} given by you`
+                        : ""
+                }`}
+                arrow
+                enterDelay={200}
+                enterNextDelay={200}
+                leaveDelay={100}
+                placement={alignRight ? "right" : "bottom"}
+            >
+                <Typography component="div" sx={{ cursor: "default" }}>
+                    {formatter.format(counter)}
+                </Typography>
+            </Tooltip>
+        );
+
     return (
         <>
             <ClickAwayListener onClickAway={handleClickAway}>
@@ -98,50 +130,38 @@ const KudosButton = ({
                         flexDirection="rows"
                         alignItems="center"
                     >
+                        {alignRight ? null : kudosNumber}
                         <IconButton
                             aria-describedby={idPop}
                             onClick={handlePop}
                             disabled={role === "TALENT"}
                             size="small"
-                            title={
-                                role !== "SPONSOR"
-                                    ? "You need to be a sponsor to send kudos"
-                                    : ""
-                            }
                             sx={{
                                 [":disabled"]: {
                                     pointerEvents: "all"
                                 }
                             }}
                         >
-                            {role === "TALENT" || kudosed ? (
-                                <img src={kudosIconActive} alt="Kudos" />
-                            ) : (
-                                <img src={kudosIconInactive} alt="Kudos" />
-                            )}
-                        </IconButton>
-                        {role === "TALENT" &&
-                        authId === authorId &&
-                        from === "profile-click" ? (
-                            <DialogOfSponsors
-                                counter={counter}
-                                formatter={formatter}
-                                id={id}
-                                token={token}
-                            />
-                        ) : (
-                            <Typography
-                                component="div"
-                                sx={{ cursor: "default" }}
-                                title={`${counter}${
-                                    sponsorKudoses !== null
-                                        ? `, ${sponsorKudoses} given by you`
+                            <Tooltip
+                                title={
+                                    role !== "SPONSOR"
+                                        ? "You need to be a sponsor to send kudos"
                                         : ""
-                                }`}
+                                }
+                                arrow
+                                enterDelay={400}
+                                enterNextDelay={400}
+                                leaveDelay={200}
+                                disableInteractive
                             >
-                                {formatter.format(counter)}
-                            </Typography>
-                        )}
+                                {role === "TALENT" || kudosed ? (
+                                    <img src={kudosIconActive} alt="Kudos" />
+                                ) : (
+                                    <img src={kudosIconInactive} alt="Kudos" />
+                                )}
+                            </Tooltip>
+                        </IconButton>
+                        {alignRight ? kudosNumber: null}
                     </Box>
                 </Box>
             </ClickAwayListener>

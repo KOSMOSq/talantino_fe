@@ -1,19 +1,22 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
 import { countries } from "./countries";
 
-const CountryAutocomplete = ({ onChange, error, defaultLocation }) => {
+const CountryAutocomplete = ({ onChange, error, defaultLocation, value }) => {
     return (
         <Autocomplete
+            value={value}
             id="country-select-demo"
             sx={{
                 width: "222.4px"
             }}
             options={countries}
             autoHighlight
-            getOptionLabel={option => option.label}
             defaultValue={countries.find(
                 item => item.label === defaultLocation
             )}
+            isOptionEqualToValue={(option, value) => {
+                return option.label === value;
+            }}
             onChange={(event, data) => {
                 onChange(data ? data.label : null);
             }}

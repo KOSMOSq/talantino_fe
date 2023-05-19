@@ -1,26 +1,25 @@
 import {
+    Avatar,
     Box,
     Divider,
     IconButton,
-    Link,
     ListItem,
-    ListItemIcon,
     Menu,
     MenuItem,
+    Skeleton,
     Typography
 } from "@mui/material";
-import { getRelativeTime } from "../../../../../shared/functions/getRelativeTime";
 import { KudosButton } from "../../../../../shared/components/KudosButton/KudosButton";
 import { ProofSkillsArea } from "../../../../TalentProfile/components/MainContent/components/TalentProofArea/components/ProofSkillsArea/ProofSkillsArea";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import PersonIcon from "@mui/icons-material/Person";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { proofsAPI } from "../../../../../api/proofsAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../../../../redux/reducers/appReducer";
 import { Report } from "../../Report/Report";
 import { ModalConfirmation } from "../../../../ModalConfirmation/ModalConfirmation";
+import { ProofTime } from "../../../../../shared/components/ProofTime/ProofTime";
 
 const Proof = ({
     id,
@@ -34,6 +33,7 @@ const Proof = ({
     author
 }) => {
     const token = useSelector(store => store.auth.token);
+    const isAuth = useSelector(store => store.auth.isAuth);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = useState(null);
@@ -78,51 +78,85 @@ const Proof = ({
                     justifyContent="end"
                 >
                     <Box width={"100%"}>
-                        <Typography
-                            variant="h6"
-                            sx={{ fontWeight: 700, fontSize: 24 }}
-                        >
-                            {title}
-                            <Typography
-                                sx={{ fontSize: "10px", color: "#888888" }}
-                            >
-                                {getRelativeTime(date)}
-                            </Typography>
-                            <Typography
-                                sx={{
-                                    fontSize: "16px",
-                                    overflowWrap: "break-word"
-                                }}
-                            >
-                                {description}
-                                {description.length === 200 ? (
-                                    <Typography
-                                        variant="p"
-                                        sx={{ fontWeight: 700 }}
+                        <Box>
+                            {isAuth ? (
+                                <Box display="flex" gap={1.2} sx={{ width: "100%", marginBottom: "6px" }}>
+                                    <Avatar
+                                        component={Link}
+                                        to={`/talent/${author.id}`}
+                                        alt={author.name + " " + author.surname}
+                                        src={author.avatar || "error"}
+                                        sx={{ width: "46px", height: "46px", textDecoration: "none" }}
+                                    />
+                                    <Box alignSelf="center">
+                                        <Typography
+                                            sx={{ fontWeight: "bold", textDecoration: "none", color: "#202020" }}
+                                            component={Link}
+                                            to={`/talent/${author.id}`}
+                                        >
+                                            {author.name + " " + author.surname}
+                                        </Typography>
+                                        <ProofTime date={date} />
+                                    </Box>
+                                    <IconButton
+                                        onClick={handleClick}
+                                        size="small"
+                                        sx={{
+                                            alignSelf: "start",
+                                            marginLeft: "auto"
+                                        }}
                                     >
-                                        ...
+                                        <MoreVertIcon />
+                                    </IconButton>
+                                </Box>
+                            ) : null}
+                            <Box display="flex">
+                                <Box>
+                                    <Typography
+                                        variant="h6"
+                                        sx={{ fontWeight: 700, fontSize: 24 }}
+                                    >
+                                        {title}
+                                        <Typography
+                                            sx={{
+                                                fontSize: "16px",
+                                                overflowWrap: "break-word"
+                                            }}
+                                        >
+                                            {description}
+                                            {description.length === 200 ? (
+                                                <Typography
+                                                    variant="p"
+                                                    sx={{ fontWeight: 700 }}
+                                                >
+                                                    ...
+                                                </Typography>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </Typography>
                                     </Typography>
-                                ) : (
-                                    ""
-                                )}
-                            </Typography>
-                        </Typography>
-                        <ProofSkillsArea skills={skills} />
+                                    <ProofSkillsArea skills={skills} />
+                                </Box>
+                                <Box
+                                    sx={{
+                                        alignSelf: "center",
+                                        marginLeft: "auto",
+                                        marginTop: "-28px"
+                                    }}
+                                >
+                                    <KudosButton
+                                        id={id}
+                                        isKudosed={isKudosed}
+                                        totalKudos={totalKudos}
+                                        totalKudosFromSponsor={
+                                            totalKudosFromSponsor
+                                        }
+                                    />
+                                </Box>
+                            </Box>
+                        </Box>
                     </Box>
-                    <KudosButton
-                        id={id}
-                        isKudosed={isKudosed}
-                        totalKudos={totalKudos}
-                        totalKudosFromSponsor={totalKudosFromSponsor}
-                    />
-                    <IconButton
-                        onClick={handleClick}
-                        size="small"
-                        sx={{ alignSelf: "start" }}
-                    >
-                        <MoreVertIcon />
-                    </IconButton>
-
                     <Menu
                         anchorEl={anchorEl}
                         id="account-menu"
@@ -137,41 +171,8 @@ const Proof = ({
                             horizontal: "right",
                             vertical: "bottom"
                         }}
+                        disableScrollLock={true}
                     >
-                        <MenuItem onClick={handleClose}>
-                            <Link
-                                sx={{
-                                    textDecoration: "none",
-                                    color: "black",
-                                    display: "flex",
-                                    width: "100%"
-                                }}
-                                href={author ? `/talent/${author.id}` : ""}
-                                onClick={e => {
-                                    e.preventDefault();
-                                    if (author !== null) {
-                                        navigate(`/talent/${author.id}`);
-                                    } else {
-                                        dispatch(
-                                            setMessage(
-                                                "You need to login to see the author.",
-                                                "error"
-                                            )
-                                        );
-                                    }
-                                }}
-                            >
-                                <ListItemIcon
-                                    sx={{
-                                        alignSelf: "center"
-                                    }}
-                                >
-                                    <PersonIcon fontSize="small" />
-                                </ListItemIcon>
-                                Proof author
-                            </Link>
-                        </MenuItem>
-
                         <MenuItem onClick={handleClose}>
                             <Report handleReport={handleClickReport} />
                         </MenuItem>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSkillsThunk } from "../../../redux/reducers/skillsReducer";
 import { useEffect } from "react";
 
-const SkillAutocomplete = ({ defaultSkills = [], onChange, error = null }) => {
+const SkillAutocomplete = ({ defaultSkills = [], onChange, error = null, value }) => {
     const skills = useSelector(store => store.skills.skills);
     const dispatch = useDispatch();
 
@@ -45,6 +45,9 @@ const SkillAutocomplete = ({ defaultSkills = [], onChange, error = null }) => {
         <>
             {skills.length === 0 ? null : (
                 <Autocomplete
+                    value={value.map(item =>
+                        skills.find(lowerItem => item === lowerItem.label)
+                    )}
                     sx={{
                         width: "100%",
                         height: "auto",
@@ -55,12 +58,16 @@ const SkillAutocomplete = ({ defaultSkills = [], onChange, error = null }) => {
                     id="tags-outlined"
                     options={skills}
                     filterOptions={onSearch}
+                    isOptionEqualToValue={(option, value) => {
+                        return option.label === value.label;
+                    }}
                     defaultValue={defaultSkills.map(item =>
                         skills.find(lowerItem => item.label === lowerItem.label)
                     )}
                     filterSelectedOptions
                     renderTags={(value, getTagProps) =>
-                        value.map((option, index) => (
+                        value.map((option, index) => {
+                            return (
                             <Chip
                                 label={option.label}
                                 icon={
@@ -73,7 +80,7 @@ const SkillAutocomplete = ({ defaultSkills = [], onChange, error = null }) => {
                                 size="small"
                                 {...getTagProps({ index })}
                             />
-                        ))
+                        )})
                     }
                     renderInput={params => {
                         return (

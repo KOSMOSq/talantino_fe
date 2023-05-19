@@ -7,6 +7,7 @@ import {
     ThemeProvider,
     ToggleButton,
     ToggleButtonGroup,
+    Tooltip,
     Typography
 } from "@mui/material";
 import { theme } from "../../../shared/themes/neutralColorTheme";
@@ -46,7 +47,7 @@ const EditProofForm = ({
 
     const dispatch = useDispatch();
 
-    const onSubmit = (data) => {
+    const onSubmit = data => {
         dispatch(editProofThunk(id, data));
         setEditMode(false);
     };
@@ -81,9 +82,9 @@ const EditProofForm = ({
                                             "Title should be at least 2 symbols long"
                                     },
                                     maxLength: {
-                                        value: 40,
+                                        value: 160,
                                         message:
-                                            "Title shouldn't be larger than 40 symbols"
+                                            "Title shouldn't be larger than 160 symbols"
                                     }
                                 })}
                             />
@@ -180,13 +181,21 @@ const EditProofForm = ({
                         {description}
                     </Typography>
                 )}
-                {status === "DRAFT" ?  <Controller
+                {status === "DRAFT" ? (
+                    <Controller
                         name="skills"
                         control={control}
-                        render={({ field: { onChange } }) => (
-                            <SkillAutocomplete onChange={onChange} defaultSkills={skills}/>
+                        render={({ field: { onChange, value } }) => (
+                            <SkillAutocomplete
+                                value={value}
+                                onChange={onChange}
+                                defaultSkills={skills}
+                            />
                         )}
-                    /> : <ProofSkillsArea skills={skills} />}
+                    />
+                ) : (
+                    <ProofSkillsArea skills={skills} />
+                )}
                 <Box display="flex">
                     <FormHelperText
                         error
@@ -206,7 +215,12 @@ const EditProofForm = ({
                                 </FormHelperText>
                             ))}
                     </FormHelperText>
-                    <Box marginLeft="auto" display="flex" gap="10px" marginTop="8px">
+                    <Box
+                        marginLeft="auto"
+                        display="flex"
+                        gap="10px"
+                        marginTop="8px"
+                    >
                         <Button
                             color="error"
                             variant="outlined"
@@ -216,16 +230,21 @@ const EditProofForm = ({
                         </Button>
                         <ThemeProvider theme={theme}>
                             {alignment === "DRAFT" ? (
-                                <Button
-                                    type="submit"
-                                    value="DRAFT"
+                                <Tooltip
                                     title="Save as draft"
-                                    variant="contained"
-                                    color="inherit"
-                                    disabled={!isValid}
+                                    enterDelay={500}
+                                    enterNextDelay={500}
                                 >
-                                    Save
-                                </Button>
+                                    <Button
+                                        type="submit"
+                                        value="DRAFT"
+                                        variant="contained"
+                                        color="inherit"
+                                        disabled={!isValid}
+                                    >
+                                        Save
+                                    </Button>
+                                </Tooltip>
                             ) : alignment === "PUBLISHED" ? (
                                 <Button
                                     type="submit"

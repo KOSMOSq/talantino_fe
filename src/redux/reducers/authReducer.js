@@ -6,6 +6,7 @@ const CLEAR_DATA = "auth/CLEAR-DATA";
 const SET_TOKEN = "auth/SET-TOKEN";
 const INITIALIZE = "auth/INITIALIZE";
 const SET_IS_LOADING = "auth/SET_IS_LOADING";
+const SET_IS_OPEN_EMAIL_MODAL = "auth/SET_IS_OPEN_EMAIL_MODAL";
 
 const initialState = {
     user: {
@@ -24,7 +25,8 @@ const initialState = {
     isAuth: false,
     token: null,
     isInitialized: false,
-    isLoading: false
+    isLoading: false,
+    isOpenEmailModal: false
 };
 
 const authReducer = (state = initialState, action) => {
@@ -57,6 +59,11 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: action.isLoading
             };
+        case SET_IS_OPEN_EMAIL_MODAL:
+            return {
+                ...state,
+                isOpenEmailModal: action.isOpen
+            };
         default:
             return state;
     }
@@ -67,6 +74,7 @@ export const clearData = () => ({ type: CLEAR_DATA });
 export const initialize = () => ({ type: INITIALIZE });
 export const setToken = token => ({ type: SET_TOKEN, token });
 export const setIsLoading = isLoading => ({ type: SET_IS_LOADING, isLoading });
+export const setIsOpenEmailModal = isOpen => ({ type: SET_IS_OPEN_EMAIL_MODAL, isOpen });
 
 export const getAuthThunk = () => async (dispatch, getState) => {
     const token = getState().auth.token;
@@ -138,6 +146,7 @@ export const registerThunk = (data, role) => async dispatch => {
             console.log("Wrong usage of register thunk!");
             throw new Error("Error!");
         }
+        dispatch(setIsOpenEmailModal(true));
     } catch (err) {
         dispatch(
             setMessage(
