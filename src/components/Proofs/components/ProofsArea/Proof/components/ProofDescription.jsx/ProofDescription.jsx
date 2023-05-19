@@ -6,6 +6,7 @@ import { proofsAPI } from "../../../../../../../api/proofsAPI";
 import { setMessage } from "../../../../../../../redux/reducers/appReducer";
 
 const ProofDescription = ({ isAuth, id, token, description }) => {
+    description = description.slice(0, 200);
     const [fullDescription, setFullDescription] = useState("");
     const [showFull, setShowFull] = useState(false);
 

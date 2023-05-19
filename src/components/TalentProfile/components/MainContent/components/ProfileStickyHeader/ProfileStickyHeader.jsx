@@ -42,6 +42,7 @@ function ProfileStickyHeader({ nextId, prevId, talentId }) {
             <Box sx={{ display: "flex", padding: "0px", flexWrap: "wrap" }}>
                 <Box>
                     <LinkTabs
+                        key={talentId}
                         tabs={profileSubPages.map(item => ({
                             label: item,
                             href: item === "Overview" ? "" : item.toLowerCase()

@@ -150,12 +150,12 @@ const Settings = () => {
                                 />
                                 {user.role === "TALENT" ? (
                                     <Controller
-                                        sx={{
-                                            width: 200
-                                        }}
+                                        sx={{ width: 200 }}
                                         name="location"
                                         control={control}
-                                        render={({ field: { onChange, value } }) => (
+                                        render={({
+                                            field: { onChange, value }
+                                        }) => (
                                             <CountryAutocomplete
                                                 value={value}
                                                 onChange={onChange}
@@ -168,43 +168,47 @@ const Settings = () => {
                             </Box>
                             {user.role === "TALENT" ? (
                                 <>
-                                    <TextField
-                                        label="Description  (Markdown is supported)"
-                                        multiline
-                                        maxRows={7}
-                                        minRows={7}
-                                        sx={{ width: "100%", marginTop: 2 }}
-                                        {...register("description", {
-                                            maxLength: {
-                                                value: 3000,
-                                                message:
-                                                    "Your description is too long"
-                                            },
-                                            minLength: {
-                                                value: 2,
-                                                message:
-                                                    "Your description is too short"
+                                    <Box sx={{ maxWidth: 768 }}>
+                                        <TextField
+                                            label="Description  (Markdown is supported)"
+                                            multiline
+                                            maxRows={7}
+                                            minRows={7}
+                                            sx={{ width: "100%", marginTop: 2 }}
+                                            {...register("description", {
+                                                maxLength: {
+                                                    value: 3000,
+                                                    message:
+                                                        "Your description is too long"
+                                                },
+                                                minLength: {
+                                                    value: 2,
+                                                    message:
+                                                        "Your description is too short"
+                                                }
+                                            })}
+                                            error={Boolean(errors.description)}
+                                            helperText={
+                                                errors.description
+                                                    ? errors.description.message
+                                                    : " "
                                             }
-                                        })}
-                                        error={Boolean(errors.description)}
-                                        helperText={
-                                            errors.description
-                                                ? errors.description.message
-                                                : " "
-                                        }
-                                    />
-                                    <Controller
-                                        name="skills"
-                                        control={control}
-                                        render={({ field: { onChange, value } }) => (
-                                            <SkillAutocomplete
-                                                value={value}
-                                                onChange={onChange}
-                                                defaultSkills={user.skills}
-                                                error={errors.skills}
-                                            />
-                                        )}
-                                    />
+                                        />
+                                        <Controller
+                                            name="skills"
+                                            control={control}
+                                            render={({
+                                                field: { onChange, value }
+                                            }) => (
+                                                <SkillAutocomplete
+                                                    value={value}
+                                                    onChange={onChange}
+                                                    defaultSkills={user.skills}
+                                                    error={errors.skills}
+                                                />
+                                            )}
+                                        />
+                                    </Box>
                                     <Box
                                         mt={4}
                                         display="flex"
@@ -260,7 +264,6 @@ const Settings = () => {
                                             }
                                         />
                                     </Box>
-
                                     <Box
                                         display={"flex"}
                                         flexDirection={"row"}
@@ -282,7 +285,6 @@ const Settings = () => {
                                 </>
                             ) : null}
                         </Box>
-
                         <Box
                             display={"flex"}
                             flexDirection={"column"}
@@ -294,7 +296,6 @@ const Settings = () => {
                                 handleFileChange={handleFileChange}
                                 register={register}
                             />
-
                             <DeleteUser />
                         </Box>
                     </Box>

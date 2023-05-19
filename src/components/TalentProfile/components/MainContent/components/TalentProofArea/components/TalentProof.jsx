@@ -147,15 +147,6 @@ function TalentProof({
                         </Box>
                     ) : null}
                 </Box>
-                {/* {+talentId !== authId || role !== "TALENT" ? (
-                    <KudosButton
-                        id={id}
-                        isKudosed={isKudosed}
-                        totalKudos={totalKudos}
-                        authorId={authorId}
-                        totalKudosFromSponsor={totalKudosFromSponsor}
-                    />
-                ) : null} */}
             </Box>
 
             <ModalConfirmation
