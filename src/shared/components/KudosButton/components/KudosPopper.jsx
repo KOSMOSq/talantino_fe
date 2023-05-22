@@ -39,17 +39,23 @@ const KudosPopper = ({
             : skillsAmount + step > balance
             ? 0
             : skillsAmount
-        : 0;
+        : balance === 1
+        ? 0
+        : 1;
     const handleChange = (e, value) => {
         setKudosAmount(value);
     };
 
     const marksWithoutSkills = useMemo(() => {
         return [
-            { value: 0, label: 0 },
+            { value: 1, label: 1 },
             { value: balance, label: balance }
         ];
     }, [balance]);
+
+    if (balance === 1) {
+        marksWithoutSkills[0] = { value: 0, label: 0 };
+    }
 
     const marksWithSkillsValue =
         skillsAmount === balance
