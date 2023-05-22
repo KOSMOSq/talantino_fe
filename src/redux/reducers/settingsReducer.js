@@ -43,10 +43,15 @@ export const changeProfileDataThunk = data => async (dispatch, getState) => {
     ];
     try {
         if (typeof data.avatar === "string" || data.avatar === null) {
+            if (data.avatar === "DELETE") {
+                await avatarAPI.deleteAvatar(token);
+            }
+            delete data.avatar;
             await talentsAPI.changeData(id, token, data);
         } else {
-            await talentsAPI.changeData(id, token, { ...data, avatar: "" });
             await avatarAPI.sendAvatar(data.avatar[0], token);
+            delete data.avatar;
+            await talentsAPI.changeData(id, token, data);
         }
         dispatch(setIsDone(true));
         dispatch(getAuthThunk());
@@ -73,7 +78,7 @@ export const changeSponsorDataThunk = data => async (dispatch, getState) => {
     const token = getState().auth.token;
 
     try {
-        if (typeof data.avatar === "string") {
+        if (typeof data.avatar === "string" || data.avatar === null) {
             await sponsorAPI.changeData(id, token, data);
         } else {
             await sponsorAPI.changeData(id, token, { ...data, avatar: "" });
