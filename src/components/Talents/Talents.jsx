@@ -17,14 +17,14 @@ import { NoTalentsYet } from "./components/NoTalentsYet/NoTalentsYet";
 import { setFilterSkills } from "../../redux/reducers/skillsReducer";
 
 const Talents = () => {
-    const dispatch = useDispatch();
     const page = useSelector(store => store.talents.currentPage);
     const totalPages = useSelector(store => store.talents.totalPages);
     const talents = useSelector(store => store.talents.talents);
+    const dispatch = useDispatch();
+
     const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate();
-    const location = useLocation();
     const [searchParams] = useSearchParams();
 
     const skillsParam = searchParams.get("skills");
@@ -40,14 +40,17 @@ const Talents = () => {
             dispatch(setFilterSkills([]));
         }
         const urlPageParam = Number(searchParams.get("page"));
-        const urlPage =
-            urlPageParam && urlPageParam > 0
-                ? urlPageParam
-                : (() => {
-                      navigate(`/talents?page=${1}`);
-                      return 1;
-                  })();
-        dispatch(setCurrentPage(urlPage));
+        let urlPage;
+        if (urlPageParam && urlPageParam > 0) {
+            urlPage = urlPageParam;
+        } else {
+            navigate(`/talents?page=${1}`);
+            return;
+        }
+        if (page !== urlPage) {
+            dispatch(setCurrentPage(urlPage));
+            return;
+        }
 
         const getTalents = async (amount = 9, page, query = "") => {
             const response = await talentsAPI.getTalents(
@@ -80,7 +83,7 @@ const Talents = () => {
                 )
             )
         );
-    }, [location]);
+    }, [page, searchParams.get("page"), searchParams.get("skills")]);
 
     const handleChange = (e, value) => {
         dispatch(setCurrentPage(value));

@@ -7,7 +7,7 @@ import {
 import { ProofsArea } from "./components/ProofsArea/ProofsArea";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useSearchParams, useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
     setPage,
@@ -25,33 +25,35 @@ const Proofs = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const location = useLocation();
 
     useEffect(() => {
         if (!isLoading) {
             dispatch(setIsLoading(true));
         }
         const urlPageParam = Number(searchParams.get("page"));
-        const urlPage =
-            urlPageParam && urlPageParam > 0
-                ? urlPageParam
-                : (() => {
-                      navigate(`/proofs?page=${1}`);
-                      return 1;
-                  })();
+        let urlPage;
+        if (urlPageParam && urlPageParam > 0) {
+            urlPage = urlPageParam;
+        } else {
+            navigate(`/proofs?page=${1}`);
+            return;
+        }
+
         if (urlPage < 1) {
             dispatch(setPage(1));
             navigate(`/proofs?page=1`);
             return;
         }
-        dispatch(setPage(urlPage));
-
+        if (page !== urlPage) {
+            dispatch(setPage(urlPage));
+            return;
+        }
         dispatch(getProofsThunk(urlPage, 9, sortType, navigate));
 
         return () => {
             dispatch(setProofs([]));
         }
-    }, [page, sortType, location]);
+    }, [page, sortType, searchParams.get("page")]);
 
     if (isLoading) {
         return <LinearProgress />;

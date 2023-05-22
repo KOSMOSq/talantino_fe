@@ -93,7 +93,7 @@ const DialogOfSponsors = ({ counter, formatter, id, token }) => {
                                 >
                                     <ListItemAvatar>
                                         <Avatar
-                                            src={item.sponsor.avatar}
+                                            src={item.sponsor.avatar || "error"}
                                             alt={item.sponsor.name}
                                         />
                                     </ListItemAvatar>

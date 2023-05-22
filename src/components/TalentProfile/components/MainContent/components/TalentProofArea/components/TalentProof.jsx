@@ -134,8 +134,8 @@ function TalentProof({
                             skills={skills}
                         />
                     )}
-                    {+talentId === authId && role !== "SPONSOR" && !editMode ? (
-                        <Box sx={{ ml: "-10px", mb: "-10px" }}>
+                    {!editMode ? (
+                        <Box sx={{ ml: "-10px", mb: "-10px", marginTop: "4px" }}>
                             <KudosButton
                                 id={id}
                                 isKudosed={isKudosed}
@@ -147,15 +147,6 @@ function TalentProof({
                         </Box>
                     ) : null}
                 </Box>
-                {+talentId !== authId || role !== "TALENT" ? (
-                    <KudosButton
-                        id={id}
-                        isKudosed={isKudosed}
-                        totalKudos={totalKudos}
-                        authorId={authorId}
-                        totalKudosFromSponsor={totalKudosFromSponsor}
-                    />
-                ) : null}
             </Box>
 
             <ModalConfirmation

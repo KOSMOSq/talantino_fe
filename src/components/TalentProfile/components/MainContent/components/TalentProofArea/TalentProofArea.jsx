@@ -12,11 +12,7 @@ import {
 import { TalentProof } from "./components/TalentProof";
 import { CreateProofForm } from "../../../../../Forms/CreateProofForm/CreateProofForm";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    useNavigate,
-    useParams,
-    useSearchParams
-} from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
     deleteTalentProofThunk,
     getTalentProofsThunk,
@@ -24,9 +20,12 @@ import {
     setTalentProofs
 } from "../../../../../../redux/reducers/talentsProofsReducer";
 import { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { withDelayedRender } from "../../../../../../hoc/withDelayedRender";
 
 function TalentProofArea() {
     const STATUSES = ["ALL", "PUBLISHED", "HIDDEN", "DRAFT"];
+    const AMOUNT = 10;
 
     const [page, setPage] = useState(0);
 
@@ -54,7 +53,7 @@ function TalentProofArea() {
 
     const handleClick = () => {
         dispatch(
-            getTalentProofsThunk(talentId, "date", status, "desc", page, 5)
+            getTalentProofsThunk(talentId, "date", status, "desc", page, AMOUNT)
         );
         setPage(prev => prev + 1);
     };
@@ -83,12 +82,14 @@ function TalentProofArea() {
                 statusParam,
                 "desc",
                 0,
-                5,
+                AMOUNT,
                 true
             )
         );
         setPage(prev => 1);
     }, [searchParams.get("status")]);
+
+    const DelayedButton = withDelayedRender(() => <Button onClick={handleClick}>LOAD MORE</Button>, 1500);
 
     return (
         <>
@@ -119,32 +120,55 @@ function TalentProofArea() {
                         </Box>
                     </>
                 ) : null}
-                {proofs.length === 0 && !isLoading ? <Typography varitant="caption" sx={{ color: "gray" }} align="center">No proofs yet!</Typography> : proofs.map(element => {
-                    return (
-                        <Grid item key={element.id}>
-                            <TalentProof
-                                {...element}
-                                onDelete={handleDelete}
-                                talentId={talentId}
-                            />
-                        </Grid>
-                    );
-                })}
-                <Box
-                    sx={{ width: "100%" }}
-                    display={"flex"}
-                    flexDirection={"column"}
-                    justifyContent={"center"}
-                >
-                    {isLoading || !proofs ? (
-                        <CircularProgress
-                            size={60}
-                            sx={{ marginLeft: "auto", marginRight: "auto" }}
-                        />
-                    ) : null}
-                    {!(totalPages <= page) ? (
-                        <Button onClick={handleClick}>Get more proofs</Button>
-                    ) : null}
+                <Box sx={{ width: "100%" }}>
+                    <InfiniteScroll
+                        dataLength={proofs.length}
+                        next={handleClick}
+                        hasMore={page < totalPages}
+                    >
+                        {proofs.map(element => {
+                            return (
+                                <Grid item key={element.id}>
+                                    <TalentProof
+                                        {...element}
+                                        onDelete={handleDelete}
+                                        talentId={talentId}
+                                    />
+                                </Grid>
+                            );
+                        })}
+                    </InfiniteScroll>
+                    <Box
+                        sx={{ width: "100%" }}
+                        display={"flex"}
+                        justifyContent="center"
+                    >
+                        {isLoading || !proofs ? (
+                            <Box sx={{ height: "80px" }}>
+                                <CircularProgress size={60} />
+                            </Box>
+                        ) : !isLoading && (proofs.length === 0) ? (
+                            <Typography
+                                varitant="caption"
+                                sx={{ color: "gray" }}
+                                align="center"
+                            >
+                                No proofs yet!
+                            </Typography>
+                        ) : !(page < totalPages) ? (
+                            <Typography
+                                varitant="caption"
+                                sx={{
+                                    color: "gray",
+                                    marginBottom: "10px",
+                                    marginTop: "-6px"
+                                }}
+                                align="center"
+                            >
+                                You've reached the end!
+                            </Typography>
+                        ) : <DelayedButton />}
+                    </Box>
                 </Box>
             </Box>
         </>

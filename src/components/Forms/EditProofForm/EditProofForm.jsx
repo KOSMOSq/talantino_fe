@@ -235,15 +235,17 @@ const EditProofForm = ({
                                     enterDelay={500}
                                     enterNextDelay={500}
                                 >
-                                    <Button
-                                        type="submit"
-                                        value="DRAFT"
-                                        variant="contained"
-                                        color="inherit"
-                                        disabled={!isValid}
-                                    >
-                                        Save
-                                    </Button>
+                                    <Box>
+                                        <Button
+                                            type="submit"
+                                            value="DRAFT"
+                                            variant="contained"
+                                            color="inherit"
+                                            disabled={!isValid}
+                                        >
+                                            Save
+                                        </Button>
+                                    </Box>
                                 </Tooltip>
                             ) : alignment === "PUBLISHED" ? (
                                 <Button

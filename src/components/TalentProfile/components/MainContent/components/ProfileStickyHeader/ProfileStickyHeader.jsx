@@ -5,12 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../../../../../redux/reducers/appReducer";
 import { LinkTabs } from "../../../../../../shared/components/LinkTabs/LinkTabs";
 
-function ProfileStickyHeader({ nextId, prevId }) {
-    const profileSubPages = ["Overview", "Proofs", "Statistics"];
+function ProfileStickyHeader({ nextId, prevId, talentId }) {
+    const id = useSelector(store => store.auth.user.id);
+    const currentPage = useSelector(store => store.talents.currentPage);
+    const profileSubPages = ["Overview", "Proofs"];
+    if (id === Number(talentId)) {
+        profileSubPages.push("Statistics");
+    }
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const currentPage = useSelector(store => store.talents.currentPage);
     const handleClose = () => {
         navigate(`/talents/?page=${currentPage}`);
     };
@@ -38,6 +42,7 @@ function ProfileStickyHeader({ nextId, prevId }) {
             <Box sx={{ display: "flex", padding: "0px", flexWrap: "wrap" }}>
                 <Box>
                     <LinkTabs
+                        key={talentId}
                         tabs={profileSubPages.map(item => ({
                             label: item,
                             href: item === "Overview" ? "" : item.toLowerCase()

@@ -45,10 +45,10 @@ const KudosHistory = () => {
                 flexDirection="column"
                 gap={2}
             >
-                {history.reverse().map(elem => {
+                {history.reverse().map((elem, index) => {
                     return (
                         <>
-                            <Box display="flex">
+                            <Box display="flex" key={index}>
                                 <Typography
                                     component="span"
                                     sx={{

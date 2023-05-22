@@ -3,7 +3,7 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { clearData } from "../../../redux/reducers/authReducer";
+import { clearDataThunk } from "../../../redux/reducers/authReducer";
 import {
     Box,
     Divider,
@@ -18,7 +18,6 @@ import Logout from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState } from "react";
-import { setClikedId } from "../../../redux/reducers/talentsReducer";
 import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
 import { formatter } from "../../../shared/utils/numberFormatter";
 
@@ -32,9 +31,7 @@ function AuthView() {
     const balance = useSelector(store => store.auth.user.balance);
 
     const handleLogout = () => {
-        dispatch(clearData());
-        dispatch(setClikedId(null));
-        localStorage.clear();
+        dispatch(clearDataThunk());
         navigate(`/talents`);
     };
 

@@ -8,12 +8,12 @@ const LinkTab = props => {
 
 const LinkTabs = ({ tabs }) => {
     const params = useParams();
-    const [value, setValue] = useState(
-        tabs.indexOf(tabs.find(item => item.href === params["*"]))
-    );
+    const findTab = tabs.indexOf(tabs.find(item => item.href === params["*"]));
+    const [value, setValue] = useState(findTab === -1 ? 0: findTab);
 
     useEffect(() => {
-        setValue(tabs.indexOf(tabs.find(item => item.href === params["*"])));
+        const findTab = tabs.indexOf(tabs.find(item => item.href === params["*"]));
+        setValue(findTab === -1 ? 0: findTab);
     }, [params]);
 
     const handleChange = (e, newValue) => {

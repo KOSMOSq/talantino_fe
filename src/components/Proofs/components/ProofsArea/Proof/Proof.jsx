@@ -7,6 +7,7 @@ import {
     Menu,
     MenuItem,
     Skeleton,
+    Tooltip,
     Typography
 } from "@mui/material";
 import { KudosButton } from "../../../../../shared/components/KudosButton/KudosButton";
@@ -20,6 +21,8 @@ import { setMessage } from "../../../../../redux/reducers/appReducer";
 import { Report } from "../../Report/Report";
 import { ModalConfirmation } from "../../../../ModalConfirmation/ModalConfirmation";
 import { ProofTime } from "../../../../../shared/components/ProofTime/ProofTime";
+import { LocalConvenienceStoreOutlined } from "@mui/icons-material";
+import { ProofDescription } from "./components/ProofDescription.jsx/ProofDescription";
 
 const Proof = ({
     id,
@@ -34,7 +37,6 @@ const Proof = ({
 }) => {
     const token = useSelector(store => store.auth.token);
     const isAuth = useSelector(store => store.auth.isAuth);
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
@@ -50,6 +52,7 @@ const Proof = ({
 
     const handleClickReport = () => {
         setOpenDialog(prev => !prev);
+        handleClose();
     };
 
     const handleSendReport = async () => {
@@ -80,17 +83,29 @@ const Proof = ({
                     <Box width={"100%"}>
                         <Box>
                             {isAuth ? (
-                                <Box display="flex" gap={1.2} sx={{ width: "100%", marginBottom: "6px" }}>
+                                <Box
+                                    display="flex"
+                                    gap={1.2}
+                                    sx={{ width: "100%", marginBottom: "6px" }}
+                                >
                                     <Avatar
                                         component={Link}
                                         to={`/talent/${author.id}`}
                                         alt={author.name + " " + author.surname}
                                         src={author.avatar || "error"}
-                                        sx={{ width: "46px", height: "46px", textDecoration: "none" }}
+                                        sx={{
+                                            width: "46px",
+                                            height: "46px",
+                                            textDecoration: "none"
+                                        }}
                                     />
                                     <Box alignSelf="center">
                                         <Typography
-                                            sx={{ fontWeight: "bold", textDecoration: "none", color: "#202020" }}
+                                            sx={{
+                                                fontWeight: "bold",
+                                                textDecoration: "none",
+                                                color: "#202020"
+                                            }}
                                             component={Link}
                                             to={`/talent/${author.id}`}
                                         >
@@ -112,47 +127,53 @@ const Proof = ({
                             ) : null}
                             <Box display="flex">
                                 <Box>
-                                    <Typography
-                                        variant="h6"
-                                        sx={{ fontWeight: 700, fontSize: 24 }}
+                                    <Tooltip
+                                        title={
+                                            isAuth
+                                                ? ""
+                                                : "Log in to see proof's author"
+                                        }
+                                        placement="left"
+                                        arrow
+                                        enterDelay={1000}
+                                        enterNextDelay={1000}
                                     >
-                                        {title}
                                         <Typography
+                                            variant="h6"
                                             sx={{
-                                                fontSize: "16px",
-                                                overflowWrap: "break-word"
+                                                fontWeight: 700,
+                                                fontSize: 24
                                             }}
                                         >
-                                            {description}
-                                            {description.length === 200 ? (
-                                                <Typography
-                                                    variant="p"
-                                                    sx={{ fontWeight: 700 }}
-                                                >
-                                                    ...
-                                                </Typography>
-                                            ) : (
-                                                ""
-                                            )}
+                                            {title}
                                         </Typography>
-                                    </Typography>
-                                    <ProofSkillsArea skills={skills} />
-                                </Box>
-                                <Box
-                                    sx={{
-                                        alignSelf: "center",
-                                        marginLeft: "auto",
-                                        marginTop: "-28px"
-                                    }}
-                                >
-                                    <KudosButton
+                                    </Tooltip>
+                                    <ProofDescription
+                                        isAuth={isAuth}
                                         id={id}
-                                        isKudosed={isKudosed}
-                                        totalKudos={totalKudos}
-                                        totalKudosFromSponsor={
-                                            totalKudosFromSponsor
-                                        }
+                                        token={token}
+                                        description={description}
                                     />
+                                    <ProofSkillsArea skills={skills} />
+                                    <Box
+                                        sx={{
+                                            alignSelf: "center",
+                                            marginTop: "4px",
+                                            marginLeft: "-10px",
+                                            display: "flex",
+                                            justifyContent: "space-between"
+                                        }}
+                                    >
+                                        <KudosButton
+                                            id={id}
+                                            isKudosed={isKudosed}
+                                            totalKudos={totalKudos}
+                                            totalKudosFromSponsor={
+                                                totalKudosFromSponsor
+                                            }
+                                            alignRight
+                                        />
+                                    </Box>
                                 </Box>
                             </Box>
                         </Box>
@@ -173,8 +194,8 @@ const Proof = ({
                         }}
                         disableScrollLock={true}
                     >
-                        <MenuItem onClick={handleClose}>
-                            <Report handleReport={handleClickReport} />
+                        <MenuItem onClick={handleClickReport}>
+                            <Report />
                         </MenuItem>
                     </Menu>
                     <ModalConfirmation
