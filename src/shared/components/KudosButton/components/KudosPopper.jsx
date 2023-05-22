@@ -5,9 +5,12 @@ import {
     Button,
     Fade,
     Paper,
-    Popper
+    Popper,
+    IconButton
 } from "@mui/material";
-import { useMemo } from "react";
+import { useMemo, useRef, useState } from "react";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const KudosPopper = ({
     balance,
@@ -16,25 +19,73 @@ const KudosPopper = ({
     handleKudos,
     idPop,
     open,
-    anchorEl
+    anchorEl,
+    skillsAmount
 }) => {
+    const [displayLabel, setDisplayLabel] = useState("auto");
+    const timeout = useRef();
+
+    const step = skillsAmount ? skillsAmount : 1;
+
+    const maxValue = skillsAmount
+        ? skillsAmount + step > balance
+            ? skillsAmount
+            : Math.floor(balance / skillsAmount) * skillsAmount
+        : balance;
+
+    const minValue = skillsAmount
+        ? skillsAmount === balance
+            ? 0
+            : skillsAmount + step > balance
+            ? 0
+            : skillsAmount
+        : 0;
     const handleChange = (e, value) => {
         setKudosAmount(value);
     };
 
-    const marks = useMemo(() => {
+    const marksWithoutSkills = useMemo(() => {
         return [
-            { value: 1, label: "1" },
+            { value: 0, label: 0 },
             { value: balance, label: balance }
         ];
     }, [balance]);
 
-    const marksForOne = useMemo(() => {
+    const marksWithSkillsValue =
+        skillsAmount === balance
+            ? 0
+            : skillsAmount + step > balance
+            ? 0
+            : skillsAmount;
+
+    const marksWithSkills = useMemo(() => {
         return [
-            { value: 0, label: "0" },
-            { value: 1, label: "1" }
+            {
+                value: marksWithSkillsValue,
+                label: marksWithSkillsValue
+            },
+            { value: maxValue, label: maxValue }
         ];
-    }, []);
+    }, [marksWithSkillsValue, maxValue]);
+
+    const handleClickArrow = whatKind => {
+        clearTimeout(timeout.current);
+
+        if (whatKind === "forward" && kudosAmount + step <= balance) {
+            setKudosAmount(prev => prev + step);
+        } else if (
+            whatKind === "back" &&
+            kudosAmount - step >= skillsAmount &&
+            kudosAmount - step !== 0
+        ) {
+            setKudosAmount(prev => prev - step);
+        }
+
+        setDisplayLabel("on");
+        timeout.current = setTimeout(() => {
+            setDisplayLabel("auto");
+        }, 1000);
+    };
 
     return (
         <Popper
@@ -64,29 +115,52 @@ const KudosPopper = ({
                             Choose the number of kudos to send
                         </Typography>
                         <Box
-                            width={300}
+                            width={"90%"}
                             display="flex"
                             flexDirection="column"
                             alignItems="end"
                         >
                             <Slider
-                                defaultValue={1}
-                                min={balance === 1 ? 0 : 1}
-                                max={balance}
+                                min={minValue}
+                                max={maxValue}
                                 value={kudosAmount}
+                                step={step}
                                 onChange={handleChange}
-                                valueLabelDisplay="auto"
-                                marks={balance === 1 ? marksForOne : marks}
+                                valueLabelDisplay={displayLabel}
+                                marks={
+                                    skillsAmount
+                                        ? marksWithSkills
+                                        : marksWithoutSkills
+                                }
                             />
                         </Box>
 
-                        <Button
-                            variant="contained"
-                            onClick={handleKudos}
-                            disabled={kudosAmount === 0}
+                        <Box
+                            width="100%"
+                            display="flex"
+                            justifyContent="space-between"
                         >
-                            Send {kudosAmount} kudos
-                        </Button>
+                            <IconButton
+                                onClick={() => handleClickArrow("back")}
+                            >
+                                <ArrowBackIcon />
+                            </IconButton>
+                            <Button
+                                variant="contained"
+                                onClick={handleKudos}
+                                disabled={
+                                    kudosAmount < skillsAmount ||
+                                    kudosAmount === 0
+                                }
+                            >
+                                Send {kudosAmount} kudos
+                            </Button>
+                            <IconButton
+                                onClick={() => handleClickArrow("forward")}
+                            >
+                                <ArrowForwardIcon />
+                            </IconButton>
+                        </Box>
                     </Paper>
                 </Fade>
             )}

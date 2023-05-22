@@ -172,6 +172,11 @@ const Proof = ({
                                                 totalKudosFromSponsor
                                             }
                                             alignRight
+                                            skillsAmount={
+                                                skills.length
+                                                    ? skills.length
+                                                    : 0
+                                            }
                                         />
                                     </Box>
                                 </Box>

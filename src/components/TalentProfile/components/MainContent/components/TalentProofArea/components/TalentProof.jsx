@@ -135,7 +135,9 @@ function TalentProof({
                         />
                     )}
                     {!editMode ? (
-                        <Box sx={{ ml: "-10px", mb: "-10px", marginTop: "4px" }}>
+                        <Box
+                            sx={{ ml: "-10px", mb: "-10px", marginTop: "4px" }}
+                        >
                             <KudosButton
                                 id={id}
                                 isKudosed={isKudosed}
@@ -143,6 +145,7 @@ function TalentProof({
                                 authorId={authorId}
                                 totalKudosFromSponsor={totalKudosFromSponsor}
                                 alignRight
+                                skillsAmount={skills.length ? skills.length : 0}
                             />
                         </Box>
                     ) : null}

@@ -23,13 +23,15 @@ const KudosButton = ({
     totalKudos,
     totalKudosFromSponsor,
     authorId,
-    alignRight = false
+    alignRight = false,
+    skillsAmount
 }) => {
+    const defaultKudosAmount = skillsAmount !== 0 ? skillsAmount : 1;
     const [kudosed, setKudosed] = useState(isKudosed);
     const [sponsorKudoses, setSponsorKudoses] = useState(totalKudosFromSponsor);
     const [counter, setCounter] = useState(totalKudos);
     const [anchorEl, setAnchorEl] = useState(null);
-    const [kudosAmount, setKudosAmount] = useState(1);
+    const [kudosAmount, setKudosAmount] = useState(defaultKudosAmount);
 
     const token = useSelector(store => store.auth.token);
     const isAuth = useSelector(store => store.auth.isAuth);
@@ -48,7 +50,7 @@ const KudosButton = ({
             dispatch(
                 setMessage(`${kudosAmount} kudos sent successfully`, "success")
             );
-            setKudosAmount(1);
+            setKudosAmount(defaultKudosAmount);
             setAnchorEl(null);
             setKudosed(true);
             setCounter(prev => prev + kudosAmount);
@@ -71,7 +73,7 @@ const KudosButton = ({
                 state: { from: "proofs", page }
             });
             return;
-        } else if (balance === 0) {
+        } else if (balance === 0 || balance < skillsAmount) {
             dispatch(setMessage("You have to top up your balance", "error"));
             return;
         }
@@ -80,6 +82,9 @@ const KudosButton = ({
 
     const handleClickAway = () => {
         setAnchorEl(null);
+        setTimeout(() => {
+            setKudosAmount(defaultKudosAmount);
+        }, 350);
     };
 
     const open = Boolean(anchorEl);
@@ -124,6 +129,7 @@ const KudosButton = ({
                         kudosAmount={kudosAmount}
                         setKudosAmount={setKudosAmount}
                         handleKudos={handleKudos}
+                        skillsAmount={skillsAmount}
                     />
                     <Box
                         display="flex"
