@@ -41,7 +41,8 @@ const Settings = () => {
         register,
         handleSubmit,
         formState: { errors },
-        control
+        control,
+        setValue
     } = useForm({
         mode: "onChange",
         defaultValues:
@@ -56,7 +57,6 @@ const Settings = () => {
                       id: user.id,
                       name: user.name,
                       surname: user.surname,
-                      email: user.email,
                       kind: user.kind,
                       description: user.description,
                       avatar: user.avatar,
@@ -76,6 +76,11 @@ const Settings = () => {
         if (e.target.files.length) {
             setAvatarSrc(URL.createObjectURL(e.target.files[0]));
         }
+    };
+
+    const handleAvatarDelete = () => {
+        setAvatarSrc("error");
+        setValue("avatar", "DELETE");
     };
 
     const onSubmit = data => {
@@ -294,6 +299,7 @@ const Settings = () => {
                                 user={user}
                                 avatarSrc={avatarSrc}
                                 handleFileChange={handleFileChange}
+                                handleAvatarDelete={handleAvatarDelete}
                                 register={register}
                             />
                             <DeleteUser />

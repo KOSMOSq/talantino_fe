@@ -27,7 +27,6 @@ const DialogOfSponsors = ({ counter, formatter, id, token }) => {
             const response = await kudosAPI.getSponsorsOfProof(id, token);
             setInfo(response.kudos);
         } catch (err) {
-            console.log(err);
             dispatch(
                 setMessage(
                     err.response?.data.message
