@@ -4,7 +4,6 @@ import {
     Divider,
     IconButton,
     ListItem,
-    Menu,
     MenuItem,
     Skeleton,
     Tooltip,
@@ -21,8 +20,8 @@ import { setMessage } from "../../../../../redux/reducers/appReducer";
 import { Report } from "../../Report/Report";
 import { ModalConfirmation } from "../../../../ModalConfirmation/ModalConfirmation";
 import { ProofTime } from "../../../../../shared/components/ProofTime/ProofTime";
-import { LocalConvenienceStoreOutlined } from "@mui/icons-material";
 import { ProofDescription } from "./components/ProofDescription.jsx/ProofDescription";
+import { Menu } from "../../../../../shared/components/Menu/Menu";
 
 const Proof = ({
     id,
@@ -186,19 +185,9 @@ const Proof = ({
                     </Box>
                     <Menu
                         anchorEl={anchorEl}
-                        id="account-menu"
                         open={openMenu}
-                        onClose={handleClose}
-                        onClick={handleClose}
-                        transformOrigin={{
-                            horizontal: "right",
-                            vertical: "top"
-                        }}
-                        anchorOrigin={{
-                            horizontal: "right",
-                            vertical: "bottom"
-                        }}
-                        disableScrollLock={true}
+                        handleClose={handleClose}
+                        transformOrigin="right top"
                     >
                         <MenuItem onClick={handleClickReport}>
                             <Report />

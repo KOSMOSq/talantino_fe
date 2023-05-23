@@ -9,7 +9,6 @@ import {
     Divider,
     Link,
     ListItemIcon,
-    Menu,
     MenuItem,
     Tooltip,
     Typography
@@ -20,6 +19,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState } from "react";
 import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
 import { formatter } from "../../../shared/utils/numberFormatter";
+import { Menu } from "../../../shared/components/Menu/Menu";
 
 function AuthView() {
     const dispatch = useDispatch();
@@ -30,11 +30,6 @@ function AuthView() {
     const id = useSelector(store => store.auth.user.id);
     const balance = useSelector(store => store.auth.user.balance);
 
-    const handleLogout = () => {
-        dispatch(clearDataThunk());
-        navigate(`/talents`);
-    };
-
     const navigate = useNavigate();
     const handleClickLogin = () => {
         navigate(`/login`);
@@ -42,11 +37,39 @@ function AuthView() {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+
     const handleClick = event => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleLogout = () => {
+        handleClose();
+        dispatch(clearDataThunk());
+        navigate(`/talents`);
+    };
+
+    const handleClickProfile = e => {
+        handleClose();
+        e.preventDefault();
+        navigate(
+            `/${
+                role === "SPONSOR"
+                    ? "sponsor"
+                    : role === "TALENT"
+                    ? "talent"
+                    : "notFound"
+            }/${id}`
+        );
+    };
+
+    const handleClickSettings = e => {
+        handleClose();
+        e.preventDefault();
+        navigate(`/settings`);
     };
 
     return (
@@ -64,7 +87,11 @@ function AuthView() {
                                 <Typography sx={{ color: "gray" }}>
                                     Balance
                                 </Typography>
-                                <Tooltip title={balance} enterDelay={400} enterNextDelay={400}>
+                                <Tooltip
+                                    title={balance}
+                                    enterDelay={400}
+                                    enterNextDelay={400}
+                                >
                                     <Typography
                                         sx={{ fontWeight: "bold" }}
                                         display="flex"
@@ -103,41 +130,12 @@ function AuthView() {
                             />
                         </IconButton>
                         <Menu
-                            anchorEl={anchorEl}
-                            id="account-menu"
                             open={open}
-                            onClose={handleClose}
-                            onClick={handleClose}
-                            PaperProps={{
-                                elevation: 0,
-                                sx: {
-                                    overflow: "visible",
-                                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                                    "&:before": {
-                                        content: '""',
-                                        display: "block",
-                                        position: "absolute",
-                                        top: 0,
-                                        right: 28,
-                                        width: 10,
-                                        height: 10,
-                                        bgcolor: "background.paper",
-                                        transform:
-                                            "translateY(-50%) rotate(45deg)",
-                                        zIndex: 0
-                                    }
-                                }
-                            }}
-                            transformOrigin={{
-                                horizontal: "right",
-                                vertical: "top"
-                            }}
-                            anchorOrigin={{
-                                horizontal: "right",
-                                vertical: "bottom"
-                            }}
+                            anchorEl={anchorEl}
+                            handleClose={handleClose}
+                            transformOrigin="right top"
                         >
-                            <MenuItem onClick={handleClose}>
+                            <MenuItem onClick={handleClickProfile}>
                                 <Link
                                     sx={{
                                         textDecoration: "none",
@@ -150,18 +148,6 @@ function AuthView() {
                                             ? "talent"
                                             : "notFound"
                                     }/${id}`}
-                                    onClick={e => {
-                                        e.preventDefault();
-                                        navigate(
-                                            `/${
-                                                role === "SPONSOR"
-                                                    ? "sponsor"
-                                                    : role === "TALENT"
-                                                    ? "talent"
-                                                    : "notFound"
-                                            }/${id}`
-                                        );
-                                    }}
                                 >
                                     <ListItemIcon sx={{ alignSelf: "center" }}>
                                         <AccountCircleIcon fontSize="small" />
@@ -169,17 +155,13 @@ function AuthView() {
                                     Profile
                                 </Link>
                             </MenuItem>
-                            <MenuItem onClick={handleClose}>
+                            <MenuItem onClick={handleClickSettings}>
                                 <Link
                                     sx={{
                                         textDecoration: "none",
                                         display: "flex"
                                     }}
                                     href="/settings"
-                                    onClick={e => {
-                                        e.preventDefault();
-                                        navigate(`/settings`);
-                                    }}
                                 >
                                     <ListItemIcon sx={{ alignSelf: "center" }}>
                                         <SettingsIcon fontSize="small" />
@@ -187,9 +169,8 @@ function AuthView() {
                                     Settings
                                 </Link>
                             </MenuItem>
-                            <MenuItem onClick={handleClose}>
+                            <MenuItem onClick={handleLogout}>
                                 <Link
-                                    onClick={handleLogout}
                                     sx={{
                                         textDecoration: "none",
                                         display: "flex"

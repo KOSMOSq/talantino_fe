@@ -13,13 +13,7 @@ const ProofsArea = ({ proofs }) => {
 
     return (
         <>
-            <Box
-                zIndex={1}
-                position={"absolute"}
-                right={100}
-                mt={"15px"}
-                mb={"15px"}
-            >
+            <Box mt={"15px"}>
                 <FormControl sx={{ width: "120px" }}>
                     <Select
                         sx={{ height: "40px" }}

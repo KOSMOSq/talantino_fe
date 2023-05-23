@@ -1,4 +1,4 @@
-import { Typography, Fade, Paper, Popper } from "@mui/material";
+import { Typography, Fade, Paper, Popper, Grow } from "@mui/material";
 import { KudosSlider } from "./KudosSlider";
 import { configsForSlider } from "../configsForSlider/configsForSlider";
 
@@ -24,7 +24,12 @@ const KudosPopper = ({
             transition
         >
             {({ TransitionProps }) => (
-                <Fade {...TransitionProps} timeout={350}>
+                <Grow
+                    {...TransitionProps}
+                    style={{
+                        transformOrigin: "top"
+                    }}
+                >
                     <Paper
                         elevation={4}
                         sx={{
@@ -52,7 +57,7 @@ const KudosPopper = ({
                             skillsAmount={skillsAmount}
                         />
                     </Paper>
-                </Fade>
+                </Grow>
             )}
         </Popper>
     );
