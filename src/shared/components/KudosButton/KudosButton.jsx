@@ -7,7 +7,7 @@ import {
     Typography
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
 import kudosIconInactive from "../../../assets/icons/kudosIconInactive.svg";
 import { KudosPopper } from "./components/KudosPopper";
@@ -24,7 +24,8 @@ const KudosButton = ({
     totalKudosFromSponsor,
     authorId,
     alignRight = false,
-    skillsAmount
+    skillsAmount,
+    clikedFrom
 }) => {
     const defaultKudosAmount = skillsAmount !== 0 ? skillsAmount : 1;
     const [kudosed, setKudosed] = useState(isKudosed);
@@ -126,10 +127,11 @@ const KudosButton = ({
                         open={open}
                         anchorEl={anchorEl}
                         balance={balance}
+                        skillsAmount={skillsAmount}
+                        clikedFrom={clikedFrom}
                         kudosAmount={kudosAmount}
                         setKudosAmount={setKudosAmount}
                         handleKudos={handleKudos}
-                        skillsAmount={skillsAmount}
                     />
                     <Box
                         display="flex"

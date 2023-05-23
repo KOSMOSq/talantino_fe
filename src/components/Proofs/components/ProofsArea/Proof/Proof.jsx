@@ -177,6 +177,7 @@ const Proof = ({
                                                     ? skills.length
                                                     : 0
                                             }
+                                            clikedFrom="proof"
                                         />
                                     </Box>
                                 </Box>

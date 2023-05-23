@@ -146,6 +146,7 @@ function TalentProof({
                                 totalKudosFromSponsor={totalKudosFromSponsor}
                                 alignRight
                                 skillsAmount={skills.length ? skills.length : 0}
+                                clikedFrom="proof"
                             />
                         </Box>
                     ) : null}
