@@ -17,15 +17,6 @@ const configsForSlider = (fromWhatKudos, skillsAmount, balance) => {
         ? 0
         : 1;
 
-    const marksWithoutSkills = [
-        { value: 1, label: 1 },
-        { value: balance, label: balance }
-    ];
-
-    if (balance === 1) {
-        marksWithoutSkills[0] = { value: 0, label: 0 };
-    }
-
     const marksWithSkillsValue =
         skillsAmount === balance
             ? 0
@@ -33,7 +24,7 @@ const configsForSlider = (fromWhatKudos, skillsAmount, balance) => {
             ? 0
             : skillsAmount;
 
-    const marksWithSkills = [
+    const marksForProofWithSkills = [
         {
             value: marksWithSkillsValue,
             label: marksWithSkillsValue
@@ -41,7 +32,21 @@ const configsForSlider = (fromWhatKudos, skillsAmount, balance) => {
         { value: maxValue, label: maxValue }
     ];
 
-    const marks = skillsAmount ? marksWithSkills : marksWithoutSkills;
+    const universalMarks = [
+        { value: 1, label: 1 },
+        { value: balance, label: balance }
+    ];
+
+    if (balance === 1) {
+        universalMarks[0] = { value: 0, label: 0 };
+    }
+
+    const marks =
+        fromWhatKudos === "skill"
+            ? universalMarks
+            : skillsAmount
+            ? marksForProofWithSkills
+            : universalMarks;
 
     if (fromWhatKudos === "proof") {
         return { step, maxValue, minValue, marks };
