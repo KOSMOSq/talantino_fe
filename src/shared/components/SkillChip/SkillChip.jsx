@@ -43,6 +43,7 @@ const SkillChip = ({
             dispatch(
                 setMessage(`${kudosAmount} kudos sent successfully`, "success")
             );
+            totalKudos += kudosAmount; //IF IT LL WORK THEN DELETE FROM LOGIC proofsReducer
             setAnchorEl(null);
         } catch (err) {
             dispatch(
