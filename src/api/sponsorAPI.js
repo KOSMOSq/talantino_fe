@@ -22,10 +22,6 @@ export const sponsorAPI = {
             })
         ).data;
     },
-    async recoverAccount(token) {
-        return (await axiosInstance.post(`/account-recover?token=${token}`, {}))
-            .data;
-    },
     async getBalanceHistory(token) {
         return (
             await axiosInstance.get(`/sponsors/balance/history`, {

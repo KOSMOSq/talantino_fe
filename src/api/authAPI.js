@@ -33,6 +33,10 @@ const authAPI = {
     async emailConfirm(token) {
         return (await axiosInstance.post(`/email-confirm?token=${token}`, {}))
             .data.token;
+    },
+    async recoverAccount(token) {
+        return (await axiosInstance.post(`/account-recover?token=${token}`, {}))
+            .data;
     }
 };
 
