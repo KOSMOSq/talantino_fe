@@ -1,8 +1,8 @@
 import { Box, Button, Typography } from "@mui/material";
-import { sponsorAPI } from "../../api/sponsorAPI";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../redux/reducers/appReducer";
+import { authAPI } from "../../api/authAPI";
 
 const Recover = () => {
     const isAuth = useSelector(store => store.auth.isAuth);
@@ -16,7 +16,7 @@ const Recover = () => {
 
     const handleClick = async () => {
         try {
-            await sponsorAPI.recoverAccount(searchParams.get("token"));
+            await authAPI.recoverAccount(searchParams.get("token"));
             dispatch(
                 setMessage("Account has been successfully recovered", "success")
             );
