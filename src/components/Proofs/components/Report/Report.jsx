@@ -3,7 +3,7 @@ import FlagIcon from "@mui/icons-material/Flag";
 
 const Report = () => {
     return (
-        <Box display="flex" width="100%">
+        <Box display="flex">
             <ListItemIcon sx={{ alignSelf: "center", color: "red" }}>
                 <FlagIcon fontSize="small" />
             </ListItemIcon>

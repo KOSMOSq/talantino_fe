@@ -45,7 +45,14 @@ const DialogOfSponsors = ({ counter, formatter, id, token }) => {
 
     return (
         <>
-            <Tooltip title={`${counter}, press to see sponsors who kudosed`} arrow placement="right" enterDelay={200} enterNextDelay={200} leaveDelay={100}>
+            <Tooltip
+                title={`${counter}, press to see sponsors who kudosed`}
+                arrow
+                placement="right"
+                enterDelay={200}
+                enterNextDelay={200}
+                leaveDelay={100}
+            >
                 <Typography
                     onClick={handleClickOpen}
                     component="div"
@@ -92,9 +99,11 @@ const DialogOfSponsors = ({ counter, formatter, id, token }) => {
                                 >
                                     <ListItemAvatar>
                                         <Avatar
-                                            src={item.sponsor.avatar || "error"}
+                                            src={item.sponsor.avatar}
                                             alt={item.sponsor.name}
-                                        />
+                                        >
+                                            {item.sponsor.name.slice(0, 1)}
+                                        </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
                                         primary={

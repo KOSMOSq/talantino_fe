@@ -30,13 +30,15 @@ const ProfileAvatar = ({
         <Box>
             <Avatar
                 alt={user.name}
-                src={avatarSrc || user.avatar || "error"}
+                src={avatarSrc || user.avatar}
                 sx={{
                     width: 190,
                     height: 190,
                     fontSize: "64px"
                 }}
-            />
+            >
+                {user.name.slice(0, 1)}
+            </Avatar>
             <Box display="flex" justifyContent={"end"}>
                 <SpeedDial
                     ariaLabel="SpeedDial for choosing an avatar action"
@@ -67,8 +69,9 @@ const ProfileAvatar = ({
                 <input
                     {...restRegProps}
                     ref={e => {
-                        ref(e)
-                        avatarInputRef.current = e}}
+                        ref(e);
+                        avatarInputRef.current = e;
+                    }}
                     type="file"
                     accept="image/*"
                     hidden

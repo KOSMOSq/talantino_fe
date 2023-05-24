@@ -4,7 +4,7 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import { useDispatch, useSelector } from "react-redux";
 import { setTalentsView } from "../../../../redux/reducers/talentsReducer";
 
-function ChangeViewButton() {
+function ChangeViewButton({ disabled = false }) {
     const talentsView = useSelector(store => store.talents.talentsView);
     const dispatch = useDispatch();
 
@@ -20,13 +20,12 @@ function ChangeViewButton() {
             value={talentsView}
             onChange={handleChange}
             exclusive
+            disabled={disabled}
         >
             <ToggleButton value="grid" aria-label="left aligned">
-                {" "}
                 <ViewModuleIcon value="grid" />
             </ToggleButton>
             <ToggleButton value="list" aria-label="right aligned">
-                {" "}
                 <ViewListIcon value="list" />
             </ToggleButton>
         </ToggleButtonGroup>

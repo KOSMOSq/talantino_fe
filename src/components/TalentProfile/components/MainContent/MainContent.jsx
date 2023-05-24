@@ -7,7 +7,11 @@ import { TalentStats } from "./components/TalentStats/TalentStats";
 
 function MainContent({ talentDescription, talentId, prevId, nextId }) {
     return (
-        <Box width={"70%"} sx={{ display: "flex", flexDirection: "column" }}>
+        <Box
+            width={"70%"}
+            ml={2}
+            sx={{ display: "flex", flexDirection: "column" }}
+        >
             <ProfileStickyHeader
                 talentId={talentId}
                 nextId={nextId}
@@ -15,7 +19,10 @@ function MainContent({ talentDescription, talentId, prevId, nextId }) {
             />
             <Routes>
                 <Route path="proofs" element={<TalentProofArea />} />
-                <Route path="statistics" element={<TalentStats talentId={talentId}/>}/>
+                <Route
+                    path="statistics"
+                    element={<TalentStats talentId={talentId} />}
+                />
                 <Route
                     path="/"
                     element={<Overview talentDescription={talentDescription} />}

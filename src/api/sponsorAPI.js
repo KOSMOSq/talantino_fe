@@ -23,9 +23,8 @@ export const sponsorAPI = {
         ).data;
     },
     async recoverAccount(token) {
-        return (
-            await axiosInstance.post(`/sponsors/recover?token=${token}`, {})
-        ).data;
+        return (await axiosInstance.post(`/account-recover?token=${token}`, {}))
+            .data;
     },
     async getBalanceHistory(token, page, size) {
         return (

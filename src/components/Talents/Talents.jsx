@@ -94,9 +94,10 @@ const Talents = () => {
         );
     };
 
-    if (isLoading) {
-        return <LinearProgress />;
-    } else if (talents.length === 0 && !searchParams.get("skills")) {
+    // if (isLoading) {
+    //     return <LinearProgress />;
+    // } else
+    if (!isLoading && talents.length === 0 && !searchParams.get("skills")) {
         return <NoTalentsYet />;
     }
 
@@ -116,25 +117,27 @@ const Talents = () => {
                 mr={20}
                 ml={20}
             >
-                <FilterDrawer />
-                <ChangeViewButton />
+                <FilterDrawer disabled={isLoading} />
+                <ChangeViewButton disabled={isLoading} />
             </Box>
             {talents.length === 0 && searchParams.get("skills") ? (
                 <NoMatchesTalents />
             ) : (
                 <>
-                    <TalentsArea />
-                    <Pagination
-                        sx={{
-                            marginTop: "20px",
-                            marginLeft: "auto",
-                            marginRight: "auto",
-                            marginBottom: 2
-                        }}
-                        page={page}
-                        count={totalPages}
-                        onChange={handleChange}
-                    />
+                    <TalentsArea talents={talents} isLoading={isLoading} />
+                    {!isLoading ? (
+                        <Pagination
+                            sx={{
+                                marginTop: "20px",
+                                marginLeft: "auto",
+                                marginRight: "auto",
+                                marginBottom: 2
+                            }}
+                            page={page}
+                            count={totalPages}
+                            onChange={handleChange}
+                        />
+                    ) : null}
                 </>
             )}
         </Container>
