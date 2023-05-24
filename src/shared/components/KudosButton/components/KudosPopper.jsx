@@ -1,40 +1,19 @@
-import {
-    Box,
-    Typography,
-    Slider,
-    Button,
-    Fade,
-    Paper,
-    Popper
-} from "@mui/material";
-import { useMemo } from "react";
+import { Typography, Fade, Paper, Popper, Grow } from "@mui/material";
+import { KudosSlider } from "./KudosSlider";
+import { configsForSlider } from "../configsForSlider/configsForSlider";
 
 const KudosPopper = ({
     balance,
-    kudosAmount,
-    setKudosAmount,
-    handleKudos,
     idPop,
     open,
-    anchorEl
+    anchorEl,
+    skillsAmount,
+    clikedFrom,
+    kudosAmount,
+    setKudosAmount,
+    handleKudos
 }) => {
-    const handleChange = (e, value) => {
-        setKudosAmount(value);
-    };
-
-    const marks = useMemo(() => {
-        return [
-            { value: 1, label: "1" },
-            { value: balance, label: balance }
-        ];
-    }, [balance]);
-
-    const marksForOne = useMemo(() => {
-        return [
-            { value: 0, label: "0" },
-            { value: 1, label: "1" }
-        ];
-    }, []);
+    const configForSlider = configsForSlider(clikedFrom, skillsAmount, balance);
 
     return (
         <Popper
@@ -45,7 +24,12 @@ const KudosPopper = ({
             transition
         >
             {({ TransitionProps }) => (
-                <Fade {...TransitionProps} timeout={350}>
+                <Grow
+                    {...TransitionProps}
+                    style={{
+                        transformOrigin: "top"
+                    }}
+                >
                     <Paper
                         elevation={4}
                         sx={{
@@ -63,32 +47,17 @@ const KudosPopper = ({
                         <Typography variant="h6" sx={{ fontSize: "16px" }}>
                             Choose the number of kudos to send
                         </Typography>
-                        <Box
-                            width={300}
-                            display="flex"
-                            flexDirection="column"
-                            alignItems="end"
-                        >
-                            <Slider
-                                defaultValue={1}
-                                min={balance === 1 ? 0 : 1}
-                                max={balance}
-                                value={kudosAmount}
-                                onChange={handleChange}
-                                valueLabelDisplay="auto"
-                                marks={balance === 1 ? marksForOne : marks}
-                            />
-                        </Box>
 
-                        <Button
-                            variant="contained"
-                            onClick={handleKudos}
-                            disabled={kudosAmount === 0}
-                        >
-                            Send {kudosAmount} kudos
-                        </Button>
+                        <KudosSlider
+                            {...configForSlider}
+                            kudosAmount={kudosAmount}
+                            setKudosAmount={setKudosAmount}
+                            handleKudos={handleKudos}
+                            balance={balance}
+                            skillsAmount={skillsAmount}
+                        />
                     </Paper>
-                </Fade>
+                </Grow>
             )}
         </Popper>
     );

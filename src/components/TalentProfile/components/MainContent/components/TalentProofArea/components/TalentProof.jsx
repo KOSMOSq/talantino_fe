@@ -1,14 +1,25 @@
-import { Box, Chip, IconButton, Tooltip, Typography } from "@mui/material";
+import {
+    Box,
+    Chip,
+    IconButton,
+    ListItemIcon,
+    MenuItem,
+    Typography
+} from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { theme } from "../../../../../../../shared/themes/neutralColorTheme";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { EditProofForm } from "../../../../../../Forms/EditProofForm/EditProofForm";
 import { ModalConfirmation } from "../../../../../../ModalConfirmation/ModalConfirmation";
 import { ProofSkillsArea } from "./ProofSkillsArea/ProofSkillsArea";
 import { KudosButton } from "../../../../../../../shared/components/KudosButton/KudosButton";
 import { ProofTime } from "../../../../../../../shared/components/ProofTime/ProofTime";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Menu } from "../../../../../../../shared/components/Menu/Menu";
+import { Report } from "../../../../../../Proofs/components/Report/Report";
+import { sendReportThunk } from "../../../../../../../redux/reducers/proofsReducer";
 
 function TalentProof({
     date,
@@ -25,9 +36,29 @@ function TalentProof({
     totalKudosFromSponsor
 }) {
     const [editMode, setEditMode] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [openReportModal, setOpenReportModal] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const openMenu = Boolean(anchorEl);
     const role = useSelector(store => store.auth.user.role);
     const authId = useSelector(store => store.auth.user.id);
+    const dispatch = useDispatch();
+
+    const handleClickMore = event => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleCloseMore = () => {
+        setAnchorEl(null);
+    };
+
+    const handleClickReport = () => {
+        setOpenReportModal(prev => !prev);
+        handleCloseMore();
+    };
+    const handleSendReport = () => {
+        dispatch(sendReportThunk(id));
+    };
 
     return (
         <>
@@ -87,30 +118,116 @@ function TalentProof({
                                                 }
                                                 label={status}
                                             />
-                                            <Tooltip title="Edit proof">
-                                                <IconButton
-                                                    onClick={() =>
+                                            <IconButton
+                                                onClick={handleClickMore}
+                                                size="small"
+                                                sx={{
+                                                    alignSelf: "start",
+                                                    marginLeft: "auto"
+                                                }}
+                                            >
+                                                <MoreVertIcon />
+                                            </IconButton>
+                                            <Menu
+                                                anchorEl={anchorEl}
+                                                open={openMenu}
+                                                handleClose={handleCloseMore}
+                                                transformOrigin="right top"
+                                            >
+                                                <MenuItem
+                                                    onClick={() => {
                                                         setEditMode(
-                                                            prev => true
-                                                        )
-                                                    }
+                                                            prev => !prev
+                                                        );
+                                                        handleCloseMore();
+                                                    }}
                                                 >
-                                                    <EditIcon />
-                                                </IconButton>
-                                            </Tooltip>
-                                            <Tooltip title="Delete proof">
-                                                <IconButton
-                                                    onClick={() =>
-                                                        setOpenModal(true)
-                                                    }
+                                                    <ListItemIcon>
+                                                        <EditIcon
+                                                            fontSize="medium"
+                                                            sx={{
+                                                                color: "#1976d2"
+                                                            }}
+                                                        />
+                                                    </ListItemIcon>
+                                                    <Typography
+                                                        variant="span"
+                                                        color={"#1976d2"}
+                                                    >
+                                                        Edit
+                                                    </Typography>
+                                                </MenuItem>
+
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        setOpenDeleteModal(
+                                                            prev => !prev
+                                                        );
+                                                        handleCloseMore();
+                                                    }}
                                                 >
-                                                    <DeleteForeverIcon fontSize="medium" />
-                                                </IconButton>
-                                            </Tooltip>
+                                                    <ListItemIcon>
+                                                        <DeleteForeverIcon
+                                                            fontSize="medium"
+                                                            sx={{
+                                                                color: "red"
+                                                            }}
+                                                        />
+                                                    </ListItemIcon>
+                                                    <Typography
+                                                        variant="span"
+                                                        color={"red"}
+                                                    >
+                                                        Delete
+                                                    </Typography>
+                                                </MenuItem>
+                                            </Menu>
                                         </Box>
                                     </Box>
                                 ) : (
-                                    ""
+                                    <>
+                                        <IconButton
+                                            onClick={handleClickMore}
+                                            size="small"
+                                            sx={{
+                                                alignSelf: "start",
+                                                marginLeft: "auto"
+                                            }}
+                                        >
+                                            <MoreVertIcon />
+                                        </IconButton>
+
+                                        <Menu
+                                            anchorEl={anchorEl}
+                                            open={openMenu}
+                                            handleClose={handleCloseMore}
+                                            transformOrigin="right top"
+                                        >
+                                            <MenuItem
+                                                onClick={handleClickReport}
+                                            >
+                                                <Report />
+                                            </MenuItem>
+                                        </Menu>
+                                        <ModalConfirmation
+                                            title="Reporting proof"
+                                            description="Are you sure to report this proof?"
+                                            open={openReportModal}
+                                            handleClose={() =>
+                                                setOpenReportModal(
+                                                    prev => !prev
+                                                )
+                                            }
+                                            handleArgee={() => {
+                                                handleSendReport();
+                                                setOpenReportModal(
+                                                    prev => !prev
+                                                );
+                                            }}
+                                            error
+                                            agreeButtonText="Report"
+                                        ></ModalConfirmation>
+                                    </>
                                 )}
                             </Box>
                             <Typography
@@ -135,7 +252,9 @@ function TalentProof({
                         />
                     )}
                     {!editMode ? (
-                        <Box sx={{ ml: "-10px", mb: "-10px", marginTop: "4px" }}>
+                        <Box
+                            sx={{ ml: "-10px", mb: "-10px", marginTop: "4px" }}
+                        >
                             <KudosButton
                                 id={id}
                                 isKudosed={isKudosed}
@@ -143,6 +262,8 @@ function TalentProof({
                                 authorId={authorId}
                                 totalKudosFromSponsor={totalKudosFromSponsor}
                                 alignRight
+                                skillsAmount={skills.length ? skills.length : 0}
+                                clikedFrom="proof"
                             />
                         </Box>
                     ) : null}
@@ -152,8 +273,8 @@ function TalentProof({
             <ModalConfirmation
                 title={"Are you sure you want delete the proof?"}
                 description={"It cannot be restored."}
-                open={openModal}
-                handleClose={() => setOpenModal(false)}
+                open={openDeleteModal}
+                handleClose={() => setOpenDeleteModal(false)}
                 handleArgee={() => onDelete(id)}
                 agreeButtonText="Delete"
             />

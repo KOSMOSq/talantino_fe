@@ -94,4 +94,21 @@ export const getProofsThunk =
         }
     };
 
+export const sendReportThunk = id => async (dispatch, getState) => {
+    const token = getState().auth.token;
+    try {
+        await proofsAPI.reportProof(id, token);
+        dispatch(setMessage("Your report sent successfully!", "success"));
+    } catch (err) {
+        dispatch(
+            setMessage(
+                err.response?.data.message
+                    ? err.response.data.message
+                    : "You need to log in to send a report.",
+                "error"
+            )
+        );
+    }
+};
+
 export default proofsReducer;
