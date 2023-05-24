@@ -55,9 +55,6 @@ const Proofs = () => {
         };
     }, [page, sortType, searchParams.get("page")]);
 
-    // if (isLoading) {
-    //     return <LinearProgress />;
-    // }
     if (!isLoading && proofs.length === 0) {
         return (
             <Typography

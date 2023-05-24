@@ -6,45 +6,52 @@ import {
     ListItem,
     ListItemAvatar,
     ListItemText,
+    Skeleton,
     Typography
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setClikedId } from "../../../../redux/reducers/talentsReducer";
 import { ProofSkillsArea } from "../../../TalentProfile/components/MainContent/components/TalentProofArea/components/ProofSkillsArea/ProofSkillsArea";
+import { useEffect } from "react";
 
-function TalentListCard({
+const TalentListCard = ({
     name,
     surname,
     profilePicture,
     kindOfTalent,
     id,
-    skills = []
-}) {
+    skills = [],
+    isLoading
+}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     //перенести в компонент вище, redux має бути на найвищому рівні
     const isAuth = useSelector(store => store.auth.isAuth);
 
     const handleClick = e => {
-        e.preventDefault();
-        if (!isAuth) {
-            navigate(`/login`);
-            dispatch(setClikedId(id));
-            return;
+        if (id !== undefined) {
+            e.preventDefault();
+            if (!isAuth) {
+                navigate(`/login`);
+                dispatch(setClikedId(id));
+                return;
+            }
+            navigate(`/talent/${id}`);
         }
-        navigate(`/talent/${id}`);
     };
 
     return (
         <>
             <ListItem
                 component="a"
-                href={`/talent/${id}`}
+                href={!isLoading ? `/talent/${id}` : null}
                 title={
-                    isAuth
-                        ? `${name} ${surname}`
-                        : "You need to log in to see talent profiles"
+                    !isLoading
+                        ? isAuth
+                            ? `${name} ${surname}`
+                            : "You need to log in to see talent profiles"
+                        : ""
                 }
                 onClick={handleClick}
                 sx={{
@@ -64,21 +71,29 @@ function TalentListCard({
                 >
                     <Box>
                         <ListItemAvatar>
-                            <Avatar
-                                sx={{
-                                    width: "100px",
-                                    height: "100px",
-                                    fontSize: "48px"
-                                }}
-                                sizes={"medium"}
-                                alt={`${name} ${surname}`}
-                                src={profilePicture}
-                            >
-                                {name.slice(0, 1)}
-                            </Avatar>
+                            {!isLoading ? (
+                                <Avatar
+                                    sx={{
+                                        width: "100px",
+                                        height: "100px",
+                                        fontSize: "48px"
+                                    }}
+                                    sizes={"medium"}
+                                    alt={`${name} ${surname}`}
+                                    src={profilePicture}
+                                >
+                                    {name.slice(0, 1)}
+                                </Avatar>
+                            ) : (
+                                <Skeleton
+                                    variant="circular"
+                                    width="100px"
+                                    height="100px"
+                                />
+                            )}
                         </ListItemAvatar>
                     </Box>
-                    <Box sx={{ marginLeft: "16px" }}>
+                    <Box width="100%" sx={{ marginLeft: "16px" }}>
                         <ListItemText
                             sx={{ mt: "0px" }}
                             primary={
@@ -92,26 +107,69 @@ function TalentListCard({
                                     variant="h6"
                                     color="text.primary"
                                 >
-                                    {name} {surname}
+                                    {!isLoading ? (
+                                        name + " " + surname
+                                    ) : (
+                                        <Skeleton width="40%" />
+                                    )}
                                 </Typography>
                             }
                             secondary={
-                                <Chip
-                                    component="span"
-                                    sx={{
-                                        fontSize: 18,
-                                        height: "28px",
-                                        pl: "2px",
-                                        pr: "2px"
-                                    }}
-                                    label={kindOfTalent}
-                                    color="primary"
-                                    size="small"
-                                />
+                                !isLoading ? (
+                                    <Chip
+                                        component="span"
+                                        sx={{
+                                            fontSize: 18,
+                                            height: "28px",
+                                            pl: "2px",
+                                            pr: "2px"
+                                        }}
+                                        label={kindOfTalent}
+                                        color="primary"
+                                        size="small"
+                                    />
+                                ) : (
+                                    <Skeleton
+                                        variant="rounded"
+                                        height="28px"
+                                        width="25%"
+                                        sx={{
+                                            borderRadius: "16px"
+                                        }}
+                                    />
+                                )
                             }
                         ></ListItemText>
                         <Box sx={{ mt: "16px" }}>
-                            <ProofSkillsArea skills={skills} />
+                            {!isLoading ? (
+                                <ProofSkillsArea skills={skills} />
+                            ) : (
+                                <>
+                                    <Box
+                                        display="flex"
+                                        flexWrap="wrap"
+                                        sx={{
+                                            width: "100%",
+                                            marginTop: "8px"
+                                        }}
+                                        gap={0.8}
+                                    >
+                                        {Array(4)
+                                            .fill("")
+                                            .map((item, index) => (
+                                                <Skeleton
+                                                    key={index}
+                                                    variant="rounded"
+                                                    width={99}
+                                                    height={24}
+                                                    sx={{
+                                                        borderRadius: "16px"
+                                                    }}
+                                                />
+                                            ))}
+                                    </Box>
+                                </>
+                            )}
                         </Box>
                     </Box>
                 </Box>
@@ -123,6 +181,6 @@ function TalentListCard({
             />
         </>
     );
-}
+};
 
 export { TalentListCard };

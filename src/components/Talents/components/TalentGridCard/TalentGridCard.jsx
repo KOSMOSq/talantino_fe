@@ -8,6 +8,8 @@ import {
     CardContent,
     CardMedia,
     Chip,
+    Grid,
+    Skeleton,
     Typography
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,20 +20,23 @@ const TalentGridCard = ({
     surname,
     profilePicture,
     kindOfTalent,
-    id
+    id,
+    isLoading
 }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isAuth = useSelector(store => store.auth.isAuth);
 
     const handleClick = e => {
-        e.preventDefault();
-        if (!isAuth) {
-            navigate(`/login`);
-            dispatch(setClikedId(id));
-            return;
+        if (id !== undefined) {
+            e.preventDefault();
+            if (!isAuth) {
+                navigate(`/login`);
+                dispatch(setClikedId(id));
+                return;
+            }
+            navigate(`/talent/${id}`);
         }
-        navigate(`/talent/${id}`);
     };
 
     const cardWidthBreakpoints = {
@@ -62,8 +67,8 @@ const TalentGridCard = ({
         xl: 18 //1536
     };
 
-    return (
-        <>
+    return !isLoading ? (
+        <Grid item>
             <Card
                 sx={{
                     width: cardWidthBreakpoints,
@@ -71,14 +76,16 @@ const TalentGridCard = ({
                     borderRadius: "12px"
                 }}
                 title={
-                    isAuth
-                        ? `${name} ${surname}`
-                        : "You need to log in to see talent profiles"
+                    !isLoading
+                        ? isAuth
+                            ? `${name} ${surname}`
+                            : "You need to log in to see talent profiles"
+                        : ""
                 }
             >
                 <CardActionArea
                     component="a"
-                    href={`/talent/${id}`}
+                    href={!isLoading ? `/talent/${id}` : null}
                     sx={{
                         display: "flex",
                         flexDirection: "row"
@@ -102,7 +109,7 @@ const TalentGridCard = ({
                                 alt={name + " " + surname}
                                 src={profilePicture}
                             >
-                                {name.slice(0, 1)}
+                                {!isLoading ? name.slice(0, 1) : null}
                             </Avatar>
                         </CardMedia>
                     </Box>
@@ -140,7 +147,17 @@ const TalentGridCard = ({
                     </CardContent>
                 </CardActionArea>
             </Card>
-        </>
+        </Grid>
+    ) : (
+        <Grid item>
+            <Skeleton
+                sx={{
+                    width: cardWidthBreakpoints,
+                    height: cardHeightBreakpoints,
+                    borderRadius: "12px"
+                }}
+            />
+        </Grid>
     );
 };
 

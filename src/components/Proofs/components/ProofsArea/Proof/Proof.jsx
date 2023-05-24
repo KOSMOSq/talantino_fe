@@ -77,7 +77,13 @@ const Proof = ({
                                     {!isLoading ? (
                                         <Avatar
                                             component={Link}
-                                            to={`/talent/${author.id}`}
+                                            to={
+                                                !isLoading
+                                                    ? `/talent/${
+                                                          author && author.id
+                                                      }`
+                                                    : null
+                                            }
                                             alt={
                                                 author.name +
                                                 " " +
@@ -108,7 +114,11 @@ const Proof = ({
                                                 color: "#202020"
                                             }}
                                             component={Link}
-                                            to={`/talent/${author.id}`}
+                                            to={
+                                                !isLoading
+                                                    ? `/talent/${author.id}`
+                                                    : null
+                                            }
                                         >
                                             {!isLoading ? (
                                                 author.name +

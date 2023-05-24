@@ -11,54 +11,40 @@ const ProofsArea = ({ proofs, isLoading }) => {
         dispatch(setProofsSortType(event.target.value));
     };
 
-    const mockInfo = {
-        id: 0,
-        date: 0,
-        title: "",
-        description: "",
-        skills: [],
-        isKudosed: false,
-        totalKudos: 0,
-        totalKudosFromSponsor: 0,
-        author: []
-    };
+    if (proofs.length === 0) {
+        proofs = Array(9).fill({});
+    }
+
     return (
         <>
             <Box mt={"15px"}>
-                {!isLoading ? (
-                    <FormControl sx={{ width: "120px" }}>
-                        <Select
-                            sx={{ height: "40px" }}
-                            variant="outlined"
-                            labelId="sortType"
-                            id="selectSortType"
-                            value={sortType}
-                            onChange={handleChange}
-                        >
-                            <MenuItem value={"desc"}>Newest</MenuItem>
-                            <MenuItem value={"asc"}>Oldest</MenuItem>
-                        </Select>
-                    </FormControl>
-                ) : null}
+                <FormControl sx={{ width: "120px" }}>
+                    <Select
+                        sx={{ height: "40px" }}
+                        variant="outlined"
+                        labelId="sortType"
+                        id="selectSortType"
+                        value={sortType}
+                        onChange={handleChange}
+                        disabled={isLoading}
+                    >
+                        <MenuItem value={"desc"}>Newest</MenuItem>
+                        <MenuItem value={"asc"}>Oldest</MenuItem>
+                    </Select>
+                </FormControl>
             </Box>
 
             <Box display="flex" justifyContent="center" pt={2} width={"100%"}>
                 <List sx={{ width: "100%" }}>
-                    {!isLoading
-                        ? proofs.map(item => {
-                              return <Proof {...item} key={item.id} />;
-                          })
-                        : Array(9)
-                              .fill("")
-                              .map((item, index) => {
-                                  return (
-                                      <Proof
-                                          isLoading={isLoading}
-                                          {...mockInfo}
-                                          key={index}
-                                      />
-                                  );
-                              })}
+                    {proofs.map((item, index) => {
+                        return (
+                            <Proof
+                                isLoading={isLoading}
+                                {...item}
+                                key={index}
+                            />
+                        );
+                    })}
                 </List>
             </Box>
         </>

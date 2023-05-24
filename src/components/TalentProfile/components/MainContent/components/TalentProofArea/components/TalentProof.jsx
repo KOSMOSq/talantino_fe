@@ -4,7 +4,6 @@ import {
     IconButton,
     ListItemIcon,
     MenuItem,
-    Tooltip,
     Typography
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -135,62 +134,53 @@ function TalentProof({
                                                 handleClose={handleCloseMore}
                                                 transformOrigin="right top"
                                             >
-                                                <Tooltip
-                                                    title="Edit proof"
-                                                    placement="left"
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        setEditMode(
+                                                            prev => !prev
+                                                        );
+                                                        handleCloseMore();
+                                                    }}
                                                 >
-                                                    <MenuItem
-                                                        onClick={() => {
-                                                            setEditMode(
-                                                                prev => !prev
-                                                            );
-                                                            handleCloseMore();
-                                                        }}
+                                                    <ListItemIcon>
+                                                        <EditIcon
+                                                            fontSize="medium"
+                                                            sx={{
+                                                                color: "#1976d2"
+                                                            }}
+                                                        />
+                                                    </ListItemIcon>
+                                                    <Typography
+                                                        variant="span"
+                                                        color={"#1976d2"}
                                                     >
-                                                        <ListItemIcon>
-                                                            <EditIcon
-                                                                fontSize="medium"
-                                                                sx={{
-                                                                    color: "#1976d2"
-                                                                }}
-                                                            />
-                                                        </ListItemIcon>
-                                                        <Typography
-                                                            variant="span"
-                                                            color={"#1976d2"}
-                                                        >
-                                                            Edit
-                                                        </Typography>
-                                                    </MenuItem>
-                                                </Tooltip>
-                                                <Tooltip
-                                                    title="Delete proof"
-                                                    placement="left"
+                                                        Edit
+                                                    </Typography>
+                                                </MenuItem>
+
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        setOpenDeleteModal(
+                                                            prev => !prev
+                                                        );
+                                                        handleCloseMore();
+                                                    }}
                                                 >
-                                                    <MenuItem
-                                                        onClick={() => {
-                                                            setOpenDeleteModal(
-                                                                prev => !prev
-                                                            );
-                                                            handleCloseMore();
-                                                        }}
+                                                    <ListItemIcon>
+                                                        <DeleteForeverIcon
+                                                            fontSize="medium"
+                                                            sx={{
+                                                                color: "red"
+                                                            }}
+                                                        />
+                                                    </ListItemIcon>
+                                                    <Typography
+                                                        variant="span"
+                                                        color={"red"}
                                                     >
-                                                        <ListItemIcon>
-                                                            <DeleteForeverIcon
-                                                                fontSize="medium"
-                                                                sx={{
-                                                                    color: "red"
-                                                                }}
-                                                            />
-                                                        </ListItemIcon>
-                                                        <Typography
-                                                            variant="span"
-                                                            color={"red"}
-                                                        >
-                                                            Delete
-                                                        </Typography>
-                                                    </MenuItem>
-                                                </Tooltip>
+                                                        Delete
+                                                    </Typography>
+                                                </MenuItem>
                                             </Menu>
                                         </Box>
                                     </Box>

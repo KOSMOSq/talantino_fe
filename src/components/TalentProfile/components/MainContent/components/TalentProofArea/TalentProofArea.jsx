@@ -89,7 +89,10 @@ function TalentProofArea() {
         setPage(prev => 1);
     }, [searchParams.get("status")]);
 
-    const DelayedButton = withDelayedRender(() => <Button onClick={handleClick}>LOAD MORE</Button>, 1500);
+    const DelayedButton = withDelayedRender(
+        () => <Button onClick={handleClick}>LOAD MORE</Button>,
+        1500
+    );
 
     return (
         <>
@@ -147,7 +150,7 @@ function TalentProofArea() {
                             <Box sx={{ height: "80px" }}>
                                 <CircularProgress size={60} />
                             </Box>
-                        ) : !isLoading && (proofs.length === 0) ? (
+                        ) : !isLoading && proofs.length === 0 ? (
                             <Typography
                                 varitant="caption"
                                 sx={{ color: "gray" }}
@@ -167,7 +170,9 @@ function TalentProofArea() {
                             >
                                 You've reached the end!
                             </Typography>
-                        ) : <DelayedButton />}
+                        ) : (
+                            <DelayedButton />
+                        )}
                     </Box>
                 </Box>
             </Box>
