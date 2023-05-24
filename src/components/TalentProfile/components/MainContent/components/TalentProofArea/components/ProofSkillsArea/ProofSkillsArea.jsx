@@ -2,7 +2,7 @@ import { KudosButton } from "../../../../../../../../shared/components/KudosButt
 import { SkillChip } from "../../../../../../../../shared/components/SkillChip/SkillChip";
 import { Box } from "@mui/material";
 
-const ProofSkillsArea = ({ skills = [], forTalent = false }) => {
+const ProofSkillsArea = ({ skills = [], forTalent = false, proofId }) => {
     return (
         <>
             <Box
@@ -12,7 +12,7 @@ const ProofSkillsArea = ({ skills = [], forTalent = false }) => {
                 gap={0.8}
             >
                 {skills.map((skill, index) => (
-                    <SkillChip key={index} {...skill} forTalent={forTalent}/>
+                    <SkillChip key={index} {...skill} forTalent={forTalent} proofId={proofId}/>
                 ))}
             </Box>
         </>

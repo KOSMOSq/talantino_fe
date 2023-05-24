@@ -191,7 +191,7 @@ const Proof = ({
                                     )}
 
                                     {!isLoading ? (
-                                        <ProofSkillsArea skills={skills} />
+                                        <ProofSkillsArea skills={skills} proofId={id} />
                                     ) : (
                                         <>
                                             <Box

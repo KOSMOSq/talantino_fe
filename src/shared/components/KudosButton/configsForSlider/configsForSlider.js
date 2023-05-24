@@ -51,6 +51,7 @@ const configsForSlider = (fromWhatKudos, skillsAmount, balance) => {
     if (fromWhatKudos === "proof") {
         return { step, maxValue, minValue, marks };
     } else if (fromWhatKudos === "skill") {
+        return { step, maxValue, minValue, marks };
     }
 };
 

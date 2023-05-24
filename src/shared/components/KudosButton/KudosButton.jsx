@@ -24,7 +24,7 @@ const KudosButton = ({
     totalKudosFromSponsor,
     authorId,
     alignRight = false,
-    skillsAmount,
+    skillsAmount = 0,
     clikedFrom
 }) => {
     const defaultKudosAmount = skillsAmount !== 0 ? skillsAmount : 1;
