@@ -5,7 +5,6 @@ import {
     IconButton,
     ListItem,
     MenuItem,
-    Skeleton,
     Tooltip,
     Typography
 } from "@mui/material";
@@ -13,15 +12,14 @@ import { KudosButton } from "../../../../../shared/components/KudosButton/KudosB
 import { ProofSkillsArea } from "../../../../TalentProfile/components/MainContent/components/TalentProofArea/components/ProofSkillsArea/ProofSkillsArea";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { proofsAPI } from "../../../../../api/proofsAPI";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setMessage } from "../../../../../redux/reducers/appReducer";
 import { Report } from "../../Report/Report";
 import { ModalConfirmation } from "../../../../ModalConfirmation/ModalConfirmation";
 import { ProofTime } from "../../../../../shared/components/ProofTime/ProofTime";
 import { ProofDescription } from "./components/ProofDescription.jsx/ProofDescription";
 import { Menu } from "../../../../../shared/components/Menu/Menu";
+import { sendReportThunk } from "../../../../../redux/reducers/proofsReducer";
 
 const Proof = ({
     id,
@@ -54,22 +52,9 @@ const Proof = ({
         handleClose();
     };
 
-    const handleSendReport = async () => {
-        try {
-            await proofsAPI.reportProof(id, token);
-            dispatch(setMessage("Your report sent successfully!", "success"));
-        } catch (err) {
-            dispatch(
-                setMessage(
-                    err.response?.data.message
-                        ? err.response.data.message
-                        : "You need to log in to send a report.",
-                    "error"
-                )
-            );
-        }
+    const handleSendReport = () => {
+        dispatch(sendReportThunk(id));
     };
-
     return (
         <>
             <ListItem>
@@ -204,7 +189,7 @@ const Proof = ({
                         }}
                         error
                         agreeButtonText="Report"
-                    />
+                    ></ModalConfirmation>
                 </Box>
             </ListItem>
             <Divider variant="middle" component="li" sx={{ marginBottom: 2 }} />

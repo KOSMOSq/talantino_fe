@@ -150,7 +150,12 @@ function AuthView() {
                                     }/${id}`}
                                 >
                                     <ListItemIcon sx={{ alignSelf: "center" }}>
-                                        <AccountCircleIcon fontSize="small" />
+                                        <AccountCircleIcon
+                                            fontSize="small"
+                                            sx={{
+                                                color: "#1976d2"
+                                            }}
+                                        />
                                     </ListItemIcon>
                                     Profile
                                 </Link>
@@ -164,7 +169,12 @@ function AuthView() {
                                     href="/settings"
                                 >
                                     <ListItemIcon sx={{ alignSelf: "center" }}>
-                                        <SettingsIcon fontSize="small" />
+                                        <SettingsIcon
+                                            fontSize="small"
+                                            sx={{
+                                                color: "#1976d2"
+                                            }}
+                                        />
                                     </ListItemIcon>
                                     Settings
                                 </Link>
@@ -177,7 +187,12 @@ function AuthView() {
                                     }}
                                 >
                                     <ListItemIcon sx={{ alignSelf: "center" }}>
-                                        <Logout fontSize="small" />
+                                        <Logout
+                                            fontSize="small"
+                                            sx={{
+                                                color: "#1976d2"
+                                            }}
+                                        />
                                     </ListItemIcon>
                                     Logout
                                 </Link>
