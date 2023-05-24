@@ -7,14 +7,16 @@ function SideBar({ userInfo }) {
         <Box width={"30%"} paddingTop={"7vh"}>
             <Avatar
                 alt={userInfo.name}
-                src={userInfo.avatar || "error"}
+                src={userInfo.avatar}
                 sx={{
                     width: 256,
                     height: 256,
                     marginBottom: 2,
                     fontSize: "94px"
                 }}
-            />
+            >
+                {userInfo.name.slice(0, 1)}
+            </Avatar>
             <Box>
                 <Typography
                     variant="h6"

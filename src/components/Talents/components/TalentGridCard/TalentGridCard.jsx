@@ -92,7 +92,18 @@ const TalentGridCard = ({
                                 objectFit: "cover"
                             }}
                         >
-                            <Avatar sx={{ width: "100%", height: "100%", fontSize: "72px" }} variant="square" alt={name + " " + surname} src={profilePicture || "error"}/>
+                            <Avatar
+                                sx={{
+                                    width: "100%",
+                                    height: "100%",
+                                    fontSize: "72px"
+                                }}
+                                variant="square"
+                                alt={name + " " + surname}
+                                src={profilePicture}
+                            >
+                                {name.slice(0, 1)}
+                            </Avatar>
                         </CardMedia>
                     </Box>
                     <CardContent

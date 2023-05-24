@@ -65,11 +65,17 @@ function TalentListCard({
                     <Box>
                         <ListItemAvatar>
                             <Avatar
-                                sx={{ width: "100px", height: "100px", fontSize: "48px" }}
+                                sx={{
+                                    width: "100px",
+                                    height: "100px",
+                                    fontSize: "48px"
+                                }}
                                 sizes={"medium"}
                                 alt={`${name} ${surname}`}
-                                src={profilePicture || "error"}
-                            />
+                                src={profilePicture}
+                            >
+                                {name.slice(0, 1)}
+                            </Avatar>
                         </ListItemAvatar>
                     </Box>
                     <Box sx={{ marginLeft: "16px" }}>

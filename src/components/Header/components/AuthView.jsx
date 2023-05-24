@@ -126,8 +126,10 @@ function AuthView() {
                             <Avatar
                                 sx={{ width: 50, height: 50 }}
                                 alt={name}
-                                src={avatar || "error"}
-                            />
+                                src={avatar}
+                            >
+                                {name.slice(0, 1)}
+                            </Avatar>
                         </IconButton>
                         <Menu
                             open={open}

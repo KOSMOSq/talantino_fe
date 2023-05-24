@@ -5,6 +5,7 @@ import {
     IconButton,
     ListItem,
     MenuItem,
+    Skeleton,
     Tooltip,
     Typography
 } from "@mui/material";
@@ -30,7 +31,8 @@ const Proof = ({
     isKudosed,
     totalKudos,
     totalKudosFromSponsor,
-    author
+    author,
+    isLoading
 }) => {
     const token = useSelector(store => store.auth.token);
     const isAuth = useSelector(store => store.auth.isAuth);
@@ -72,18 +74,33 @@ const Proof = ({
                                     gap={1.2}
                                     sx={{ width: "100%", marginBottom: "6px" }}
                                 >
-                                    <Avatar
-                                        component={Link}
-                                        to={`/talent/${author.id}`}
-                                        alt={author.name + " " + author.surname}
-                                        src={author.avatar || "error"}
-                                        sx={{
-                                            width: "46px",
-                                            height: "46px",
-                                            textDecoration: "none"
-                                        }}
-                                    />
-                                    <Box alignSelf="center">
+                                    {!isLoading ? (
+                                        <Avatar
+                                            component={Link}
+                                            to={`/talent/${author.id}`}
+                                            alt={
+                                                author.name +
+                                                " " +
+                                                author.surname
+                                            }
+                                            src={author.avatar}
+                                            sx={{
+                                                width: "46px",
+                                                height: "46px",
+                                                textDecoration: "none"
+                                            }}
+                                        >
+                                            {author.name.slice(0, 1)}
+                                        </Avatar>
+                                    ) : (
+                                        <Skeleton
+                                            variant="circular"
+                                            width={46}
+                                            height={46}
+                                        ></Skeleton>
+                                    )}
+
+                                    <Box alignSelf="center" width="40%">
                                         <Typography
                                             sx={{
                                                 fontWeight: "bold",
@@ -93,24 +110,36 @@ const Proof = ({
                                             component={Link}
                                             to={`/talent/${author.id}`}
                                         >
-                                            {author.name + " " + author.surname}
+                                            {!isLoading ? (
+                                                author.name +
+                                                " " +
+                                                author.surname
+                                            ) : (
+                                                <Skeleton width="70%" />
+                                            )}
                                         </Typography>
-                                        <ProofTime date={date} />
+                                        {!isLoading ? (
+                                            <ProofTime date={date} />
+                                        ) : (
+                                            <Skeleton width="40%" />
+                                        )}
                                     </Box>
-                                    <IconButton
-                                        onClick={handleClick}
-                                        size="small"
-                                        sx={{
-                                            alignSelf: "start",
-                                            marginLeft: "auto"
-                                        }}
-                                    >
-                                        <MoreVertIcon />
-                                    </IconButton>
+                                    {!isLoading ? (
+                                        <IconButton
+                                            onClick={handleClick}
+                                            size="small"
+                                            sx={{
+                                                alignSelf: "start",
+                                                marginLeft: "auto"
+                                            }}
+                                        >
+                                            <MoreVertIcon />
+                                        </IconButton>
+                                    ) : null}
                                 </Box>
                             ) : null}
                             <Box display="flex">
-                                <Box>
+                                <Box width="100%">
                                     <Tooltip
                                         title={
                                             isAuth
@@ -129,16 +158,58 @@ const Proof = ({
                                                 fontSize: 24
                                             }}
                                         >
-                                            {title}
+                                            {!isLoading ? (
+                                                title
+                                            ) : (
+                                                <Skeleton width="70%" />
+                                            )}
                                         </Typography>
                                     </Tooltip>
-                                    <ProofDescription
-                                        isAuth={isAuth}
-                                        id={id}
-                                        token={token}
-                                        description={description}
-                                    />
-                                    <ProofSkillsArea skills={skills} />
+                                    {!isLoading ? (
+                                        <ProofDescription
+                                            isAuth={isAuth}
+                                            id={id}
+                                            token={token}
+                                            description={description}
+                                        />
+                                    ) : (
+                                        <Skeleton
+                                            variant="rounded"
+                                            width="100%"
+                                            height={100}
+                                        />
+                                    )}
+
+                                    {!isLoading ? (
+                                        <ProofSkillsArea skills={skills} />
+                                    ) : (
+                                        <>
+                                            <Box
+                                                display="flex"
+                                                flexWrap="wrap"
+                                                sx={{
+                                                    width: "100%",
+                                                    marginTop: "8px"
+                                                }}
+                                                gap={0.8}
+                                            >
+                                                {Array(3)
+                                                    .fill("")
+                                                    .map((item, index) => (
+                                                        <Skeleton
+                                                            key={index}
+                                                            variant="rounded"
+                                                            width={99}
+                                                            height={24}
+                                                            sx={{
+                                                                borderRadius:
+                                                                    "16px"
+                                                            }}
+                                                        />
+                                                    ))}
+                                            </Box>
+                                        </>
+                                    )}
                                     <Box
                                         sx={{
                                             alignSelf: "center",
@@ -148,21 +219,30 @@ const Proof = ({
                                             justifyContent: "space-between"
                                         }}
                                     >
-                                        <KudosButton
-                                            id={id}
-                                            isKudosed={isKudosed}
-                                            totalKudos={totalKudos}
-                                            totalKudosFromSponsor={
-                                                totalKudosFromSponsor
-                                            }
-                                            alignRight
-                                            skillsAmount={
-                                                skills.length
-                                                    ? skills.length
-                                                    : 0
-                                            }
-                                            clikedFrom="proof"
-                                        />
+                                        {!isLoading ? (
+                                            <KudosButton
+                                                id={id}
+                                                isKudosed={isKudosed}
+                                                totalKudos={totalKudos}
+                                                totalKudosFromSponsor={
+                                                    totalKudosFromSponsor
+                                                }
+                                                alignRight
+                                                skillsAmount={
+                                                    skills.length
+                                                        ? skills.length
+                                                        : 0
+                                                }
+                                                clikedFrom="proof"
+                                            />
+                                        ) : (
+                                            <Skeleton
+                                                variant="circular"
+                                                width={28}
+                                                height={28}
+                                                sx={{ ml: 1 }}
+                                            />
+                                        )}
                                     </Box>
                                 </Box>
                             </Box>

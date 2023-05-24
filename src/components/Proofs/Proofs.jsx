@@ -52,12 +52,13 @@ const Proofs = () => {
 
         return () => {
             dispatch(setProofs([]));
-        }
+        };
     }, [page, sortType, searchParams.get("page")]);
 
-    if (isLoading) {
-        return <LinearProgress />;
-    } else if (proofs.length === 0) {
+    // if (isLoading) {
+    //     return <LinearProgress />;
+    // }
+    if (!isLoading && proofs.length === 0) {
         return (
             <Typography
                 variant="h6"
@@ -80,18 +81,20 @@ const Proofs = () => {
         <Container
             sx={{ width: "700px", display: "flex", flexDirection: "column" }}
         >
-            <ProofsArea proofs={proofs} />
-            <Pagination
-                sx={{
-                    marginTop: 1,
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginBottom: 4
-                }}
-                page={page}
-                count={totalPages}
-                onChange={handleChange}
-            />
+            <ProofsArea proofs={proofs} isLoading={isLoading} />
+            {!isLoading ? (
+                <Pagination
+                    sx={{
+                        marginTop: 1,
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        marginBottom: 4
+                    }}
+                    page={page}
+                    count={totalPages}
+                    onChange={handleChange}
+                />
+            ) : null}
         </Container>
     );
 };
