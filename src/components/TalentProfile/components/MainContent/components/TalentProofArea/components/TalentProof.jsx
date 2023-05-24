@@ -142,7 +142,7 @@ function TalentProof({
                                                     <MenuItem
                                                         onClick={() => {
                                                             setEditMode(
-                                                                prev => true
+                                                                prev => !prev
                                                             );
                                                             handleCloseMore();
                                                         }}
@@ -170,7 +170,7 @@ function TalentProof({
                                                     <MenuItem
                                                         onClick={() => {
                                                             setOpenDeleteModal(
-                                                                true
+                                                                prev => !prev
                                                             );
                                                             handleCloseMore();
                                                         }}

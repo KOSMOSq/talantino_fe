@@ -49,7 +49,7 @@ const EditProofForm = ({
 
     const onSubmit = data => {
         dispatch(editProofThunk(id, data));
-        setEditMode(false);
+        setEditMode(prev => !prev);
     };
 
     const handleChange = (e, newAlignment) => {
