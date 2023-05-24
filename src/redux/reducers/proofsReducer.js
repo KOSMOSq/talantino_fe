@@ -6,6 +6,7 @@ const SET_PROOFS = "proofs/SET-PROOFS";
 const SET_TOTAL_PAGES = "proofs/SET-TOTAL-PAGES";
 const SET_CURRENT_PAGE = "proofs/SET-CURRENT-PAGE";
 const SET_IS_LOADING = "proofs/SET-IS-LOADING";
+const RENEW_PROOF = "proofs/RENEW_PROOF";
 
 const initialState = {
     proofs: [],
@@ -26,7 +27,18 @@ const proofsReducer = (state = initialState, action) => {
                 ...state,
                 ...action.payload
             };
-
+        case RENEW_PROOF:
+            return {
+                ...state,
+                proofs: state.proofs.map(item => {
+                    if (item.id === action.proof.id) {
+                        action.proof.description = action.proof.description.slice(0, 200);
+                        return action.proof;
+                    } else {
+                        return item;
+                    }
+                })
+            }
         default:
             return state;
     }

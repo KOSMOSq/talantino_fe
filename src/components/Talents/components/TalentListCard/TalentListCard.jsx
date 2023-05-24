@@ -105,7 +105,7 @@ function TalentListCard({
                             }
                         ></ListItemText>
                         <Box sx={{ mt: "16px" }}>
-                            <ProofSkillsArea skills={skills} />
+                            <ProofSkillsArea skills={skills} forTalent/>
                         </Box>
                     </Box>
                 </Box>

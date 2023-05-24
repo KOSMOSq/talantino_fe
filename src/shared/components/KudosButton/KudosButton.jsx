@@ -101,8 +101,8 @@ const KudosButton = ({
                         : ""
                 }`}
                 arrow
-                enterDelay={200}
-                enterNextDelay={200}
+                enterDelay={300}
+                enterNextDelay={300}
                 leaveDelay={100}
                 placement={alignRight ? "right" : "bottom"}
             >
@@ -146,7 +146,7 @@ const KudosButton = ({
                                 title={
                                     isAuth
                                         ? role !== "SPONSOR"
-                                            ? "You need to be a sponsor to send kudos"
+                                            ? "You have to be a sponsor to send kudos"
                                             : ""
                                         : "Log in to send kudos"
                                 }

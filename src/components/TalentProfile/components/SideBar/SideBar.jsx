@@ -59,7 +59,7 @@ function SideBar({ userInfo }) {
                             {userInfo.email}
                         </Typography>
                         {userInfo.skills ? (
-                            <ProofSkillsArea skills={userInfo.skills} />
+                            <ProofSkillsArea skills={userInfo.skills} forTalent/>
                         ) : null}
                         <Links talentLinks={userInfo.links} />
                     </>

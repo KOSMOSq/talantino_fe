@@ -8,36 +8,6 @@ import { useEffect, useState } from "react";
 import { setMessage } from "../../../../../../redux/reducers/appReducer";
 import { talentsAPI } from "../../../../../../api/talentsAPI";
 
-const recievedInfo = {
-    skill: {
-        id: 2,
-        label: "Leadership",
-        icon: "https://olha-team-backend.s3.amazonaws.com/icons/HowToVoteIcon.svg"
-    },
-    proof: {
-        id: 4,
-        date: "2023-05-16T14:47:06.525759",
-        title: "Did you know that the US's most advanced fighter jet is the F-22 Raptor?",
-        description:
-            "This plane is just a piece of art in the sky! Developed in Skunk Works - Advanced Development Programs department of Lockheed Martin. It was introduced to the public in 2005. It is an incredible stealth aircraft capable of completing the hardest missions in the US Air Force duty. Every piece of it is near the perfect, every panel has an curved lines so the enemy radars cannot see the plane from a far distance. You will not find any two surfaces of the plane that create an 90 degree angle! It is not impossible to detect an aircraft in the sky, it will be detected no matter what, but for the enemy it can be too late. Also advanced radar systems are capable of detecting launches of ballistic missiles from as far as 1200 kilometers and in an automatic mode transfer precise coordinates of those launches to the AWACS. Two engines of the plane can push it to speeds over Mach 1,5! All the carrying weapons are hidden in the fuselage, so the rockets are not reflecting radar signals. There is a plenty more to say about F-22, but this information should be enough to you to be interested in reading about it more on the internet! Thank you for your attention!",
-        authorId: 8,
-        status: "PUBLISHED",
-        totalKudos: 2323,
-        totalKudosFromSponsor: null,
-        isKudosed: false,
-        skills: [
-            {
-                id: 18,
-                label: "Analytical skills",
-                icon: "https://olha-team-backend.s3.amazonaws.com/icons/InsightsIcon.svg",
-                totalKudos: 353,
-                totalKudosFromSponsor: null,
-                isKudosed: false
-            }
-        ]
-    }
-};
-
 const TalentStats = ({ talentId }) => {
     const id = useSelector(store => store.auth.user.id);
     const role = useSelector(store => store.auth.user.role);
@@ -50,9 +20,8 @@ const TalentStats = ({ talentId }) => {
     useEffect(() => {
         if (Number(talentId) === id && role === "TALENT") {
             const getStats = async () => {
-                //const response = await talentsAPI.getStats(id, token);
-                //setStats(response);
-                setStats(recievedInfo);
+                const response = await talentsAPI.getStats(id, token);
+                setStats(response);
             };
 
             getStats().catch(err =>
@@ -115,7 +84,13 @@ const TalentStats = ({ talentId }) => {
                         >
                             Most kudosed skill
                         </Typography>
-                        <SkillChip {...stats.skill} />
+                        {stats.skill ? (
+                            <SkillChip {...stats.skill} />
+                        ) : (
+                            <Typography sx={{ color: "gray" }}>
+                                Nobody has kudosed your skills yet
+                            </Typography>
+                        )}
                     </Box>
                 </Grid>
                 <Grid item xs={12}>
@@ -138,7 +113,13 @@ const TalentStats = ({ talentId }) => {
                     >
                         Most kudosed proof{" "}
                     </Typography>
-                    <TalentProof {...stats.proof} />
+                    {stats.proof ? (
+                        <TalentProof {...stats.proof} />
+                    ) : (
+                        <Typography sx={{ color: "gray", textAlign: "center" }}>
+                            Nobody has kudosed your proofs yet
+                        </Typography>
+                    )}
                 </Grid>
             </Grid>
         </>

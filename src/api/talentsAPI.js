@@ -33,10 +33,9 @@ const talentsAPI = {
     },
     async getStats(talentId, token) {
         return (
-            await axiosInstance.get(`/talents/${talentId}/statistic`),
-            {
+            await axiosInstance.get(`/talents/${talentId}/statistic`, {
                 headers: { Authorization: `Bearer ${token}` }
-            }
+            })
         ).data;
     }
 };
