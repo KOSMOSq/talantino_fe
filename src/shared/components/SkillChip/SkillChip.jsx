@@ -16,7 +16,7 @@ import { getAuthThunk } from "../../../redux/reducers/authReducer";
 import { setMessage } from "../../../redux/reducers/appReducer";
 import { renewProofThunk } from "../../../redux/reducers/proofsReducer";
 import { renewTalentProofThunk } from "../../../redux/reducers/talentsProofsReducer";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const SkillChip = ({
     id,
@@ -30,12 +30,15 @@ const SkillChip = ({
     const [anchorEl, setAnchorEl] = useState(null);
     const [kudosAmount, setKudosAmount] = useState(1);
 
+    const page = useSelector(store => store.proofs.currentPage);
+    const isAuth = useSelector(store => store.auth.isAuth);
     const role = useSelector(store => store.auth.user.role);
     const balance = useSelector(store => store.auth.user.balance);
     const token = useSelector(store => store.auth.token);
     const dispatch = useDispatch();
 
     const location = useLocation();
+    const navigate = useNavigate();
 
     const handleKudos = async () => {
         try {
@@ -70,6 +73,12 @@ const SkillChip = ({
     };
 
     const handlePop = event => {
+        if (!isAuth) {
+            navigate("/login", {
+                state: { from: "proofs", page }
+            });
+            return;
+        }
         if (balance === 0) {
             dispatch(setMessage("You have to top up your balance", "error"));
             return;
