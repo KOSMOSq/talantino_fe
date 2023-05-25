@@ -22,16 +22,10 @@ export const sponsorAPI = {
             })
         ).data;
     },
-    async getBalanceHistory(token) {
+    
+    async getBalanceHistory(token, page, size) {
         return (
-            await axiosInstance.get(`/sponsors/balance/history`, {
-                headers: { Authorization: `Bearer ${token}` }
-            })
-        ).data;
-    },
-    async getKudosHistory(token) {
-        return (
-            await axiosInstance.get(`/sponsors/kudos`, {
+            await axiosInstance.get(`sponsors/balance/history?page=${page}&size=${size}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
         ).data;

@@ -142,7 +142,7 @@ const TalentListCard = ({
                         ></ListItemText>
                         <Box sx={{ mt: "16px" }}>
                             {!isLoading ? (
-                                <ProofSkillsArea skills={skills} />
+                                <ProofSkillsArea skills={skills} forTalent/>
                             ) : (
                                 <>
                                     <Box

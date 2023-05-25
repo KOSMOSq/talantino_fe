@@ -32,6 +32,17 @@ const kudosAPI = {
                 }
             )
         ).data;
+    },
+    async sendKudosToSkill(proofId, skillId, amount, token) {
+        return (
+            await axiosInstance.post(
+                `/proofs/${proofId}/skills/${skillId}/kudos?amount=${amount}`,
+                {},
+                {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            )
+        ).data;
     }
 };
 

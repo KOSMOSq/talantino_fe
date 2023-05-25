@@ -194,7 +194,7 @@ const EditProofForm = ({
                         )}
                     />
                 ) : (
-                    <ProofSkillsArea skills={skills} />
+                    <ProofSkillsArea skills={skills} forTalent/>
                 )}
                 <Box display="flex">
                     <FormHelperText

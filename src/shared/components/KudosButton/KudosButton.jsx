@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Box,
     ClickAwayListener,
@@ -16,6 +16,7 @@ import { getAuthThunk } from "../../../redux/reducers/authReducer";
 import { DialogOfSponsors } from "./components/DialogOfSponsors";
 import { kudosAPI } from "../../../api/kudosAPI";
 import { formatter } from "../../utils/numberFormatter";
+import { renewProofThunk } from "../../../redux/reducers/proofsReducer";
 
 const KudosButton = ({
     id,
@@ -24,7 +25,7 @@ const KudosButton = ({
     totalKudosFromSponsor,
     authorId,
     alignRight = false,
-    skillsAmount,
+    skillsAmount = 0,
     clikedFrom
 }) => {
     const defaultKudosAmount = skillsAmount !== 0 ? skillsAmount : 1;
@@ -33,6 +34,14 @@ const KudosButton = ({
     const [counter, setCounter] = useState(totalKudos);
     const [anchorEl, setAnchorEl] = useState(null);
     const [kudosAmount, setKudosAmount] = useState(defaultKudosAmount);
+
+    useEffect(() => {
+        setCounter(totalKudos);
+    }, [totalKudos]);
+
+    useEffect(() => {
+        setSponsorKudoses(totalKudosFromSponsor);
+    }, [totalKudosFromSponsor]);
 
     const token = useSelector(store => store.auth.token);
     const isAuth = useSelector(store => store.auth.isAuth);
@@ -48,6 +57,7 @@ const KudosButton = ({
         try {
             await kudosAPI.sendKudos(id, token, kudosAmount);
             dispatch(getAuthThunk());
+            dispatch(renewProofThunk(id));
             dispatch(
                 setMessage(`${kudosAmount} kudos sent successfully`, "success")
             );
@@ -92,7 +102,7 @@ const KudosButton = ({
     const idPop = open ? "kudosPopper" : undefined;
 
     const kudosNumber =
-        role === "TALENT" && authId === authorId ? (
+        role === "TALENT" && authId === Number(authorId) ? (
             <DialogOfSponsors
                 counter={counter}
                 formatter={formatter}
@@ -107,8 +117,8 @@ const KudosButton = ({
                         : ""
                 }`}
                 arrow
-                enterDelay={200}
-                enterNextDelay={200}
+                enterDelay={300}
+                enterNextDelay={300}
                 leaveDelay={100}
                 placement={alignRight ? "right" : "bottom"}
             >
@@ -154,7 +164,7 @@ const KudosButton = ({
                                 title={
                                     isAuth
                                         ? role !== "SPONSOR"
-                                            ? "You need to be a sponsor to send kudos"
+                                            ? "You have to be a sponsor to send kudos"
                                             : ""
                                         : "Log in to send kudos"
                                 }

@@ -34,7 +34,8 @@ const KudosPopper = ({
                         elevation={4}
                         sx={{
                             width: 350,
-
+                            mt: clikedFrom === "skill" ? "6px" : "0px",
+                            mb: clikedFrom === "skill" ? "6px" : "0px",
                             borderRadius: "10px",
                             p: 2,
                             bgcolor: "white",

@@ -238,7 +238,7 @@ function TalentProof({
                             >
                                 {description}
                             </Typography>
-                            <ProofSkillsArea skills={skills} />
+                            <ProofSkillsArea skills={skills} proofId={id}/>
                         </>
                     ) : (
                         <EditProofForm
@@ -259,7 +259,7 @@ function TalentProof({
                                 id={id}
                                 isKudosed={isKudosed}
                                 totalKudos={totalKudos}
-                                authorId={authorId}
+                                authorId={talentId}
                                 totalKudosFromSponsor={totalKudosFromSponsor}
                                 alignRight
                                 skillsAmount={skills.length ? skills.length : 0}

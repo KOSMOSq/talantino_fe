@@ -108,6 +108,7 @@ export const getAuthThunk = () => async (dispatch, getState) => {
                                 "You need to re-login."
                             )
                         );
+                        localStorage.removeItem("token");
                     }, time)
                 )
             );
@@ -197,7 +198,9 @@ export const registerThunk = (data, role) => async dispatch => {
     }
 };
 
-export const clearDataThunk = () => dispatch => {
+export const clearDataThunk = () => (dispatch, getState) => {
+    const logoutTimeoutId = getState().auth.logoutTimeoutId;
+    clearTimeout(logoutTimeoutId);
     dispatch(clearData());
     dispatch(setClikedId(null));
     localStorage.clear();

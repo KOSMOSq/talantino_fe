@@ -15,6 +15,7 @@ import { ProfileAvatar } from "./components/ProfileAvatar/ProfileAvatar";
 import { SettingsHeader } from "./components/SettingsHeader/SettingsHeader";
 import { SocialLink } from "./components/SocialLinks/SocialLink";
 import { CountryAutocomplete } from "./components/CountryAutocomplete/CountryAutocomplete";
+import { setMessage } from "../../redux/reducers/appReducer";
 
 const Settings = () => {
     const user = useSelector(store => store.auth.user);
@@ -74,7 +75,12 @@ const Settings = () => {
 
     const handleFileChange = e => {
         if (e.target.files.length) {
-            setAvatarSrc(URL.createObjectURL(e.target.files[0]));
+            if (e.target.files[0].size > 5 * 1024 * 1024) {
+                dispatch(setMessage("Your file size should be less than 5MB", "error"));
+                setValue("avatar", "samePhoto");
+            } else {
+                setAvatarSrc(URL.createObjectURL(e.target.files[0]));
+            }
         }
     };
 
