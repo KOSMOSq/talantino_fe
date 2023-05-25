@@ -32,7 +32,7 @@ function Router() {
                     />
                     <Route path="settings" element={<Settings />} />
                     <Route path="email-confirm" element={<EmailConfirm />} />
-                    <Route path="sponsors/recover" element={<Recover />} />
+                    <Route path="account-recover" element={<Recover />} />
                 </Route>
                 <Route path="*" element={<Page404 />} />
             </Routes>

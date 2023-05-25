@@ -94,9 +94,6 @@ const Talents = () => {
         );
     };
 
-    // if (isLoading) {
-    //     return <LinearProgress />;
-    // } else
     if (!isLoading && talents.length === 0 && !searchParams.get("skills")) {
         return <NoTalentsYet />;
     }

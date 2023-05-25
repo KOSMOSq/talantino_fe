@@ -102,7 +102,7 @@ const KudosButton = ({
     const idPop = open ? "kudosPopper" : undefined;
 
     const kudosNumber =
-        role === "TALENT" && authId === authorId ? (
+        role === "TALENT" && authId === Number(authorId) ? (
             <DialogOfSponsors
                 counter={counter}
                 formatter={formatter}
