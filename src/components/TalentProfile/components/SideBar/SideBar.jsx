@@ -60,7 +60,9 @@ function SideBar({ userInfo }) {
                             sx={{ fontSize: "18px", color: "#888888" }}
                         >
                             {userInfo.experience
-                                ? `${userInfo.experience} year experience`
+                                ? `${userInfo.experience} year${
+                                      userInfo.experience > 1 ? "s" : ""
+                                  } experience`
                                 : null}
                         </Typography>
                         <Typography
@@ -71,7 +73,10 @@ function SideBar({ userInfo }) {
                             {userInfo.email}
                         </Typography>
                         {userInfo.skills ? (
-                            <ProofSkillsArea skills={userInfo.skills} forTalent/>
+                            <ProofSkillsArea
+                                skills={userInfo.skills}
+                                forTalent
+                            />
                         ) : null}
                         <Links talentLinks={userInfo.links} />
                     </>

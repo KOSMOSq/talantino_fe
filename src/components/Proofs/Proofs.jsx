@@ -13,7 +13,8 @@ import {
     setPage,
     setIsLoading,
     getProofsThunk,
-    setProofs
+    setProofs,
+    setProofsSortType
 } from "../../redux/reducers/proofsReducer";
 
 const Proofs = () => {
@@ -31,29 +32,39 @@ const Proofs = () => {
             dispatch(setIsLoading(true));
         }
         const urlPageParam = Number(searchParams.get("page"));
-        let urlPage;
+        const urlFilterQuery = searchParams.get("filter");
+        let urlPage, urlFilter;
+
         if (urlPageParam && urlPageParam > 0) {
             urlPage = urlPageParam;
         } else {
-            navigate(`/proofs?page=${1}`);
+            navigate(`/proofs?page=1&filter=desc`);
+            return;
+        }
+
+        if (urlFilterQuery && ["asc", "desc"].includes(urlFilterQuery)) {
+            urlFilter = urlFilterQuery;
+            dispatch(setProofsSortType(urlFilter));
+        } else {
+            navigate(`/proofs?page=1&filter=desc`);
             return;
         }
 
         if (urlPage < 1) {
             dispatch(setPage(1));
-            navigate(`/proofs?page=1`);
+            navigate(`/proofs?page=1&filter=desc`);
             return;
         }
         if (page !== urlPage) {
             dispatch(setPage(urlPage));
             return;
         }
-        dispatch(getProofsThunk(urlPage, 9, sortType, navigate));
+        dispatch(getProofsThunk(urlPage, 9, urlFilter, navigate));
 
         return () => {
             dispatch(setProofs([]));
         };
-    }, [page, sortType, searchParams.get("page")]);
+    }, [page, searchParams.get("filter"), searchParams.get("page")]);
 
     if (!isLoading && proofs.length === 0) {
         return (
@@ -71,7 +82,7 @@ const Proofs = () => {
 
     const handleChange = (e, value) => {
         dispatch(setPage(value));
-        navigate(`/proofs?page=${value}`);
+        navigate(`/proofs?page=${value}&filter=${sortType}`);
     };
 
     return (

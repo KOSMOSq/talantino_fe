@@ -8,6 +8,9 @@ import { paragraphRenderer } from "./markdownRenderers/paragraphRenderer";
 import { iframeRenderer } from "./markdownRenderers/iframeRenderer";
 import styles from "./Overview.module.css";
 
+// for future forbid big font size
+// const allowedElements = ["iframe", "p", "img"];
+
 const Overview = ({ talentDescription }) => {
     return (
         <>
@@ -39,6 +42,9 @@ const Overview = ({ talentDescription }) => {
                             remarkGfm
                         ]}
                         rehypePlugins={[rehypeRaw]}
+                        // skipHtml
+                        // allowedElements={allowedElements}
+                        //unwrapDisallowed={true}
                     />
                 ) : (
                     <Typography

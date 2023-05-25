@@ -73,7 +73,7 @@ const Talents = () => {
             setIsLoading(false);
         };
 
-        getTalents(undefined, urlPage, skillsParam).catch(err =>
+        getTalents(undefined, urlPage, skillsParam).catch(err => {
             dispatch(
                 setMessage(
                     err.response?.data.message
@@ -81,8 +81,9 @@ const Talents = () => {
                         : "Network error",
                     "error"
                 )
-            )
-        );
+            );
+            navigate(-1);
+        });
     }, [page, searchParams.get("page"), searchParams.get("skills")]);
 
     const handleChange = (e, value) => {

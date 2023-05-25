@@ -6,6 +6,6 @@ export const iframeRenderer = props => {
             {...props}
             title={props.title + ` ${titleId}`}
             style={{ maxWidth: "100%", maxHeight: "500px" }}
-        ></iframe>
+        />
     );
 };

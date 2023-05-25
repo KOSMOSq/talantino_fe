@@ -59,7 +59,10 @@ const KudosSlider = ({
             </Box>
 
             <Box width="100%" display="flex" justifyContent="space-between">
-                <IconButton onClick={() => handleClickArrow("back")}>
+                <IconButton
+                    onClick={() => handleClickArrow("back")}
+                    disabled={kudosAmount === minValue}
+                >
                     <ArrowBackIcon />
                 </IconButton>
                 <Button
@@ -69,7 +72,10 @@ const KudosSlider = ({
                 >
                     Send {kudosAmount} kudos
                 </Button>
-                <IconButton onClick={() => handleClickArrow("forward")}>
+                <IconButton
+                    onClick={() => handleClickArrow("forward")}
+                    disabled={kudosAmount === maxValue}
+                >
                     <ArrowForwardIcon />
                 </IconButton>
             </Box>

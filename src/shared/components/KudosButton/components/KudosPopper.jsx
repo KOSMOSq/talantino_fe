@@ -7,7 +7,7 @@ const KudosPopper = ({
     idPop,
     open,
     anchorEl,
-    skillsAmount,
+    skillsAmount = 1,
     clikedFrom,
     kudosAmount,
     setKudosAmount,
