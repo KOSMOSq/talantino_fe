@@ -7,7 +7,7 @@ import {
     Typography
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
 import kudosIconInactive from "../../../assets/icons/kudosIconInactive.svg";
 import { KudosPopper } from "./components/KudosPopper";
@@ -17,6 +17,7 @@ import { DialogOfSponsors } from "./components/DialogOfSponsors";
 import { kudosAPI } from "../../../api/kudosAPI";
 import { formatter } from "../../utils/numberFormatter";
 import { renewProofThunk } from "../../../redux/reducers/proofsReducer";
+import { renewTalentProofThunk } from "../../../redux/reducers/talentsProofsReducer";
 
 const KudosButton = ({
     id,
@@ -49,15 +50,20 @@ const KudosButton = ({
     const role = useSelector(store => store.auth.user.role);
     const authId = useSelector(store => store.auth.user.id);
     const balance = useSelector(store => store.auth.user.balance);
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const location = useLocation();
 
     const handleKudos = async () => {
         try {
             await kudosAPI.sendKudos(id, token, kudosAmount);
             dispatch(getAuthThunk());
-            dispatch(renewProofThunk(id));
+            if (location.pathname.split("/")[1] === "proofs") {
+                dispatch(renewProofThunk(id));
+            } else {
+                dispatch(renewTalentProofThunk(id));
+            }
             dispatch(
                 setMessage(`${kudosAmount} kudos sent successfully`, "success")
             );

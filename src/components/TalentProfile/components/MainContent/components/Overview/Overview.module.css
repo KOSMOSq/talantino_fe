@@ -1,4 +1,5 @@
 .reactMarkDown {
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-size: 18px;
+    overflow-wrap: break-word;
 }

@@ -30,7 +30,7 @@ const TalentListCard = ({
     const isAuth = useSelector(store => store.auth.isAuth);
 
     const handleClick = e => {
-        if (id !== undefined) {
+        if (id !== undefined && !isLoading) {
             e.preventDefault();
             if (!isAuth) {
                 navigate(`/login`);
@@ -142,7 +142,7 @@ const TalentListCard = ({
                         ></ListItemText>
                         <Box sx={{ mt: "16px" }}>
                             {!isLoading ? (
-                                <ProofSkillsArea skills={skills} forTalent/>
+                                <ProofSkillsArea skills={skills} forTalent />
                             ) : (
                                 <>
                                     <Box
