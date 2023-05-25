@@ -28,7 +28,7 @@ const TalentGridCard = ({
     const isAuth = useSelector(store => store.auth.isAuth);
 
     const handleClick = e => {
-        if (id !== undefined) {
+        if (id !== undefined && !isLoading) {
             e.preventDefault();
             if (!isAuth) {
                 navigate(`/login`);

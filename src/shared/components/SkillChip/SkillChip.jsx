@@ -136,7 +136,7 @@ const SkillChip = ({
                                 label={
                                     <Typography variant="span">
                                         {label}
-                                        {forTalent ? null : (
+                                        {forTalent || !totalKudos ? null : (
                                             <Typography variant="span">
                                                 {" • " +
                                                     formatter.format(
