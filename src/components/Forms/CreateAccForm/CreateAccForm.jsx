@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { mailValidation } from "../validation";
-import { useState } from "react";
-import { registerThunk } from "../../../redux/reducers/authReducer";
+import { useEffect, useState } from "react";
+import { registerThunk, setIsOpenEmailModal } from "../../../redux/reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -22,7 +22,6 @@ import { RoleSwitch } from "./components/RoleSwitch/RoleSwitch";
 function CreateAccForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordCheck, setShowPasswordCheck] = useState(false);
-    const [open, setOpen] = useState(false);
     const [checkedTalent, setCheckedTalent] = useState(true);
 
     const {
@@ -39,9 +38,9 @@ function CreateAccForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isLoading = useSelector(store => store.auth.isLoading);
+    const isOpenEmailModal = useSelector(store => store.auth.isOpenEmailModal);
 
     const onSubmit = data => {
-        setOpen(true);
         if (checkedTalent) {
             dispatch(registerThunk(data, "TALENT"));
         } else {
@@ -299,8 +298,8 @@ function CreateAccForm() {
                     title="We have sent you a letter to the specified mailbox with a request to confirm it."
                     description="To complete the registration process, please follow the link in this email. Please check your mailbox, including your Spam folder, if the email did not appear in your inbox."
                     infoDialog
-                    open={open}
-                    handleClose={() => setOpen(false)}
+                    open={isOpenEmailModal}
+                    handleClose={() => dispatch(setIsOpenEmailModal(false))}
                     handleArgee={() => navigate("/talents")}
                 />
             </Container>

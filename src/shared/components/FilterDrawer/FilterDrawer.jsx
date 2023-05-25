@@ -16,7 +16,7 @@ import { SkillAutocomplete } from "../SkillAutocomplete/SkillAutocomplete";
 import { Controller, useForm } from "react-hook-form";
 import { setFilterSkills } from "../../../redux/reducers/skillsReducer";
 
-const FilterDrawer = () => {
+const FilterDrawer = ({ disabled = false }) => {
     const [open, setOpen] = useState(false);
     const filterSkills = useSelector(store => store.skills.filterSkills);
 
@@ -55,8 +55,13 @@ const FilterDrawer = () => {
                 value="filter"
                 size="small"
                 onClick={handleDrawerClose}
+                disabled={disabled}
             >
-                <TuneIcon sx={{ color: "rgba(0, 0, 0, 0.87)" }} />
+                <TuneIcon
+                    sx={{
+                        color: !disabled ? "rgba(0, 0, 0, 0.87)" : "#e3e3e3"
+                    }}
+                />
             </ToggleButton>
             <SwipeableDrawer
                 anchor="left"
@@ -100,11 +105,11 @@ const FilterDrawer = () => {
                             alignItems="center"
                         >
                             <Controller
-                                key={filterSkills.length}
                                 name="skills"
                                 control={control}
-                                render={({ field: { onChange } }) => (
+                                render={({ field: { onChange, value } }) => (
                                     <SkillAutocomplete
+                                        value={value}
                                         onChange={onChange}
                                         defaultSkills={filterSkills.map(
                                             item => ({ label: item })

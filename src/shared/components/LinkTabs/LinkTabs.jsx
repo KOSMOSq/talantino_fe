@@ -1,5 +1,5 @@
 import { Box, Tab, Tabs } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 
 const LinkTab = props => {
@@ -8,9 +8,13 @@ const LinkTab = props => {
 
 const LinkTabs = ({ tabs }) => {
     const params = useParams();
-    const [value, setValue] = useState(
-        tabs.indexOf(tabs.find(item => item.href === params["*"]))
-    );
+    const findTab = tabs.indexOf(tabs.find(item => item.href === params["*"]));
+    const [value, setValue] = useState(findTab === -1 ? 0: findTab);
+
+    useEffect(() => {
+        const findTab = tabs.indexOf(tabs.find(item => item.href === params["*"]));
+        setValue(findTab === -1 ? 0: findTab);
+    }, [params]);
 
     const handleChange = (e, newValue) => {
         setValue(newValue);
@@ -26,8 +30,9 @@ const LinkTabs = ({ tabs }) => {
                 >
                     {tabs.map(tab => (
                         <LinkTab
-                            key={tab.lable}
-                            label={tab.lable}
+                            sx={{ borderTopLeftRadius: "10px", borderTopRightRadius: "10px"}}
+                            key={tab.label}
+                            label={tab.label}
                             to={tab.href}
                         />
                     ))}

@@ -1,9 +1,9 @@
 import { Box, ListItemIcon, Typography } from "@mui/material";
 import FlagIcon from "@mui/icons-material/Flag";
 
-const Report = ({ handleReport }) => {
+const Report = () => {
     return (
-        <Box display="flex" onClick={() => handleReport()} width="100%">
+        <Box display="flex">
             <ListItemIcon sx={{ alignSelf: "center", color: "red" }}>
                 <FlagIcon fontSize="small" />
             </ListItemIcon>

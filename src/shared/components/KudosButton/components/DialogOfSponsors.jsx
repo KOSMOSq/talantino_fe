@@ -8,7 +8,8 @@ import {
     ListItemText,
     Typography,
     DialogActions,
-    Dialog
+    Dialog,
+    Tooltip
 } from "@mui/material";
 import { useState } from "react";
 import { kudosAPI } from "../../../../api/kudosAPI";
@@ -26,7 +27,6 @@ const DialogOfSponsors = ({ counter, formatter, id, token }) => {
             const response = await kudosAPI.getSponsorsOfProof(id, token);
             setInfo(response.kudos);
         } catch (err) {
-            console.log(err);
             dispatch(
                 setMessage(
                     err.response?.data.message
@@ -45,14 +45,22 @@ const DialogOfSponsors = ({ counter, formatter, id, token }) => {
 
     return (
         <>
-            <Typography
-                onClick={handleClickOpen}
-                component="div"
-                sx={{ cursor: "default" }}
+            <Tooltip
                 title={`${counter}, press to see sponsors who kudosed`}
+                arrow
+                placement="right"
+                enterDelay={200}
+                enterNextDelay={200}
+                leaveDelay={100}
             >
-                {formatter.format(counter)}
-            </Typography>
+                <Typography
+                    onClick={handleClickOpen}
+                    component="div"
+                    sx={{ cursor: "default" }}
+                >
+                    {formatter.format(counter)}
+                </Typography>
+            </Tooltip>
             <Dialog fullWidth={Boolean("md")} open={open} onClose={handleClose}>
                 <DialogActions
                     sx={{
@@ -74,38 +82,46 @@ const DialogOfSponsors = ({ counter, formatter, id, token }) => {
                         paddingBottom: 3
                     }}
                 >
-                    {info.length === 0 ? <Typography>{"Nobody send kudos on this proof yet :("}</Typography>: info.map((item, index) => {
-                        return (
-                            <ListItem
-                                key={index}
-                                sx={
-                                    index === 0
-                                        ? { paddingTop: 0 }
-                                        : { paddingTop: 1 }
-                                }
-                            >
-                                <ListItemAvatar>
-                                    <Avatar
-                                        src={item.sponsor.avatar}
-                                        alt={item.sponsor.name}
-                                    />
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={
-                                        item.sponsor.name +
-                                        " " +
-                                        item.sponsor.surname
+                    {info.length === 0 ? (
+                        <Typography>
+                            {"Nobody send kudos on this proof yet :("}
+                        </Typography>
+                    ) : (
+                        info.map((item, index) => {
+                            return (
+                                <ListItem
+                                    key={index}
+                                    sx={
+                                        index === 0
+                                            ? { paddingTop: 0 }
+                                            : { paddingTop: 1 }
                                     }
-                                />
-                                <ListItemText
-                                    primary={item.amountOfKudos}
-                                    align="right"
-                                    sx={{ marginRight: 1 }}
-                                />
-                                <img src={kudosIconActive} alt="Kudos" />
-                            </ListItem>
-                        );
-                    })}
+                                >
+                                    <ListItemAvatar>
+                                        <Avatar
+                                            src={item.sponsor.avatar}
+                                            alt={item.sponsor.name}
+                                        >
+                                            {item.sponsor.name.slice(0, 1)}
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary={
+                                            item.sponsor.name +
+                                            " " +
+                                            item.sponsor.surname
+                                        }
+                                    />
+                                    <ListItemText
+                                        primary={item.amountOfKudos}
+                                        align="right"
+                                        sx={{ marginRight: 1 }}
+                                    />
+                                    <img src={kudosIconActive} alt="Kudos" />
+                                </ListItem>
+                            );
+                        })
+                    )}
                 </List>
             </Dialog>
         </>

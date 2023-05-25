@@ -10,7 +10,6 @@ const talentsAPI = {
             )
         ).data;
     },
-
     async getTalent(id, token) {
         return (
             await axiosInstance.get(`/talents/${id}`, {
@@ -28,6 +27,13 @@ const talentsAPI = {
     async deleteTalent(id, token) {
         return (
             await axiosInstance.delete(`/talents/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+        ).data;
+    },
+    async getStats(talentId, token) {
+        return (
+            await axiosInstance.get(`/talents/${talentId}/statistic`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
         ).data;

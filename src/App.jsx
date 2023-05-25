@@ -11,9 +11,14 @@ import { LinearProgress } from "@mui/material";
 import { PopUpMessage } from "./components/PopUpMessage/PopUpMessage.jsx";
 import { ThemeProvider } from "@mui/material/styles";
 import { fontFamilyTheme } from "./shared/themes/fontFamilyTheme.js";
+import { ModalConfirmation } from "./components/ModalConfirmation/ModalConfirmation.jsx";
+import { closeModal } from "./redux/reducers/appReducer.js";
 
 function App() {
     const isInitialized = useSelector(store => store.auth.isInitialized);
+    const modalOpen = useSelector(store => store.app.modalOpen);
+    const modalTitle = useSelector(store => store.app.modalTitle);
+    const modalDescription = useSelector(store => store.app.modalDescription);
     const token = localStorage.getItem("token");
     const dispatch = useDispatch();
 
@@ -39,6 +44,7 @@ function App() {
             <BrowserRouter>
                 <PopUpMessage />
                 <Router />
+                <ModalConfirmation title={modalTitle} description={modalDescription} open={modalOpen} infoDialog handleArgee={() => dispatch(closeModal())}/>
             </BrowserRouter>
         </ThemeProvider>
     );

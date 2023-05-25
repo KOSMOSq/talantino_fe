@@ -3,7 +3,7 @@ import { Proof } from "./Proof/Proof";
 import { useSelector, useDispatch } from "react-redux";
 import { setProofsSortType } from "../../../../redux/reducers/proofsReducer";
 
-const ProofsArea = ({ proofs }) => {
+const ProofsArea = ({ proofs, isLoading }) => {
     const sortType = useSelector(store => store.proofs.proofsSortType);
     const dispatch = useDispatch();
 
@@ -11,15 +11,13 @@ const ProofsArea = ({ proofs }) => {
         dispatch(setProofsSortType(event.target.value));
     };
 
+    if (proofs.length === 0) {
+        proofs = Array(9).fill({});
+    }
+
     return (
         <>
-            <Box
-                zIndex={1}
-                position={"absolute"}
-                right={100}
-                mt={"15px"}
-                mb={"15px"}
-            >
+            <Box mt={"15px"}>
                 <FormControl sx={{ width: "120px" }}>
                     <Select
                         sx={{ height: "40px" }}
@@ -28,6 +26,7 @@ const ProofsArea = ({ proofs }) => {
                         id="selectSortType"
                         value={sortType}
                         onChange={handleChange}
+                        disabled={isLoading}
                     >
                         <MenuItem value={"desc"}>Newest</MenuItem>
                         <MenuItem value={"asc"}>Oldest</MenuItem>
@@ -37,8 +36,14 @@ const ProofsArea = ({ proofs }) => {
 
             <Box display="flex" justifyContent="center" pt={2} width={"100%"}>
                 <List sx={{ width: "100%" }}>
-                    {proofs.map(item => {
-                        return <Proof {...item} key={item.id} />;
+                    {proofs.map((item, index) => {
+                        return (
+                            <Proof
+                                isLoading={isLoading}
+                                {...item}
+                                key={index}
+                            />
+                        );
                     })}
                 </List>
             </Box>

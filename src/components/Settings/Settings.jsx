@@ -15,6 +15,7 @@ import { ProfileAvatar } from "./components/ProfileAvatar/ProfileAvatar";
 import { SettingsHeader } from "./components/SettingsHeader/SettingsHeader";
 import { SocialLink } from "./components/SocialLinks/SocialLink";
 import { CountryAutocomplete } from "./components/CountryAutocomplete/CountryAutocomplete";
+import { setMessage } from "../../redux/reducers/appReducer";
 
 const Settings = () => {
     const user = useSelector(store => store.auth.user);
@@ -41,7 +42,8 @@ const Settings = () => {
         register,
         handleSubmit,
         formState: { errors },
-        control
+        control,
+        setValue
     } = useForm({
         mode: "onChange",
         defaultValues:
@@ -56,7 +58,6 @@ const Settings = () => {
                       id: user.id,
                       name: user.name,
                       surname: user.surname,
-                      email: user.email,
                       kind: user.kind,
                       description: user.description,
                       avatar: user.avatar,
@@ -74,8 +75,18 @@ const Settings = () => {
 
     const handleFileChange = e => {
         if (e.target.files.length) {
-            setAvatarSrc(URL.createObjectURL(e.target.files[0]));
+            if (e.target.files[0].size > 5 * 1024 * 1024) {
+                dispatch(setMessage("Your file size should be less than 5MB", "error"));
+                setValue("avatar", "samePhoto");
+            } else {
+                setAvatarSrc(URL.createObjectURL(e.target.files[0]));
+            }
         }
+    };
+
+    const handleAvatarDelete = () => {
+        setAvatarSrc("error");
+        setValue("avatar", "DELETE");
     };
 
     const onSubmit = data => {
@@ -150,13 +161,14 @@ const Settings = () => {
                                 />
                                 {user.role === "TALENT" ? (
                                     <Controller
-                                        sx={{
-                                            width: 200
-                                        }}
+                                        sx={{ width: 200 }}
                                         name="location"
                                         control={control}
-                                        render={({ field: { onChange } }) => (
+                                        render={({
+                                            field: { onChange, value }
+                                        }) => (
                                             <CountryAutocomplete
+                                                value={value}
                                                 onChange={onChange}
                                                 defaultLocation={user.location}
                                                 error={errors.location}
@@ -167,42 +179,47 @@ const Settings = () => {
                             </Box>
                             {user.role === "TALENT" ? (
                                 <>
-                                    <TextField
-                                        label="Description  (Markdown is supported)"
-                                        multiline
-                                        maxRows={7}
-                                        minRows={7}
-                                        sx={{ width: "100%", marginTop: 2 }}
-                                        {...register("description", {
-                                            maxLength: {
-                                                value: 3000,
-                                                message:
-                                                    "Your description is too long"
-                                            },
-                                            minLength: {
-                                                value: 2,
-                                                message:
-                                                    "Your description is too short"
+                                    <Box sx={{ maxWidth: 768 }}>
+                                        <TextField
+                                            label="Description  (Markdown is supported)"
+                                            multiline
+                                            maxRows={7}
+                                            minRows={7}
+                                            sx={{ width: "100%", marginTop: 2 }}
+                                            {...register("description", {
+                                                maxLength: {
+                                                    value: 3000,
+                                                    message:
+                                                        "Your description is too long"
+                                                },
+                                                minLength: {
+                                                    value: 2,
+                                                    message:
+                                                        "Your description is too short"
+                                                }
+                                            })}
+                                            error={Boolean(errors.description)}
+                                            helperText={
+                                                errors.description
+                                                    ? errors.description.message
+                                                    : " "
                                             }
-                                        })}
-                                        error={Boolean(errors.description)}
-                                        helperText={
-                                            errors.description
-                                                ? errors.description.message
-                                                : " "
-                                        }
-                                    />
-                                    <Controller
-                                        name="skills"
-                                        control={control}
-                                        render={({ field: { onChange } }) => (
-                                            <SkillAutocomplete
-                                                onChange={onChange}
-                                                defaultSkills={user.skills}
-                                                error={errors.skills}
-                                            />
-                                        )}
-                                    />
+                                        />
+                                        <Controller
+                                            name="skills"
+                                            control={control}
+                                            render={({
+                                                field: { onChange, value }
+                                            }) => (
+                                                <SkillAutocomplete
+                                                    value={value}
+                                                    onChange={onChange}
+                                                    defaultSkills={user.skills}
+                                                    error={errors.skills}
+                                                />
+                                            )}
+                                        />
+                                    </Box>
                                     <Box
                                         mt={4}
                                         display="flex"
@@ -258,7 +275,6 @@ const Settings = () => {
                                             }
                                         />
                                     </Box>
-
                                     <Box
                                         display={"flex"}
                                         flexDirection={"row"}
@@ -280,7 +296,6 @@ const Settings = () => {
                                 </>
                             ) : null}
                         </Box>
-
                         <Box
                             display={"flex"}
                             flexDirection={"column"}
@@ -290,9 +305,9 @@ const Settings = () => {
                                 user={user}
                                 avatarSrc={avatarSrc}
                                 handleFileChange={handleFileChange}
+                                handleAvatarDelete={handleAvatarDelete}
                                 register={register}
                             />
-
                             <DeleteUser />
                         </Box>
                     </Box>

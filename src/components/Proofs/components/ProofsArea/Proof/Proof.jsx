@@ -1,26 +1,26 @@
 import {
+    Avatar,
     Box,
     Divider,
     IconButton,
-    Link,
     ListItem,
-    ListItemIcon,
-    Menu,
     MenuItem,
+    Skeleton,
+    Tooltip,
     Typography
 } from "@mui/material";
-import { getRelativeTime } from "../../../../../shared/functions/getRelativeTime";
 import { KudosButton } from "../../../../../shared/components/KudosButton/KudosButton";
 import { ProofSkillsArea } from "../../../../TalentProfile/components/MainContent/components/TalentProofArea/components/ProofSkillsArea/ProofSkillsArea";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import PersonIcon from "@mui/icons-material/Person";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { proofsAPI } from "../../../../../api/proofsAPI";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setMessage } from "../../../../../redux/reducers/appReducer";
 import { Report } from "../../Report/Report";
 import { ModalConfirmation } from "../../../../ModalConfirmation/ModalConfirmation";
+import { ProofTime } from "../../../../../shared/components/ProofTime/ProofTime";
+import { ProofDescription } from "./components/ProofDescription.jsx/ProofDescription";
+import { Menu } from "../../../../../shared/components/Menu/Menu";
+import { sendReportThunk } from "../../../../../redux/reducers/proofsReducer";
 
 const Proof = ({
     id,
@@ -31,10 +31,11 @@ const Proof = ({
     isKudosed,
     totalKudos,
     totalKudosFromSponsor,
-    author
+    author,
+    isLoading
 }) => {
     const token = useSelector(store => store.auth.token);
-    const navigate = useNavigate();
+    const isAuth = useSelector(store => store.auth.isAuth);
     const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
@@ -50,24 +51,12 @@ const Proof = ({
 
     const handleClickReport = () => {
         setOpenDialog(prev => !prev);
+        handleClose();
     };
 
-    const handleSendReport = async () => {
-        try {
-            await proofsAPI.reportProof(id, token);
-            dispatch(setMessage("Your report sent successfully!", "success"));
-        } catch (err) {
-            dispatch(
-                setMessage(
-                    err.response?.data.message
-                        ? err.response.data.message
-                        : "You need to log in to send a report.",
-                    "error"
-                )
-            );
-        }
+    const handleSendReport = () => {
+        dispatch(sendReportThunk(id));
     };
-
     return (
         <>
             <ListItem>
@@ -78,102 +67,198 @@ const Proof = ({
                     justifyContent="end"
                 >
                     <Box width={"100%"}>
-                        <Typography
-                            variant="h6"
-                            sx={{ fontWeight: 700, fontSize: 24 }}
-                        >
-                            {title}
-                            <Typography
-                                sx={{ fontSize: "10px", color: "#888888" }}
-                            >
-                                {getRelativeTime(date)}
-                            </Typography>
-                            <Typography
-                                sx={{
-                                    fontSize: "16px",
-                                    overflowWrap: "break-word"
-                                }}
-                            >
-                                {description}
-                                {description.length === 200 ? (
-                                    <Typography
-                                        variant="p"
-                                        sx={{ fontWeight: 700 }}
-                                    >
-                                        ...
-                                    </Typography>
-                                ) : (
-                                    ""
-                                )}
-                            </Typography>
-                        </Typography>
-                        <ProofSkillsArea skills={skills} />
-                    </Box>
-                    <KudosButton
-                        id={id}
-                        isKudosed={isKudosed}
-                        totalKudos={totalKudos}
-                        totalKudosFromSponsor={totalKudosFromSponsor}
-                    />
-                    <IconButton
-                        onClick={handleClick}
-                        size="small"
-                        sx={{ alignSelf: "start" }}
-                    >
-                        <MoreVertIcon />
-                    </IconButton>
+                        <Box>
+                            {isAuth ? (
+                                <Box
+                                    display="flex"
+                                    gap={1.2}
+                                    sx={{ width: "100%", marginBottom: "6px" }}
+                                >
+                                    {!isLoading ? (
+                                        <Avatar
+                                            component={Link}
+                                            to={
+                                                !isLoading
+                                                    ? `/talent/${
+                                                          author && author.id
+                                                      }`
+                                                    : null
+                                            }
+                                            alt={
+                                                author.name +
+                                                " " +
+                                                author.surname
+                                            }
+                                            src={author.avatar}
+                                            sx={{
+                                                width: "46px",
+                                                height: "46px",
+                                                textDecoration: "none"
+                                            }}
+                                        >
+                                            {author.name.slice(0, 1)}
+                                        </Avatar>
+                                    ) : (
+                                        <Skeleton
+                                            variant="circular"
+                                            width={46}
+                                            height={46}
+                                        ></Skeleton>
+                                    )}
 
+                                    <Box alignSelf="center" width="40%">
+                                        <Typography
+                                            sx={{
+                                                fontWeight: "bold",
+                                                textDecoration: "none",
+                                                color: "#202020"
+                                            }}
+                                            component={Link}
+                                            to={
+                                                !isLoading
+                                                    ? `/talent/${author.id}`
+                                                    : null
+                                            }
+                                        >
+                                            {!isLoading ? (
+                                                author.name +
+                                                " " +
+                                                author.surname
+                                            ) : (
+                                                <Skeleton width="70%" />
+                                            )}
+                                        </Typography>
+                                        {!isLoading ? (
+                                            <ProofTime date={date} />
+                                        ) : (
+                                            <Skeleton width="40%" />
+                                        )}
+                                    </Box>
+                                    {!isLoading ? (
+                                        <IconButton
+                                            onClick={handleClick}
+                                            size="small"
+                                            sx={{
+                                                alignSelf: "start",
+                                                marginLeft: "auto"
+                                            }}
+                                        >
+                                            <MoreVertIcon />
+                                        </IconButton>
+                                    ) : null}
+                                </Box>
+                            ) : null}
+                            <Box display="flex">
+                                <Box width="100%">
+                                    <Tooltip
+                                        title={
+                                            isAuth
+                                                ? ""
+                                                : "Log in to see proof's author"
+                                        }
+                                        placement="left"
+                                        arrow
+                                        enterDelay={1000}
+                                        enterNextDelay={1000}
+                                    >
+                                        <Typography
+                                            variant="h6"
+                                            sx={{
+                                                fontWeight: 700,
+                                                fontSize: 24
+                                            }}
+                                        >
+                                            {!isLoading ? (
+                                                title
+                                            ) : (
+                                                <Skeleton width="70%" height="38px"/>
+                                            )}
+                                        </Typography>
+                                    </Tooltip>
+                                    {!isLoading ? (
+                                        <ProofDescription
+                                            isAuth={isAuth}
+                                            id={id}
+                                            token={token}
+                                            description={description}
+                                        />
+                                    ) : (
+                                        <Skeleton
+                                            variant="rounded"
+                                            width="100%"
+                                            height={100}
+                                        />
+                                    )}
+
+                                    {!isLoading ? (
+                                        <ProofSkillsArea skills={skills} proofId={id} />
+                                    ) : (
+                                        <>
+                                            <Box
+                                                display="flex"
+                                                flexWrap="wrap"
+                                                sx={{
+                                                    width: "100%",
+                                                    marginTop: "8px"
+                                                }}
+                                                gap={0.8}
+                                            >
+                                                {Array(4)
+                                                    .fill("")
+                                                    .map((item, index) => (
+                                                        <Skeleton
+                                                            key={index}
+                                                            variant="rounded"
+                                                            width={99}
+                                                            height={24}
+                                                            sx={{
+                                                                borderRadius:
+                                                                    "16px"
+                                                            }}
+                                                        />
+                                                    ))}
+                                            </Box>
+                                        </>
+                                    )}
+                                    <Box
+                                        sx={{
+                                            alignSelf: "center",
+                                            marginTop: "4px",
+                                            marginLeft: "-10px",
+                                            display: "flex",
+                                            justifyContent: "space-between"
+                                        }}
+                                    >
+                                        {!isLoading ? (
+                                            <KudosButton
+                                                id={id}
+                                                isKudosed={isKudosed}
+                                                totalKudos={totalKudos}
+                                                totalKudosFromSponsor={
+                                                    totalKudosFromSponsor
+                                                }
+                                                alignRight
+                                                skillsAmount={
+                                                    skills.length
+                                                        ? skills.length
+                                                        : 0
+                                                }
+                                                clikedFrom="proof"
+                                            />
+                                        ) : null}
+                                    </Box>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Box>
                     <Menu
                         anchorEl={anchorEl}
-                        id="account-menu"
                         open={openMenu}
-                        onClose={handleClose}
-                        onClick={handleClose}
-                        transformOrigin={{
-                            horizontal: "right",
-                            vertical: "top"
-                        }}
-                        anchorOrigin={{
-                            horizontal: "right",
-                            vertical: "bottom"
-                        }}
+                        handleClose={handleClose}
+                        transformOrigin="right top"
                     >
-                        <MenuItem onClick={handleClose}>
-                            <Link
-                                sx={{
-                                    textDecoration: "none",
-                                    color: "black",
-                                    display: "flex",
-                                    width: "100%"
-                                }}
-                                href={author ? `/talent/${author.id}` : ""}
-                                onClick={e => {
-                                    e.preventDefault();
-                                    if (author !== null) {
-                                        navigate(`/talent/${author.id}`);
-                                    } else {
-                                        dispatch(
-                                            setMessage(
-                                                "You need to login to see the author.",
-                                                "error"
-                                            )
-                                        );
-                                    }
-                                }}
-                            >
-                                <ListItemIcon
-                                    sx={{
-                                        alignSelf: "center"
-                                    }}
-                                >
-                                    <PersonIcon fontSize="small" />
-                                </ListItemIcon>
-                                Proof author
-                            </Link>
-                        </MenuItem>
-
-                        <MenuItem onClick={handleClose}>
-                            <Report handleReport={handleClickReport} />
+                        <MenuItem onClick={handleClickReport}>
+                            <Report />
                         </MenuItem>
                     </Menu>
                     <ModalConfirmation
@@ -187,7 +272,7 @@ const Proof = ({
                         }}
                         error
                         agreeButtonText="Report"
-                    />
+                    ></ModalConfirmation>
                 </Box>
             </ListItem>
             <Divider variant="middle" component="li" sx={{ marginBottom: 2 }} />

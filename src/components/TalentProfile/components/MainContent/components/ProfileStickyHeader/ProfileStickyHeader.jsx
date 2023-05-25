@@ -1,20 +1,20 @@
-import { AppBar, Toolbar, Button, IconButton, Box } from "@mui/material";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { Button, IconButton, Box, Divider } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../../../../../redux/reducers/appReducer";
-import { useLocation } from "react-router-dom";
+import { LinkTabs } from "../../../../../../shared/components/LinkTabs/LinkTabs";
 
-function ProfileStickyHeader({ nextId, prevId }) {
-    const location = useLocation();
-    const from = location.state && location.state.from;
-    const { talentId } = useParams();
-
+function ProfileStickyHeader({ nextId, prevId, talentId }) {
+    const id = useSelector(store => store.auth.user.id);
+    const currentPage = useSelector(store => store.talents.currentPage);
     const profileSubPages = ["Overview", "Proofs"];
+    if (id === Number(talentId)) {
+        profileSubPages.push("Statistics");
+    }
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const currentPage = useSelector(store => store.talents.currentPage);
     const handleClose = () => {
         navigate(`/talents/?page=${currentPage}`);
     };
@@ -38,74 +38,39 @@ function ProfileStickyHeader({ nextId, prevId }) {
     };
 
     return (
-        <AppBar
-            position="sticky"
-            color="inherit"
-            sx={{
-                boxShadow: "0 1px 0 0 #888888",
-                height: "7vh",
-                marginTop: "1vh"
-            }}
-        >
-            <Toolbar variant="dense" sx={{ display: "flex" }}>
-                {profileSubPages.map(item => {
-                    const itemLowerCase = item.toLocaleLowerCase();
-                    return (
-                        <Button
-                            sx={{ borderRadius: "10px" }}
-                            key={itemLowerCase}
-                            href={`/talent/${talentId}/`}
-                            component={NavLink}
-                            onClick={e => {
-                                e.preventDefault();
-                                navigate(
-                                    `/talent/${talentId}/${
-                                        itemLowerCase === "overview"
-                                            ? ""
-                                            : itemLowerCase
-                                    }`,
-                                    {
-                                        state:
-                                            from !== "profile-click"
-                                                ? { from: null }
-                                                : { from: "profile-click" }
-                                    }
-                                );
-                            }}
-                        >
-                            {item}
-                        </Button>
-                    );
-                })}
-
-                <Box sx={{ marginLeft: "auto" }}>
-                    {from !== "profile-click" ? (
-                        <>
-                            <Button
-                                sx={{ borderRadius: "10px" }}
-                                onClick={handlePrevTalent}
-                                disabled={!prevId}
-                            >
-                                PREV TALENT
-                            </Button>
-                            <Button
-                                sx={{ borderRadius: "10px" }}
-                                onClick={handleNextTalent}
-                                disabled={!nextId}
-                            >
-                                NEXT TALENT
-                            </Button>
-                        </>
-                    ) : (
-                        ""
-                    )}
-
+        <>
+            <Box sx={{ display: "flex", padding: "0px", flexWrap: "wrap" }}>
+                <Box>
+                    <LinkTabs
+                        key={talentId}
+                        tabs={profileSubPages.map(item => ({
+                            label: item,
+                            href: item === "Overview" ? "" : item.toLowerCase()
+                        }))}
+                    />
+                </Box>
+                <Box sx={{ marginLeft: "auto", marginTop: "6px" }}>
+                    <Button
+                        sx={{ borderRadius: "10px" }}
+                        onClick={handleNextTalent}
+                        disabled={!nextId}
+                    >
+                        NEXT TALENT
+                    </Button>
+                    <Button
+                        sx={{ borderRadius: "10px" }}
+                        onClick={handlePrevTalent}
+                        disabled={!prevId}
+                    >
+                        PREV TALENT
+                    </Button>
                     <IconButton onClick={handleClose}>
                         <CloseIcon />
                     </IconButton>
                 </Box>
-            </Toolbar>
-        </AppBar>
+            </Box>
+            <Divider />
+        </>
     );
 }
 

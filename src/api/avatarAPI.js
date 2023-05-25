@@ -6,9 +6,18 @@ const avatarAPI = {
         formData.append("file", avatar);
 
         return (
-            await axiosInstance.post("/upload", formData, {
+            await axiosInstance.post("/s3/upload", formData, {
                 headers: {
                     "Content-Type": `multipart/form-data`,
+                    Authorization: `Bearer ${token}`
+                }
+            })
+        ).data;
+    },
+    async deleteAvatar(token) {
+        return (
+            await axiosInstance.delete("/s3/delete", {
+                headers: {
                     Authorization: `Bearer ${token}`
                 }
             })

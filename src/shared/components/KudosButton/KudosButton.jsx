@@ -1,7 +1,13 @@
-import { useState } from "react";
-import { Box, ClickAwayListener, IconButton, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import {
+    Box,
+    ClickAwayListener,
+    IconButton,
+    Tooltip,
+    Typography
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
 import kudosIconInactive from "../../../assets/icons/kudosIconInactive.svg";
 import { KudosPopper } from "./components/KudosPopper";
@@ -10,27 +16,38 @@ import { getAuthThunk } from "../../../redux/reducers/authReducer";
 import { DialogOfSponsors } from "./components/DialogOfSponsors";
 import { kudosAPI } from "../../../api/kudosAPI";
 import { formatter } from "../../utils/numberFormatter";
+import { renewProofThunk } from "../../../redux/reducers/proofsReducer";
 
 const KudosButton = ({
     id,
     isKudosed,
     totalKudos,
     totalKudosFromSponsor,
-    authorId
+    authorId,
+    alignRight = false,
+    skillsAmount = 0,
+    clikedFrom
 }) => {
+    const defaultKudosAmount = skillsAmount !== 0 ? skillsAmount : 1;
     const [kudosed, setKudosed] = useState(isKudosed);
     const [sponsorKudoses, setSponsorKudoses] = useState(totalKudosFromSponsor);
     const [counter, setCounter] = useState(totalKudos);
     const [anchorEl, setAnchorEl] = useState(null);
-    const [kudosAmount, setKudosAmount] = useState(1);
+    const [kudosAmount, setKudosAmount] = useState(defaultKudosAmount);
+
+    useEffect(() => {
+        setCounter(totalKudos);
+    }, [totalKudos]);
+
+    useEffect(() => {
+        setSponsorKudoses(totalKudosFromSponsor);
+    }, [totalKudosFromSponsor]);
 
     const token = useSelector(store => store.auth.token);
     const isAuth = useSelector(store => store.auth.isAuth);
     const page = useSelector(store => store.proofs.currentPage);
     const role = useSelector(store => store.auth.user.role);
     const authId = useSelector(store => store.auth.user.id);
-    const location = useLocation();
-    const from = location.state?.from;
     const balance = useSelector(store => store.auth.user.balance);
 
     const navigate = useNavigate();
@@ -40,10 +57,11 @@ const KudosButton = ({
         try {
             await kudosAPI.sendKudos(id, token, kudosAmount);
             dispatch(getAuthThunk());
+            dispatch(renewProofThunk(id));
             dispatch(
                 setMessage(`${kudosAmount} kudos sent successfully`, "success")
             );
-            setKudosAmount(1);
+            setKudosAmount(defaultKudosAmount);
             setAnchorEl(null);
             setKudosed(true);
             setCounter(prev => prev + kudosAmount);
@@ -66,7 +84,7 @@ const KudosButton = ({
                 state: { from: "proofs", page }
             });
             return;
-        } else if (balance === 0) {
+        } else if (balance === 0 || balance < skillsAmount) {
             dispatch(setMessage("You have to top up your balance", "error"));
             return;
         }
@@ -75,10 +93,40 @@ const KudosButton = ({
 
     const handleClickAway = () => {
         setAnchorEl(null);
+        setTimeout(() => {
+            setKudosAmount(defaultKudosAmount);
+        }, 350);
     };
 
     const open = Boolean(anchorEl);
     const idPop = open ? "kudosPopper" : undefined;
+
+    const kudosNumber =
+        role === "TALENT" && authId === Number(authorId) ? (
+            <DialogOfSponsors
+                counter={counter}
+                formatter={formatter}
+                id={id}
+                token={token}
+            />
+        ) : (
+            <Tooltip
+                title={`${counter}${
+                    sponsorKudoses !== null
+                        ? `, ${sponsorKudoses} given by you`
+                        : ""
+                }`}
+                arrow
+                enterDelay={300}
+                enterNextDelay={300}
+                leaveDelay={100}
+                placement={alignRight ? "right" : "bottom"}
+            >
+                <Typography component="div" sx={{ cursor: "default" }}>
+                    {formatter.format(counter)}
+                </Typography>
+            </Tooltip>
+        );
 
     return (
         <>
@@ -89,6 +137,8 @@ const KudosButton = ({
                         open={open}
                         anchorEl={anchorEl}
                         balance={balance}
+                        skillsAmount={skillsAmount}
+                        clikedFrom={clikedFrom}
                         kudosAmount={kudosAmount}
                         setKudosAmount={setKudosAmount}
                         handleKudos={handleKudos}
@@ -98,50 +148,40 @@ const KudosButton = ({
                         flexDirection="rows"
                         alignItems="center"
                     >
+                        {alignRight ? null : kudosNumber}
                         <IconButton
                             aria-describedby={idPop}
                             onClick={handlePop}
                             disabled={role === "TALENT"}
                             size="small"
-                            title={
-                                role !== "SPONSOR"
-                                    ? "You need to be a sponsor to send kudos"
-                                    : ""
-                            }
                             sx={{
                                 [":disabled"]: {
                                     pointerEvents: "all"
                                 }
                             }}
                         >
-                            {role === "TALENT" || kudosed ? (
-                                <img src={kudosIconActive} alt="Kudos" />
-                            ) : (
-                                <img src={kudosIconInactive} alt="Kudos" />
-                            )}
-                        </IconButton>
-                        {role === "TALENT" &&
-                        authId === authorId &&
-                        from === "profile-click" ? (
-                            <DialogOfSponsors
-                                counter={counter}
-                                formatter={formatter}
-                                id={id}
-                                token={token}
-                            />
-                        ) : (
-                            <Typography
-                                component="div"
-                                sx={{ cursor: "default" }}
-                                title={`${counter}${
-                                    sponsorKudoses !== null
-                                        ? `, ${sponsorKudoses} given by you`
-                                        : ""
-                                }`}
+                            <Tooltip
+                                title={
+                                    isAuth
+                                        ? role !== "SPONSOR"
+                                            ? "You have to be a sponsor to send kudos"
+                                            : ""
+                                        : "Log in to send kudos"
+                                }
+                                arrow
+                                enterDelay={400}
+                                enterNextDelay={400}
+                                leaveDelay={200}
+                                disableInteractive
                             >
-                                {formatter.format(counter)}
-                            </Typography>
-                        )}
+                                {role === "TALENT" || kudosed ? (
+                                    <img src={kudosIconActive} alt="Kudos" />
+                                ) : (
+                                    <img src={kudosIconInactive} alt="Kudos" />
+                                )}
+                            </Tooltip>
+                        </IconButton>
+                        {alignRight ? kudosNumber : null}
                     </Box>
                 </Box>
             </ClickAwayListener>

@@ -3,7 +3,8 @@ import {
     Button,
     FormHelperText,
     OutlinedInput,
-    TextField
+    TextField,
+    Tooltip
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -66,9 +67,9 @@ const CreateProofForm = () => {
                                     "Title should be at least 2 symbols long"
                             },
                             maxLength: {
-                                value: 40,
+                                value: 160,
                                 message:
-                                    "Title shouldn't be larger than 40 symbols"
+                                    "Title shouldn't be larger than 160 symbols"
                             }
                         })}
                     />
@@ -97,11 +98,13 @@ const CreateProofForm = () => {
                         })}
                     />
                     <Controller
-                        key={keyForControl}
                         name="skills"
                         control={control}
-                        render={({ field: { onChange } }) => (
-                            <SkillAutocomplete onChange={onChange} />
+                        render={({ field: { onChange, value } }) => (
+                            <SkillAutocomplete
+                                onChange={onChange}
+                                value={value}
+                            />
                         )}
                     />
                     <Box display="flex" gap="10px">
@@ -122,16 +125,23 @@ const CreateProofForm = () => {
                             display="flex"
                             gap="10px"
                         >
-                            <Button
-                                type="submit"
-                                value="DRAFT"
+                            <Tooltip
                                 title="Save as draft"
-                                variant="outlined"
-                                color="inherit"
-                                disabled={!isValid}
+                                enterDelay={500}
+                                enterNextDelay={500}
                             >
-                                Save
-                            </Button>
+                                <Box>
+                                    <Button
+                                        type="submit"
+                                        value="DRAFT"
+                                        variant="outlined"
+                                        color="inherit"
+                                        disabled={!isValid}
+                                    >
+                                        Save
+                                    </Button>
+                                </Box>
+                            </Tooltip>
                             <Button
                                 type="submit"
                                 value="PUBLISHED"

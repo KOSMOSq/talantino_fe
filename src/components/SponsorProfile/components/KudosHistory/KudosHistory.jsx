@@ -2,25 +2,38 @@ import { useEffect, useState } from "react";
 import { sponsorAPI } from "../../../../api/sponsorAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../../../redux/reducers/appReducer";
-import { Box, Divider, Typography } from "@mui/material";
-import { getRelativeTime } from "../../../../shared/functions/getRelativeTime";
+import { Box, Button, CircularProgress, Divider, Typography } from "@mui/material";
+import { ProofTime } from "../../../../shared/components/ProofTime/ProofTime";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { withDelayedRender } from "../../../../hoc/withDelayedRender";
 
 const KudosHistory = () => {
+    const AMOUNT = 20;
+
     const [history, setHistory] = useState([]);
-    //const [kudosHistory, setKudosHistory] = useState([]);
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState();
+    const [isLoading, setIsLoading] = useState(false);
 
     const token = useSelector(store => store.auth.token);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        const getHistory = async () => {
-            const response = await sponsorAPI.getBalanceHistory(token);
-            setHistory(response);
-            //const kudosResponse = await sponsorAPI.getKudosHistory(token);
-            //setKudosHistory(kudosResponse);
-        };
+    const getHistory = async () => {
+        setIsLoading(prev => true);
+        const response = await sponsorAPI.getBalanceHistory(
+            token,
+            page,
+            AMOUNT
+        );
+        setHistory(history.concat(response.balanceChangings));
+        setTotalPages(Math.ceil(response.totalAmount / AMOUNT));
+        setPage(prev => prev + 1);
+        setIsLoading(prev => false);
+    };
 
-        getHistory().catch(err =>
+    useEffect(() => {
+        getHistory().catch(err => {
+            console.log("HERE");
             dispatch(
                 setMessage(
                     err.response?.data.message
@@ -28,51 +41,90 @@ const KudosHistory = () => {
                         : "Network error",
                     "error"
                 )
-            )
-        );
+            );
+        });
     }, []);
+
+    const DelayedButton = withDelayedRender(() => <Button onClick={getHistory}>LOAD MORE</Button>, 1500);
 
     return (
         <>
-            <Box
-                sx={{
-                    width: "90%",
-                    marginRight: "auto",
-                    marginLeft: "auto",
-                    marginTop: "32px"
-                }}
-                display="flex"
-                flexDirection="column"
-                gap={2}
+            <InfiniteScroll
+                dataLength={history.length}
+                next={getHistory}
+                hasMore={page < totalPages}
             >
-                {history.reverse().map(elem => {
-                    return (
-                        <>
-                            <Box display="flex">
-                                <Typography
-                                    component="span"
-                                    sx={{
-                                        marginLeft: "48px",
-                                        fontWeight: "bold"
-                                    }}
-                                >
-                                    + {elem.amount} kudos
-                                </Typography>
-                                <Typography
-                                    component="span"
-                                    sx={{
-                                        marginLeft: "auto",
-                                        marginRight: "48px",
-                                        color: "gray"
-                                    }}
-                                >
-                                    {getRelativeTime(elem.date)}
-                                </Typography>
-                            </Box>
-                            <Divider />
-                        </>
-                    );
-                })}
+                <Box
+                    sx={{
+                        width: "90%",
+                        marginRight: "auto",
+                        marginLeft: "auto",
+                        marginTop: "32px"
+                    }}
+                    display="flex"
+                    flexDirection="column"
+                    gap={2}
+                >
+                    {history.map((elem, index) => {
+                        return (
+                            <>
+                                <Box display="flex">
+                                    <Typography
+                                        component="span"
+                                        sx={{
+                                            marginLeft: "48px",
+                                            fontWeight: "bold"
+                                        }}
+                                    >
+                                        {elem.amount > 0 ? `+ ${elem.amount}`: `- ${Math.abs(elem.amount)}`} kudos
+                                    </Typography>
+                                    <ProofTime
+                                        date={elem.date}
+                                        typoSx={{
+                                            marginLeft: "auto",
+                                            marginRight: "48px",
+                                            color: "gray"
+                                        }}
+                                    />
+                                </Box>
+                                <Divider />
+                            </>
+                        );
+                    })}
+                </Box>
+            </InfiniteScroll>
+            <Box
+                sx={{ width: "100%" }}
+                display={"flex"}
+                justifyContent="center"
+            >
+                {isLoading || !history ? (
+                    <Box sx={{ height: "80px", mt: "12px" }}>
+                        <CircularProgress size={60} />
+                    </Box>
+                ) : !isLoading && history.length === 0 ? (
+                    <Typography
+                        varitant="caption"
+                        sx={{ color: "gray" }}
+                        align="center"
+                    >
+                        No history yet!
+                    </Typography>
+                ) : !(page < totalPages) ? (
+                    <Typography
+                        varitant="caption"
+                        sx={{
+                            color: "gray",
+                            marginBottom: "10px",
+                            marginTop: "16px"
+                        }}
+                        align="center"
+                    >
+                        You've reached the end!
+                    </Typography>
+                ) : (
+                    <DelayedButton />
+                )}
             </Box>
         </>
     );

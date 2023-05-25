@@ -3,9 +3,31 @@ import { useSelector } from "react-redux";
 import { TalentListCard } from "../TalentListCard/TalentListCard";
 import { TalentGridCard } from "../TalentGridCard/TalentGridCard";
 
-const TalentsArea = () => {
-    const talents = useSelector(store => store.talents.talents);
+const TalentsArea = ({ talents, isLoading }) => {
     const talentsView = useSelector(store => store.talents.talentsView);
+    if (talents.length === 0 || (talents.length !== 9 && isLoading)) {
+        talents = Array(9).fill({});
+    }
+    const talentItems =
+        talentsView === "grid"
+            ? talents.map((element, index) => {
+                  return (
+                      <TalentGridCard
+                          isLoading={isLoading}
+                          {...element}
+                          key={index}
+                      />
+                  );
+              })
+            : talents.map((element, index) => {
+                  return (
+                      <TalentListCard
+                          isLoading={isLoading}
+                          {...element}
+                          key={index}
+                      />
+                  );
+              });
 
     return (
         <>
@@ -22,26 +44,12 @@ const TalentsArea = () => {
                         display="flex"
                         justifyContent="center"
                     >
-                        {talents.map(element => {
-                            return (
-                                <Grid item key={element.id}>
-                                    <TalentGridCard {...element} />
-                                </Grid>
-                            );
-                        })}
+                        {talentItems}
                     </Grid>
                 </Box>
             ) : (
                 <Box display="flex" justifyContent="center">
-                    <List sx={{ width: "700px", pt: 0 }}>
-                        {talents.map(element => {
-                            return (
-                                <Grid item key={element.id}>
-                                    <TalentListCard {...element} />
-                                </Grid>
-                            );
-                        })}
-                    </List>
+                    <List sx={{ width: "700px", pt: 0 }}>{talentItems}</List>
                 </Box>
             )}
         </>
