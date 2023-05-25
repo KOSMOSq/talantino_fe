@@ -33,6 +33,7 @@ const proofsReducer = (state = initialState, action) => {
                 proofs: state.proofs.map(item => {
                     if (item.id === action.proof.id) {
                         action.proof.description = action.proof.description.slice(0, 200);
+                        action.proof.author = item.author;
                         return action.proof;
                     } else {
                         return item;
@@ -68,6 +69,26 @@ export const setIsLoading = bool => ({
     type: SET_IS_LOADING,
     payload: { isLoading: bool }
 });
+
+export const renewProof = proof => ({ type: RENEW_PROOF, proof });
+
+export const renewProofThunk = proofId => async (dispatch, getState) => {
+    const token = getState().auth.token;
+    
+    try {
+        const response = await proofsAPI.getProof(proofId, token);
+        dispatch(renewProof(response));
+    } catch (err) {
+        dispatch(
+            setMessage(
+                err.response?.data.message
+                    ? err.response.data.message
+                    : "Network error",
+                "error"
+            )
+        );
+    }
+};
 
 export const getProofsThunk =
     (page, count, sortType, navigate) => async (dispatch, getState) => {

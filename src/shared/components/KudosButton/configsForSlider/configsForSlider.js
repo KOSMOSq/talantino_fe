@@ -48,11 +48,7 @@ const configsForSlider = (fromWhatKudos, skillsAmount, balance) => {
             ? marksForProofWithSkills
             : universalMarks;
 
-    if (fromWhatKudos === "proof") {
-        return { step, maxValue, minValue, marks };
-    } else if (fromWhatKudos === "skill") {
-        return { step, maxValue, minValue, marks };
-    }
+    return { step, maxValue, minValue, marks };
 };
 
 export { configsForSlider };

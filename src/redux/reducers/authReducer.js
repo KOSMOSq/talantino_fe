@@ -108,6 +108,7 @@ export const getAuthThunk = () => async (dispatch, getState) => {
                                 "You need to re-login."
                             )
                         );
+                        localStorage.removeItem("token");
                     }, time)
                 )
             );

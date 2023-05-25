@@ -7,6 +7,7 @@ const DELETE_TALENT_PROOF = "talentProofs/DELETE-TALENT-PROOF";
 const SET_STATUS = "talentProofs/SET-STATUS";
 const SET_IS_LOADING = "talentProofs/SET-IS-LOADING";
 const EDIT_PROOF = "talentProofs/EDIT-PROOF";
+const RENEW_TALENT_PROOF = "talentProofs/RENEW-TALENT-PROOF";
 
 const initialState = {
     talentProofs: [],
@@ -53,10 +54,23 @@ const talentProofsReducer = (state = initialState, action) => {
                 ...state,
                 talentProofs: newTalentProofs
             };
+        case RENEW_TALENT_PROOF:
+            return {
+                ...state,
+                talentProofs: state.talentProofs.map(item => {
+                    if (item.id === action.proof.id) {
+                        return action.proof;
+                    } else {
+                        return item;
+                    }
+                })
+            };
         default:
             return state;
     }
 };
+
+export const renewTalentProof = proof => ({ type: RENEW_TALENT_PROOF, proof });
 
 export const setTalentProofs = talentProofs => ({
     type: SET_TALENT_PROOFS,
@@ -82,6 +96,25 @@ const editProof = proof => ({
     type: EDIT_PROOF,
     proof
 });
+
+export const renewTalentProofThunk = proofId => async (dispatch, getState) => {
+    const token = getState().auth.token;
+    
+    try {
+        const response = await proofsAPI.getProof(proofId, token);
+        dispatch(renewTalentProof(response));
+    } catch (err) {
+        console.log("here");
+        dispatch(
+            setMessage(
+                err.response?.data.message
+                    ? err.response.data.message
+                    : "Network error",
+                "error"
+            )
+        );
+    }
+};
 
 export const addTalentProofThunk = data => async (dispatch, getState) => {
     const id = getState().auth.user.id;

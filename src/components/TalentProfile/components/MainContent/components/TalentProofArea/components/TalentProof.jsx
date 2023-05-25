@@ -238,7 +238,7 @@ function TalentProof({
                             >
                                 {description}
                             </Typography>
-                            <ProofSkillsArea skills={skills} />
+                            <ProofSkillsArea skills={skills} proofId={id}/>
                         </>
                     ) : (
                         <EditProofForm

@@ -171,7 +171,7 @@ const Proof = ({
                                             {!isLoading ? (
                                                 title
                                             ) : (
-                                                <Skeleton width="70%" />
+                                                <Skeleton width="70%" height="38px"/>
                                             )}
                                         </Typography>
                                     </Tooltip>
@@ -203,7 +203,7 @@ const Proof = ({
                                                 }}
                                                 gap={0.8}
                                             >
-                                                {Array(3)
+                                                {Array(4)
                                                     .fill("")
                                                     .map((item, index) => (
                                                         <Skeleton
@@ -245,14 +245,7 @@ const Proof = ({
                                                 }
                                                 clikedFrom="proof"
                                             />
-                                        ) : (
-                                            <Skeleton
-                                                variant="circular"
-                                                width={28}
-                                                height={28}
-                                                sx={{ ml: 1 }}
-                                            />
-                                        )}
+                                        ) : null}
                                     </Box>
                                 </Box>
                             </Box>

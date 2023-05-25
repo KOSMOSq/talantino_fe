@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Box,
     ClickAwayListener,
@@ -16,6 +16,7 @@ import { getAuthThunk } from "../../../redux/reducers/authReducer";
 import { DialogOfSponsors } from "./components/DialogOfSponsors";
 import { kudosAPI } from "../../../api/kudosAPI";
 import { formatter } from "../../utils/numberFormatter";
+import { renewProofThunk } from "../../../redux/reducers/proofsReducer";
 
 const KudosButton = ({
     id,
@@ -34,6 +35,14 @@ const KudosButton = ({
     const [anchorEl, setAnchorEl] = useState(null);
     const [kudosAmount, setKudosAmount] = useState(defaultKudosAmount);
 
+    useEffect(() => {
+        setCounter(totalKudos);
+    }, [totalKudos]);
+
+    useEffect(() => {
+        setSponsorKudoses(totalKudosFromSponsor);
+    }, [totalKudosFromSponsor]);
+
     const token = useSelector(store => store.auth.token);
     const isAuth = useSelector(store => store.auth.isAuth);
     const page = useSelector(store => store.proofs.currentPage);
@@ -48,6 +57,7 @@ const KudosButton = ({
         try {
             await kudosAPI.sendKudos(id, token, kudosAmount);
             dispatch(getAuthThunk());
+            dispatch(renewProofThunk(id));
             dispatch(
                 setMessage(`${kudosAmount} kudos sent successfully`, "success")
             );

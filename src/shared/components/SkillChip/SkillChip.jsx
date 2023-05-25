@@ -7,15 +7,16 @@ import {
     Typography
 } from "@mui/material";
 import theme from "../../themes/skillsTheme";
-import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
-import kudosIconInactive from "../../../assets/icons/kudosIconInactive.svg";
-import { useState, useRef, useLayoutEffect } from "react";
+import { useState } from "react";
 import { formatter } from "../../utils/numberFormatter";
 import { useDispatch, useSelector } from "react-redux";
 import { KudosPopper } from "../KudosButton/components/KudosPopper";
 import { kudosAPI } from "../../../api/kudosAPI";
 import { getAuthThunk } from "../../../redux/reducers/authReducer";
 import { setMessage } from "../../../redux/reducers/appReducer";
+import { renewProofThunk } from "../../../redux/reducers/proofsReducer";
+import { renewTalentProofThunk } from "../../../redux/reducers/talentsProofsReducer";
+import { useLocation, useParams } from "react-router-dom";
 
 const SkillChip = ({
     id,
@@ -24,8 +25,6 @@ const SkillChip = ({
     label,
     totalKudos,
     totalKudosFromSponsor,
-    isKudosed,
-    handleDelete,
     forTalent = false
 }) => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -36,6 +35,8 @@ const SkillChip = ({
     const token = useSelector(store => store.auth.token);
     const dispatch = useDispatch();
 
+    const location = useLocation();
+
     const handleKudos = async () => {
         try {
             await kudosAPI.sendKudosToSkill(proofId, id, kudosAmount, token);
@@ -43,7 +44,11 @@ const SkillChip = ({
             dispatch(
                 setMessage(`${kudosAmount} kudos sent successfully`, "success")
             );
-            totalKudos += kudosAmount; //IF IT LL WORK THEN DELETE FROM LOGIC proofsReducer
+            if (location.pathname.split("/")[1] === "proofs") {
+                dispatch(renewProofThunk(proofId));
+            } else {
+                dispatch(renewTalentProofThunk(proofId));
+            }
             setAnchorEl(null);
         } catch (err) {
             dispatch(
