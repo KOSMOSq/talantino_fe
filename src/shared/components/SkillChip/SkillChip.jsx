@@ -16,7 +16,7 @@ import { getAuthThunk } from "../../../redux/reducers/authReducer";
 import { setMessage } from "../../../redux/reducers/appReducer";
 import { renewProofThunk } from "../../../redux/reducers/proofsReducer";
 import { renewTalentProofThunk } from "../../../redux/reducers/talentsProofsReducer";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SkillChip = ({
     id,

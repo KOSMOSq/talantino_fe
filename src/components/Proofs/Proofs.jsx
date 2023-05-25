@@ -1,9 +1,4 @@
-import {
-    Container,
-    LinearProgress,
-    Pagination,
-    Typography
-} from "@mui/material";
+import { Container, Pagination, Typography } from "@mui/material";
 import { ProofsArea } from "./components/ProofsArea/ProofsArea";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";

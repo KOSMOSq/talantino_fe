@@ -104,7 +104,6 @@ export const renewTalentProofThunk = proofId => async (dispatch, getState) => {
         const response = await proofsAPI.getProof(proofId, token);
         dispatch(renewTalentProof(response));
     } catch (err) {
-        console.log("here");
         dispatch(
             setMessage(
                 err.response?.data.message

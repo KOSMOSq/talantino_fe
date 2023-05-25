@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Box, Container, LinearProgress, Pagination } from "@mui/material";
+import { Box, Container, Pagination } from "@mui/material";
 import { TalentsArea } from "./components/TalentsArea/TalentsArea";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { talentsAPI } from "../../api/talentsAPI";
 import { useDispatch, useSelector } from "react-redux";
 import {

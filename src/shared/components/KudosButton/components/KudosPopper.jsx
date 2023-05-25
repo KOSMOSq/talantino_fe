@@ -1,4 +1,4 @@
-import { Typography, Fade, Paper, Popper, Grow } from "@mui/material";
+import { Typography, Paper, Popper, Grow } from "@mui/material";
 import { KudosSlider } from "./KudosSlider";
 import { configsForSlider } from "../configsForSlider/configsForSlider";
 
