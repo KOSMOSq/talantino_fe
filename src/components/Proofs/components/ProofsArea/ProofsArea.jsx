@@ -1,18 +1,14 @@
 import { Box, List, FormControl, Select, MenuItem } from "@mui/material";
 import { Proof } from "./Proof/Proof";
-import { useSelector, useDispatch } from "react-redux";
-import { setProofsSortType } from "../../../../redux/reducers/proofsReducer";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ProofsArea = ({ proofs, isLoading }) => {
     const sortType = useSelector(store => store.proofs.proofsSortType);
     const page = useSelector(store => store.proofs.currentPage);
-    //const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleChange = event => {
-        // dispatch(setProofsSortType(event.target.value));
-        console.log(event.target.value);
         navigate(`/proofs?page=${page}&filter=${event.target.value}`);
     };
 

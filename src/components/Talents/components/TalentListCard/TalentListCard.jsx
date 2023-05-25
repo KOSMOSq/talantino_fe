@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setClikedId } from "../../../../redux/reducers/talentsReducer";
 import { ProofSkillsArea } from "../../../TalentProfile/components/MainContent/components/TalentProofArea/components/ProofSkillsArea/ProofSkillsArea";
-import { useEffect } from "react";
 
 const TalentListCard = ({
     name,

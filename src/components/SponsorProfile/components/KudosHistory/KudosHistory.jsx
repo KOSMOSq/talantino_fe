@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { sponsorAPI } from "../../../../api/sponsorAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../../../redux/reducers/appReducer";
-import { Box, Button, CircularProgress, Divider, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    CircularProgress,
+    Divider,
+    Typography
+} from "@mui/material";
 import { ProofTime } from "../../../../shared/components/ProofTime/ProofTime";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { withDelayedRender } from "../../../../hoc/withDelayedRender";
@@ -33,7 +39,6 @@ const KudosHistory = () => {
 
     useEffect(() => {
         getHistory().catch(err => {
-            console.log("HERE");
             dispatch(
                 setMessage(
                     err.response?.data.message
@@ -45,7 +50,10 @@ const KudosHistory = () => {
         });
     }, []);
 
-    const DelayedButton = withDelayedRender(() => <Button onClick={getHistory}>LOAD MORE</Button>, 1500);
+    const DelayedButton = withDelayedRender(
+        () => <Button onClick={getHistory}>LOAD MORE</Button>,
+        1500
+    );
 
     return (
         <>
@@ -76,7 +84,10 @@ const KudosHistory = () => {
                                             fontWeight: "bold"
                                         }}
                                     >
-                                        {elem.amount > 0 ? `+ ${elem.amount}`: `- ${Math.abs(elem.amount)}`} kudos
+                                        {elem.amount > 0
+                                            ? `+ ${elem.amount}`
+                                            : `- ${Math.abs(elem.amount)}`}{" "}
+                                        kudos
                                     </Typography>
                                     <ProofTime
                                         date={elem.date}
