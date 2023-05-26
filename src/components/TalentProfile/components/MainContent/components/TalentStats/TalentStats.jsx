@@ -7,24 +7,30 @@ import kudosIconActive from "../../../../../../assets/icons/kudosIconActive.svg"
 import { useEffect, useState } from "react";
 import { setMessage } from "../../../../../../redux/reducers/appReducer";
 import { talentsAPI } from "../../../../../../api/talentsAPI";
+import { setIsLoading } from "../../../../../../redux/reducers/authReducer";
 
 const TalentStats = ({ talentId }) => {
     const id = useSelector(store => store.auth.user.id);
     const role = useSelector(store => store.auth.user.role);
     const token = useSelector(store => store.auth.token);
     const balance = useSelector(store => store.auth.user.balance);
+    const isLoading = useSelector(store => store.auth.isLoading);
     const dispatch = useDispatch();
 
-    const [stats, setStats] = useState(null);
+    const [stats, setStats] = useState({});
 
     useEffect(() => {
         if (Number(talentId) === id && role === "TALENT") {
+            if (!isLoading) {
+                dispatch(setIsLoading(true));
+            }
             const getStats = async () => {
                 const response = await talentsAPI.getStats(id, token);
                 setStats(response);
+                dispatch(setIsLoading(false));
             };
 
-            getStats().catch(err =>
+            getStats().catch(err => {
                 dispatch(
                     setMessage(
                         err.response?.data.message
@@ -32,14 +38,15 @@ const TalentStats = ({ talentId }) => {
                             : "Network error",
                         "error"
                     )
-                )
-            );
+                );
+                dispatch(setIsLoading(false));
+            });
         }
     }, []);
 
     if (Number(talentId) !== id || role !== "TALENT") {
         return <Navigate to={`/talent/${talentId}/`} />;
-    } else if (!stats) {
+    } else if (isLoading) {
         return <LinearProgress />;
     }
 
