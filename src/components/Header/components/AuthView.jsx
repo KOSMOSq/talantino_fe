@@ -137,50 +137,59 @@ function AuthView() {
                             handleClose={handleClose}
                             transformOrigin="right top"
                         >
-                            <MenuItem onClick={handleClickProfile}>
-                                <Link
-                                    sx={{
-                                        textDecoration: "none",
-                                        display: "flex"
-                                    }}
-                                    href={`/${
-                                        role === "SPONSOR"
-                                            ? "sponsor"
-                                            : role === "TALENT"
-                                            ? "talent"
-                                            : "notFound"
-                                    }/${id}`}
-                                >
-                                    <ListItemIcon sx={{ alignSelf: "center" }}>
-                                        <AccountCircleIcon
-                                            fontSize="small"
+                            {role !== "ADMIN" ? (
+                                <>
+                                    <MenuItem onClick={handleClickProfile}>
+                                        <Link
                                             sx={{
-                                                color: "#1976d2"
+                                                textDecoration: "none",
+                                                display: "flex"
                                             }}
-                                        />
-                                    </ListItemIcon>
-                                    Profile
-                                </Link>
-                            </MenuItem>
-                            <MenuItem onClick={handleClickSettings}>
-                                <Link
-                                    sx={{
-                                        textDecoration: "none",
-                                        display: "flex"
-                                    }}
-                                    href="/settings"
-                                >
-                                    <ListItemIcon sx={{ alignSelf: "center" }}>
-                                        <SettingsIcon
-                                            fontSize="small"
+                                            href={`/${
+                                                role === "SPONSOR"
+                                                    ? "sponsor"
+                                                    : role === "TALENT"
+                                                    ? "talent"
+                                                    : "notFound"
+                                            }/${id}`}
+                                        >
+                                            <ListItemIcon
+                                                sx={{ alignSelf: "center" }}
+                                            >
+                                                <AccountCircleIcon
+                                                    fontSize="small"
+                                                    sx={{
+                                                        color: "#1976d2"
+                                                    }}
+                                                />
+                                            </ListItemIcon>
+                                            Profile
+                                        </Link>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleClickSettings}>
+                                        <Link
                                             sx={{
-                                                color: "#1976d2"
+                                                textDecoration: "none",
+                                                display: "flex"
                                             }}
-                                        />
-                                    </ListItemIcon>
-                                    Settings
-                                </Link>
-                            </MenuItem>
+                                            href="/settings"
+                                        >
+                                            <ListItemIcon
+                                                sx={{ alignSelf: "center" }}
+                                            >
+                                                <SettingsIcon
+                                                    fontSize="small"
+                                                    sx={{
+                                                        color: "#1976d2"
+                                                    }}
+                                                />
+                                            </ListItemIcon>
+                                            Settings
+                                        </Link>
+                                    </MenuItem>
+                                </>
+                            ) : null}
+
                             <MenuItem onClick={handleLogout}>
                                 <Link
                                     sx={{
