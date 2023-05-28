@@ -11,6 +11,7 @@ import { Page404 } from "./components/Page404/Page404";
 import { EmailConfirm } from "../EmailConfirm/EmailConfirm";
 import SponsorProfile from "../SponsorProfile/SponsorProfile";
 import { Recover } from "../Recover/Recover";
+import { TalentsContainer } from "../Talents/TalentsContainer";
 
 function Router() {
     return (
@@ -19,7 +20,7 @@ function Router() {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Navigate to="/talents" />} />
                     <Route path="proofs" element={<Proofs />} />
-                    <Route path="talents" element={<Talents />} />
+                    <Route path="talents" element={<TalentsContainer />} />
                     <Route path="login" element={<LoginForm />} />
                     <Route path="create-acc" element={<CreateAccForm />} />
                     <Route

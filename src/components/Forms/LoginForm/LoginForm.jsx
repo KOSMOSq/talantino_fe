@@ -29,7 +29,7 @@ function LoginForm() {
     const location = useLocation();
     const from = location.state?.from;
     const page = location.state?.page;
-    
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isAuth = useSelector(store => store.auth.isAuth);
@@ -65,7 +65,8 @@ function LoginForm() {
                     <TextField
                         id="email"
                         label="Email"
-                        {...register("email", mailValidation)}
+                        {...register("email", {})}
+                        // !ПОВЕРНУТИ ВАЛІДАЦІЮ
                         error={Boolean(errors.email)}
                         helperText={errors.email ? errors.email.message : " "}
                         sx={{ width: 300 }}
