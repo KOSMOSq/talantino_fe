@@ -1,10 +1,4 @@
-import {
-    Container,
-    Modal,
-    Pagination,
-    Table,
-    TableContainer
-} from "@mui/material";
+import { Container, Pagination } from "@mui/material";
 import { TalentsTableHead } from "./components/TalentsTableHead/TalentsTableHead";
 import { useEffect, useState } from "react";
 import { adminApi } from "../../../api/adminApi";
@@ -12,9 +6,9 @@ import { TalentsTableBody } from "./components/TalentsTableBody/TalentsTableBody
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../../redux/reducers/appReducer";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { SearchTalent } from "./components/SearchTalent/SearchTalent";
 import { ModalConfirmation } from "../../ModalConfirmation/ModalConfirmation";
 import { AdminTable } from "../components/AdminTable/AdminTable";
+import { AdminSearch } from "../components/AdminSearch/AdminSearch";
 
 const AdminTalents = () => {
     const [talents, setTalents] = useState([]);
@@ -32,9 +26,9 @@ const AdminTalents = () => {
         const response = await adminApi.getTalents(token, page, email);
 
         setTotalPages(Math.ceil(response.amount / 10));
-
         setTalents(response.talents);
     };
+
     useEffect(() => {
         const urlPageParam = Number(searchParams.get("page"));
         let urlPage;
@@ -103,11 +97,12 @@ const AdminTalents = () => {
                 justifyContent: "center"
             }}
         >
-            <SearchTalent
+            <AdminSearch
                 getTalents={getTalents}
                 value={email}
                 setValue={setEmail}
                 handleSearch={handleSearch}
+                searchLabel={"Search by email"}
             />
             <AdminTable
                 AdminTableHead={TalentsTableHead}

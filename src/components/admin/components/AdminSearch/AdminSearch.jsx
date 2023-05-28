@@ -1,10 +1,10 @@
 import { Box, Button, TextField } from "@mui/material";
 
-const SearchTalent = ({ value, setValue, handleSearch }) => {
+const AdminSearch = ({ value, setValue, handleSearch, searchLabel }) => {
     return (
         <Box mt={4} mb={4} display="flex" justifyContent="center" gap={1}>
             <TextField
-                label="search by email"
+                label={searchLabel}
                 size="small"
                 value={value}
                 onChange={e => setValue(e.target.value)}
@@ -15,5 +15,4 @@ const SearchTalent = ({ value, setValue, handleSearch }) => {
         </Box>
     );
 };
-
-export { SearchTalent };
+export { AdminSearch };

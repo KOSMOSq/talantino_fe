@@ -1,6 +1,7 @@
 import { IconButton, TableBody, TableCell, TableRow } from "@mui/material";
 import { getBeautifulTimeString } from "../../../../../shared/functions/getRelativeTime";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { Link } from "react-router-dom";
 
 const TalentsTableBody = ({ data, setDataToDelete, setOpenModal }) => {
     return (
@@ -24,7 +25,14 @@ const TalentsTableBody = ({ data, setDataToDelete, setOpenModal }) => {
                                 <CancelIcon sx={{ color: "red" }} />
                             </IconButton>
                         </TableCell>
-                        <TableCell>{row.id}</TableCell>
+                        <TableCell align="right">
+                            <Link
+                                href={`/talent/${row.id}`}
+                                to={`/talent/${row.id}`}
+                            >
+                                {row.id}
+                            </Link>
+                        </TableCell>
                         <TableCell align="right">{row.accountStatus}</TableCell>
                         <TableCell align="right">{row.name}</TableCell>
                         <TableCell align="right">{row.surname}</TableCell>
