@@ -5,15 +5,16 @@ import {
     Table,
     TableContainer
 } from "@mui/material";
-import { AdminTableHead } from "./components/AdminTableHead/AdminTableHead";
+import { TalentsTableHead } from "./components/TalentsTableHead/TalentsTableHead";
 import { useEffect, useState } from "react";
 import { adminApi } from "../../../api/adminApi";
-import { AdminTableBody } from "./components/AdminTableBody/AdminTableBody";
+import { TalentsTableBody } from "./components/TalentsTableBody/TalentsTableBody";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../../redux/reducers/appReducer";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { SearchTalent } from "./components/SearchTalent/SearchTalent";
 import { ModalConfirmation } from "../../ModalConfirmation/ModalConfirmation";
+import { AdminTable } from "../components/AdminTable/AdminTable";
 
 const AdminTalents = () => {
     const [talents, setTalents] = useState([]);
@@ -108,16 +109,13 @@ const AdminTalents = () => {
                 setValue={setEmail}
                 handleSearch={handleSearch}
             />
-            <TableContainer>
-                <Table>
-                    <AdminTableHead />
-                    <AdminTableBody
-                        talents={talents}
-                        setTalentToDelete={setTalentToDelete}
-                        setOpenModal={setOpen}
-                    />
-                </Table>
-            </TableContainer>
+            <AdminTable
+                AdminTableHead={TalentsTableHead}
+                AdminTableBody={TalentsTableBody}
+                data={talents}
+                setDataToDelete={setTalentToDelete}
+                setOpenModal={setOpen}
+            />
             <Pagination
                 sx={{
                     marginTop: "20px",

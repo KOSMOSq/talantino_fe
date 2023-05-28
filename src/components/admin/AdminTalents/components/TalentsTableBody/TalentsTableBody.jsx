@@ -2,10 +2,10 @@ import { IconButton, TableBody, TableCell, TableRow } from "@mui/material";
 import { getBeautifulTimeString } from "../../../../../shared/functions/getRelativeTime";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-const AdminTableBody = ({ talents, setTalentToDelete, setOpenModal }) => {
+const TalentsTableBody = ({ data, setDataToDelete, setOpenModal }) => {
     return (
         <TableBody>
-            {talents.map(row => {
+            {data.map(row => {
                 return (
                     <TableRow
                         key={row.name + ` ${row.id}`}
@@ -17,7 +17,7 @@ const AdminTableBody = ({ talents, setTalentToDelete, setOpenModal }) => {
                             <IconButton
                                 onClick={() => {
                                     setOpenModal(prev => !prev);
-                                    setTalentToDelete(row);
+                                    setDataToDelete(row);
                                 }}
                                 size="small"
                             >
@@ -49,4 +49,4 @@ const AdminTableBody = ({ talents, setTalentToDelete, setOpenModal }) => {
     );
 };
 
-export { AdminTableBody };
+export { TalentsTableBody };

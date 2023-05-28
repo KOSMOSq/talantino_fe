@@ -1,6 +1,6 @@
 import { TableCell, TableHead, TableRow } from "@mui/material";
 
-const AdminTableHead = () => {
+const TalentsTableHead = () => {
     return (
         <TableHead>
             <TableRow>
@@ -20,4 +20,4 @@ const AdminTableHead = () => {
     );
 };
 
-export { AdminTableHead };
+export { TalentsTableHead };
