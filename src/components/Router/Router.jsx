@@ -12,13 +12,22 @@ import { Recover } from "../Recover/Recover";
 import { TalentsContainer } from "../Talents/TalentsContainer";
 import { ProofsContainer } from "../Proofs/ProofsContainer";
 import { Kinds } from "../admin/Kinds/Kinds";
+import { useSelector } from "react-redux";
+import { Welcome } from "../Welcome/Welcome";
 
 function Router() {
+    const isAuth = useSelector(store => store.auth.isAuth);
     return (
         <>
             <Routes>
                 <Route path="/" element={<Layout />}>
-                    <Route index element={<Navigate to="/talents" />} />
+                    <Route
+                        index
+                        element={
+                            isAuth ? <Navigate to="/talents" /> : <Welcome />
+                        }
+                    />
+                    <Route path="welcome" element={<Welcome />} />
                     <Route path="proofs" element={<ProofsContainer />} />
                     <Route path="talents" element={<TalentsContainer />} />
                     <Route path="login" element={<LoginForm />} />
