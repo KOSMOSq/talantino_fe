@@ -16,6 +16,7 @@ import { SettingsHeader } from "./components/SettingsHeader/SettingsHeader";
 import { SocialLink } from "./components/SocialLinks/SocialLink";
 import { CountryAutocomplete } from "./components/CountryAutocomplete/CountryAutocomplete";
 import { setMessage } from "../../redux/reducers/appReducer";
+import { settingsValidation } from "./settingsValidaton";
 
 const Settings = () => {
     const user = useSelector(store => store.auth.user);
@@ -113,22 +114,7 @@ const Settings = () => {
                             <Box display="flex" gap={2} flexWrap={"wrap"}>
                                 <TextField
                                     label="Name"
-                                    {...register("name", {
-                                        required: "First name is required",
-                                        maxLength: {
-                                            value: 24,
-                                            message: "Your name is too long"
-                                        },
-                                        minLength: {
-                                            value: 2,
-                                            message: "Your name is too short"
-                                        },
-                                        pattern: {
-                                            value: /^[a-zA-Z]+$/,
-                                            message:
-                                                "First name can only contain letters"
-                                        }
-                                    })}
+                                    {...register("name", settingsValidation.name)}
                                     error={Boolean(errors.name)}
                                     helperText={
                                         errors.name ? errors.name.message : " "
@@ -136,22 +122,7 @@ const Settings = () => {
                                 />
                                 <TextField
                                     label="Surname"
-                                    {...register("surname", {
-                                        required: "Last name is required",
-                                        maxLength: {
-                                            value: 24,
-                                            message: "Your surname is too long"
-                                        },
-                                        minLength: {
-                                            value: 2,
-                                            message: "Your surname is too short"
-                                        },
-                                        pattern: {
-                                            value: /^[a-zA-Z]+$/,
-                                            message:
-                                                "Last name can only contain letters"
-                                        }
-                                    })}
+                                    {...register("surname", settingsValidation.surname)}
                                     error={Boolean(errors.surname)}
                                     helperText={
                                         errors.surname
@@ -186,18 +157,7 @@ const Settings = () => {
                                             maxRows={7}
                                             minRows={7}
                                             sx={{ width: "100%", marginTop: 2 }}
-                                            {...register("description", {
-                                                maxLength: {
-                                                    value: 3000,
-                                                    message:
-                                                        "Your description is too long"
-                                                },
-                                                minLength: {
-                                                    value: 2,
-                                                    message:
-                                                        "Your description is too short"
-                                                }
-                                            })}
+                                            {...register("description", settingsValidation.description)}
                                             error={Boolean(errors.description)}
                                             helperText={
                                                 errors.description
@@ -228,25 +188,7 @@ const Settings = () => {
                                     >
                                         <TextField
                                             label="Kind of talent"
-                                            {...register("kind", {
-                                                required:
-                                                    "Kind of talent is required",
-                                                maxLength: {
-                                                    value: 18,
-                                                    message:
-                                                        "Your talent is too BIG"
-                                                },
-                                                minLength: {
-                                                    value: 2,
-                                                    message:
-                                                        "Your talent is too short"
-                                                },
-                                                pattern: {
-                                                    value: /^[a-zA-Z ]+$/,
-                                                    message:
-                                                        "Kind of talent can only contain letters"
-                                                }
-                                            })}
+                                            {...register("kind", settingsValidation.kind)}
                                             error={Boolean(errors.kind)}
                                             helperText={
                                                 errors.kind
@@ -256,17 +198,7 @@ const Settings = () => {
                                         />
                                         <TextField
                                             label="Experience"
-                                            {...register("experience", {
-                                                validate: value =>
-                                                    (Number(value) <= 60 &&
-                                                        Number(value) >= 0) ||
-                                                    "You have too much experience XD",
-                                                pattern: {
-                                                    value: /^[0-9]+$/,
-                                                    message:
-                                                        "Experience can only contain numbers"
-                                                }
-                                            })}
+                                            {...register("experience", settingsValidation.experience)}
                                             error={Boolean(errors.experience)}
                                             helperText={
                                                 errors.experience

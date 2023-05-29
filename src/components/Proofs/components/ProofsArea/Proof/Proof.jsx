@@ -1,26 +1,12 @@
-import {
-    Avatar,
-    Box,
-    Divider,
-    IconButton,
-    ListItem,
-    MenuItem,
-    Skeleton,
-    Tooltip,
-    Typography
-} from "@mui/material";
-import { KudosButton } from "../../../../../shared/components/KudosButton/KudosButton";
-import { ProofSkillsArea } from "../../../../TalentProfile/components/MainContent/components/TalentProofArea/components/ProofSkillsArea/ProofSkillsArea";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Box, Divider, ListItem, MenuItem } from "@mui/material";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Report } from "../../Report/Report";
 import { ModalConfirmation } from "../../../../ModalConfirmation/ModalConfirmation";
-import { ProofTime } from "../../../../../shared/components/ProofTime/ProofTime";
-import { ProofDescription } from "./components/ProofDescription.jsx/ProofDescription";
 import { Menu } from "../../../../../shared/components/Menu/Menu";
 import { sendReportThunk } from "../../../../../redux/reducers/proofsReducer";
+import { ProofContent } from "./components/ProofContent/ProofContent";
+import { ProofAuthor } from "./components/ProofAuthor/ProofAuthor";
 
 const Proof = ({
     id,
@@ -69,192 +55,25 @@ const Proof = ({
                     <Box width={"100%"}>
                         <Box>
                             {isAuth ? (
-                                <Box
-                                    display="flex"
-                                    gap={1.2}
-                                    sx={{ width: "100%", marginBottom: "6px" }}
-                                >
-                                    {!isLoading ? (
-                                        <Avatar
-                                            component={Link}
-                                            to={
-                                                !isLoading
-                                                    ? `/talent/${
-                                                          author && author.id
-                                                      }`
-                                                    : null
-                                            }
-                                            alt={
-                                                author.name +
-                                                " " +
-                                                author.surname
-                                            }
-                                            src={author.avatar}
-                                            sx={{
-                                                width: "46px",
-                                                height: "46px",
-                                                textDecoration: "none"
-                                            }}
-                                        >
-                                            {author.name.slice(0, 1)}
-                                        </Avatar>
-                                    ) : (
-                                        <Skeleton
-                                            variant="circular"
-                                            width={46}
-                                            height={46}
-                                        ></Skeleton>
-                                    )}
-
-                                    <Box alignSelf="center" width="40%">
-                                        <Typography
-                                            sx={{
-                                                fontWeight: "bold",
-                                                textDecoration: "none",
-                                                color: "#202020"
-                                            }}
-                                            component={Link}
-                                            to={
-                                                !isLoading
-                                                    ? `/talent/${author.id}`
-                                                    : null
-                                            }
-                                        >
-                                            {!isLoading ? (
-                                                author.name +
-                                                " " +
-                                                author.surname
-                                            ) : (
-                                                <Skeleton width="70%" />
-                                            )}
-                                        </Typography>
-                                        {!isLoading ? (
-                                            <ProofTime date={date} />
-                                        ) : (
-                                            <Skeleton width="40%" />
-                                        )}
-                                    </Box>
-                                    {!isLoading ? (
-                                        <IconButton
-                                            onClick={handleClick}
-                                            size="small"
-                                            sx={{
-                                                alignSelf: "start",
-                                                marginLeft: "auto"
-                                            }}
-                                        >
-                                            <MoreVertIcon />
-                                        </IconButton>
-                                    ) : null}
-                                </Box>
+                                <ProofAuthor
+                                    isLoading={isLoading}
+                                    author={author}
+                                    date={date}
+                                    handleClick={handleClick}
+                                />
                             ) : null}
-                            <Box display="flex">
-                                <Box width="100%">
-                                    <Tooltip
-                                        title={
-                                            isAuth
-                                                ? ""
-                                                : "Log in to see proof's author"
-                                        }
-                                        placement="left"
-                                        arrow
-                                        enterDelay={1000}
-                                        enterNextDelay={1000}
-                                    >
-                                        <Typography
-                                            variant="h6"
-                                            sx={{
-                                                fontWeight: 700,
-                                                fontSize: 24
-                                            }}
-                                        >
-                                            {!isLoading ? (
-                                                title
-                                            ) : (
-                                                <Skeleton
-                                                    width="70%"
-                                                    height="38px"
-                                                />
-                                            )}
-                                        </Typography>
-                                    </Tooltip>
-                                    {!isLoading ? (
-                                        <ProofDescription
-                                            isAuth={isAuth}
-                                            id={id}
-                                            token={token}
-                                            description={description}
-                                        />
-                                    ) : (
-                                        <Skeleton
-                                            variant="rounded"
-                                            width="100%"
-                                            height={100}
-                                        />
-                                    )}
-
-                                    {!isLoading ? (
-                                        <ProofSkillsArea
-                                            skills={skills}
-                                            proofId={id}
-                                        />
-                                    ) : (
-                                        <>
-                                            <Box
-                                                display="flex"
-                                                flexWrap="wrap"
-                                                sx={{
-                                                    width: "100%",
-                                                    marginTop: "8px"
-                                                }}
-                                                gap={0.8}
-                                            >
-                                                {Array(4)
-                                                    .fill("")
-                                                    .map((item, index) => (
-                                                        <Skeleton
-                                                            key={index}
-                                                            variant="rounded"
-                                                            width={99}
-                                                            height={24}
-                                                            sx={{
-                                                                borderRadius:
-                                                                    "16px"
-                                                            }}
-                                                        />
-                                                    ))}
-                                            </Box>
-                                        </>
-                                    )}
-                                    <Box
-                                        sx={{
-                                            alignSelf: "center",
-                                            marginTop: "4px",
-                                            marginLeft: "-10px",
-                                            display: "flex",
-                                            justifyContent: "space-between"
-                                        }}
-                                    >
-                                        {!isLoading ? (
-                                            <KudosButton
-                                                id={id}
-                                                isKudosed={isKudosed}
-                                                totalKudos={totalKudos}
-                                                totalKudosFromSponsor={
-                                                    totalKudosFromSponsor
-                                                }
-                                                alignRight
-                                                skillsAmount={
-                                                    skills.length
-                                                        ? skills.length
-                                                        : 0
-                                                }
-                                                clikedFrom="proof"
-                                            />
-                                        ) : null}
-                                    </Box>
-                                </Box>
-                            </Box>
+                            <ProofContent
+                                isAuth={isAuth}
+                                isLoading={isLoading}
+                                title={title}
+                                id={id}
+                                token={token}
+                                description={description}
+                                skills={skills}
+                                isKudosed={isKudosed}
+                                totalKudos={totalKudos}
+                                totalKudosFromSponsor={totalKudosFromSponsor}
+                            />
                         </Box>
                     </Box>
                     <Menu

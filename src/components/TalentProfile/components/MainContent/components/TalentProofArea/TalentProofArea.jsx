@@ -1,14 +1,4 @@
-import {
-    Box,
-    Button,
-    CircularProgress,
-    FormControl,
-    Grid,
-    InputLabel,
-    MenuItem,
-    Select,
-    Typography
-} from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { TalentProof } from "./components/TalentProof";
 import { CreateProofForm } from "../../../../../Forms/CreateProofForm/CreateProofForm";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +11,8 @@ import {
 } from "../../../../../../redux/reducers/talentsProofsReducer";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { withDelayedRender } from "../../../../../../hoc/withDelayedRender";
+import { EndMessage } from "./components/EndMessage/EndMessage";
+import { StatusSelect } from "./components/StatusSelect/StatusSelect";
 
 function TalentProofArea() {
     const STATUSES = ["ALL", "PUBLISHED", "HIDDEN", "DRAFT"];
@@ -89,38 +80,16 @@ function TalentProofArea() {
         setPage(prev => 1);
     }, [searchParams.get("status")]);
 
-    const DelayedButton = withDelayedRender(
-        () => <Button onClick={handleClick}>LOAD MORE</Button>,
-        1500
-    );
-
     return (
         <>
             <Box mt={2}>
                 {authId === Number(talentId) && role === "TALENT" ? (
                     <>
                         <CreateProofForm />
-                        <Box mb={2}>
-                            <FormControl sx={{ width: "120px" }}>
-                                <InputLabel id="selectStatus">
-                                    Status
-                                </InputLabel>
-                                <Select
-                                    labelId="selectStatus"
-                                    label="Status"
-                                    value={status}
-                                    onChange={handleChange}
-                                    sx={{ height: "40px" }}
-                                >
-                                    <MenuItem value={"ALL"}>All</MenuItem>
-                                    <MenuItem value={"PUBLISHED"}>
-                                        Published
-                                    </MenuItem>
-                                    <MenuItem value={"HIDDEN"}>Hidden</MenuItem>
-                                    <MenuItem value={"DRAFT"}>Draft</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Box>
+                        <StatusSelect
+                            status={status}
+                            handleChange={handleChange}
+                        />
                     </>
                 ) : null}
                 <Box sx={{ width: "100%" }}>
@@ -141,39 +110,13 @@ function TalentProofArea() {
                             );
                         })}
                     </InfiniteScroll>
-                    <Box
-                        sx={{ width: "100%" }}
-                        display={"flex"}
-                        justifyContent="center"
-                    >
-                        {isLoading || !proofs ? (
-                            <Box sx={{ height: "80px" }}>
-                                <CircularProgress size={60} />
-                            </Box>
-                        ) : !isLoading && proofs.length === 0 ? (
-                            <Typography
-                                varitant="caption"
-                                sx={{ color: "gray" }}
-                                align="center"
-                            >
-                                No proofs yet!
-                            </Typography>
-                        ) : !(page < totalPages) ? (
-                            <Typography
-                                varitant="caption"
-                                sx={{
-                                    color: "gray",
-                                    marginBottom: "10px",
-                                    marginTop: "-6px"
-                                }}
-                                align="center"
-                            >
-                                You've reached the end!
-                            </Typography>
-                        ) : (
-                            <DelayedButton />
-                        )}
-                    </Box>
+                    <EndMessage
+                        handleClick={handleClick}
+                        proofs={proofs}
+                        isLoading={isLoading}
+                        page={page}
+                        totalPages={totalPages}
+                    />
                 </Box>
             </Box>
         </>

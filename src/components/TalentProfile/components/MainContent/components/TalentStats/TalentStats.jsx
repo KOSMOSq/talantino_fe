@@ -2,12 +2,12 @@ import { Box, Divider, Grid, LinearProgress, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { SkillChip } from "../../../../../../shared/components/SkillChip/SkillChip";
-import { TalentProof } from "../TalentProofArea/components/TalentProof";
 import kudosIconActive from "../../../../../../assets/icons/kudosIconActive.svg";
 import { useEffect, useState } from "react";
 import { setMessage } from "../../../../../../redux/reducers/appReducer";
 import { talentsAPI } from "../../../../../../api/talentsAPI";
 import { setIsLoading } from "../../../../../../redux/reducers/authReducer";
+import { TalentProof } from "../TalentProofArea/components/TalentProof";
 
 const TalentStats = ({ talentId }) => {
     const id = useSelector(store => store.auth.user.id);
