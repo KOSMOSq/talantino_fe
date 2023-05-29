@@ -16,7 +16,11 @@ const store = configureStore({
         talentProofs: talentsProofsReducer,
         proofs: proofsReducer,
         skills: skillsReducer
-    }
+    },
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware({
+            serializableCheck: false
+        })
 });
 
 export { store };
