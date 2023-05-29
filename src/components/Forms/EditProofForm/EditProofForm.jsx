@@ -1,16 +1,11 @@
 import {
     Box,
-    Button,
-    FormHelperText,
     OutlinedInput,
     TextField,
-    ThemeProvider,
     ToggleButton,
     ToggleButtonGroup,
-    Tooltip,
     Typography
 } from "@mui/material";
-import { theme } from "../../../shared/themes/neutralColorTheme";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { editProofThunk } from "../../../redux/reducers/talentsProofsReducer";
@@ -18,6 +13,8 @@ import { useState } from "react";
 import { getRelativeTime } from "../../../shared/functions/getRelativeTime";
 import { ProofSkillsArea } from "../../TalentProfile/components/MainContent/components/TalentProofArea/components/ProofSkillsArea/ProofSkillsArea";
 import { SkillAutocomplete } from "../../../shared/components/SkillAutocomplete/SkillAutocomplete";
+import { editProofValidation } from "./editProofValidation";
+import { SubmitFormArea } from "./components/SubmitFormArea/SubmitFormArea";
 
 const EditProofForm = ({
     id,
@@ -73,20 +70,10 @@ const EditProofForm = ({
                                     fontWeight: "bold"
                                 }}
                                 placeholder="Title"
-                                {...register("title", {
-                                    required:
-                                        "Title should be at least 2 symbols long",
-                                    minLength: {
-                                        value: 2,
-                                        message:
-                                            "Title should be at least 2 symbols long"
-                                    },
-                                    maxLength: {
-                                        value: 160,
-                                        message:
-                                            "Title shouldn't be larger than 160 symbols"
-                                    }
-                                })}
+                                {...register(
+                                    "title",
+                                    editProofValidation.title
+                                )}
                             />
                         ) : (
                             <>
@@ -157,19 +144,10 @@ const EditProofForm = ({
                         minRows={1}
                         maxRows={10}
                         multiline
-                        {...register("description", {
-                            required: "Proof should be at least 2 symbols long",
-                            minLength: {
-                                value: 2,
-                                message:
-                                    "Proof should be at least 2 symbols long"
-                            },
-                            maxLength: {
-                                value: 2000,
-                                message:
-                                    "Proof shouldn't be larger than 2000 symbols"
-                            }
-                        })}
+                        {...register(
+                            "description",
+                            editProofValidation.description
+                        )}
                     />
                 ) : (
                     <Typography
@@ -194,83 +172,15 @@ const EditProofForm = ({
                         )}
                     />
                 ) : (
-                    <ProofSkillsArea skills={skills} forTalent/>
+                    <ProofSkillsArea skills={skills} forTalent />
                 )}
-                <Box display="flex">
-                    <FormHelperText
-                        error
-                        component="span"
-                        sx={{
-                            marginLeft: "10px",
-                            marginTop: "auto",
-                            marginBottom: "auto"
-                        }}
-                    >
-                        {errors.description?.message ||
-                            errors.title?.message ||
-                            (status === "DRAFT" && status !== alignment && (
-                                <FormHelperText error>
-                                    After changing Draft status it cannot be set
-                                    again
-                                </FormHelperText>
-                            ))}
-                    </FormHelperText>
-                    <Box
-                        marginLeft="auto"
-                        display="flex"
-                        gap="10px"
-                        marginTop="8px"
-                    >
-                        <Button
-                            color="error"
-                            variant="outlined"
-                            onClick={() => setEditMode(prev => false)}
-                        >
-                            Cancel
-                        </Button>
-                        <ThemeProvider theme={theme}>
-                            {alignment === "DRAFT" ? (
-                                <Tooltip
-                                    title="Save as draft"
-                                    enterDelay={500}
-                                    enterNextDelay={500}
-                                >
-                                    <Box>
-                                        <Button
-                                            type="submit"
-                                            value="DRAFT"
-                                            variant="contained"
-                                            color="inherit"
-                                            disabled={!isValid}
-                                        >
-                                            Save
-                                        </Button>
-                                    </Box>
-                                </Tooltip>
-                            ) : alignment === "PUBLISHED" ? (
-                                <Button
-                                    type="submit"
-                                    value="PUBLISHED"
-                                    color="success"
-                                    variant="contained"
-                                    disabled={!isValid}
-                                >
-                                    Publish
-                                </Button>
-                            ) : (
-                                <Button
-                                    type="submit"
-                                    value="HIDDEN"
-                                    color="neutral"
-                                    variant="contained"
-                                    disabled={!isValid}
-                                >
-                                    Hide
-                                </Button>
-                            )}
-                        </ThemeProvider>
-                    </Box>
-                </Box>
+                <SubmitFormArea
+                    errors={errors}
+                    status={status}
+                    isValid={isValid}
+                    alignment={alignment}
+                    setEditMode={setEditMode}
+                />
             </form>
         </>
     );

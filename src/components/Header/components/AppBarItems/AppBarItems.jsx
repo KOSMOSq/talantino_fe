@@ -1,6 +1,6 @@
 import Button from "@mui/material/Button";
 import { Link, NavLink } from "react-router-dom";
-import logo from "../../../assets/logo/talantinoLogo.svg";
+import logo from "../../../../assets/logo/talantinoLogo.svg";
 import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 

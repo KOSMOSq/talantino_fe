@@ -96,7 +96,6 @@ const NotificationCenter = () => {
                                             bgcolor: "background.paper",
                                             maxHeight: "350px",
                                             minHeight: "90px",
-                                            width: "296px",
                                             overflow: "auto",
                                             borderRadius: "6px",
                                             "::-webkit-scrollbar": {

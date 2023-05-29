@@ -10,14 +10,17 @@ import {
     Stack
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { mailValidation } from "../validation";
-import { useEffect, useState } from "react";
-import { registerThunk, setIsOpenEmailModal } from "../../../redux/reducers/authReducer";
+import { useState } from "react";
+import {
+    registerThunk,
+    setIsOpenEmailModal
+} from "../../../redux/reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { ModalConfirmation } from "../../ModalConfirmation/ModalConfirmation";
 import { RoleSwitch } from "./components/RoleSwitch/RoleSwitch";
+import { createAccValidaton } from "./createAccValidation";
 
 function CreateAccForm() {
     const [showPassword, setShowPassword] = useState(false);
@@ -73,21 +76,7 @@ function CreateAccForm() {
                         id="fName"
                         label="First name"
                         type="text"
-                        {...register("fName", {
-                            required: "First name is required",
-                            maxLength: {
-                                value: 24,
-                                message: "Your name is too long"
-                            },
-                            minLength: {
-                                value: 2,
-                                message: "Your name is too short"
-                            },
-                            pattern: {
-                                value: /^[a-zA-Z]+$/,
-                                message: "First name can only contain letters"
-                            }
-                        })}
+                        {...register("fName", createAccValidaton.fName)}
                         error={Boolean(errors.fName)}
                         helperText={errors.fName ? errors.fName.message : " "}
                         sx={{ marginTop: 2, width: 300, marginRight: 2 }}
@@ -96,21 +85,7 @@ function CreateAccForm() {
                         id="lName"
                         label="Last name"
                         type="text"
-                        {...register("lName", {
-                            required: "Last name is required",
-                            maxLength: {
-                                value: 24,
-                                message: "Your surname is too long"
-                            },
-                            minLength: {
-                                value: 2,
-                                message: "Your surname is too short"
-                            },
-                            pattern: {
-                                value: /^[a-zA-Z]+$/,
-                                message: "Last name can only contain letters"
-                            }
-                        })}
+                        {...register("lName", createAccValidaton.lName)}
                         error={Boolean(errors.lName)}
                         helperText={errors.lName ? errors.lName.message : " "}
                         sx={{ marginTop: 2, width: 300 }}
@@ -118,7 +93,7 @@ function CreateAccForm() {
                     <TextField
                         id="email"
                         label="Email"
-                        {...register("email", mailValidation)}
+                        {...register("email", createAccValidaton.email)}
                         error={Boolean(errors.email)}
                         helperText={errors.email ? errors.email.message : " "}
                         sx={{ marginTop: 2, width: 616 }}
@@ -127,30 +102,14 @@ function CreateAccForm() {
                         id="password"
                         label="Password"
                         type={showPassword ? "text" : "password"}
-                        {...register("password", {
-                            required: "Password is required",
-                            maxLength: {
-                                value: 64,
-                                message: "Your password is to long"
-                            },
-                            pattern: {
-                                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\-_@$!%*#?&]{8,}$/,
-                                message: "Your pass doesn't meet requirments"
-                            },
-                            validate: value => {
-                                const cpassword = getValues("cpassword");
-                                const check = cpassword === value;
-                                if (check) {
-                                    clearErrors("cpassword");
-                                } else {
-                                    setError("password", {
-                                        type: "custom",
-                                        message: "Passwords should match!"
-                                    });
-                                }
-                                return check || "Passwords should match!";
-                            }
-                        })}
+                        {...register(
+                            "password",
+                            createAccValidaton.getPasswordValidation(
+                                getValues,
+                                setError,
+                                clearErrors
+                            )
+                        )}
                         error={Boolean(errors.password)}
                         helperText={
                             errors.password
@@ -182,30 +141,14 @@ function CreateAccForm() {
                         id="cpassword"
                         label="Confirm password"
                         type={showPasswordCheck ? "text" : "password"}
-                        {...register("cpassword", {
-                            required: "Confirm password is required",
-                            maxLength: {
-                                value: 64,
-                                message: "Your password is to long"
-                            },
-                            pattern: {
-                                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\-_@$!%*#?&]{8,}$/,
-                                message: "Your pass doesn't meet requirments"
-                            },
-                            validate: value => {
-                                const password = getValues("password");
-                                const check = password === value;
-                                if (check) {
-                                    clearErrors("password");
-                                } else {
-                                    setError("cpassword", {
-                                        type: "custom",
-                                        message: "Passwords should match!"
-                                    });
-                                }
-                                return check || "Passwords should match!";
-                            }
-                        })}
+                        {...register(
+                            "cpassword",
+                            createAccValidaton.getCPasswordValidation(
+                                getValues,
+                                setError,
+                                clearErrors
+                            )
+                        )}
                         error={Boolean(errors.cpassword)}
                         helperText={
                             errors.cpassword ? errors.cpassword.message : " "
@@ -237,24 +180,8 @@ function CreateAccForm() {
                             label="Kind of Talent"
                             type="text"
                             {...register("kindOfTalent", {
-                                disabled: !checkedTalent,
-                                required: {
-                                    value: true,
-                                    message: "Kind of talent is required"
-                                },
-                                maxLength: {
-                                    value: 18,
-                                    message: "Your talent is to BIG"
-                                },
-                                minLength: {
-                                    value: 2,
-                                    message: "Your talent is to short"
-                                },
-                                pattern: {
-                                    value: /^[a-zA-Z ]+$/,
-                                    message:
-                                        "Kind of talent can only contain letters"
-                                }
+                                ...createAccValidaton.kindOfTalent,
+                                disabled: !checkedTalent
                             })}
                             error={Boolean(errors.kindOfTalent)}
                             helperText={

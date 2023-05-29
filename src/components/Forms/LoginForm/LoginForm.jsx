@@ -9,12 +9,12 @@ import {
     InputAdornment
 } from "@mui/material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { mailValidation } from "../validation";
 import { useDispatch, useSelector } from "react-redux";
 import { loginThunk } from "../../../redux/reducers/authReducer";
 import { useEffect, useState } from "react";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { loginValidation } from "./loginValidation";
 
 function LoginForm() {
     const [showPassword, setShowPassword] = useState(false);
@@ -65,7 +65,7 @@ function LoginForm() {
                     <TextField
                         id="email"
                         label="Email"
-                        {...register("email", mailValidation)}
+                        {...register("email", loginValidation.email)}
                         error={Boolean(errors.email)}
                         helperText={errors.email ? errors.email.message : " "}
                         sx={{ width: 300 }}
@@ -75,23 +75,7 @@ function LoginForm() {
                         id="password"
                         label="Password"
                         type={showPassword ? "text" : "password"}
-                        {...register("password", {
-                            required: "Password is required",
-                            minLength: {
-                                value: 8,
-                                message:
-                                    "Password should be at least 8 characters"
-                            },
-                            maxLength: {
-                                value: 64,
-                                message: "Your password is to long"
-                            },
-                            pattern: {
-                                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\-_@$!%*#?&]{8,}$/,
-                                message:
-                                    "Your password doesn't meet requirements"
-                            }
-                        })}
+                        {...register("password", loginValidation.password)}
                         error={Boolean(errors.password)}
                         helperText={
                             errors.password
