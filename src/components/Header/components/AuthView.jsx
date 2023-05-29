@@ -77,136 +77,149 @@ function AuthView() {
         <>
             {isAuth ? (
                 <>
-                    {role === "SPONSOR" ? (
-                        <>
-                            <Box
-                                display="flex"
-                                flexDirection="column"
-                                alignItems="center"
-                                sx={{ marginLeft: "auto", marginRight: "16px" }}
-                            >
-                                <Typography sx={{ color: "gray" }}>
-                                    Balance
-                                </Typography>
-                                <Tooltip
-                                    title={balance}
-                                    enterDelay={400}
-                                    enterNextDelay={400}
+                    <Box marginLeft="auto" display="flex" alignItems="center">
+                        {role === "SPONSOR" ? (
+                            <>
+                                <Box
+                                    display="flex"
+                                    flexDirection="column"
+                                    alignItems="center"
+                                    sx={{ marginRight: "16px" }}
                                 >
-                                    <Typography
-                                        sx={{ fontWeight: "bold" }}
-                                        display="flex"
-                                        gap={0.5}
-                                    >
-                                        {formatter.format(balance)}
-                                        <img
-                                            src={kudosIconActive}
-                                            alt="kudos icon"
-                                            width="22"
-                                        />
+                                    <Typography sx={{ color: "gray" }}>
+                                        Balance
                                     </Typography>
-                                </Tooltip>
-                            </Box>
-                            <Divider orientation="vertical" flexItem />
-                        </>
-                    ) : null}
-                    {role === "SPONSOR" ? null : (
-                        <Box sx={{ marginLeft: "auto" }}>
+                                    <Tooltip
+                                        title={balance}
+                                        enterDelay={400}
+                                        enterNextDelay={400}
+                                    >
+                                        <Typography
+                                            sx={{ fontWeight: "bold" }}
+                                            display="flex"
+                                            gap={0.5}
+                                        >
+                                            {formatter.format(balance)}
+                                            <img
+                                                src={kudosIconActive}
+                                                alt="kudos icon"
+                                                width="22"
+                                            />
+                                        </Typography>
+                                    </Tooltip>
+                                </Box>
+                                <Divider orientation="vertical" flexItem />
+                            </>
+                        ) : role !== "ADMIN" ? (
                             <NotificationCenter />
-                        </Box>
-                    )}
-                    <Typography
-                        sx={{
-                            marginLeft: "16px",
-                            right: 40,
-                            fontSize: 20,
-                            color: "grey"
-                        }}
-                    >
-                        Hi, {name}
-                        <IconButton
-                            onClick={handleClick}
-                            aria-controls={open ? "account-menu" : undefined}
-                            aria-expanded={open ? "true" : undefined}
+                        ) : null}
+
+                        <Typography
+                            sx={{
+                                marginLeft: "16px",
+                                right: 40,
+                                fontSize: 20,
+                                color: "grey"
+                            }}
                         >
-                            <Avatar
-                                sx={{ width: 50, height: 50 }}
-                                alt={name}
-                                src={avatar}
+                            Hi, {name}
+                            <IconButton
+                                onClick={handleClick}
+                                aria-controls={
+                                    open ? "account-menu" : undefined
+                                }
+                                aria-expanded={open ? "true" : undefined}
                             >
-                                {name.slice(0, 1)}
-                            </Avatar>
-                        </IconButton>
-                        <Menu
-                            open={open}
-                            anchorEl={anchorEl}
-                            handleClose={handleClose}
-                            transformOrigin="right top"
-                        >
-                            <MenuItem onClick={handleClickProfile}>
-                                <Link
-                                    sx={{
-                                        textDecoration: "none",
-                                        display: "flex"
-                                    }}
-                                    href={`/${
-                                        role === "SPONSOR"
-                                            ? "sponsor"
-                                            : role === "TALENT"
-                                            ? "talent"
-                                            : "notFound"
-                                    }/${id}`}
+                                <Avatar
+                                    sx={{ width: 50, height: 50 }}
+                                    alt={name}
+                                    src={avatar}
                                 >
-                                    <ListItemIcon sx={{ alignSelf: "center" }}>
-                                        <AccountCircleIcon
-                                            fontSize="small"
-                                            sx={{
-                                                color: "#1976d2"
-                                            }}
-                                        />
-                                    </ListItemIcon>
-                                    Profile
-                                </Link>
-                            </MenuItem>
-                            <MenuItem onClick={handleClickSettings}>
-                                <Link
-                                    sx={{
-                                        textDecoration: "none",
-                                        display: "flex"
-                                    }}
-                                    href="/settings"
-                                >
-                                    <ListItemIcon sx={{ alignSelf: "center" }}>
-                                        <SettingsIcon
-                                            fontSize="small"
-                                            sx={{
-                                                color: "#1976d2"
-                                            }}
-                                        />
-                                    </ListItemIcon>
-                                    Settings
-                                </Link>
-                            </MenuItem>
-                            <MenuItem onClick={handleLogout}>
-                                <Link
-                                    sx={{
-                                        textDecoration: "none",
-                                        display: "flex"
-                                    }}
-                                >
-                                    <ListItemIcon sx={{ alignSelf: "center" }}>
-                                        <Logout
-                                            fontSize="small"
-                                            sx={{
-                                                color: "#1976d2"
-                                            }}
-                                        />
-                                    </ListItemIcon>
-                                    Logout
-                                </Link>
-                            </MenuItem>
-                        </Menu>
-                    </Typography>
+                                    {name.slice(0, 1)}
+                                </Avatar>
+                            </IconButton>
+                            <Menu
+                                open={open}
+                                anchorEl={anchorEl}
+                                handleClose={handleClose}
+                                transformOrigin="right top"
+                            >
+                                {role !== "ADMIN" ? (
+                                    <>
+                                        <MenuItem onClick={handleClickProfile}>
+                                            <Link
+                                                sx={{
+                                                    textDecoration: "none",
+                                                    display: "flex"
+                                                }}
+                                                href={`/${
+                                                    role === "SPONSOR"
+                                                        ? "sponsor"
+                                                        : role === "TALENT"
+                                                        ? "talent"
+                                                        : "notFound"
+                                                }/${id}`}
+                                            >
+                                                <ListItemIcon
+                                                    sx={{ alignSelf: "center" }}
+                                                >
+                                                    <AccountCircleIcon
+                                                        fontSize="small"
+                                                        sx={{
+                                                            color: "#1976d2"
+                                                        }}
+                                                    />
+                                                </ListItemIcon>
+                                                Profile
+                                            </Link>
+                                        </MenuItem>
+                                        <MenuItem onClick={handleClickSettings}>
+                                            <Link
+                                                sx={{
+                                                    textDecoration: "none",
+                                                    display: "flex"
+                                                }}
+                                                href="/settings"
+                                            >
+                                                <ListItemIcon
+                                                    sx={{ alignSelf: "center" }}
+                                                >
+                                                    <SettingsIcon
+                                                        fontSize="small"
+                                                        sx={{
+                                                            color: "#1976d2"
+                                                        }}
+                                                    />
+                                                </ListItemIcon>
+                                                Settings
+                                            </Link>
+                                        </MenuItem>
+                                    </>
+                                ) : null}
+
+                                <MenuItem onClick={handleLogout}>
+                                    <Link
+                                        sx={{
+                                            textDecoration: "none",
+                                            display: "flex"
+                                        }}
+                                    >
+                                        <ListItemIcon
+                                            sx={{ alignSelf: "center" }}
+                                        >
+                                            <Logout
+                                                fontSize="small"
+                                                sx={{
+                                                    color: "#1976d2"
+                                                }}
+                                            />
+                                        </ListItemIcon>
+                                        Logout
+                                    </Link>
+                                </MenuItem>
+                            </Menu>
+                        </Typography>
+                    </Box>
                 </>
             ) : (
                 <Button

@@ -29,7 +29,7 @@ function LoginForm() {
     const location = useLocation();
     const from = location.state?.from;
     const page = location.state?.page;
-    
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isAuth = useSelector(store => store.auth.isAuth);

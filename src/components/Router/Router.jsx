@@ -1,16 +1,17 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { LoginForm } from "../Forms/LoginForm/LoginForm";
 
-import { Talents } from "../Talents/Talents";
 import { Layout } from "./components/Layout/Layout";
 import { CreateAccForm } from "../Forms/CreateAccForm/CreateAccForm";
 import Settings from "../Settings/Settings";
 import TalentProfile from "../TalentProfile/TalentProfile";
-import Proofs from "../Proofs/Proofs";
 import { Page404 } from "./components/Page404/Page404";
 import { EmailConfirm } from "../EmailConfirm/EmailConfirm";
 import SponsorProfile from "../SponsorProfile/SponsorProfile";
 import { Recover } from "../Recover/Recover";
+import { TalentsContainer } from "../Talents/TalentsContainer";
+import { ProofsContainer } from "../Proofs/ProofsContainer";
+import { Kinds } from "../admin/Kinds/Kinds";
 
 function Router() {
     return (
@@ -18,8 +19,8 @@ function Router() {
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Navigate to="/talents" />} />
-                    <Route path="proofs" element={<Proofs />} />
-                    <Route path="talents" element={<Talents />} />
+                    <Route path="proofs" element={<ProofsContainer />} />
+                    <Route path="talents" element={<TalentsContainer />} />
                     <Route path="login" element={<LoginForm />} />
                     <Route path="create-acc" element={<CreateAccForm />} />
                     <Route
@@ -33,6 +34,7 @@ function Router() {
                     <Route path="settings" element={<Settings />} />
                     <Route path="email-confirm" element={<EmailConfirm />} />
                     <Route path="account-recover" element={<Recover />} />
+                    <Route path="kinds" element={<Kinds />} />
                 </Route>
                 <Route path="*" element={<Page404 />} />
             </Routes>
