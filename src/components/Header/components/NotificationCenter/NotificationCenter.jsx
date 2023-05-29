@@ -2,7 +2,9 @@ import {
     Badge,
     Box,
     ClickAwayListener,
+    Grow,
     IconButton,
+    List,
     Paper,
     Popper,
     Typography
@@ -32,7 +34,7 @@ const NotificationCenter = () => {
     const location = useLocation();
 
     const onConnected = () => {};
-    
+
     const handlePop = () => {
         setAnchorEl(prev => (prev ? null : bellButtonRef.current));
         setCount(prev => 0);
@@ -44,12 +46,14 @@ const NotificationCenter = () => {
         } else if (location.pathname.split("/")[1] === "talent") {
             dispatch(renewTalentProofThunk(msg.proofId));
         }
-        dispatch(setMessage("You recieved a notification! ", "info", handlePop));
+        dispatch(
+            setMessage("You recieved a notification! ", "info", handlePop)
+        );
         setNotifications(prev => [msg, ...prev]);
-        setCount(prev => prev += 1);
+        setCount(prev => (prev += 1));
     };
 
-    const handleClickAway = (e) => {
+    const handleClickAway = e => {
         if (e.target.dataset.tag === "NoClickAway") {
             return;
         }
@@ -68,50 +72,68 @@ const NotificationCenter = () => {
             <ClickAwayListener onClickAway={handleClickAway}>
                 <Box>
                     <IconButton onClick={handlePop} ref={bellButtonRef}>
-                        <Badge
-                            badgeContent={count}
-                            color="primary"
-                        >
+                        <Badge badgeContent={count} color="primary">
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>
-                    <Popper open={Boolean(anchorEl)} anchorEl={anchorEl}>
-                        <Paper
-                            elevation={3}
-                            sx={{
-                                maxHeight: "360px",
-                                minHeight: "90px",
-                                width: "296px",
-                                overflow: "auto",
-                                "::-webkit-scrollbar": {
-                                    width: "8px"
-                                },
-                                "::-webkit-scrollbar-track": {
-                                    borderRadius: "4px"
-                                },
-                                "::-webkit-scrollbar-thumb": {
-                                    backgroundColor: "rgba(0,0,0,.3)",
-                                    borderRadius: "4px"
-                                }
-                            }}
-                            placement="bottom"
-                        >
-                            {notifications.length <= 0 ? (
-                                <Typography
-                                    sx={{
-                                        color: "gray",
-                                        textAlign: "center",
-                                        mt: "32px"
-                                    }}
-                                >
-                                    No notifications
-                                </Typography>
-                            ) : (
-                                notifications.map((item, index) => (
-                                    <KudosNotification key={index} {...item} />
-                                ))
-                            )}
-                        </Paper>
+                    <Popper
+                        open={Boolean(anchorEl)}
+                        anchorEl={anchorEl}
+                        transition
+                    >
+                        {({ TransitionProps }) => (
+                            <Grow
+                                {...TransitionProps}
+                                style={{
+                                    transformOrigin: "top"
+                                }}
+                                timeout={200}
+                            >
+                                <Paper elevation={3}>
+                                    <List
+                                        sx={{
+                                            width: "100%",
+                                            bgcolor: "background.paper",
+                                            maxHeight: "350px",
+                                            minHeight: "90px",
+                                            maxWidth: "300px",
+                                            overflow: "auto",
+                                            borderRadius: "6px",
+                                            "::-webkit-scrollbar": {
+                                                width: "8px"
+                                            },
+                                            "::-webkit-scrollbar-track": {
+                                                borderRadius: "4px"
+                                            },
+                                            "::-webkit-scrollbar-thumb": {
+                                                backgroundColor:
+                                                    "rgba(0,0,0,.3)",
+                                                borderRadius: "4px"
+                                            }
+                                        }}
+                                    >
+                                        {notifications.length <= 0 ? (
+                                            <Typography
+                                                sx={{
+                                                    color: "gray",
+                                                    textAlign: "center",
+                                                    mt: "32px"
+                                                }}
+                                            >
+                                                No notifications
+                                            </Typography>
+                                        ) : (
+                                            notifications.map((item, index) => (
+                                                <KudosNotification
+                                                    key={index}
+                                                    {...item}
+                                                />
+                                            ))
+                                        )}
+                                    </List>
+                                </Paper>
+                            </Grow>
+                        )}
                     </Popper>
                 </Box>
             </ClickAwayListener>

@@ -1,5 +1,5 @@
 import { Container, Pagination } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { talentsAPI } from "../../../api/talentsAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { AdminTable } from "../components/AdminTable/AdminTable";
