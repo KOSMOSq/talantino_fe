@@ -1,8 +1,12 @@
-import { Box, Avatar, Typography, Chip } from "@mui/material";
+import { Box, Avatar, Typography, Chip, Button } from "@mui/material";
 import { Links } from "./components/Links/Links";
 import { ProofSkillsArea } from "../MainContent/components/TalentProofArea/components/ProofSkillsArea/ProofSkillsArea";
+import { ModalConfirmation } from "../../../ModalConfirmation/ModalConfirmation";
+import { useState } from "react";
 
-function SideBar({ userInfo }) {
+function SideBar({ userInfo, handleReport }) {
+    const [open, setOpen] = useState(false);
+
     return (
         <Box width={"30%"} paddingTop={"7vh"}>
             <Box
@@ -79,6 +83,33 @@ function SideBar({ userInfo }) {
                             />
                         ) : null}
                         <Links talentLinks={userInfo.links} />
+                        <Typography
+                            onClick={() => setOpen(prev => !prev)}
+                            sx={{
+                                fontSize: "14px",
+                                color: "#888888",
+                                ":hover": {
+                                    color: "#1051e8",
+                                    textDecoration: "underline"
+                                },
+                                cursor: "pointer",
+                                width: "max-content"
+                            }}
+                        >
+                            Report
+                        </Typography>
+                        <ModalConfirmation
+                            open={open}
+                            handleArgee={() => {
+                                handleReport();
+                                setOpen(prev => !prev);
+                            }}
+                            handleClose={() => setOpen(prev => !prev)}
+                            title={`Are you sure you want to report ${userInfo.name} ${userInfo.surname}?`}
+                            description="This talent will be sent for verification by the site moderator."
+                            error
+                            agreeButtonText="Report"
+                        />
                     </>
                 ) : userInfo.role === "SPONSOR" ? (
                     <Box display="flex" flexDirection="column">

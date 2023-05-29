@@ -171,7 +171,10 @@ const Proof = ({
                                             {!isLoading ? (
                                                 title
                                             ) : (
-                                                <Skeleton width="70%" height="38px"/>
+                                                <Skeleton
+                                                    width="70%"
+                                                    height="38px"
+                                                />
                                             )}
                                         </Typography>
                                     </Tooltip>
@@ -191,7 +194,10 @@ const Proof = ({
                                     )}
 
                                     {!isLoading ? (
-                                        <ProofSkillsArea skills={skills} proofId={id} />
+                                        <ProofSkillsArea
+                                            skills={skills}
+                                            proofId={id}
+                                        />
                                     ) : (
                                         <>
                                             <Box
@@ -262,8 +268,8 @@ const Proof = ({
                         </MenuItem>
                     </Menu>
                     <ModalConfirmation
-                        title="Reporting proof"
-                        description="Are you sure to report this proof?"
+                        title={`Are you sure you want to report "${title}"`}
+                        description="This proof will be sent for verification by the site moderator."
                         open={openDialog}
                         handleClose={() => setOpenDialog(prev => !prev)}
                         handleArgee={() => {
