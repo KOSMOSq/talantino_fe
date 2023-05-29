@@ -20,6 +20,7 @@ import { useState } from "react";
 import kudosIconActive from "../../../assets/icons/kudosIconActive.svg";
 import { formatter } from "../../../shared/utils/numberFormatter";
 import { Menu } from "../../../shared/components/Menu/Menu";
+import { NotificationCenter } from "./NotificationCenter/NotificationCenter";
 
 function AuthView() {
     const dispatch = useDispatch();
@@ -109,9 +110,14 @@ function AuthView() {
                             <Divider orientation="vertical" flexItem />
                         </>
                     ) : null}
+                    {role === "SPONSOR" ? null : (
+                        <Box sx={{ marginLeft: "auto" }}>
+                            <NotificationCenter />
+                        </Box>
+                    )}
                     <Typography
                         sx={{
-                            marginLeft: role === "SPONSOR" ? "16px" : "auto",
+                            marginLeft: "16px",
                             right: 40,
                             fontSize: 20,
                             color: "grey"
