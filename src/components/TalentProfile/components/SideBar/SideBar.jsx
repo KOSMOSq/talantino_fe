@@ -1,8 +1,8 @@
-import { Box, Avatar, Typography } from "@mui/material";
 import { TalentSideView } from "./components/TalentSideView/TalentSideView";
 import { SponsorSideView } from "./components/SponsorSideView/SponsorSideView";
+import { Box, Avatar, Typography } from "@mui/material";
 
-function SideBar({ userInfo }) {
+function SideBar({ userInfo, handleReport }) {
     return (
         <Box width={"30%"} paddingTop={"7vh"}>
             <Box
@@ -37,7 +37,10 @@ function SideBar({ userInfo }) {
                 </Typography>
 
                 {userInfo.role !== "SPONSOR" ? (
-                    <TalentSideView userInfo={userInfo} />
+                    <TalentSideView
+                        userInfo={userInfo}
+                        handleReport={handleReport}
+                    />
                 ) : userInfo.role === "SPONSOR" ? (
                     <SponsorSideView userInfo={userInfo} />
                 ) : null}

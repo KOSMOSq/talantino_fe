@@ -40,6 +40,27 @@ function TalentProfile() {
         return <LinearProgress />;
     }
 
+    const handleReport = async () => {
+        try {
+            await talentsAPI.reportTalent(token, talentInfo.id);
+            dispatch(
+                setMessage(
+                    `Talent with id ${talentInfo.id} has been reported.`,
+                    "success"
+                )
+            );
+        } catch (err) {
+            dispatch(
+                setMessage(
+                    err.response?.data.message
+                        ? err.response.data.message
+                        : "Network error",
+                    "error"
+                )
+            );
+        }
+    };
+
     return (
         <Container
             sx={{
@@ -49,7 +70,7 @@ function TalentProfile() {
                 paddingRight: "24px"
             }}
         >
-            <SideBar userInfo={talentInfo} />
+            <SideBar userInfo={talentInfo} handleReport={handleReport} />
             <MainContent
                 talentId={talentId}
                 talentDescription={talentInfo.description}

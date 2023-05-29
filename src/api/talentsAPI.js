@@ -44,6 +44,17 @@ const talentsAPI = {
                 headers: { Authorization: `Bearer ${token}` }
             })
         ).data;
+    },
+    async reportTalent(token, id) {
+        return (
+            await axiosInstance.post(
+                `/talents/${id}/report`,
+                {},
+                {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            )
+        ).data;
     }
 };
 
