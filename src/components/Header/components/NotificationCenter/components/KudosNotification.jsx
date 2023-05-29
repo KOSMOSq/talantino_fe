@@ -1,4 +1,4 @@
-import { Avatar, Box, Divider, Typography } from "@mui/material";
+import { Avatar, Box, Divider, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 
 const KudosNotification = ({
     fromSponsor,
@@ -8,47 +8,34 @@ const KudosNotification = ({
 }) => {
     return (
         <>
-            <Box
-                sx={{
-                    ml: "12px",
-                    mr: "4px",
-                    mt: "6px",
-                    width: "265px"
-                }}
-            >
-                <Box display="Flex" gap={0.4}>
-                    <Avatar src={sponsorAvatar}>{fromSponsor[0]}</Avatar>
-                    <Box alignSelf="center">
-                        <Typography
-                            sx={{
-                                fontSize: "14px",
-                                fontWeight: "bold",
-                                overflow: "hidden",
-                                width: "219px",
-                                height: "18px"
-                            }}
-                            title={fromSponsor}
-                        >
-                            {fromSponsor}
-                        </Typography>
-                        <Typography sx={{ fontSize: "12px", color: "gray" }}>
-                            7 годін назат
-                        </Typography>
-                    </Box>
-                </Box>
-                <Typography sx={{ textAlign: "center", fontSize: "13px" }}>Has sent {amount} kudos on your proof:</Typography>
-                <Typography
-                    sx={{
-                        fontSize: "14px",
-                        textAlign: "center",
-                        mb: "4px"
-                    }}
-                    title={proofTitle}
-                >
-                    {proofTitle}
-                </Typography>
-                <Divider />
-            </Box>
+            
+                <ListItem alignItems="flex-start" sx={{ paddingLeft: "8px", paddingTop: "6px" }}>
+                    <ListItemAvatar>
+                        <Avatar
+                            alt={fromSponsor}
+                            src={sponsorAvatar}
+                        >{fromSponsor[0]}</Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary={fromSponsor}
+                        secondary={
+                            <>
+                                <Typography
+                                    sx={{ display: "inline" }}
+                                    component="span"
+                                    variant="body2"
+                                    color="text.primary"
+                                >
+                                    Has sent {amount} kudos on your proof:
+                                </Typography>
+                                {
+                                    " " + proofTitle
+                                }
+                            </>
+                        }
+                    />
+                </ListItem>
+                <Divider variant="inset" component="li" sx={{ mr: "10px" }}/>
         </>
     );
 };
