@@ -11,6 +11,7 @@ import SponsorProfile from "../SponsorProfile/SponsorProfile";
 import { Recover } from "../Recover/Recover";
 import { TalentsContainer } from "../Talents/TalentsContainer";
 import { ProofsContainer } from "../Proofs/ProofsContainer";
+import { Kinds } from "../admin/Kinds/Kinds";
 
 function Router() {
     return (
@@ -33,6 +34,7 @@ function Router() {
                     <Route path="settings" element={<Settings />} />
                     <Route path="email-confirm" element={<EmailConfirm />} />
                     <Route path="account-recover" element={<Recover />} />
+                    <Route path="kinds" element={<Kinds />} />
                 </Route>
                 <Route path="*" element={<Page404 />} />
             </Routes>

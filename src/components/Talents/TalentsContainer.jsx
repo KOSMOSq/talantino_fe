@@ -5,15 +5,7 @@ import { AdminTalents } from "../admin/AdminTalents/AdminTalents";
 const TalentsContainer = () => {
     const role = useSelector(store => store.auth.user.role);
 
-    return role ? (
-        role === "ADMIN" ? (
-            <AdminTalents />
-        ) : (
-            <Talents />
-        )
-    ) : (
-        <Talents />
-    );
+    return role && role === "ADMIN" ? <AdminTalents /> : <Talents />;
 };
 
 export { TalentsContainer };

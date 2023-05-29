@@ -38,6 +38,14 @@ const adminApi = {
                 headers: { Authorization: `Bearer ${token}` }
             })
         ).data;
+    },
+    async editKind(token, id, title) {
+        return await axiosInstance.patch(`/admin/talents/kinds/${id}`, title, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "text/plain"
+            }
+        });
     }
 };
 

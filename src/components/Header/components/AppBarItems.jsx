@@ -2,9 +2,11 @@ import Button from "@mui/material/Button";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/logo/talantinoLogo.svg";
 import { Box } from "@mui/material";
+import { useSelector } from "react-redux";
 
 function AppBarItems() {
     const pages = ["Talents", "Proofs"];
+    const role = useSelector(store => store.auth.user.role);
 
     return (
         <Box display="flex" alignItems="center">
@@ -36,6 +38,21 @@ function AppBarItems() {
                     {page}
                 </Button>
             ))}
+            {role && role === "ADMIN" ? (
+                <Button
+                    component={NavLink}
+                    to={`kinds`}
+                    sx={{
+                        padding: 1,
+                        paddingLeft: 2,
+                        paddingRight: 2,
+                        fontSize: 20,
+                        borderRadius: "10px"
+                    }}
+                >
+                    kinds
+                </Button>
+            ) : null}
         </Box>
     );
 }

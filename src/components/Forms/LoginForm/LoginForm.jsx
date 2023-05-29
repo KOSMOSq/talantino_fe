@@ -65,8 +65,7 @@ function LoginForm() {
                     <TextField
                         id="email"
                         label="Email"
-                        {...register("email", {})}
-                        // !ПОВЕРНУТИ ВАЛІДАЦІЮ
+                        {...register("email", mailValidation)}
                         error={Boolean(errors.email)}
                         helperText={errors.email ? errors.email.message : " "}
                         sx={{ width: 300 }}

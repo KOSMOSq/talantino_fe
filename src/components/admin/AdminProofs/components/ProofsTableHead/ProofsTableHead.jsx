@@ -4,7 +4,8 @@ const ProofsTableHead = () => {
     return (
         <TableHead>
             <TableRow>
-                <TableCell>Proof&nbsp;id</TableCell>
+                <TableCell>Action</TableCell>
+                <TableCell align="right">Proof&nbsp;id</TableCell>
                 <TableCell align="right">Author&nbsp;id</TableCell>
                 <TableCell align="right">Status</TableCell>
                 <TableCell align="right">Title</TableCell>

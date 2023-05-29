@@ -4,7 +4,7 @@ const TalentsTableHead = () => {
     return (
         <TableHead>
             <TableRow>
-                <TableCell>action</TableCell>
+                <TableCell>Action</TableCell>
                 <TableCell align="right">id</TableCell>
                 <TableCell align="right">Account&nbsp;Status</TableCell>
                 <TableCell align="right">Name</TableCell>

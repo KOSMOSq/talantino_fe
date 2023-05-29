@@ -5,7 +5,7 @@ import { AdminProofs } from "../admin/AdminProofs/AdminProofs";
 const ProofsContainer = () => {
     const role = useSelector(store => store.auth.user.role);
 
-    return role ? role === "ADMIN" ? <AdminProofs /> : <Proofs /> : <Proofs />;
+    return role && role === "ADMIN" ? <AdminProofs /> : <Proofs />;
 };
 
 export { ProofsContainer };

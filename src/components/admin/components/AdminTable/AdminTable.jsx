@@ -5,7 +5,8 @@ const AdminTable = ({
     setDataToDelete,
     setOpenModal,
     AdminTableHead,
-    AdminTableBody
+    AdminTableBody,
+    handleEdit
 }) => {
     return (
         <TableContainer>
@@ -15,6 +16,7 @@ const AdminTable = ({
                     data={data}
                     setDataToDelete={setDataToDelete}
                     setOpenModal={setOpenModal}
+                    handleEdit={handleEdit}
                 />
             </Table>
         </TableContainer>
