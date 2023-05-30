@@ -50,7 +50,8 @@ const ProfileAvatar = ({
                         "& .MuiFab-primary": { width: 48, height: 48 },
                         "& .MuiSpeedDial-actions": {
                             paddingTop: "36px"
-                        }
+                        },
+                        zIndex: 1
                     }}
                 >
                     <SpeedDialAction

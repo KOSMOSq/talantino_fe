@@ -169,7 +169,7 @@ const NotificationCenter = () => {
                                 }}
                                 timeout={200}
                             >
-                                <Paper elevation={3}>
+                                <Paper elevation={3} sx={{ zIndex: 2 }}>
                                     <List
                                         id="notificationsScroll"
                                         sx={{
