@@ -1,8 +1,13 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const TextSection = () => {
     const navigate = useNavigate();
+    const userId = useSelector(store => store.auth.user.id);
+    const isAuth = useSelector(store => store.auth.isAuth);
+    const to = isAuth ? `/talent/${userId}` : "/create-acc";
+
     return (
         <Box display="flex" flexDirection="column">
             <Box>
@@ -31,7 +36,7 @@ const TextSection = () => {
                         bgcolor: "#329bcc"
                     }
                 }}
-                onClick={() => navigate("/create-acc")}
+                onClick={() => navigate(to)}
             >
                 <Typography fontSize={"1.5rem"} fontWeight="500">
                     Join us
