@@ -44,27 +44,6 @@ const NotificationCenter = () => {
     const onConnected = () => {};
 
     const handlePop = () => {
-        if (anchorEl) {
-            const readNotification = async id => {
-                await notificationsAPI.readNotification(id, token);
-                setCount(prevCount => prevCount - 1);
-            };
-
-            readIds.forEach(id => {
-                readNotification(id).catch(err =>
-                    dispatch(
-                        setMessage(
-                            err.response?.data.message
-                                ? err.response.data.message
-                                : "Network error",
-                            "error"
-                        )
-                    )
-                );
-            });
-
-            setReadIds(prev => []);
-        }
         setAnchorEl(prev => (prev ? null : bellButtonRef.current));
     };
 
@@ -86,6 +65,25 @@ const NotificationCenter = () => {
             return;
         }
         if (anchorEl !== null) {
+            const readNotification = async id => {
+                await notificationsAPI.readNotification(id, token);
+                setCount(prevCount => prevCount - 1);
+            };
+
+            readIds.forEach(id => {
+                readNotification(id).catch(err =>
+                    dispatch(
+                        setMessage(
+                            err.response?.data.message
+                                ? err.response.data.message
+                                : "Network error",
+                            "error"
+                        )
+                    )
+                );
+            });
+
+            setReadIds(prev => []);
             setAnchorEl(prev => null);
         }
     };
