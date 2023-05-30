@@ -159,6 +159,7 @@ const NotificationCenter = () => {
                     <Popper
                         open={Boolean(anchorEl)}
                         anchorEl={anchorEl}
+                        sx={{ zIndex: 2 }} 
                         transition
                     >
                         {({ TransitionProps }) => (
