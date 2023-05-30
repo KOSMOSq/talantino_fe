@@ -85,7 +85,9 @@ const NotificationCenter = () => {
         if (e.target.dataset.tag === "NoClickAway") {
             return;
         }
-        handlePop();
+        if (anchorEl !== null) {
+            setAnchorEl(prev => null);
+        }
     };
 
     const getNotifications = async () => {
