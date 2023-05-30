@@ -43,6 +43,7 @@ const Overview = ({ talentDescription }) => {
                         ]}
                         rehypePlugins={[rehypeRaw]}
                         // skipHtml
+                        //unwrapDisallowed={true}
                     />
                 ) : (
                     <Typography
