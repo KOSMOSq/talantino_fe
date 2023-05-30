@@ -9,6 +9,7 @@ const timeUnits = {
 };
 
 const auto = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+const narrow = new Intl.RelativeTimeFormat("en", { numeric: "auto", style: "narrow" });
 
 export const getBeautifulTimeString = date => {
     const dateOBJ = new Date(getUTCdate(date));
@@ -45,6 +46,16 @@ export const getRelativeTime = date => {
     for (let item in timeUnits) {
         if (Math.abs(result) > timeUnits[item] || item === "second") {
             return auto.format(Math.round(result / timeUnits[item]), item);
+        }
+    }
+};
+export const getShortRelativeTime = date => {
+    const dateOBJ = new Date(date);
+    const result = dateOBJ - new Date();
+
+    for (let item in timeUnits) {
+        if (Math.abs(result) > timeUnits[item] || item === "second") {
+            return narrow.format(Math.round(result / timeUnits[item]), item);
         }
     }
 };
