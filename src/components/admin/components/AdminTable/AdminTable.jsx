@@ -6,7 +6,9 @@ const AdminTable = ({
     setOpenModal,
     AdminTableHead,
     AdminTableBody,
-    handleEdit
+    handleEdit,
+    setTalentToUnblock,
+    setOpenUnblock
 }) => {
     return (
         <TableContainer>
@@ -17,6 +19,8 @@ const AdminTable = ({
                     setDataToDelete={setDataToDelete}
                     setOpenModal={setOpenModal}
                     handleEdit={handleEdit}
+                    setTalentToUnblock={setTalentToUnblock}
+                    setOpenUnblock={setOpenUnblock}
                 />
             </Table>
         </TableContainer>

@@ -40,12 +40,27 @@ const adminApi = {
         ).data;
     },
     async editKind(token, id, title) {
-        return await axiosInstance.patch(`/admin/talents/kinds/${id}`, title, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "text/plain"
-            }
-        });
+        return (
+            await axiosInstance.patch(`/admin/talents/kinds/${id}`, title, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "text/plain"
+                }
+            })
+        ).data;
+    },
+    async unblockUser(token, id) {
+        return (
+            await axiosInstance.patch(
+                `/admin/accounts/${id}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+        ).data;
     }
 };
 

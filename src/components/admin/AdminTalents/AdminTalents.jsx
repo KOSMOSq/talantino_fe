@@ -18,7 +18,9 @@ const AdminTalents = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [email, setEmail] = useState("");
     const [open, setOpen] = useState(false);
+    const [openUnblock, setOpenUnblock] = useState(false);
     const [talentToDelete, setTalentToDelete] = useState({});
+    const [talentToUnblock, setTalentToUnblock] = useState({});
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
 
@@ -67,13 +69,38 @@ const AdminTalents = () => {
         deleteTalent(talentToDelete.id);
     };
 
-    //ban in the future
     const deleteTalent = async id => {
         try {
             await adminApi.deleteTalent(token, id);
             dispatch(
                 setMessage(
                     `Talent with id ${id} was deleted! Reload the page`,
+                    "success"
+                )
+            );
+        } catch (err) {
+            dispatch(
+                setMessage(
+                    err.response?.data.message
+                        ? err.response.data.message
+                        : "Network error",
+                    "error"
+                )
+            );
+        }
+    };
+
+    const handleAgreeUnblock = () => {
+        setOpenUnblock(prev => !prev);
+        unblock(talentToUnblock.id);
+    };
+
+    const unblock = async id => {
+        try {
+            await adminApi.unblockUser(token, id);
+            dispatch(
+                setMessage(
+                    `Talent with id ${id} was unbloked! Reload the page`,
                     "success"
                 )
             );
@@ -109,7 +136,10 @@ const AdminTalents = () => {
                 AdminTableBody={TalentsTableBody}
                 data={talents}
                 setDataToDelete={setTalentToDelete}
+                setTalentToUnblock={setTalentToUnblock}
                 setOpenModal={setOpen}
+                unblock={unblock}
+                setOpenUnblock={setOpenUnblock}
             />
             <Pagination
                 sx={{
@@ -130,6 +160,14 @@ const AdminTalents = () => {
                 handleClose={() => setOpen(prev => !prev)}
                 agreeButtonText="DELETE"
                 error
+            />
+            <ModalConfirmation
+                title={`Are you sure you want to unblock ${talentToUnblock.name} ${talentToUnblock.surname} ?`}
+                description="The talent will appear in the talent list and will be able to log into their account."
+                open={openUnblock}
+                handleArgee={handleAgreeUnblock}
+                handleClose={() => setOpenUnblock(prev => !prev)}
+                agreeButtonText="UNBLOCK"
             />
         </Container>
     );
