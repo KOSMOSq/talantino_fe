@@ -23,14 +23,11 @@ const kudosAPI = {
             )
         ).data;
     },
-    async getSponsorsOfProof(id, token) {
+    async getSponsorsOfProof(id, token, page) {
         return (
-            await axiosInstance.get(
-                `/proofs/${id}/kudos`,
-                {
-                    headers: { Authorization: `Bearer ${token}` }
-                }
-            )
+            await axiosInstance.get(`/proofs/${id}/kudos?page=${page}&size=5`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
         ).data;
     },
     async sendKudosToSkill(proofId, skillId, amount, token) {
