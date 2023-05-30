@@ -159,6 +159,7 @@ const NotificationCenter = () => {
                     <Popper
                         open={Boolean(anchorEl)}
                         anchorEl={anchorEl}
+                        sx={{ zIndex: 2 }} 
                         transition
                     >
                         {({ TransitionProps }) => (
@@ -169,7 +170,7 @@ const NotificationCenter = () => {
                                 }}
                                 timeout={200}
                             >
-                                <Paper elevation={3} sx={{ zIndex: 2 }}>
+                                <Paper elevation={3}>
                                     <List
                                         id="notificationsScroll"
                                         sx={{
