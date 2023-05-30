@@ -6,7 +6,7 @@ import { AppBarItems } from "./components/AppBarItems/AppBarItems";
 function Header() {
     return (
         <>
-            <AppBar position="static" color="transparent">
+            <AppBar position="static" color="transparent" id="top">
                 <Toolbar sx={{ display: "flex" }}>
                     <AppBarItems />
                     <AuthView />

@@ -11,9 +11,13 @@ function Links({ talentLinks }) {
 
                 const hostname = new URL(item).hostname;
 
-                //!check this
                 return (
-                    <IconButton key={index} width="35px" height="35px" title={item}>
+                    <IconButton
+                        key={index}
+                        width="35px"
+                        height="35px"
+                        title={item}
+                    >
                         <Link
                             href={item}
                             target="_blank"
