@@ -14,6 +14,7 @@ import { ProofsContainer } from "../Proofs/ProofsContainer";
 import { Kinds } from "../admin/Kinds/Kinds";
 import { useSelector } from "react-redux";
 import { Welcome } from "../Welcome/Welcome";
+import { AboutUs } from "../AboutUs/AboutUs";
 
 function Router() {
     const isAuth = useSelector(store => store.auth.isAuth);
@@ -28,6 +29,7 @@ function Router() {
                         }
                     />
                     <Route path="welcome" element={<Welcome />} />
+                    <Route path="about" element={<AboutUs />} />
                     <Route path="proofs" element={<ProofsContainer />} />
                     <Route path="talents" element={<TalentsContainer />} />
                     <Route path="login" element={<LoginForm />} />

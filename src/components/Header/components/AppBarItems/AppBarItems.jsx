@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 
 function AppBarItems() {
-    const pages = ["Talents", "Proofs"];
+    const pages = ["Talents", "Proofs", "About"];
     const role = useSelector(store => store.auth.user.role);
 
     return (
