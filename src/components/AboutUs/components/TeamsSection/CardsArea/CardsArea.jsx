@@ -29,21 +29,21 @@ const CardsArea = ({ title }) => {
                         <CardTeamMember
                             fullName={"Bohdan Rohozianskyi"}
                             photo={
-                                "https://lh3.google.com/u/0/d/1bkTOgbnIs0wwSkLuyO1IUPQOwUVzgFyK=w1920-h929-iv1"
+                                "https://olha-team-backend.s3.amazonaws.com/team/rohozianskyi.jpg"
                             }
                             studyPlace={"NURE"}
                         />
                         <CardTeamMember
                             fullName={"Maksym Lavrovskyi"}
                             photo={
-                                "https://lh3.google.com/u/0/d/1Wei_u2H2UtVG7AnwQEcLBksCCfvuszB_=w1920-h872-iv1"
+                                "https://olha-team-backend.s3.amazonaws.com/team/lavrovskyi.jpg"
                             }
                             studyPlace={"NURE"}
                         />
                         <CardTeamMember
                             fullName={"Dmytro Kataiev"}
                             photo={
-                                "https://lh3.google.com/u/0/d/1_uWABtANJvGORd4_1Z1yRT7aaAjdVdCm=w1920-h872-iv1"
+                                "https://olha-team-backend.s3.amazonaws.com/team/kataiev.jpg"
                             }
                             studyPlace={"NLTU"}
                         />
@@ -75,21 +75,21 @@ const CardsArea = ({ title }) => {
                         <CardTeamMember
                             fullName={"Yaroslava Nechaieva"}
                             photo={
-                                "https://lh3.google.com/u/0/d/1oLTnr4gAxMAMS352ClJs2hFc2MDmXKEz=w1265-h872-iv1"
+                                "https://olha-team-backend.s3.amazonaws.com/team/nechaieva.jpg"
                             }
                             studyPlace={"NURE"}
                         />
                         <CardTeamMember
                             fullName={"Vladyslav Liubchyk"}
                             photo={
-                                "https://lh3.google.com/u/0/d/1keG6L82-ZYq-c3oaRbIpRP3CT8ZHQPCz=w1265-h872-iv1"
+                                "https://olha-team-backend.s3.amazonaws.com/team/liubchyk.jpg"
                             }
                             studyPlace={"NURE"}
                         />
                         <CardTeamMember
                             fullName={"Sofiia Kazantseva"}
                             photo={
-                                "https://lh3.google.com/u/0/d/1ULudRBK-LYyhcdmmPLHW6iT-6wrg37QS=w1265-h872-iv1"
+                                "https://olha-team-backend.s3.amazonaws.com/team/kazantseva.jpg"
                             }
                             studyPlace={"NURE"}
                         />
@@ -121,28 +121,28 @@ const CardsArea = ({ title }) => {
                         <CardTeamMember
                             fullName={"Anastasiia Mashchenko"}
                             photo={
-                                "https://lh3.google.com/u/0/d/1ilj9PGs9BIEeQxLX34w8akXBvCaSdVKr=w1265-h872-iv1"
+                                "https://olha-team-backend.s3.amazonaws.com/team/mashchenko.jpg"
                             }
                             studyPlace={"NURE"}
                         />
                         <CardTeamMember
                             fullName={"Oleksii Pedun"}
                             photo={
-                                "https://lh3.google.com/u/0/d/1tYDeD-N6OR7vGAXQIdIQdQSK5jYloMS9=w1265-h872-iv1"
+                                "https://olha-team-backend.s3.amazonaws.com/team/pedun.jpg"
                             }
                             studyPlace={"UIPA"}
                         />
                         <CardTeamMember
                             fullName={"Maxim Koropets"}
                             photo={
-                                "https://lh3.google.com/u/0/d/1aRA-WbBjUCefBxqO0lM0SDL_F5jXn7nJ=w1265-h872-iv1"
+                                "https://olha-team-backend.s3.amazonaws.com/team/koropers.jpg"
                             }
                             studyPlace={"SSU"}
                         />
                         <CardTeamMember
                             fullName={"Kateryna Nikitenko"}
                             photo={
-                                "https://lh3.google.com/u/0/d/1w1KuQpi7qSyez6IxXm0-W_nR8IP3rg0E=w1265-h872-iv1"
+                                "https://olha-team-backend.s3.amazonaws.com/team/nikitenko.jpg"
                             }
                             studyPlace={"SSU"}
                         />
@@ -174,7 +174,7 @@ const CardsArea = ({ title }) => {
                         <CardTeamMember
                             fullName={"Olha Shutylieva"}
                             photo={
-                                "https://lh3.google.com/u/0/d/1MnzJfobH92mkfHO7xPCanaDkGnMqG2Ke=w1920-h929-iv1"
+                                "https://olha-team-backend.s3.amazonaws.com/team/shutylieva.jpg"
                             }
                             studyPlace={"SoftServe"}
                         />
