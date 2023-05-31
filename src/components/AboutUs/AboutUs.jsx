@@ -11,10 +11,10 @@ const AboutUs = () => {
             <Box mb={9}>
                 <TitleSection />
                 <MainSection />
-                <TeamsSections title={"Backend team"} />
                 <TeamsSections title={"Frontend team"} />
+                <TeamsSections title={"Backend team"} />
                 <TeamsSections title={"QA team"} />
-                <TeamsSections title={"Our mentor ❤"} />
+                <TeamsSections title={"Team manager ❤"} />
             </Box>
             <Footer />
         </>
