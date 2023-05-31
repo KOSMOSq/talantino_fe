@@ -149,7 +149,7 @@ const CardsArea = ({ title }) => {
                     </Box>
                 </Box>
             );
-        case "Our mentor ❤":
+        case "Team manager ❤":
             return (
                 <Box
                     pl={10}
