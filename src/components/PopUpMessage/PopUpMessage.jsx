@@ -1,4 +1,4 @@
-import { Alert, Slide, Snackbar } from "@mui/material";
+import { Alert, Slide, Snackbar, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { clearMessage } from "../../redux/reducers/appReducer";
 
@@ -10,6 +10,7 @@ const PopUpMessage = () => {
     const status = useSelector(store => store.app.status);
     const isMessage = useSelector(store => store.app.isMessage);
     const message = useSelector(store => store.app.messageText);
+    const onClick = useSelector(store => store.app.onClick);
     const dispatch = useDispatch();
 
     const handleClose = () => {
@@ -30,7 +31,20 @@ const PopUpMessage = () => {
                     severity={status}
                     sx={{ width: "100%" }}
                 >
-                    {message}
+                    <Typography variant="span">{message}</Typography>
+                    {onClick ? (
+                        <Typography
+                            variant="span"
+                            onClick={onClick}
+                            data-tag="NoClickAway"
+                            sx={{
+                                textDecoration: "underline",
+                                cursor: "pointer"
+                            }}
+                        >
+                            {"Click to open!"}
+                        </Typography>
+                    ) : null}
                 </Alert>
             </Snackbar>
         </>

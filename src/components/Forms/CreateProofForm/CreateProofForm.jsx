@@ -10,10 +10,9 @@ import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { SkillAutocomplete } from "../../../shared/components/SkillAutocomplete/SkillAutocomplete";
 import { addTalentProofThunk } from "../../../redux/reducers/talentsProofsReducer";
-import { useState } from "react";
+import { createProofValidation } from "./createProofValidation";
 
 const CreateProofForm = () => {
-    const [keyForControl, setKeyForControl] = useState(true);
 
     const {
         register,
@@ -33,7 +32,6 @@ const CreateProofForm = () => {
     const onSubmit = (data, e) => {
         data.status = e.nativeEvent.submitter.value;
         dispatch(addTalentProofThunk(data));
-        setKeyForControl(prev => !prev);
         reset();
     };
 
@@ -59,19 +57,7 @@ const CreateProofForm = () => {
                             fontWeight: "bold"
                         }}
                         placeholder="Title"
-                        {...register("title", {
-                            required: "Title should be at least 2 symbols long",
-                            minLength: {
-                                value: 2,
-                                message:
-                                    "Title should be at least 2 symbols long"
-                            },
-                            maxLength: {
-                                value: 160,
-                                message:
-                                    "Title shouldn't be larger than 160 symbols"
-                            }
-                        })}
+                        {...register("title", createProofValidation.title)}
                     />
                     <TextField
                         sx={{
@@ -83,19 +69,7 @@ const CreateProofForm = () => {
                         minRows={2}
                         maxRows={10}
                         multiline
-                        {...register("description", {
-                            required: "Proof should be at least 2 symbols long",
-                            minLength: {
-                                value: 2,
-                                message:
-                                    "Proof should be at least 2 symbols long"
-                            },
-                            maxLength: {
-                                value: 2000,
-                                message:
-                                    "Proof shouldn't be larger than 2000 symbols"
-                            }
-                        })}
+                        {...register("description", createProofValidation.description)}
                     />
                     <Controller
                         name="skills"

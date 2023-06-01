@@ -7,6 +7,7 @@ const initialState = {
     isMessage: false,
     messageText: "",
     status: "error",
+    onClick: null,
     modalOpen: false,
     modalTitle: "",
     modalDescription: ""
@@ -19,7 +20,8 @@ const appReducer = (state = initialState, action) => {
                 ...state,
                 isMessage: true,
                 messageText: action.text,
-                status: action.status
+                status: action.status,
+                onClick: action.onClick
             };
         case CLEAR_MESSAGE:
             return {
@@ -45,10 +47,11 @@ const appReducer = (state = initialState, action) => {
     }
 };
 
-export const setMessage = (text, status) => ({
+export const setMessage = (text, status, onClick = null) => ({
     type: SET_MESSAGE,
     text,
-    status
+    status,
+    onClick
 });
 export const clearMessage = () => ({ type: CLEAR_MESSAGE });
 export const openModal = (title, description) => ({ type: OPEN_MODAL, title, description });

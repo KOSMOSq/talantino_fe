@@ -1,6 +1,6 @@
 import { Typography, Paper, Popper, Grow } from "@mui/material";
-import { KudosSlider } from "./KudosSlider";
-import { configsForSlider } from "../configsForSlider/configsForSlider";
+import { KudosSlider } from "../KudosSlider/KudosSlider";
+import { configsForSlider } from "../../configsForSlider/configsForSlider";
 
 const KudosPopper = ({
     balance,

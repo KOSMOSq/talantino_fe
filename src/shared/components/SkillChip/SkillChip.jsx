@@ -10,7 +10,7 @@ import theme from "../../themes/skillsTheme";
 import { useState } from "react";
 import { formatter } from "../../utils/numberFormatter";
 import { useDispatch, useSelector } from "react-redux";
-import { KudosPopper } from "../KudosButton/components/KudosPopper";
+import { KudosPopper } from "../KudosButton/components/KudosPopper/KudosPopper";
 import { kudosAPI } from "../../../api/kudosAPI";
 import { getAuthThunk } from "../../../redux/reducers/authReducer";
 import { setMessage } from "../../../redux/reducers/appReducer";
