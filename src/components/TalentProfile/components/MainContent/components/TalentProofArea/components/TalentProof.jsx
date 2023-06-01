@@ -233,7 +233,8 @@ function TalentProof({
                             <Typography
                                 sx={{
                                     fontSize: "16px",
-                                    overflowWrap: "break-word"
+                                    overflowWrap: "break-word",
+                                    whiteSpace: "pre-line"
                                 }}
                             >
                                 {description}
