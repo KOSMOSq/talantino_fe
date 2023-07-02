@@ -12,7 +12,7 @@ import { PopUpMessage } from "./components/PopUpMessage/PopUpMessage.jsx";
 import { ThemeProvider } from "@mui/material/styles";
 import { fontFamilyTheme } from "./shared/themes/fontFamilyTheme.js";
 import { ModalConfirmation } from "./components/ModalConfirmation/ModalConfirmation.jsx";
-import { closeModal } from "./redux/reducers/appReducer.ts";
+import { closeModal } from "./redux/reducers/appReducer";
 
 function App() {
     const isInitialized = useSelector(store => store.auth.isInitialized);
